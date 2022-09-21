@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="stringifyJSON_test" tests="13" skipped="0" failures="0" errors="0" timestamp="2022-09-21T05:41:40" hostname="KIM-PC" time="0.439">
+  <properties/>
+  <testcase name="null을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.353"/>
+  <testcase name="배열을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.017"/>
+  <testcase name="배열을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.008"/>
+  <testcase name="배열을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.001"/>
+  <testcase name="배열을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.0"/>
+  <testcase name="배열을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.002"/>
+  <testcase name="배열을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.001"/>
+  <testcase name="String 타입을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.001"/>
+  <testcase name="Boolean 타입을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.001"/>
+  <testcase name="Boolean 타입을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.0"/>
+  <testcase name="HashMap을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.017"/>
+  <testcase name="HashMap을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.023"/>
+  <testcase name="HashMap을 입력받을 경우, 알맞은 형태의 JSON으로 변환합니다" classname="stringifyJSON_test" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
