@@ -1,30 +1,25 @@
-package codestates.main22.dm.dto;
+package codestates.main22.personalDm.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
-public class DmDto {
+public class PersonalDmDto {
     @Getter
     @Setter
     @AllArgsConstructor
     public static class Post {
         @NotBlank
-        private long currentUserId;
-        @NotBlank
-        private String content;
+        private long opponentUserId;
     }
 
     @Getter
     @Setter
     @AllArgsConstructor
     public static class Response {
-        private long dmId;
-        private long currentUserId;
-        private String content;
-        private LocalDateTime dateTime;
+        private long personalDmId;
+        private long opponentUserId;
     }
 }

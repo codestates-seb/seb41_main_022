@@ -1,4 +1,4 @@
-package codestates.main22.dm.entity;
+package codestates.main22.personalDm.entity;
 
 import codestates.main22.auditable.Auditable;
 import lombok.AllArgsConstructor;
@@ -13,21 +13,11 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "DM")
-public class DmEntity extends Auditable {
+@Entity(name = "PERSONAL_DM")
+public class PersonalDmEntity extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long dmId;
-
-    @Column(nullable = false)
-    private long currentUserId;
-
-    //@Column
-    @Lob  // "Large OBject를 DB에 적절하게 저장하기 위한 에노테이션"
-    private String content;
-
-    @Column(nullable = false)
-    private LocalDateTime dateTime;
+    private long personalDmId;
 
 
     @Column(nullable = false)
