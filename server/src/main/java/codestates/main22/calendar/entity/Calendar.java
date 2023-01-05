@@ -1,6 +1,7 @@
 package codestates.main22.calendar.entity;
 
 import codestates.main22.auditable.Auditable;
+import codestates.main22.study.entity.Study;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,4 +41,9 @@ public class Calendar extends Auditable {
         }
     }
 
+
+    // 연관관계 매핑 - 한 study 에 여러개의 calendar
+    @ManyToOne
+    @JoinColumn(name = "STUDY_ID")
+    private Study study;
 }

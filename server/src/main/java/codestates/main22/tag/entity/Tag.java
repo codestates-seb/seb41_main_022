@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -18,4 +20,9 @@ public class Tag extends Auditable {
 
     @Column(length = 50, nullable = false, unique = true)
     private String name;
+
+
+    // 연관관계 매핑 - 한 tag 에 여러개의 tagStudy
+    @OneToMany(mappedBy = "tag")
+    private List<TagStudy> tagStudies = new ArrayList<>();
 }
