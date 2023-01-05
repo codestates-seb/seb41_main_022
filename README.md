@@ -1,7 +1,7 @@
 ## 🌳 Study Tree 
 
 ### 🥳 스터디 모집은 Study Tree와 함께!
-![img.png](img.png)
+![image](https://raw.githubusercontent.com/codestates-seb/seb41_main_022/bd5e2ae1f70f11a9eb09c199a174ebab84e6575f/client/src/assets/readme/Study%20Tree.svg)
 ---
 
 ### 개발기간: 2023.01.03 ~ 2023.02.03
@@ -17,10 +17,10 @@
 <br>
 
 ## 👨‍👩‍👧‍👦 Team Members
-| 김현우(FE 팀장)  | 양다빈 (FE 팀원) | 이기완 (FE 팀원) | 김회철 (BE 팀원) | 신우경 (BE 팀원) | 최민혁 (BE 팀원) | 
-|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|
-|![img_3.png](img_3.png)|![img_4.png](img_4.png)|![img_2.png](img_2.png)|![img_5.png](img_5.png)|![img_6.png](img_6.png)|![img_1.png](img_1.png)|
-| [@kimhw7](https://github.com/kimhw7)| [@vinyangda](https://github.com/vinyangda) | [@LeeWang](https://github.com/Leewang31)| [@lisia004](https://github.com/lisia004) | [@kung036](https://github.com/kung036)| [@jackcmh1](https://github.com/jackcmh1)|
+|             김현우(FE 팀장)              |                양다빈 (FE 팀원)                 |                             이기완 (FE 팀원)                             |               김회철 (BE 팀원)                |              신우경 (BE 팀원)               |               최민혁 (BE 팀원)                | 
+|:-----------------------------------:|:------------------------------------------:|:-------------------------------------------------------------------:|:----------------------------------------:|:--------------------------------------:|:----------------------------------------:|
+|             ![image](https://avatars.githubusercontent.com/u/100066239?s=64&v=4)              |            ![image](https://avatars.githubusercontent.com/u/110925532?s=64&v=4)             | ![image](https://avatars.githubusercontent.com/u/99003659?s=64&v=4) |           ![imgage](https://avatars.githubusercontent.com/u/110886358?s=64&v=4)           |          ![image](https://avatars.githubusercontent.com/u/80895384?s=64&v=4)           |           ![image](https://avatars.githubusercontent.com/u/110888214?s=64&v=4)            |
+|[@kimhw7](https://github.com/kimhw7) | [@vinyangda](https://github.com/vinyangda) |              [@LeeWang](https://github.com/Leewang31)               | [@lisia004](https://github.com/lisia004) | [@kung036](https://github.com/kung036) | [@jackcmh1](https://github.com/jackcmh1) |
 
 
 <br>
