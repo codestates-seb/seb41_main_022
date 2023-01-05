@@ -2,10 +2,13 @@ package codestates.main22.tree.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 
 public class TreeDto {
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Post {
         private String treeImage;
     }
