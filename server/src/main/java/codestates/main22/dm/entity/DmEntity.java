@@ -1,6 +1,7 @@
 package codestates.main22.dm.entity;
 
 import codestates.main22.auditable.Auditable;
+import codestates.main22.personalDm.entity.PersonalDmEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,4 +36,10 @@ public class DmEntity extends Auditable {
 
     @Column(nullable = false)
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
+
+    // 연관관계 매핑 - 한 personalDm 에 여러개의 dm
+    @ManyToOne
+    @JoinColumn(name = "PERSONAL_DM_ID ")
+    private PersonalDmEntity personalDm;
 }

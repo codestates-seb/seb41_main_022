@@ -1,6 +1,7 @@
 package codestates.main22.user.entity;
 
 import codestates.main22.auditable.Auditable;
+import codestates.main22.personalDm.entity.PersonalDmEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,4 +47,13 @@ public class UserEntity extends Auditable {
 
     @Column(nullable = false)
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
+
+    // 연관관계 매핑 - 한 user 에 여러개의 personalDm
+    @OneToMany(mappedBy = "user")
+    private List<PersonalDmEntity> personalDms = new ArrayList<>();
+
+    // 연관관계 매핑 - 한 user 에 여러개의 userStudy
+    @OneToMany(mappedBy = "user")
+    private List<UserStudyEntity> userStudies = new ArrayList<>();
 }
