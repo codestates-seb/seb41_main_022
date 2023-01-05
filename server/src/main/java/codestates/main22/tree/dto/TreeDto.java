@@ -17,7 +17,7 @@ public class TreeDto {
         private int treePoint;
         private String treeImage;
 
-        public void setTreeId(int treeId) {this.treeId = treeId;}
+        public void setTreeId(long treeId) {this.treeId = treeId;}
     }
 
     @Getter

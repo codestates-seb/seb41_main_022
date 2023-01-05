@@ -18,7 +18,7 @@ public class Study {
     private String title;
     private String dayOfWeek;
     private int want;
-    private String startDate;
+    private Boolean[] startDate;
     private boolean procedure;
     private boolean openClose;
     private String contact;
