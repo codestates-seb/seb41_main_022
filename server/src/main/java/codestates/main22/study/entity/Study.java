@@ -16,9 +16,9 @@ public class Study {
     private long studyId;
     @Column(nullable = false)
     private String title;
-    private String dayOfWeek;
+    private boolean[] dayOfWeek;
     private int want;
-    private Boolean[] startDate;
+    private String startDate;
     private boolean procedure;
     private boolean openClose;
     private String contact;
