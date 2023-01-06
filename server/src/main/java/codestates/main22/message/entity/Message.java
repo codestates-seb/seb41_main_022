@@ -24,7 +24,7 @@ public class Message extends Auditable {
     @Column(nullable = false)
     public LocalDateTime dateTime;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     public long userId;
 
 

@@ -5,10 +5,8 @@ import codestates.main22.study.entity.Study;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @NoArgsConstructor
@@ -21,7 +19,10 @@ public class Calendar extends Auditable {
     private long calendarId;
 
     @Column(nullable = false)
-    private LocalDateTime dateTime;
+    private LocalDate date;
+
+    @Column
+    private LocalTime time;
 
     @Column(length = 100, nullable = false)
     private String content;
@@ -30,7 +31,7 @@ public class Calendar extends Auditable {
     private Map<Long, String> participant = new HashMap<>(); // Map<Long, String> : Long은 userId, String은 attendance의 값
 
     @Getter
-    public enum attendance {
+    public static enum attendance {
         YES("참가"),
         NO("불참"),
         NONE("생각 중");

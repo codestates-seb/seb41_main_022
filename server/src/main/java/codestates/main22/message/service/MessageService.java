@@ -4,14 +4,15 @@ import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.message.entity.Message;
 import codestates.main22.message.repository.MessageRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
-@Transactional
+//@Transactional
 @Service
 public class MessageService {
     private final MessageRepository messageRepository;
@@ -51,8 +52,9 @@ public class MessageService {
     }
 
     // 메세지 전체 조회
-    public List<Message> findMessages() {
-        return messageRepository.findAll();
+    public Page<Message> findMessages(int page, int size) {
+        return messageRepository.findAll(PageRequest.of(page, size,
+                Sort.by("messageId").descending()));
     }
 
     // 메세지 증명
@@ -64,5 +66,4 @@ public class MessageService {
 
         return message;
     }
-
 }
