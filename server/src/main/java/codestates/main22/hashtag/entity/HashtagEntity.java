@@ -1,6 +1,7 @@
 package codestates.main22.hashtag.entity;
 
 import codestates.main22.auditable.Auditable;
+import codestates.main22.study.entity.Study;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,4 +29,11 @@ public class HashtagEntity extends Auditable {
 
     @Column(nullable = false)
     private LocalDateTime modifiedAt = LocalDateTime.now();
+
+
+    // 연관관계 매핑 - 한 study 에 여러개의 hashTag
+    @ManyToOne
+    @JoinColumn(name = "STUDY_ID")
+    private Study study;
+
 }
