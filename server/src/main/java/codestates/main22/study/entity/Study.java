@@ -22,30 +22,42 @@ public class Study {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long studyId;
-
-    private String teamName;
-
     @Column(nullable = false)
-    private String title;
-
-    private boolean[] dayOfWeek;
-
+    private String teamName;
+    @Column(nullable = false)
+    private String summary;
+    @Column
+    private List<String> dayOfWeek = new ArrayList<>();
+    @Column
     private int want;
-
+    @Column
     private String startDate;
-
+    @Column
     private boolean procedure;
-
+    @Column
     private boolean openClose;
-
-    private String contact;
-
     @Column(nullable = false)
     private String content;
-
-    private String notice;
-
+    @Column
+    private List<String> notice;
+    @Column
     private String image;
+
+    @Getter // enum 타입 dayOfWeek (주간 활동 표시)
+    public enum dayOfWeek {
+        SUN("일"),
+        MON("월"),
+        TUE("화"),
+        WED("수"),
+        THU("목"),
+        FRI("금"),
+        SAT("토");
+
+        @Getter
+        private String week;
+
+        dayOfWeek(String week) {this.week = week;}
+    }
 
 
     // 연관관계 매핑 - 한 study 에 여러개의 calendar
