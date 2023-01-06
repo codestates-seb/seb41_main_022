@@ -27,6 +27,7 @@ public class Study {
     @Column(nullable = false)
     private String summary;
     @Column
+    @ElementCollection
     private List<String> dayOfWeek = new ArrayList<>();
     @Column
     private int want;
@@ -39,6 +40,7 @@ public class Study {
     @Column(nullable = false)
     private String content;
     @Column
+    @ElementCollection
     private List<String> notice;
     @Column
     private String image;
