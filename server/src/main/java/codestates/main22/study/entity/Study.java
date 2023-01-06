@@ -39,10 +39,14 @@ public class Study {
     @Column(nullable = false)
     private String content;
     @Column
-    @ElementCollection
-    private List<String> notice;
+    private String notice;
     @Column
     private String image;
+    @Column(nullable = false)
+    private long leaderId;
+    @Column
+    @ElementCollection
+    private List<Long> requester;
 
     @Getter // enum 타입 dayOfWeek (주간 활동 표시)
     public enum dayOfWeek {
