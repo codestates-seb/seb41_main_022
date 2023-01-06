@@ -1,6 +1,7 @@
 package codestates.main22.study.entity;
 
 import codestates.main22.calendar.entity.Calendar;
+import codestates.main22.chat.entity.ChatEntity;
 import codestates.main22.message.entity.Message;
 import codestates.main22.tag.entity.TagStudy;
 import codestates.main22.tree.entity.Tree;
@@ -85,4 +86,8 @@ public class Study {
     // 연관관계 매핑 - 한 study 에 한 개의 tree
     @OneToOne(mappedBy = "study")
     private Tree tree;
+
+    // 연관관계 매핑 - 한 study 에 여러개의 chat
+    @OneToMany(mappedBy = "study")
+    private List<ChatEntity> chats = new ArrayList<>();
 }
