@@ -19,6 +19,7 @@ public class StudyDto {
         private boolean openClose;
         private String content;
         private String image;
+        private long leaderId;
     }
 
     @Getter
@@ -33,8 +34,11 @@ public class StudyDto {
         private boolean procedure;
         private boolean openClose;
         private String content;
-        private List<String> notice;
+        private String notice;
         private String image;
+        private long leaderId;
+
+        public void setStudyId(long studyId) {this.studyId = studyId;}
     }
 
     @Getter
@@ -49,7 +53,9 @@ public class StudyDto {
         private boolean procedure;
         private boolean openClose;
         private String content;
-        private List<String> notice;
+        private String notice;
         private String image;
+        private long leaderId;
+        private List<Long> requester;
     }
 }
