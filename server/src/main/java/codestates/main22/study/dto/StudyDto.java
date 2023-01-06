@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import java.time.LocalDate;
 import java.util.List;
 
 public class StudyDto {
@@ -14,7 +15,7 @@ public class StudyDto {
         private String title;
         private boolean[] dayOfWeek;
         private int want;
-        private String startDate;
+        private LocalDate startDate;
         private boolean procedure;
         private boolean openClose;
         private String content;

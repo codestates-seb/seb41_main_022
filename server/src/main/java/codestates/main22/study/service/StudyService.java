@@ -12,7 +12,7 @@ public class StudyService {
     public StudyService(StudyRepository studyRepository) {this.studyRepository = studyRepository;}
 
     public Study createStudy(Study study) {
-        boolean[] week = {false, false, false, false, false, false, false,};
+        boolean[] week = {false, false, false, false, false, false, false};
         if (study.getDayOfWeek() == null) {
             study.setDayOfWeek(week);
         }
