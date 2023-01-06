@@ -5,7 +5,7 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-public class MessageReponseDto {
+public class MessageResponseDto {
     @AllArgsConstructor
     @Getter
     public static class Post {

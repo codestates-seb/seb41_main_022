@@ -6,6 +6,9 @@ public enum ExceptionCode {
     STUDY_NOT_FOUND(404, "Study not found"),
     TREE_NOT_FOUND(404, "Tree not found"),
     USER_NOT_FOUND(404, "User not found");
+    CALENDAR_NOT_FOUND(404, "Calendar not found"),
+    MESSAGE_NOT_FOUND(404, "Message not found"),
+    TAG_NOT_FOUND(404, "Tag not found");
 
     @Getter
     private int status;
