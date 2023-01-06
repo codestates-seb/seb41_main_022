@@ -26,7 +26,7 @@ public class UserService {
 
     //READ - 하나 조회
     public UserEntity findUser(long userId) {
-        UserEntity user = verifiedUser(userId); // user가 있는지 검증
+        UserEntity user = verifiedUser(userId); // user 가 있는지 검증
 
         return userRepository.save(user);
     }
@@ -40,7 +40,7 @@ public class UserService {
 
     //UPDATE
     public UserEntity updateUser(long userId, UserEntity changedUser) {
-        UserEntity user = verifiedUser(userId); // user가 있는지 검증
+        UserEntity user = verifiedUser(userId); // user 가 있는지 검증
 
         user.setUsername(changedUser.getUsername());
         user.setEmail(changedUser.getEmail());
@@ -52,7 +52,7 @@ public class UserService {
 
     //DELETE
     public void deleteUser(long userId) {
-        UserEntity user = verifiedUser(userId); // user가 있는지 검증
+        UserEntity user = verifiedUser(userId); // user 가 있는지 검증
 
         userRepository.delete(user);
     }
