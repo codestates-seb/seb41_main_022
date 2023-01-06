@@ -3,7 +3,7 @@ package codestates.main22.tag.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public class TagReponseDto {
+public class TagResponseDto {
     @AllArgsConstructor
     @Getter
     public static class Post {
