@@ -25,7 +25,6 @@ jobs:
       run: echo $PWD
       
     - name: change path
-      run: cd ./client
       
     - uses: actions/checkout@v3
     - name: Set up JDK 11
