@@ -1,0 +1,20 @@
+*{
+    --black : #000000;
+    --blue : #1979BF;
+    --green : #1D2F27;
+    --green-00 : #2B463A;
+    --mopo-10 : #69756B;
+    --red-10 : #7C1009;
+    --gray-20 : #8F8F8F;
+    --red-00 : #94120A;
+    --mopo-00 : #97A199;
+    --logo : #B0AC93;
+    --beige-10 : #D6D0C6;
+    --gray-10 : #D9D9D9;
+    --beige-00 : #E9E3D9;
+    --gray-00 : #F8F8F8;
+
+    --radius-10 : 10px;
+    --radius-20 : 20px;
+    --radius-30 : 30px;
+}
