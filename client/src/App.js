@@ -1,4 +1,10 @@
+import "./global.css";
+import "./reset.css";
+import styled from "styled-components";
 function App() {
+  const H2 = styled.h2`
+    color: var(--mopo-10);
+  `;
   return (
     <div>
       <h2>DITTO</h2>
