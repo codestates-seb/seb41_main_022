@@ -1,5 +1,6 @@
 package codestates.main22.tree.controller;
 
+import codestates.main22.dto.SingleResponseDto;
 import codestates.main22.tree.dto.TreeDto;
 import codestates.main22.tree.entity.Tree;
 import codestates.main22.tree.mapper.TreeMapper;
@@ -29,7 +30,7 @@ public class TreeController {
         Tree tree = treeMapper.treePostDtoToTree(requestBody);
         Tree createTree = treeService.createTree(tree);
         TreeDto.Response response = treeMapper.treeToTreeResponseDto(createTree);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{tree-id}")
@@ -38,14 +39,14 @@ public class TreeController {
         requestBody.setTreeId(treeId);
         Tree updateTree = treeService.updateTree(treeMapper.treePatchDtoToTree(requestBody));
         TreeDto.Response response =treeMapper.treeToTreeResponseDto(updateTree);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @GetMapping("/{tree-id}")
     public ResponseEntity getTree(@PathVariable("tree-id") @Positive long treeId) {
         Tree findTree = treeService.findTree(treeId);
         TreeDto.Response response = treeMapper.treeToTreeResponseDto(findTree);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @DeleteMapping("/{tree-id}")
