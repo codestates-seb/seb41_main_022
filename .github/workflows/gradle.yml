@@ -7,8 +7,6 @@
 
 name: Java CI with Gradle
 
-env:
-  RESOURCE_PATH: ./server/src/main/resources/application.yml
 
 on:
   push:
