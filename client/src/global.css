@@ -18,3 +18,27 @@
     --radius-20 : 20px;
     --radius-30 : 30px;
 }
+@font-face {
+    font-family: "logo";
+    src: url("./assets/fonts/AnyConv.com__NovaCut-Regular.woff");
+}
+@font-face {
+    font-family: "mainB";
+    src: url("./assets/fonts/AppleSDGothicNeoB.ttf");
+}
+@font-face {
+    font-family: "mainEB";
+    src: url("./assets/fonts/AppleSDGothicNeoEB.ttf");
+}
+@font-face {
+    font-family: "mainH";
+    src: url("./assets/fonts/AppleSDGothicNeoH.ttf");
+}
+@font-face {
+    font-family: "mainL";
+    src: url("./assets/fonts/AppleSDGothicNeoL.ttf");
+}
+@font-face {
+    font-family: "mainM";
+    src: url("./assets/fonts/AppleSDGothicNeoM.ttf");
+}
