@@ -22,6 +22,16 @@ public class StudyService {
 
     public Study updateStudy(Study study) {
         Study findStudy = VerifiedStudy(study.getStudyId());
+        Optional.ofNullable(study.getTeamName()).ifPresent(findStudy::setTeamName);
+        Optional.ofNullable(study.getSummary()).ifPresent(findStudy::setSummary);
+        Optional.ofNullable(study.getDayOfWeek()).ifPresent(findStudy::setDayOfWeek);
+        Optional.ofNullable(study.getWant()).ifPresent(findStudy::setWant);
+        Optional.ofNullable(study.getStartDate()).ifPresent(findStudy::setStartDate);
+        Optional.ofNullable(study.isProcedure()).ifPresent(findStudy::setProcedure);
+        Optional.ofNullable(study.getContent()).ifPresent(findStudy::setContent);
+        Optional.ofNullable(study.getNotice()).ifPresent(findStudy::setNotice);
+        Optional.ofNullable(study.getImage()).ifPresent(findStudy::setImage);
+        Optional.ofNullable(study.getLeaderId()).ifPresent(findStudy::setLeaderId);
         return studyRepository.save(study);
     }
 
