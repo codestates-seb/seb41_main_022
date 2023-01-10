@@ -82,6 +82,7 @@ public class UserService {
         Study findStudy = studyService.VerifiedStudy(studyId);
         return userStudyRepository.findByStudy(findStudy).stream().map(userStudyEntity -> userStudyEntity.getUser())
                 .collect(Collectors.toList());
+    }
 
     public List<Study> findStudiesByUser(UserEntity user) {
         return studyRepository.findByUserStudiesUser(user);
