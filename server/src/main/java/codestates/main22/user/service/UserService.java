@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -39,15 +41,18 @@ public class UserService {
     }
 
     //UPDATE
-    public UserEntity updateUser(long userId, UserEntity changedUser) {
-        UserEntity user = verifiedUser(userId); // user 가 있는지 검증
+    public UserEntity updateUser(UserEntity changedUser) {
+        UserEntity findUser = verifiedUser(changedUser.getUserId());
+        Optional.ofNullable(changedUser.getUsername()).ifPresent(findUser::setUsername);
+        Optional.ofNullable(changedUser.getEmail()).ifPresent(findUser::setEmail);
+        Optional.ofNullable(changedUser.getInfo()).ifPresent(findUser::setInfo);
+        Optional.ofNullable(changedUser.getImgUrl()).ifPresent(findUser::setImgUrl);
+//        user.setUsername(changedUser.getUsername());
+//        user.setEmail(changedUser.getEmail());
+//        user.setInfo(changedUser.getInfo());
+//        user.setImgUrl(changedUser.getImgUrl());
 
-        user.setUsername(changedUser.getUsername());
-        user.setEmail(changedUser.getEmail());
-        user.setInfo(changedUser.getInfo());
-        user.setImgUrl(changedUser.getImgUrl());
-
-        return userRepository.save(user);
+        return userRepository.save(findUser);
     }
 
     //DELETE
@@ -61,5 +66,10 @@ public class UserService {
     public UserEntity verifiedUser(long userId) { // 해당 userId를 사용하고 있는 유저가 존재하는가?
         Optional<UserEntity> user = userRepository.findById(userId);
         return user.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+    }
+
+    // 스터디 아이디 찾기 (스터디별 구성원 보기 기능에 사용)
+    public List<UserEntity> findByStudy(long studyId) {
+        return userRepository.findByStudyId(studyId);
     }
 }
