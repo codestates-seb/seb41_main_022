@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 //@Transactional
@@ -65,5 +66,10 @@ public class MessageService {
                         new BusinessLogicException((ExceptionCode.MESSAGE_NOT_FOUND)));
 
         return message;
+    }
+
+    // 스터디 아이디 찾기 (스터디별 채팅 보기 기능에 사용)
+    public List<Message> findByStudy(long studyId) {
+        return messageRepository.findByStudyId(studyId);
     }
 }
