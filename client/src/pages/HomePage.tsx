@@ -1,12 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+
 import RecruitmentList from "../components/homepage/RecruitmentList";
+import Banner from "../components/homepage/Banner";
 
 const HomePage = () => {
   return (
     <>
       <HomepageWrapper>
-        <div className="test">HomePage</div>
+        <Banner />
         <RecruitmentList />
       </HomepageWrapper>
     </>
@@ -22,9 +24,6 @@ const HomepageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  > .test {
-    color: white;
-  }
 `;
 
 export default HomePage;
