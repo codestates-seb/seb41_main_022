@@ -11,7 +11,7 @@ const HeaderWrapper = styled.header`
   padding: 0 30px 0 30px;
 
   > .header-logo {
-    font-family: "NovaCut";
+    font-family: "logo";
     color: var(--logo);
     font-size: 50px;
     letter-spacing: -6%;
