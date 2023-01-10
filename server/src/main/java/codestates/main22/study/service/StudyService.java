@@ -51,4 +51,21 @@ public class StudyService {
         Study findStudy = optionalStudy.orElseThrow(() -> new BusinessLogicException(ExceptionCode.STUDY_NOT_FOUND));
         return findStudy;
     }
+
+    public Study updateStudyNotice(long studyId, Study changedStudy) {
+        Study study = VerifiedStudy(studyId);
+//        Optional.ofNullable(study.getDayOfWeek()).ifPresent(findStudy::setDayOfWeek);
+//        Optional.ofNullable(study.getNotice()).ifPresent(findStudy::setNotice);
+        study.setNotice(changedStudy.getNotice());
+//        study.setDayOfWeek(changedStudy.getDayOfWeek());
+        return studyRepository.save(study);
+    }
+
+    public Study updateMainBody(long studyId, Study changedStudy) {
+        Study study = VerifiedStudy(studyId);
+        study.setTeamName(changedStudy.getTeamName());
+        study.setSummary(changedStudy.getSummary());
+        study.setContent(changedStudy.getContent());
+        return studyRepository.save(study);
+    }
 }
