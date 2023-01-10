@@ -2,8 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import Header from "../components/Header";
-import Recruitment from "../components/homepage/Recruitment";
-import WeekBar from "../components/WeekBar";
 
 const HomePage = () => {
   return (
