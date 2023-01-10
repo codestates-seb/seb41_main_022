@@ -3,13 +3,17 @@ import styled from "styled-components";
 
 import RecruitmentList from "../components/homepage/RecruitmentList";
 import Banner from "../components/homepage/Banner";
+import CreateStudyButton from "../components/homepage/CreateStudyButton";
 
 const HomePage = () => {
   return (
     <>
       <HomepageWrapper>
         <Banner />
-        <RecruitmentList />
+        <ContentWrapper>
+          <CreateStudyButton />
+          <RecruitmentList />
+        </ContentWrapper>
       </HomepageWrapper>
     </>
   );
@@ -21,6 +25,13 @@ const HomepageWrapper = styled.div`
   height: auto;
   width: 100%;
   background-color: var(--green);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "mainM";
+`;
+
+const ContentWrapper = styled.article`
   display: flex;
   flex-direction: column;
   align-items: center;

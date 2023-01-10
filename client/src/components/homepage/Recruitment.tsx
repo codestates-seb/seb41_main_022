@@ -72,6 +72,7 @@ const BodyWrapper = styled.div`
     font-weight: 800;
     font-size: 32px;
     margin-bottom: 22px;
+    font-family: "mainEB";
   }
   // 한줄소개
   > .body-content--wrapper {
