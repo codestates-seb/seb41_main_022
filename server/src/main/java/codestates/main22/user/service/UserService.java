@@ -2,6 +2,8 @@ package codestates.main22.user.service;
 
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
+import codestates.main22.study.entity.Study;
+import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -10,12 +12,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private StudyRepository studyRepository;
 
     //CRUD 순서에 맞춰서
 
@@ -61,5 +65,9 @@ public class UserService {
     public UserEntity verifiedUser(long userId) { // 해당 userId를 사용하고 있는 유저가 존재하는가?
         Optional<UserEntity> user = userRepository.findById(userId);
         return user.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+    }
+
+    public List<Study> findStudiesByUser(UserEntity user) {
+        return studyRepository.findByUserStudiesUser(user);
     }
 }
