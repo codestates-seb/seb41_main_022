@@ -1,5 +1,6 @@
 package codestates.main22.user.controller;
 
+import codestates.main22.dto.ListResponseDto;
 import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
 import codestates.main22.user.dto.UserDto;
@@ -38,14 +39,14 @@ public class UserController {
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
-    //READ - 하나 조회
+    //READ - 하나 조회 필요한 정보만 조회하도록 수정됨 (유저 식별값, 닉네임, 이미지)
     @GetMapping("/{user-id}")
     public ResponseEntity getUser(@Positive @PathVariable("user-id") long userId) {
         UserEntity user = userService.findUser(userId);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(
-                        userMapper.userEntityToResponseCheck(user)),HttpStatus.OK);
+                        userMapper.userEntityToSearchUserReponse(user)),HttpStatus.OK);
     }
 
     //READ - 전체 조회
@@ -60,17 +61,25 @@ public class UserController {
                         (userMapper.usersToResponse(users),pageUsers),HttpStatus.OK);
     }
 
-    //UPDATE
-    @PatchMapping("/{user-id}")
-    public ResponseEntity patchUser(@Positive @PathVariable("user-id") long userId,
-                                    @Valid @RequestBody UserDto.Patch patch) {
+    //UPDATE // 현재 전체 프로필 수정이 없으므로 URL중복(시트 기준)으로 주석처리, 나중에 전체 프로필 수정이 필요하면 URL 수정해서 사용할 예정
+//    @PatchMapping("/{user-id}")
+//    public ResponseEntity patchUser(@Positive @PathVariable("user-id") long userId,
+//                                    @Valid @RequestBody UserDto.Patch patch) {
+//
+//        UserEntity user = userService.updateUser(
+//                userId, userMapper.userPatchDtoToUserEntity(patch));
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(
+//                        userMapper.userEntityToResponseCheck(user)),HttpStatus.OK);
+//    }
 
-        UserEntity user = userService.updateUser(
-                userId, userMapper.userPatchDtoToUserEntity(patch));
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(
-                        userMapper.userEntityToResponseCheck(user)),HttpStatus.OK);
+    @PatchMapping("/{user-id}") //프로필 이름만 수정
+    public ResponseEntity patchUserName(@Positive @PathVariable("user-id") long userId,
+                                    @Valid @RequestBody UserDto.NamePatch namePatch) {
+        namePatch.setUserId(userId);
+        UserEntity user = userService.updateUser(userMapper.userNamePatchDtoToUserEntity(namePatch));
+        return new ResponseEntity<>(new SingleResponseDto<>(userMapper.userEntityToNameResponse(user)),HttpStatus.OK);
     }
 
     //DELETE
@@ -79,5 +88,17 @@ public class UserController {
         userService.deleteUser(userId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/image/{user-id}") // 헤더에 유저 이미지만 노출
+    public ResponseEntity userImage(@PathVariable("user-id") @Positive long userId) {
+        UserEntity user = userService.findUser(userId);
+        return new ResponseEntity<>(new SingleResponseDto<>(userMapper.userEntityToImageResponseCheck(user)),HttpStatus.OK);
+    }
+
+    @GetMapping("/study") //해당 스터디 구성원만 모아서 보기
+    public ResponseEntity getStudyUsers(@Positive @RequestParam int studyId) {
+        List<UserEntity> studyUsers = userService.findByStudy(studyId);
+        return new ResponseEntity<>(new ListResponseDto<>(userMapper.usersToStudyUserResponse(studyUsers)), HttpStatus.OK);
     }
 }
