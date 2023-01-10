@@ -90,4 +90,10 @@ public class Study {
     // 연관관계 매핑 - 한 study 에 여러개의 chat
     @OneToMany(mappedBy = "study")
     private List<ChatEntity> chats = new ArrayList<>();
+
+    public void addTagStudies(TagStudy tagStudy) {
+        this.tagStudies.add(tagStudy);
+        if(tagStudy.getStudy() != this)
+            tagStudy.setStudy(this);
+    }
 }

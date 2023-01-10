@@ -25,4 +25,10 @@ public class Tag extends Auditable {
     // 연관관계 매핑 - 한 tag 에 여러개의 tagStudy
     @OneToMany(mappedBy = "tag", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<TagStudy> tagStudies = new ArrayList<>();
+
+    public void addTagStudies(TagStudy tagStudy) {
+        this.tagStudies.add(tagStudy);
+        if(tagStudy.getTag() != this)
+            tagStudy.setTag(this);
+    }
 }
