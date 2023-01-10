@@ -27,7 +27,6 @@ public class UserService {
     private StudyService studyService;
     private StudyRepository studyRepository;
 
-
     //CRUD 순서에 맞춰서
 
     //CREATE
@@ -77,10 +76,15 @@ public class UserService {
         return user.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
+
     // 스터디 아이디 찾기 (스터디별 구성원 보기 기능에 사용)
     public List<UserEntity> findByStudy(long studyId) {
         Study findStudy = studyService.VerifiedStudy(studyId);
         return userStudyRepository.findByStudy(findStudy).stream().map(userStudyEntity -> userStudyEntity.getUser())
                 .collect(Collectors.toList());
+
+    public List<Study> findStudiesByUser(UserEntity user) {
+        return studyRepository.findByUserStudiesUser(user);
+
     }
 }

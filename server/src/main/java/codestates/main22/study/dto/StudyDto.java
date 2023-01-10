@@ -36,7 +36,7 @@ public class StudyDto {
         private String content;
         private String notice;
         private String image;
-        private long leaderId;
+        //private long leaderId;
 
         public void setStudyId(long studyId) {this.studyId = studyId;}
     }
@@ -56,6 +56,12 @@ public class StudyDto {
         private String notice;
         private String image;
         private long leaderId;
+        private List<Long> requester;
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public static class RequesterResponse {
         private List<Long> requester;
     }
 }
