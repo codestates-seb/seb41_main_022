@@ -1,18 +1,20 @@
 import styled from "styled-components";
 import WeekBar from "../WeekBar";
 
-const Recruitment = () => {
+interface CardProps {
+  teamName: string;
+  summary: string;
+}
+
+const Recruitment = ({ teamName, summary }: CardProps) => {
   return (
     <RecruitmentBackground>
       <div className="recruitmentBody">
         <div className="border">
           <BodyWrapper>
-            <div className="body-myStudy">My Study</div>
+            <div className="body-myStudy">{teamName}</div>
             <div className="body-content--wrapper">
-              <div className="body-content">
-                저희는 디코로 만나 각자 모여서 공부 하는 스터디 입니다 INFP
-                환영해요
-              </div>
+              <div className="body-content">{summary}</div>
             </div>
             <WeekBar />
             <div className="body-online">
@@ -32,6 +34,7 @@ const RecruitmentBackground = styled.div`
   height: 246px;
   border-radius: var(--radius-10);
   background-color: #ffffff;
+  margin: 16px 20px 16px 20px;
 
   > .recruitmentBody {
     border-radius: var(--radius-10);
@@ -45,7 +48,8 @@ const RecruitmentBackground = styled.div`
       transition-duration: 0.5s;
       background-color: rgba(0, 0, 0, 0.75);
       .body-content {
-        display: block;
+        transition-duration: 0.5s;
+        color: rgba(255, 255, 255, 1);
       }
     }
 
@@ -77,10 +81,9 @@ const BodyWrapper = styled.div`
     display: flex;
     align-items: center;
     > .body-content {
-      color: #ffffff;
+      color: rgba(0, 0, 0, 0);
       font-size: 14px;
-      line-height: auto;
-      display: none;
+      line-height: 17px;
     }
   }
 
