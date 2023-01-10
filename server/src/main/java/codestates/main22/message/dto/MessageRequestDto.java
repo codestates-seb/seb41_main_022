@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 public class MessageRequestDto {
     @AllArgsConstructor
+    @Setter
     @Getter
     public static class Post{
         public String content;

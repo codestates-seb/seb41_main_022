@@ -28,6 +28,7 @@ public class Message extends Auditable {
     public long userId;
 
 
+
     // 연관관계 매핑 - 한 study 에 여러개의 message
     @ManyToOne
     @JoinColumn(name = "STUDY_ID")

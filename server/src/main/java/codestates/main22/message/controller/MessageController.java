@@ -1,5 +1,6 @@
 package codestates.main22.message.controller;
 
+import codestates.main22.dto.ListResponseDto;
 import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
 import codestates.main22.message.dto.MessageResponseDto;
@@ -29,8 +30,9 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity postMessage(@Valid @RequestBody MessageRequestDto.Post post) {
-        Message message = messageService.createMessage(messageMapper.messageReqPostDtoToMessage(post));
+    public ResponseEntity postMessage(@Valid @RequestBody MessageRequestDto.Post post,
+                                      @Positive @RequestParam long studyId) {
+        Message message = messageService.createMessage(studyId, messageMapper.messageReqPostDtoToMessage(post));
         MessageResponseDto.Post response = messageMapper.messageToMessageResPostDto(message);
 
         return new ResponseEntity<>(
@@ -48,17 +50,23 @@ public class MessageController {
         );
     }
 
-    @GetMapping
-    public ResponseEntity getMessages(@Positive @RequestParam int page,
-                                      @Positive @RequestParam int size) {
-        Page<Message> pageMessages = messageService.findMessages(page - 1, size);
-        List<Message> messages = pageMessages.getContent();
-        List<MessageResponseDto.Post> responses = messageMapper.messagesToMessageResPostDtos(messages);
+//    @GetMapping // 모든 채팅 불러오는 기능이 불필요해서 주석 처리 (기본 URL사용하기 위함)
+//    public ResponseEntity getMessages(@Positive @RequestParam int page,
+//                                      @Positive @RequestParam int size) {
+//        Page<Message> pageMessages = messageService.findMessages(page - 1, size);
+//        List<Message> messages = pageMessages.getContent();
+//        List<MessageResponseDto.Post> responses = messageMapper.messagesToMessageResPostDtos(messages);
+//
+//        return new ResponseEntity<>(
+//                new MultiResponseDto<>(responses, pageMessages),
+//                HttpStatus.OK
+//        );
+//    }
 
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(responses, pageMessages),
-                HttpStatus.OK
-        );
+    @GetMapping // 해당 스터디 메세지 모아서 보기
+    public ResponseEntity getMessages(@Positive @RequestParam int studyId) {
+        List<Message> studyMessage = messageService.findByStudy(studyId);
+        return new ResponseEntity<>(new ListResponseDto<>(messageMapper.messagesToMessageResPostDtos(studyMessage)), HttpStatus.OK);
     }
 
     @PatchMapping("/{message-id}")
