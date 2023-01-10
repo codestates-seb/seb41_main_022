@@ -14,7 +14,6 @@ public class MessageRequestDto {
         public String content;
         public LocalDateTime dateTime;
         public long userId;
-        private long studyId;
     }
 
     @AllArgsConstructor

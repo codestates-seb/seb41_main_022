@@ -2,8 +2,12 @@ package codestates.main22.user.service;
 
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
+import codestates.main22.study.entity.Study;
+import codestates.main22.study.repository.StudyRepository;
+import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
+import codestates.main22.user.repository.UserStudyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +17,16 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private UserStudyRepository userStudyRepository;
+    private StudyService studyService;
+    private StudyRepository studyRepository;
+
 
     //CRUD 순서에 맞춰서
 
@@ -70,6 +79,8 @@ public class UserService {
 
     // 스터디 아이디 찾기 (스터디별 구성원 보기 기능에 사용)
     public List<UserEntity> findByStudy(long studyId) {
-        return userRepository.findByStudyId(studyId);
+        Study findStudy = studyService.VerifiedStudy(studyId);
+        return userStudyRepository.findByStudy(findStudy).stream().map(userStudyEntity -> userStudyEntity.getUser())
+                .collect(Collectors.toList());
     }
 }

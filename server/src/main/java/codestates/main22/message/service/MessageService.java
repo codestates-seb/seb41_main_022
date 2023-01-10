@@ -4,6 +4,8 @@ import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.message.entity.Message;
 import codestates.main22.message.repository.MessageRepository;
+import codestates.main22.study.entity.Study;
+import codestates.main22.study.service.StudyService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -17,13 +19,17 @@ import java.util.Optional;
 @Service
 public class MessageService {
     private final MessageRepository messageRepository;
+    private StudyService studyService;
 
-    public MessageService(MessageRepository messageRepository) {
+    public MessageService(MessageRepository messageRepository, StudyService studyService) {
         this.messageRepository = messageRepository;
+        this.studyService = studyService;
     }
 
     // 메세지 생성
-    public Message createMessage(Message message) {
+    public Message createMessage(long studyId, Message message) {
+        Study findStudy = studyService.findStudy(studyId);
+        message.setStudy(findStudy);
         return messageRepository.save(message);
     }
 
@@ -70,6 +76,7 @@ public class MessageService {
 
     // 스터디 아이디 찾기 (스터디별 채팅 보기 기능에 사용)
     public List<Message> findByStudy(long studyId) {
-        return messageRepository.findByStudyId(studyId);
+        Study findStudy = studyService.VerifiedStudy(studyId);
+        return messageRepository.findByStudy(findStudy);
     }
 }

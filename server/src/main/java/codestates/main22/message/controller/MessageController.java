@@ -31,9 +31,8 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity postMessage(@Valid @RequestBody MessageRequestDto.Post post,
-                                      @Positive @RequestParam int studyId) {
-        post.setStudyId(studyId);
-        Message message = messageService.createMessage(messageMapper.messageReqPostDtoToMessage(post));
+                                      @Positive @RequestParam long studyId) {
+        Message message = messageService.createMessage(studyId, messageMapper.messageReqPostDtoToMessage(post));
         MessageResponseDto.Post response = messageMapper.messageToMessageResPostDto(message);
 
         return new ResponseEntity<>(
