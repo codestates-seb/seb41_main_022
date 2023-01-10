@@ -32,8 +32,13 @@ const CreateStudyWrapper = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     > .assign {
       font-size: 20px;
+      //작아질때 글씨 잘리는거 생각해보기
+      /* @media screen and (max-width: 768px) {
+        display: none;
+      } */
     }
   }
 `;

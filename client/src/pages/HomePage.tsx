@@ -4,6 +4,7 @@ import styled from "styled-components";
 import RecruitmentList from "../components/homepage/RecruitmentList";
 import Banner from "../components/homepage/Banner";
 import CreateStudyButton from "../components/homepage/CreateStudyButton";
+import Search from "../components/homepage/Search";
 
 const HomePage = () => {
   return (
@@ -12,6 +13,7 @@ const HomePage = () => {
         <Banner />
         <ContentWrapper>
           <CreateStudyButton />
+          <Search />
           <RecruitmentList />
         </ContentWrapper>
       </HomepageWrapper>
