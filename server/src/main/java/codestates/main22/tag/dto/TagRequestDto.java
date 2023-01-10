@@ -5,11 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TagRequestDto {
     @Getter
     public static class Post{
-        public String name;
+        public List<String> tags;
     }
 
     @AllArgsConstructor
