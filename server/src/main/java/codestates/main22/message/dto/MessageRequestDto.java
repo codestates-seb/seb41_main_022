@@ -13,7 +13,6 @@ public class MessageRequestDto {
     public static class Post{
         public String content;
         public LocalDateTime dateTime;
-        public long userId;
     }
 
     @AllArgsConstructor
@@ -23,6 +22,5 @@ public class MessageRequestDto {
         public long messageId;
         public String content;
         public LocalDateTime dateTime;
-        public long userId;
     }
 }
