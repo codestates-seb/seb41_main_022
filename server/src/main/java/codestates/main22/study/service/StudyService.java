@@ -6,6 +6,7 @@ import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.tag.entity.TagStudy;
+import codestates.main22.tree.entity.Tree;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.entity.UserStudyEntity;
 import codestates.main22.user.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -50,6 +52,12 @@ public class StudyService {
         UserStudyEntity userStudyEntity = new UserStudyEntity();
         userStudyEntity.setUser(user);
         userStudyEntity.setStudy(study);
+
+        // tree 생성하기
+        Tree tree = new Tree();
+        tree.setTreeImage("https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FpjywQ%2FbtrVZVh0ers%2Fe9JHXVkvDOnVrkcf8pvpik%2Fimg.png");
+        tree.setMakeMonth(LocalDate.now().getMonthValue());
+        tree.setStudy(study);
 
         return study;
     }

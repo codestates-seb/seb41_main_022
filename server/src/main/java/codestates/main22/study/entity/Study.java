@@ -83,9 +83,9 @@ public class Study {
     @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<TagStudy> tagStudies = new ArrayList<>();
 
-    // 연관관계 매핑 - 한 study 에 한 개의 tree
-    @OneToOne(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private Tree tree;
+    // 연관관계 매핑 - 한 study 에 여러개의 tree
+    @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Tree> trees = new ArrayList<>();
 
     // 연관관계 매핑 - 한 study 에 여러개의 chat
     @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
