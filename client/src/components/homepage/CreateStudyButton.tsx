@@ -27,23 +27,41 @@ const CreateStudyWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 768px) {
+    height: 100px;
+  }
   > .flexWrapper {
     width: 80%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media screen and (max-width: 768px) {
+      width: 90%;
+      flex-direction: column;
+    }
 
     > .assign {
       font-size: 20px;
       //작아질때 글씨 잘리는거 생각해보기
-      /* @media screen and (max-width: 768px) {
-        display: none;
-      } */
+      @media screen and (max-width: 768px) {
+        width: 200px;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 8px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1200px) {
+        width: 300px;
+        font-size: 16px;
+      }
     }
   }
 `;
 
 const RedButton = styled.button`
+  @media screen and (max-width: 768px) {
+    width: 180px;
+    margin-bottom: 4px;
+  }
   width: 240px;
   padding: 3px;
   background-color: var(--red-00);
@@ -53,6 +71,7 @@ const RedButton = styled.button`
   font-size: 22px;
   :hover {
     background-color: var(--red-10);
+    cursor: pointer;
   }
 `;
 

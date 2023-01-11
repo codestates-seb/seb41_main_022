@@ -16,7 +16,7 @@ const Search = () => {
 const BorderBottomWrapper = styled.div`
   padding-bottom: 20px;
   border-bottom: 4px solid var(--beige-00);
-  width: 50%;
+  width: 45%;
   margin-top: 75px;
   * {
     font-family: "mainM";

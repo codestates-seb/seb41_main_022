@@ -5,6 +5,7 @@ import RecruitmentList from "../components/homepage/RecruitmentList";
 import Banner from "../components/homepage/Banner";
 import CreateStudyButton from "../components/homepage/CreateStudyButton";
 import Search from "../components/homepage/Search";
+import TagFilter from "../components/homepage/TagFilter";
 
 const HomePage = () => {
   return (
@@ -14,6 +15,7 @@ const HomePage = () => {
         <ContentWrapper>
           <CreateStudyButton />
           <Search />
+          <TagFilter />
           <RecruitmentList />
         </ContentWrapper>
       </HomepageWrapper>
