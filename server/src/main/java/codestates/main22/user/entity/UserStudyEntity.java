@@ -2,6 +2,7 @@ package codestates.main22.user.entity;
 
 import codestates.main22.auditable.Auditable;
 import codestates.main22.study.entity.Study;
+import codestates.main22.tag.entity.Tag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
+@Entity(name = "USER_STUDY")
 public class UserStudyEntity extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,4 +28,16 @@ public class UserStudyEntity extends Auditable {
     @ManyToOne
     @JoinColumn(name = "STUDY_ID")
     private Study study;
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+        if(!this.user.getUserStudies().contains(this))
+            this.user.getUserStudies().add(this);
+    }
+
+    public void setStudy(Study study) {
+        this.study = study;
+        if(!this.study.getUserStudies().contains(this))
+            this.study.getUserStudies().add(this);
+    }
 }

@@ -67,33 +67,31 @@ public class Study {
 
 
     // 연관관계 매핑 - 한 study 에 여러개의 calendar
-    @OneToMany(mappedBy = "study")
+    @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Calendar> calendars = new ArrayList<>();
 
 
     // 연관관계 매핑 - 한 study 에 여러개의 message
-    @OneToMany(mappedBy = "study")
+    @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Message> messages = new ArrayList<>();
 
     // 연관관계 매핑 - 한 study 에 여러개의 userStudy
-    @OneToMany(mappedBy = "study")
+    @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<UserStudyEntity> userStudies = new ArrayList<>();
 
     // 연관관계 매핑 - 한 study 에 여러개의 tagStudy
-    @OneToMany(mappedBy = "study")
+    @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<TagStudy> tagStudies = new ArrayList<>();
 
     // 연관관계 매핑 - 한 study 에 한 개의 tree
-    @OneToOne(mappedBy = "study")
+    @OneToOne(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private Tree tree;
 
     // 연관관계 매핑 - 한 study 에 여러개의 chat
-    @OneToMany(mappedBy = "study")
+    @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ChatEntity> chats = new ArrayList<>();
 
-    public void addTagStudies(TagStudy tagStudy) {
-        this.tagStudies.add(tagStudy);
-        if(tagStudy.getStudy() != this)
-            tagStudy.setStudy(this);
+    public void deleteTagStudy(TagStudy tagStudy) {
+        this.tagStudies.remove(tagStudy);
     }
 }

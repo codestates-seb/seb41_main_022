@@ -49,6 +49,12 @@ public class UserEntity extends Auditable {
 
 
     // 연관관계 매핑 - 한 user 에 여러개의 userStudy
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<UserStudyEntity> userStudies = new ArrayList<>();
+
+    public UserEntity(String email, String name, String imgUrl) {
+        this.email = email;
+        this.username = name;
+        this.imgUrl = imgUrl;
+    }
 }

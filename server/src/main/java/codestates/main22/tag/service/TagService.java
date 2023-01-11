@@ -51,10 +51,8 @@ public class TagService {
             TagStudy tagStudy = new TagStudy();
             tagStudy.setStudy(study);
             tagStudy.setTag(tag);
-            study.addTagStudies(tagStudy);
         }
 
-        studyService.updateStudy(study);
         return tags;
     }
 
@@ -69,8 +67,9 @@ public class TagService {
         for(Tag tag : before) {
             // 삭제될 태그
             if(!after.contains(tag)) {
-                List<TagStudy> tagStudies = tagStudyRepository.findByStudyAndTag(study, tag);
-                tagStudyRepository.delete(tagStudies.get(0));
+                TagStudy tagStudies = tagStudyRepository.findByStudyAndTag(study, tag);
+                study.deleteTagStudy(tagStudies);
+                tagStudyRepository.delete(tagStudies);
             }
             else after.remove(tag); // 공통된 태그
         }
@@ -80,10 +79,8 @@ public class TagService {
             TagStudy tagStudy = new TagStudy();
             tagStudy.setStudy(study);
             tagStudy.setTag(tag);
-            study.addTagStudies(tagStudy);
         }
 
-        studyService.updateStudy(study);
         return makeListTags(names);
     }
 
@@ -133,15 +130,7 @@ public class TagService {
 
     // 태그 조회 by studyId
     public List<Tag> findTagsByStudyId(long studyId) {
-        Study study = studyService.findStudy(studyId);
-        List<Tag> tags = new ArrayList<>();
-        study.getTagStudies().stream().forEach(
-                tagStudy -> {
-                    tags.add(findTag(tagStudy.getTag().getTagId()));
-                }
-        );
-
-        return tags;
+        return tagRepository.findByTagStudiesStudy(studyService.findStudy(studyId));
     }
 
     // List<String>으로 List<Tag> 만들기
@@ -150,8 +139,6 @@ public class TagService {
         for(String name : names) {
             tags.add(findTag(name));
         }
-
-        System.out.println();
 
         return tags;
     }

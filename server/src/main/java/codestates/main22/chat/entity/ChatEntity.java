@@ -42,7 +42,7 @@ public class ChatEntity extends Auditable {
 
 
     // 연관관계 매핑 - 한 chat 에 여러개의 answer
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<AnswerEntity> answers = new ArrayList<>();
 
     // 연관관계 매핑 - 한 study 에 여러개의 chat
