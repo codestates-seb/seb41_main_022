@@ -2,6 +2,8 @@ package codestates.main22.answer.service;
 
 import codestates.main22.answer.entity.AnswerEntity;
 import codestates.main22.answer.repository.AnswerRepository;
+import codestates.main22.chat.entity.ChatEntity;
+import codestates.main22.chat.service.ChatService;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import lombok.AllArgsConstructor;
@@ -16,11 +18,14 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AnswerService {
     private AnswerRepository answerRepository;
+    private ChatService chatService;
 
     //CRUD 순서에 맞춰서
 
     //CREATE
-    public AnswerEntity createAnswer(AnswerEntity answer) {
+    public AnswerEntity createAnswer(long chatId, AnswerEntity answer) {
+        ChatEntity findChat = chatService.findChat(chatId);
+        answer.setChat(findChat);
         return answerRepository.save(answer);
     }
 

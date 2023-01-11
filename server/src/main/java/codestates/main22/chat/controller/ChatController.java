@@ -6,6 +6,7 @@ import codestates.main22.chat.mapper.ChatMapper;
 import codestates.main22.chat.service.ChatService;
 import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
+import codestates.main22.study.entity.Study;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,9 @@ public class ChatController {
 
     //CREATE
     @PostMapping
-    public ResponseEntity postChat(@Valid @RequestBody ChatDto.Post post) {
-        ChatEntity chat = chatService.createChat(chatMapper.chatPostDtoToChatEntity(post));
+    public ResponseEntity postChat(@Valid @RequestBody ChatDto.Post post,
+                                   @Positive @RequestParam long studyId) {
+        ChatEntity chat = chatService.createChat(studyId, chatMapper.chatPostDtoToChatEntity(post));
 
         ChatDto.Response responseDto = chatMapper.chatEntityToResponseCheck(chat);
         SingleResponseDto<ChatDto.Response> response = new SingleResponseDto<>(responseDto);
@@ -38,15 +40,15 @@ public class ChatController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    //READ - 하나 조회
-    @GetMapping("/{chat-id}")
-    public ResponseEntity getChat(@Positive @PathVariable("chat-id") long chatId) {
-        ChatEntity chat = chatService.findChat(chatId);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(
-                        chatMapper.chatEntityToResponseCheck(chat)),HttpStatus.OK);
-    }
+    //READ - 하나 조회 // 일단 사용 안하고 있고, 해당 URL 사용을 위해 주석 처리
+//    @GetMapping("/{chat-id}")
+//    public ResponseEntity getChat(@Positive @PathVariable("chat-id") long chatId) {
+//        ChatEntity chat = chatService.findChat(chatId);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(
+//                        chatMapper.chatEntityToResponseCheck(chat)),HttpStatus.OK);
+//    }
 
     //READ - 전체 조회
     @GetMapping
@@ -58,6 +60,15 @@ public class ChatController {
         return new ResponseEntity(
                 new MultiResponseDto<>(
                         chatMapper.chatsToResponse(chats),pageChats),HttpStatus.OK);
+    }
+
+    @GetMapping("/{study-id}")
+    public ResponseEntity getStudyChats(@PathVariable("study-id") @Positive long studyId,
+                                        @Positive @RequestParam int page,
+                                        @Positive @RequestParam int size) {
+        Page<ChatEntity> studyChats = chatService.findByStudy(studyId, page-1, size);
+        List<ChatEntity> chats = studyChats.getContent();
+        return new ResponseEntity<>(new MultiResponseDto<>(chatMapper.chatsToResponse(chats), studyChats), HttpStatus.OK);
     }
 
     //UPDATE
