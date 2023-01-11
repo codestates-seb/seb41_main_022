@@ -58,8 +58,8 @@ export default CreateForm;
 
 // 메인 베이지색 외형
 const Main = styled.main`
-  margin: 100px auto 0 auto;
   width: 1024px;
+  margin: 0 auto;
   background-color: var(--beige-00);
   * {
     font-family: "mainB", Arial;
