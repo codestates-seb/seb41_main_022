@@ -31,6 +31,7 @@ const Chatwrapper = styled.div`
   color: var(--beige-00);
   padding: 8px;
   line-height: 16px;
+  margin-top: 8px;
 
   > img {
     border-radius: var(--radius-30);

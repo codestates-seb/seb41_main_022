@@ -9,8 +9,10 @@ const Community = () => {
     <CommunityWrapper>
       <div className="padding" />
       <div>
-        <div className="title">Chat</div>
-        <ChatList />
+        <div className="flex">
+          <div className="title">Chat</div>
+          <ChatList />
+        </div>
         <StudyHallCommunityMemberList />
       </div>
     </CommunityWrapper>
@@ -29,6 +31,7 @@ const CommunityWrapper = styled.main`
   > div {
     width: 460px;
     margin: 0 auto;
+    display: flex;
   }
   .title {
     color: var(--green);
