@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TagStudyRepository extends JpaRepository<TagStudy, Long> {
-    List<TagStudy> findByStudyAndTag(Study study, Tag tag);
+    TagStudy findByStudyAndTag(Study study, Tag tag);
 }

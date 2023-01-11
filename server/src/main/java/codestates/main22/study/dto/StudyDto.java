@@ -19,7 +19,6 @@ public class StudyDto {
         private boolean openClose;
         private String content;
         private String image;
-        private long leaderId;
     }
 
     @Getter

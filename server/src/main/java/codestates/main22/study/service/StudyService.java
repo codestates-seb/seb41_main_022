@@ -2,22 +2,56 @@ package codestates.main22.study.service;
 
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
+import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
+import codestates.main22.tag.entity.TagStudy;
+import codestates.main22.user.entity.UserEntity;
+import codestates.main22.user.entity.UserStudyEntity;
+import codestates.main22.user.repository.UserRepository;
+import codestates.main22.user.repository.UserStudyRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
 public class StudyService {
     private final StudyRepository studyRepository;
-    public StudyService(StudyRepository studyRepository) {this.studyRepository = studyRepository;}
+    private final UserRepository userRepository;
+    private final UserStudyRepository userStudyRepository;
+    private final CustomAuthorityUtils customAuthorityUtils;
 
-    public Study createStudy(Study study) {
-        return studyRepository.save(study);
+    public StudyService(StudyRepository studyRepository,
+                        UserRepository userRepository,
+                        CustomAuthorityUtils customAuthorityUtils,
+                        UserStudyRepository userStudyRepository) {
+        this.studyRepository = studyRepository;
+        this.userRepository = userRepository;
+        this.userStudyRepository = userStudyRepository;
+        this.customAuthorityUtils = customAuthorityUtils;
+    }
+
+    @Transactional
+    public Study createStudy(Study study, HttpServletRequest request) {
+        studyRepository.save(study);
+        // 토큰값으로 스터디장에게 권한 부여
+        UserEntity user = userRepository.findByToken(request);
+        user.getRole().add(customAuthorityUtils.createStudyRoles(study.getStudyId(), true));
+
+        // leaderId 등록
+        study.setLeaderId(user.getUserId());
+
+        // user와 연관관계 생성
+        UserStudyEntity userStudyEntity = new UserStudyEntity();
+        userStudyEntity.setUser(user);
+        userStudyEntity.setStudy(study);
+
+        return study;
     }
 
     public Study updateStudy(Study study) {
@@ -32,6 +66,8 @@ public class StudyService {
         Optional.ofNullable(study.getNotice()).ifPresent(findStudy::setNotice);
         Optional.ofNullable(study.getImage()).ifPresent(findStudy::setImage);
         Optional.ofNullable(study.getLeaderId()).ifPresent(findStudy::setLeaderId);
+        Optional.ofNullable(study.getUserStudies()).ifPresent(findStudy::setUserStudies);
+        Optional.ofNullable(study.getTagStudies()).ifPresent(findStudy::setTagStudies);
         return studyRepository.save(study);
     }
 

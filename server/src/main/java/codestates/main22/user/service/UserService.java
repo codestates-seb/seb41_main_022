@@ -2,6 +2,7 @@ package codestates.main22.user.service;
 
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
+import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +24,21 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class UserService {
-    private UserRepository userRepository;
-    private UserStudyRepository userStudyRepository;
-    private StudyService studyService;
-    private StudyRepository studyRepository;
+    private final UserRepository userRepository;
+    private final UserStudyRepository userStudyRepository;
+    private final StudyService studyService;
+    private final StudyRepository studyRepository;
+
+    private final CustomAuthorityUtils authorityUtils;
 
     //CRUD 순서에 맞춰서
 
     //CREATE
     public UserEntity createUser(UserEntity user) {
+        // DB에 User Role 저장
+        List<String> roles = authorityUtils.createRoles(user.getEmail());
+        user.setRole(roles);
+
         return userRepository.save(user);
     }
 
@@ -55,6 +63,7 @@ public class UserService {
         Optional.ofNullable(changedUser.getEmail()).ifPresent(findUser::setEmail);
         Optional.ofNullable(changedUser.getInfo()).ifPresent(findUser::setInfo);
         Optional.ofNullable(changedUser.getImgUrl()).ifPresent(findUser::setImgUrl);
+        Optional.ofNullable(changedUser.getToken()).ifPresent(findUser::setToken);
 //        user.setUsername(changedUser.getUsername());
 //        user.setEmail(changedUser.getEmail());
 //        user.setInfo(changedUser.getInfo());
@@ -86,6 +95,10 @@ public class UserService {
 
     public List<Study> findStudiesByUser(UserEntity user) {
         return studyRepository.findByUserStudiesUser(user);
+    }
 
+    // access-Token을 이용해서 user 정보 조회하기
+    public UserEntity findByToken(HttpServletRequest request) {
+        return userRepository.findByToken(request);
     }
 }

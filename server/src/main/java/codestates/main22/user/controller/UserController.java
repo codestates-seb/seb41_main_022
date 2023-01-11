@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -47,6 +48,15 @@ public class UserController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(
                         userMapper.userEntityToSearchUserReponse(user)),HttpStatus.OK);
+    }
+
+    // token을 이용해서 User 조회하기
+    @GetMapping("/token")
+    public ResponseEntity getUser(HttpServletRequest request) {
+        UserEntity user = userService.findByToken(request);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(user), HttpStatus.OK
+        );
     }
 
     //READ - 전체 조회

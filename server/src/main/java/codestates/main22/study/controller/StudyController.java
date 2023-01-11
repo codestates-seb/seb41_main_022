@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -32,9 +33,10 @@ public class StudyController {
     private final UserService userService;
 
     @PostMapping // 스터디 작성 'Create New Study'
-    public ResponseEntity postStudy(@Valid @RequestBody StudyDto.Post requestBody) {
+    public ResponseEntity postStudy(@Valid @RequestBody StudyDto.Post requestBody,
+                                    HttpServletRequest request) {
         Study study = studyMapper.studyPostDtoToStudy(requestBody);
-        Study createStudy = studyService.createStudy(study);
+        Study createStudy = studyService.createStudy(study, request);
         StudyDto.Response response = studyMapper.studyToStudyResponseDto(createStudy);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
