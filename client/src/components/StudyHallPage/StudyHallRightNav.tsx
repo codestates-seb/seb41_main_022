@@ -23,12 +23,13 @@ const StudyHallRightNav = () => {
 };
 export default StudyHallRightNav;
 // content의 width와 nav width의 합에 25px만큼 마진
+// top은 20만큼 마진
 const Margin20 = styled.main`
   margin-top: 122px;
-  position: fixed;
+  position: absolute;
   margin-left: 685px;
   * {
-    font-family: "mainB", Arial;
+    font-family: "mainM", Arial;
     font-size: 12px;
   }
 `;
