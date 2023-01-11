@@ -19,35 +19,35 @@ const WeekBar = () => {
 export default WeekBar;
 
 const WeekWrapper = styled.main`
-  width: 200px;
+  max-width: 198px;
   background-color: var(--green);
   border-radius: var(--radius-30);
-
+  padding: 1px;
   * {
-    font-size: 15px;
+    font-size: 12px;
   }
-
   > .border {
-    margin: 1px;
     border: 1px solid var(--beige-00);
     border-radius: var(--radius-30);
     display: flex;
-    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
+    padding: 0 2px;
   }
 `;
 //요일 들어가는 div
 const WeekBlock = styled.div`
-  font-family: "mainM";
-  max-width: 25px;
-  max-height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "mainB";
+  width: 18px;
+  height: 18px;
   margin: 1px;
   background-color: var(--green);
-  padding: 0 5px;
   border-radius: var(--radius-30);
   color: var(--gray-00);
   text-align: center;
-  line-height: 22px;
   :hover {
     background-color: var(--beige-00);
     color: var(--green);

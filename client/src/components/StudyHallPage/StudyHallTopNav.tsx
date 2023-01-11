@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import StudyHallRightNav from "./StudyHallRightNav";
 
 const StudyHallTopNav = () => {
   return (
@@ -9,6 +10,7 @@ const StudyHallTopNav = () => {
         <div>Calendar</div>
         <div>Setting</div>
       </Nav>
+      <StudyHallRightNav />
     </TopNavWrapper>
   );
 };
@@ -28,7 +30,6 @@ const Nav = styled.nav`
   background-color: var(--mopo-00);
   width: 460px;
   height: 28px;
-  margin: 0 auto;
   border-radius: var(--radius-30);
   display: flex;
   flex-direction: row;
