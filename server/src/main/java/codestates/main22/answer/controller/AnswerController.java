@@ -28,9 +28,10 @@ public class AnswerController {
     //CRUD 순서에 맞춰서
 
     //CREATE
-    @PostMapping
-    public ResponseEntity postAnswer(@Valid @RequestBody AnswerDto.Post post) {
-        AnswerEntity answer = answerService.createAnswer(answerMapper.answerPostDtoToAnswerEntity(post));
+    @PostMapping("/{chat-id}")
+    public ResponseEntity postAnswer(@Positive @PathVariable("chat-id") long chatId,
+                                     @Valid @RequestBody AnswerDto.Post post) {
+        AnswerEntity answer = answerService.createAnswer(chatId, answerMapper.answerPostDtoToAnswerEntity(post));
 
         AnswerDto.Response responseDto = answerMapper.answerEntityToResponseCheck(answer);
         SingleResponseDto<AnswerDto.Response> response = new SingleResponseDto<>(responseDto);
