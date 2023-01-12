@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -52,9 +53,9 @@ public class TagController {
     }
 
     // user의 tag 조회
-    @GetMapping("/{user-id}")
-    public ResponseEntity getTagByUserId(@PathVariable("user-id") @Positive long userId) {
-        List<Tag> tags = tagService.findTagsByUserId(userId);
+    @GetMapping("/user")
+    public ResponseEntity getTagByUserId(HttpServletRequest request) {
+        List<Tag> tags = tagService.findTagsByUserId(request);
         TagResponseDto.Get response = tagMapper.tagsToTagResGetDtos(tags);
 
         return new ResponseEntity<>(
@@ -76,8 +77,9 @@ public class TagController {
     // studyHall/main tag 수정
     @PatchMapping("/study/{study-id}")
     public ResponseEntity patchTagByStudyId(@Positive @PathVariable("study-id") long studyId,
-                                            @Valid @RequestBody TagRequestDto.Post post) {
-        List<Tag> tags = tagService.updateTag(studyId, post.getTags());
+                                            @Valid @RequestBody TagRequestDto.Post post,
+                                            HttpServletRequest request) {
+        List<Tag> tags = tagService.updateTag(studyId, post.getTags(), request);
         TagResponseDto.Get response = tagMapper.tagsToTagResGetDtos(tags);
 
         return new ResponseEntity<>(

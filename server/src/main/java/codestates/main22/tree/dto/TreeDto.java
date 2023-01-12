@@ -3,6 +3,10 @@ package codestates.main22.tree.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 public class TreeDto {
@@ -24,10 +28,32 @@ public class TreeDto {
     }
 
     @Getter
+    @Setter
     @AllArgsConstructor
-    public static class Response {
+    public static class ListResonse<T> {
+        private List<T> trees;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class UserResponse {
         private long treeId;
         private int treePoint;
         private String treeImage;
+        private LocalDateTime createdAt;
+        private int makeMonth;
+        private String teamName;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class StudyResponse {
+        private long treeId;
+        private int treePoint;
+        private String treeImage;
+        private LocalDateTime createdAt;
+        private int makeMonth;
     }
 }
