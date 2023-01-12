@@ -2,6 +2,8 @@ package codestates.main22.study.controller;
 
 import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
+import codestates.main22.exception.BusinessLogicException;
+import codestates.main22.exception.ExceptionCode;
 import codestates.main22.study.dto.StudyDto;
 import codestates.main22.study.dto.StudyMainDto;
 import codestates.main22.study.dto.StudyNotificationDto;
@@ -10,6 +12,7 @@ import codestates.main22.study.entity.Study;
 import codestates.main22.study.mapper.StudyMapper;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
+import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,6 +34,7 @@ public class StudyController {
     private final StudyService studyService;
     private final StudyMapper studyMapper;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @PostMapping // 스터디 작성 'Create New Study'
     public ResponseEntity postStudy(@Valid @RequestBody StudyDto.Post requestBody,
@@ -67,8 +71,33 @@ public class StudyController {
                 new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{study-id}") //스터디 삭제
-    public ResponseEntity deleteStudy(@PathVariable("study-id") @Positive long studyId) {
+    @DeleteMapping("/{study-id}") //스터디 삭제 (방장 권한으로)
+    public ResponseEntity deleteStudy(@PathVariable("study-id") @Positive long studyId,
+                                      HttpServletRequest request) {
+        Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = userRepository.findByToken(request);
+
+        if(findStudy.getLeaderId() != loginUser.getUserId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
+
+        studyService.deleteStudy(studyId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{study-id}?userId={user-id}") //스터디 탈퇴 (멤버인 경우에만)
+    public ResponseEntity withdrawStudy(@PathVariable("study-id") @Positive long studyId,
+                                        @PathVariable("user-id") int userId,
+                                      HttpServletRequest request) {
+        Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = userRepository.findByToken(request);
+
+        if(!studyService.isMember(userId, studyId)) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER);
+        }
+
+        // TODO user-id를 변수로 받아드리고 있긴 하지만 로그인 한 유저 기준으로 봐야 하지 않을까?
+
         studyService.deleteStudy(studyId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -99,10 +128,44 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/requester") //study 신청자만 보기
-    public ResponseEntity getRequester(@PathVariable("study-id") @Positive long studyId) {
+    @PostMapping("/{study-id}/requester") // main 스터디 신청 : 버튼이 이미 활성화 되어 있다 가정
+    public ResponseEntity registerStudy(@PathVariable("study-id") @Positive long studyId,
+                                        HttpServletRequest request) {
         Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = userRepository.findByToken(request);
+
+        studyService.addRequester(findStudy,loginUser.getUserId());
+
         StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{study-id}/requester") //study 신청자만 보기
+    public ResponseEntity getRequester(@PathVariable("study-id") @Positive long studyId,
+                                       HttpServletRequest request) {
+        Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = userRepository.findByToken(request);
+
+        if(findStudy.getLeaderId() != loginUser.getUserId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
+
+        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    @GetMapping("/{study-id}/auth") // 각종 true false 변수들 넘겨주기
+    public ResponseEntity getAuth(@PathVariable("study-id") @Positive long studyId,
+                                        HttpServletRequest request) {
+        Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = userRepository.findByToken(request);
+
+        Boolean checkMember = studyService.isMember(loginUser.getUserId(), studyId);
+        Boolean checkHost = findStudy.getLeaderId() == loginUser.getUserId();
+        Boolean checkRequest = findStudy.getRequester().contains(loginUser.getUserId());
+
+        StudyMainDto.AuthResponse response =
+                studyMapper.studyToStudyAuthResponseDto(findStudy, checkMember, checkHost, checkRequest);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
@@ -133,6 +196,8 @@ public class StudyController {
     }
 
     // TODO 로직 자체는 구현되었으나 아직 신청 -> 확인 -> 실제 스터디 가입 과정이 없기 때문에 테스트 X
+    //  다시 구현해야 함 확인 결과 아예 조회 접근이 안됨 (무한 루프 예상)
+    //  유저 만들고 그 스터디를 생성하고 난 이후에 에러 발생
 //    @GetMapping("/user/{user-id}") //user-id를 사용해서 study 조회
 //    public ResponseEntity getStudyByUserId(@PathVariable("user-id") @Positive long userId) {
 //        UserEntity user = userService.findUser(userId);
@@ -140,4 +205,13 @@ public class StudyController {
 //
 //        return new ResponseEntity<>(new SingleResponseDto<>(studies), HttpStatus.OK);
 //    }
+//    @GetMapping("/user/{userId}/studies")
+//    public ResponseEntity<List<Study>> getStudiesByUser(@PathVariable("userId") long userId) {
+//        List<Study> studies = studyService.findStudiesByUser(userId);
+//        if (studies.isEmpty()) {
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//        }
+//        return new ResponseEntity<>(studies, HttpStatus.OK);
+//    }
+
 }

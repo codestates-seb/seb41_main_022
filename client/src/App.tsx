@@ -9,6 +9,7 @@ import StudyHallPage from "./pages/StudyHallPage";
 import UserPage from "./pages/UserPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -17,8 +18,9 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/*" element={<NotFound />} />
           <Route path="/create" element={<CreatePage />} />
-          <Route path="/study-hall" element={<StudyHallPage />} />
+          <Route path="/study-hall/:page" element={<StudyHallPage />} />
           <Route path="/user" element={<UserPage />} />
         </Routes>
         <Footer />
