@@ -22,6 +22,7 @@ const UserPage = () => {
   );
 };
 
+//전체
 const Main = styled.div`
   background-color: var(--green);
   height: 100vh;
@@ -30,16 +31,21 @@ const Main = styled.div`
     color: var(--green);
   }
 `;
+
+//전체박스
 const Container = styled.div`
   background-color: var(--beige-00);
   width: 1024px;
   height: 183px;
   margin: 0px auto;
+
+  //My study, Tag 등 각 title
   > .title {
     margin-left: 100px;
     padding: 20px;
     font-family: "mainEB";
   }
+  //회원탈퇴 버튼
   > .button {
     width: 105px;
     height: 10px;
@@ -58,10 +64,5 @@ const Container = styled.div`
     }
   }
 `;
-// const MyStudy = styled.div``;
-
-// const Profile = styled.div`
-//   margin-left: 135px;
-// `;
 
 export default UserPage;
