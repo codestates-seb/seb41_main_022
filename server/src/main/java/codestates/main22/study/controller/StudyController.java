@@ -133,11 +133,11 @@ public class StudyController {
     }
 
     // TODO 로직 자체는 구현되었으나 아직 신청 -> 확인 -> 실제 스터디 가입 과정이 없기 때문에 테스트 X
-    @GetMapping("/user/{user-id}") //user-id를 사용해서 study 조회
-    public ResponseEntity getStudyByUserId(@PathVariable("user-id") @Positive long userId) {
-        UserEntity user = userService.findUser(userId);
-        List<Study> studies = userService.findStudiesByUser(user);
-
-        return new ResponseEntity<>(new SingleResponseDto<>(studies), HttpStatus.OK);
-    }
+//    @GetMapping("/user/{user-id}") //user-id를 사용해서 study 조회
+//    public ResponseEntity getStudyByUserId(@PathVariable("user-id") @Positive long userId) {
+//        UserEntity user = userService.findUser(userId);
+//        List<Study> studies = userService.findStudiesByUser(user);
+//
+//        return new ResponseEntity<>(new SingleResponseDto<>(studies), HttpStatus.OK);
+//    }
 }

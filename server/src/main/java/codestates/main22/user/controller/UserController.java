@@ -41,35 +41,26 @@ public class UserController {
     }
 
     //READ - 하나 조회 필요한 정보만 조회하도록 수정됨 (유저 식별값, 닉네임, 이미지)
-    @GetMapping("/{user-id}")
-    public ResponseEntity getUser(@Positive @PathVariable("user-id") long userId) {
-        UserEntity user = userService.findUser(userId);
+    @GetMapping
+    public ResponseEntity getUser(HttpServletRequest request) {
+        UserEntity user = userService.findUser(request);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(
                         userMapper.userEntityToSearchUserReponse(user)),HttpStatus.OK);
     }
 
-    // token을 이용해서 User 조회하기
-    @GetMapping("/token")
-    public ResponseEntity getUser(HttpServletRequest request) {
-        UserEntity user = userService.findByToken(request);
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(user), HttpStatus.OK
-        );
-    }
-
-    //READ - 전체 조회
-    @GetMapping
-    public ResponseEntity getUsers(@Positive @RequestParam int page,
-                                   @Positive @RequestParam int size) {
-        Page<UserEntity> pageUsers = userService.findUsers(page - 1 , size);
-        List<UserEntity> users = pageUsers.getContent();
-
-        return new ResponseEntity(
-                new MultiResponseDto<>
-                        (userMapper.usersToResponse(users),pageUsers),HttpStatus.OK);
-    }
+//    //READ - 전체 조회 // 사용않음 + URL 중복으로 주석처리
+//    @GetMapping
+//    public ResponseEntity getUsers(@Positive @RequestParam int page,
+//                                   @Positive @RequestParam int size) {
+//        Page<UserEntity> pageUsers = userService.findUsers(page - 1 , size);
+//        List<UserEntity> users = pageUsers.getContent();
+//
+//        return new ResponseEntity(
+//                new MultiResponseDto<>
+//                        (userMapper.usersToResponse(users),pageUsers),HttpStatus.OK);
+//    }
 
     //UPDATE // 현재 전체 프로필 수정이 없으므로 URL중복(시트 기준)으로 주석처리, 나중에 전체 프로필 수정이 필요하면 URL 수정해서 사용할 예정
 //    @PatchMapping("/{user-id}")
@@ -84,26 +75,29 @@ public class UserController {
 //                        userMapper.userEntityToResponseCheck(user)),HttpStatus.OK);
 //    }
 
-    @PatchMapping("/{user-id}") //프로필 이름만 수정
-    public ResponseEntity patchUserName(@Positive @PathVariable("user-id") long userId,
-                                    @Valid @RequestBody UserDto.NamePatch namePatch) {
-        namePatch.setUserId(userId);
+    @PatchMapping //프로필 이름만 수정
+    public ResponseEntity patchUserName(HttpServletRequest request,
+                                        @Valid @RequestBody UserDto.NamePatch namePatch) {
+        UserEntity findUser = userService.findUser(request);
+        namePatch.setUserId(findUser.getUserId());
         UserEntity user = userService.updateUser(userMapper.userNamePatchDtoToUserEntity(namePatch));
         return new ResponseEntity<>(new SingleResponseDto<>(userMapper.userEntityToNameResponse(user)),HttpStatus.OK);
     }
 
     //DELETE
-    @DeleteMapping("/{user-id}")
-    public ResponseEntity deleteUser(@PathVariable("user-id") @Positive long userId) {
+    @DeleteMapping
+    public ResponseEntity deleteUser(HttpServletRequest request) {
+        UserEntity findUser = userService.findUser(request);
+        long userId = findUser.getUserId();
         userService.deleteUser(userId);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/image/{user-id}") // 헤더에 유저 이미지만 노출
-    public ResponseEntity userImage(@PathVariable("user-id") @Positive long userId) {
-        UserEntity user = userService.findUser(userId);
-        return new ResponseEntity<>(new SingleResponseDto<>(userMapper.userEntityToImageResponseCheck(user)),HttpStatus.OK);
+    @GetMapping("/image") // 헤더에 유저 이미지만 노출
+    public ResponseEntity userImage(HttpServletRequest request) {
+        UserEntity findUser = userService.findUser(request);
+        return new ResponseEntity<>(new SingleResponseDto<>(userMapper.userEntityToImageResponseCheck(findUser)),HttpStatus.OK);
     }
 
     @GetMapping("/study") //해당 스터디 구성원만 모아서 보기
