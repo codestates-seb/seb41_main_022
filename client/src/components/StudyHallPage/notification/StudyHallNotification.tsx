@@ -1,45 +1,43 @@
 import styled from "styled-components";
 import StudyHallNotificationSidebar from "./StudyHallNotificationSidebar";
 import { useForm } from "react-hook-form";
-import {
-  IoIosArrowBack,
-  IoIosArrowForward,
-  IoIosCheckmarkCircle,
-} from "react-icons/io";
+import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import MyCalendar from "./MyCalendar";
+import DemoApp from "../../Calendar/DemoApp";
+import { useEffect, useState } from "react";
 
 const StudyHallNotification = () => {
   const { register, handleSubmit } = useForm();
   return (
-    <NotificationWrapper>
-      <div className="padding" />
-      <div>
-        <StudyHallNotificationSidebar />
-        <div className="title">Notification</div>
-        <NotificationCreate>
-          <InputBorderForm
-            className="inputBorder"
-            onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
-          >
-            <input
-              className="input"
-              id="notification"
-              type="text"
-              placeholder="공지사항..."
-              {...register("notification")}
-            />
-            <SubmitButton type="submit">
-              <IoIosCheckmarkCircleOutline className="outline" />
-              <IoIosCheckmarkCircle className="inline" />
-            </SubmitButton>
-          </InputBorderForm>
-        </NotificationCreate>
-        <CalendarWrapper>
-          <MyCalendar />
-        </CalendarWrapper>
-      </div>
-    </NotificationWrapper>
+    <>
+      <NotificationWrapper>
+        <div className="padding" />
+        <div>
+          <StudyHallNotificationSidebar />
+          <div className="title">Notification</div>
+          <NotificationCreate>
+            <InputBorderForm
+              className="inputBorder"
+              onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
+            >
+              <input
+                className="input"
+                id="notification"
+                type="text"
+                placeholder="공지사항..."
+                {...register("notification")}
+              />
+              <SubmitButton type="submit">
+                <IoIosCheckmarkCircleOutline className="outline" />
+                <IoIosCheckmarkCircle className="inline" />
+              </SubmitButton>
+            </InputBorderForm>
+          </NotificationCreate>
+          <CalendarWrapper></CalendarWrapper>
+        </div>
+        <DemoApp />
+      </NotificationWrapper>
+    </>
   );
 };
 export default StudyHallNotification;
@@ -58,6 +56,12 @@ const NotificationWrapper = styled.main`
   .title {
     color: var(--green);
     font-size: 24px;
+  }
+  .sc-jIRcFI,
+  .fvPoww,
+  .demo-app {
+    width: 600px;
+    margin: 0 auto;
   }
 `;
 const NotificationCreate = styled.div`

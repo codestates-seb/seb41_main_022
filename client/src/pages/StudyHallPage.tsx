@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import StudyHallHead from "../components/StudyHallPage/StudyHallHead";
 import StudyHallTopNav from "../components/StudyHallPage/StudyHallTopNav";
-import StudyHallNotification from "../components/StudyHallPage/StudyHallNotification";
+import StudyHallNotification from "../components/StudyHallPage/notification/StudyHallNotification";
 import Community from "../components/StudyHallPage/community/Community";
 import StudyHallMain from "../components/StudyHallPage/StudyHallMain";
 
