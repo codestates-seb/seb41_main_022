@@ -12,7 +12,8 @@ public enum ExceptionCode {
     CHAT_NOT_FOUND(404, "Chat not found"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
     UNREGISTERED_USER(500, "You are an unregistered user"),
-    NOT_AN_ADMINISTRATOR(500, "you are not an administrator");
+    NOT_AN_ADMINISTRATOR(500, "you are not an administrator"),
+    NO_AUTHORITY(404, "No Authority. Only Access Study leader");
 
     @Getter
     private int status;

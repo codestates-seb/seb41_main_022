@@ -10,11 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/v1/tree")
+@RequestMapping("/tree")
 @Validated
 public class TreeController {
     private final TreeService treeService;
@@ -25,11 +28,27 @@ public class TreeController {
         this.treeMapper = treeMapper;
     }
 
+    // user의 Tree 조회
+    @GetMapping("/user")
+    public ResponseEntity getTreeByUserId(HttpServletRequest request) {
+        List<Object> treesAndTeamNames = treeService.findTreeByUserId(request);
+        List<TreeDto.UserResponse> response = treeMapper.treesToTreeUserResponseDto(treesAndTeamNames);
+        return new ResponseEntity<>(new SingleResponseDto<>(new TreeDto.ListResonse<>(response)), HttpStatus.OK);
+    }
+
+    // user의 Tree 조회
+    @GetMapping
+    public ResponseEntity getTreeByStudyId(@Positive @RequestParam long studyId) {
+        List<Tree> trees = treeService.findTreeByStudyId(studyId);
+        List<TreeDto.StudyResponse> response = treeMapper.treesToTreeStudyResponseDto(trees);
+        return new ResponseEntity<>(new SingleResponseDto<>(new TreeDto.ListResonse<>(response)), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity postTree(@Valid @RequestBody TreeDto.Post requestBody) {
         Tree tree = treeMapper.treePostDtoToTree(requestBody);
         Tree createTree = treeService.createTree(tree);
-        TreeDto.Response response = treeMapper.treeToTreeResponseDto(createTree);
+        TreeDto.UserResponse response = treeMapper.treeToTreeResponseDto(createTree);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
@@ -38,14 +57,7 @@ public class TreeController {
                                     @Valid @RequestBody TreeDto.Patch requestBody) {
         requestBody.setTreeId(treeId);
         Tree updateTree = treeService.updateTree(treeMapper.treePatchDtoToTree(requestBody));
-        TreeDto.Response response =treeMapper.treeToTreeResponseDto(updateTree);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
-    }
-
-    @GetMapping("/{tree-id}")
-    public ResponseEntity getTree(@PathVariable("tree-id") @Positive long treeId) {
-        Tree findTree = treeService.findTree(treeId);
-        TreeDto.Response response = treeMapper.treeToTreeResponseDto(findTree);
+        TreeDto.UserResponse response =treeMapper.treeToTreeResponseDto(updateTree);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 

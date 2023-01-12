@@ -1,5 +1,6 @@
 package codestates.main22.tree.entity;
 
+import codestates.main22.auditable.Auditable;
 import codestates.main22.study.entity.Study;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,15 +12,29 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Tree {
+//@Entity(name = "TREETABLE")
+public class Tree extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long treeId;
-    private int treePoint;
+
+    @Column
+    private int treePoint = 0;
+
+    @Column
     private String treeImage;
 
-    // 연관관계 매핑 - 한 study 에 한 개의 tree
-    @OneToOne
+    @Column
+    private int makeMonth;
+
+    // 연관관계 매핑 - 한 study 에 여러 개의 tree
+    @ManyToOne
     @JoinColumn(name = "STUDY_ID")
     private Study study;
+
+    public void setStudy(Study study) {
+        this.study = study;
+        if(!this.study.getTrees().contains(this))
+            this.study.getTrees().add(this);
+    }
 }

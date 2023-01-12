@@ -8,6 +8,7 @@ import CreatePage from "./pages/CreatePage";
 import StudyHallPage from "./pages/StudyHallPage";
 import UserPage from "./pages/UserPage";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/study-hall" element={<StudyHallPage />} />
           <Route path="/user" element={<UserPage />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );
