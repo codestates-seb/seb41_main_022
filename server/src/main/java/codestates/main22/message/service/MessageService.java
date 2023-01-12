@@ -39,7 +39,8 @@ public class MessageService {
     @Transactional
     public Message createMessage(long studyId, Message message, HttpServletRequest request) {
         // 유저가 스터디에 USER 권한이 있는지 찾고 없으면 exception 발생
-        UserEntity user = userRepository.findByToken(request);
+        UserEntity user = userRepository.findByToken(request); // 토큰으로 유저 찾기
+        message.setUserName(user.getUsername()); // 유저 이름 set
         String admin = "STUDY" + studyId + "_ADMIN"; // 관리자인지 확인
         String user1 = "STUDY" + studyId + "_USER"; // 가입된 유저인지 확인
         if(!(user.getRole().contains(admin) || user.getRole().contains(user1))) {new BusinessLogicException(ExceptionCode.UNREGISTERED_USER);} //스터디원만 허용

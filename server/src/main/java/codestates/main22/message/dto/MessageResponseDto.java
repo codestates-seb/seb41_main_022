@@ -12,5 +12,6 @@ public class MessageResponseDto {
     public static class Post {
         public String content;
         public LocalDateTime dateTime;
+        public String userName;
     }
 }
