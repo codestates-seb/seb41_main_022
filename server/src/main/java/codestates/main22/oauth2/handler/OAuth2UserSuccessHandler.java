@@ -37,17 +37,20 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
+
+        // email로 가입된 사람이 없는경우
+//        if()
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String name = String.valueOf(oAuth2User.getAttributes().get("name"));
         String imgUrl = String.valueOf(oAuth2User.getAttributes().get("picture"));
         List<String> authorities = authorityUtils.createRoles(email);
+        UserEntity user = saveUser(email, name, imgUrl);
 
         // 콘솔 출력 코드
 //        oAuth2User.getAttributes().forEach((s, o) -> System.out.println("!! " + s + " : " + String.valueOf(o)));
 //        oAuth2User.getAuthorities().stream().forEach(grantedAuthority -> System.out.println("!! granted : " + grantedAuthority.getAuthority()));
 //        System.out.println("!! url : " + request.getRequestURI());
 
-        UserEntity user = saveUser(email, name, imgUrl);
         redirect(request, response, user, authorities);
     }
 
