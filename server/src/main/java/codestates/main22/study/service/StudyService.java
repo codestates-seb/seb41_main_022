@@ -18,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudyService {
@@ -41,6 +43,7 @@ public class StudyService {
     @Transactional
     public Study createStudy(Study study, HttpServletRequest request) {
         studyRepository.save(study);
+        
         // 토큰값으로 스터디장에게 권한 부여
         UserEntity user = userRepository.findByToken(request);
         user.getRole().add(customAuthorityUtils.createStudyRoles(study.getStudyId(), true));
@@ -52,13 +55,23 @@ public class StudyService {
         UserStudyEntity userStudyEntity = new UserStudyEntity();
         userStudyEntity.setUser(user);
         userStudyEntity.setStudy(study);
-
+        
         // tree 생성하기
         Tree tree = new Tree();
         tree.setTreeImage("https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FpjywQ%2FbtrVZVh0ers%2Fe9JHXVkvDOnVrkcf8pvpik%2Fimg.png");
         tree.setMakeMonth(LocalDate.now().getMonthValue());
         tree.setStudy(study);
+        
+        return study;
+    }
 
+    public Study joinStudy(Study study, UserEntity user) {  // 방장이 가입 수락 버튼을 눌렀을 때
+        // user 와 연관관계 생성
+        UserStudyEntity userStudyEntity = new UserStudyEntity();
+        userStudyEntity.setUser(user);
+        userStudyEntity.setStudy(study);
+
+        studyRepository.save(study);
         return study;
     }
 
@@ -112,4 +125,31 @@ public class StudyService {
         study.setContent(changedStudy.getContent());
         return studyRepository.save(study);
     }
+
+    public boolean isMember(long userId, long studyId){
+        Study findStudy = findStudy(studyId);
+        List<UserStudyEntity> userStudies = findStudy.getUserStudies();
+        return userStudies.stream().anyMatch(userStudy -> userStudy.getUser().getUserId() == userId);
+    }
+
+    public void addRequester(Study study, Long userId) {
+        study.getRequester().add(userId);
+        studyRepository.save(study);
+    }
+
+//    public List<Study> findStudiesByUser(long userId) {
+//        List<Study> studies = studyRepository.findAll();
+//        return studies.stream()
+//                .filter(study -> isUserInStudy(userId, study.getStudyId()))
+//                .collect(Collectors.toList());
+//    }
+//
+//    public boolean isUserInStudy(long userId, long studyId) {
+//        Study findStudy = findStudy(studyId);
+//        List<UserStudyEntity> userStudies = findStudy.getUserStudies();
+//        return userStudies.stream()
+//                .anyMatch(userStudy -> userStudy.getUser().getUserId() == userId);
+//    }
+
+
 }
