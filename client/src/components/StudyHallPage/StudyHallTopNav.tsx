@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import StudyHallRightNav from "./StudyHallRightNav";
+import StudyHallRightNav from "./notification/StudyHallRightNav";
 
 const StudyHallTopNav = () => {
   return (

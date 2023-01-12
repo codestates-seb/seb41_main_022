@@ -1,0 +1,87 @@
+
+html,
+body,
+body > div { /* the react root */
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+ul {
+    margin: 0;
+    padding: 0 0 0 1.5em;
+}
+
+li {
+    margin: 1.5em 0;
+    padding: 0;
+}
+
+b { /* used for event dates/times */
+    margin-right: 3px;
+}
+
+.demo-app {
+    margin-top: 200px;
+    width: 600px;
+    display: flex;
+    min-height: 100%;
+    font-family: 'mainb', sans-serif;
+    font-size: 14px;
+}
+.demo-app-sidebar-section {
+    padding: 2em;
+}
+
+.demo-app-main {
+    flex-grow: 1;
+    margin: 3em 0;
+}
+.fc-media-screen{
+    width: 600px;
+}
+
+.fc { /* the calendar root */
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.fc-scrollgrid-sync-table{
+    width: 600px;
+}
+/* 일요일 날짜 빨간색 */
+.fc-day-sun a {
+    color: var(--red-10);
+    text-decoration: none;
+}
+.fc-day-sun a:hover{
+    color: #CC1B0E;
+}
+/* 토요일 날짜 파란색 */
+.fc-day-sat a {
+    color: #01502D;
+    text-decoration: none;
+}
+.fc-day-sat a:hover{
+    color: #018047;
+}
+/* headerToolbar 수정 */
+.fc-toolbar-chunk {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fc-toolbar-chunk > .fc-button, .fc-toolbar-title{
+    padding: 0;
+    margin: 0;
+}
+
+.fc-next-button, .fc-button.fc-button-primary{
+    padding:2px;
+    background-color: var(--mopo-00);
+    border-style: none;
+}
