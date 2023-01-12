@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import TodoData from "../../util/dummyDataTodo";
+import TodoData from "../../../util/dummyDataTodo";
 //화면에 오늘 할일 리스트로 표시
 const StudyHallNotificationSidebarList = () => {
   return (
