@@ -26,8 +26,7 @@ const Chatwrapper = styled.div`
   max-width: 270px;
   display: flex;
   align-items: flex-start;
-  font-family: "mainM";
-  font-size: 14px;
+  font-size: 12px;
   color: var(--beige-00);
   padding: 8px;
   line-height: 16px;
@@ -42,8 +41,14 @@ const Chatwrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
+  * {
+    font-family: "mainL";
+  }
   display: flex;
   flex-direction: column;
+  > .name {
+    font-size: 10px;
+  }
 `;
 
 export default Chat;

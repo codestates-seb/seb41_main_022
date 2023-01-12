@@ -35,7 +35,7 @@ const CommunityWrapper = styled.main`
   }
   .title {
     color: var(--green);
-    font-size: 24px;
+    font-size: 30px;
   }
 `;
 
