@@ -41,7 +41,7 @@ const Chatwrapper = styled.div`
 `;
 
 const TextWrapper = styled.div`
-  * {
+  .content {
     font-family: "mainL";
   }
   display: flex;

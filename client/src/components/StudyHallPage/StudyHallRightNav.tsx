@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import WeekBar from "../../WeekBar";
+import WeekBar from "../WeekBar";
 import { FaCaretRight } from "react-icons/fa";
 import { VscBellDot } from "react-icons/vsc";
 //반드시 detail component(main, community, calendar, setting)를 부모로 받아야 합니다

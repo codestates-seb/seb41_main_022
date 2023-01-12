@@ -1,14 +1,23 @@
 import styled from "styled-components";
-import StudyHallRightNav from "./notification/StudyHallRightNav";
+
+import { useNavigate } from "react-router-dom";
+
+import StudyHallRightNav from "./StudyHallRightNav";
 
 const StudyHallTopNav = () => {
+  const navigate = useNavigate();
+
+  const navigateStudyHall = (page: string) => {
+    navigate(`/study-hall/${page}`);
+  };
+
   return (
     <TopNavWrapper>
       <Nav>
-        <div>Main</div>
-        <div>Community</div>
-        <div>Calendar</div>
-        <div>Setting</div>
+        <div onClick={() => navigateStudyHall("main")}>Main</div>
+        <div onClick={() => navigateStudyHall("community")}>Community</div>
+        <div onClick={() => navigateStudyHall("calendar")}>Calendar</div>
+        <div onClick={() => navigateStudyHall("setting")}>Setting</div>
       </Nav>
       <StudyHallRightNav />
     </TopNavWrapper>
