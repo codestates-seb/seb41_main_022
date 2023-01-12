@@ -27,6 +27,9 @@ public class Message extends Auditable {
     @Column(nullable = false)
     public long userId;
 
+    @Column
+    public String userName;
+
 
 
     // 연관관계 매핑 - 한 study 에 여러개의 message

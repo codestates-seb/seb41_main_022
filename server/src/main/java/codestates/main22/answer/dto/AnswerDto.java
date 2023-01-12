@@ -33,8 +33,6 @@ public class AnswerDto {
     @Setter
     @AllArgsConstructor
     public static class Response {
-        private long answerId;
-        private long answerUserId;
         private String content;
 
         private Boolean isClosedChat; // 단일로만 사용했을때 postman 오류가 나서 임시로 넣음

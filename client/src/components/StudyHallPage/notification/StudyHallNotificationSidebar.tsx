@@ -1,35 +1,25 @@
 import styled from "styled-components";
-import WeekBar from "../WeekBar";
-import { FaCaretRight } from "react-icons/fa";
-import { VscBellDot } from "react-icons/vsc";
-//반드시 detail component(main, community, calendar, setting)를 부모로 받아야 합니다
-const StudyHallRightNav = () => {
+import StudyHallNotificationSidebarList from "./StudyHallNotificationSidebarList";
+
+//좌측 사이드 바로 할일 을 보여줌
+const StudyHallNotificationSidebar = () => {
   return (
-    <Margin20>
-      <WeekBar />
+    <Margin25>
       <Notice>
         <div className="wrapper">
-          <div>
-            <VscBellDot />
-          </div>
-          <div>공지사항</div>
-          <TopNavHover>
-            <FaCaretRight />
-          </TopNavHover>
+          <StudyHallNotificationSidebarList />
         </div>
       </Notice>
-    </Margin20>
+    </Margin25>
   );
 };
-export default StudyHallRightNav;
-// content의 width와 nav width의 합에 25px만큼 마진
-// top은 20만큼 마진
-const Margin20 = styled.main`
-  margin-top: 122px;
+export default StudyHallNotificationSidebar;
+const Margin25 = styled.main`
   position: absolute;
-  margin-left: 685px;
+  margin-left: -225px;
+  margin-top: -20px;
   * {
-    font-family: "mainM", Arial;
+    font-family: "mainB", Arial;
     font-size: 12px;
   }
 `;

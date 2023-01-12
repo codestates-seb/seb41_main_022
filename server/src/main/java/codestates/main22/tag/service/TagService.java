@@ -9,6 +9,7 @@ import codestates.main22.tag.entity.TagStudy;
 import codestates.main22.tag.repository.TagRepository;
 import codestates.main22.tag.repository.TagStudyRepository;
 import codestates.main22.user.entity.UserEntity;
+import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,7 +17,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -24,15 +27,18 @@ public class TagService {
     private final TagRepository tagRepository;
     private final TagStudyRepository tagStudyRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
     private final StudyService studyService;
 
     public TagService(TagRepository tagRepository,
                       TagStudyRepository tagStudyRepository,
                       UserService userService,
+                      UserRepository userRepository,
                       StudyService studyService) {
         this.tagRepository = tagRepository;
         this.tagStudyRepository = tagStudyRepository;
         this.userService = userService;
+        this.userRepository = userRepository;
         this.studyService = studyService;
     }
 
@@ -57,7 +63,12 @@ public class TagService {
     }
 
     // 태그 수정 By Study-Id
-    public List<Tag> updateTag(long studyId, List<String> names) {
+    public List<Tag> updateTag(long studyId, List<String> names, HttpServletRequest request) {
+        // 스터디장 권한이 있는지 확인
+        UserEntity user = userRepository.findByToken(request);
+        if(!user.getRole().contains("STUDY" + studyId + "_ADMIN")) // 권한이 없으면 에러 발생
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+
         Study study = studyService.findStudy(studyId);
 
         List<Tag> before = findTagsByStudyId(studyId);
@@ -112,8 +123,8 @@ public class TagService {
     }
 
     // 태그 조회 by userId
-    public List<Tag> findTagsByUserId(long userId) {
-        UserEntity user = userService.findUser(userId);
+    public List<Tag> findTagsByUserId(HttpServletRequest request) {
+        UserEntity user = userRepository.findByToken(request);
         Set<Tag> tags = new HashSet<>();
         user.getUserStudies().stream().forEach(
                 userStudyEntity -> {
@@ -125,7 +136,11 @@ public class TagService {
                 }
         );
 
-        return (List<Tag>) tags;
+        List<Tag> tagList = tags.stream()
+                .map(tag -> tag)
+                .collect(Collectors.toList());
+
+        return tagList;
     }
 
     // 태그 조회 by studyId

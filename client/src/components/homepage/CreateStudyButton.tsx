@@ -69,6 +69,7 @@ const RedButton = styled.button`
   border-radius: var(--radius-30);
   font-family: "mainL", Arial;
   font-size: 22px;
+  border: none;
   :hover {
     background-color: var(--red-10);
     cursor: pointer;

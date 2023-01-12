@@ -8,6 +8,7 @@ import CreatePage from "./pages/CreatePage";
 import StudyHallPage from "./pages/StudyHallPage";
 import UserPage from "./pages/UserPage";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   return (
@@ -17,9 +18,10 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/create" element={<CreatePage />} />
-          <Route path="/study-hall" element={<StudyHallPage />} />
+          <Route path="/study-hall/:page" element={<StudyHallPage />} />
           <Route path="/user" element={<UserPage />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );

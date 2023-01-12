@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -30,8 +31,9 @@ public class AnswerController {
     //CREATE
     @PostMapping("/{chat-id}")
     public ResponseEntity postAnswer(@Positive @PathVariable("chat-id") long chatId,
-                                     @Valid @RequestBody AnswerDto.Post post) {
-        AnswerEntity answer = answerService.createAnswer(chatId, answerMapper.answerPostDtoToAnswerEntity(post));
+                                     @Valid @RequestBody AnswerDto.Post post,
+                                     HttpServletRequest request) {
+        AnswerEntity answer = answerService.createAnswer(chatId, answerMapper.answerPostDtoToAnswerEntity(post), request);
 
         AnswerDto.Response responseDto = answerMapper.answerEntityToResponseCheck(answer);
         SingleResponseDto<AnswerDto.Response> response = new SingleResponseDto<>(responseDto);
