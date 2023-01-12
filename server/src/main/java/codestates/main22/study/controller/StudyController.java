@@ -4,10 +4,7 @@ import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
-import codestates.main22.study.dto.StudyDto;
-import codestates.main22.study.dto.StudyMainDto;
-import codestates.main22.study.dto.StudyNotificationDto;
-import codestates.main22.study.dto.StudyRequesterDto;
+import codestates.main22.study.dto.*;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.mapper.StudyMapper;
 import codestates.main22.study.service.StudyService;
@@ -195,23 +192,15 @@ public class StudyController {
                         studyMapper.studyToStudyMainResponseDto(study)),HttpStatus.OK);
     }
 
-    // TODO 로직 자체는 구현되었으나 아직 신청 -> 확인 -> 실제 스터디 가입 과정이 없기 때문에 테스트 X
-    //  다시 구현해야 함 확인 결과 아예 조회 접근이 안됨 (무한 루프 예상)
-    //  유저 만들고 그 스터디를 생성하고 난 이후에 에러 발생
-//    @GetMapping("/user/{user-id}") //user-id를 사용해서 study 조회
-//    public ResponseEntity getStudyByUserId(@PathVariable("user-id") @Positive long userId) {
-//        UserEntity user = userService.findUser(userId);
-//        List<Study> studies = userService.findStudiesByUser(user);
-//
-//        return new ResponseEntity<>(new SingleResponseDto<>(studies), HttpStatus.OK);
-//    }
-//    @GetMapping("/user/{userId}/studies")
-//    public ResponseEntity<List<Study>> getStudiesByUser(@PathVariable("userId") long userId) {
-//        List<Study> studies = studyService.findStudiesByUser(userId);
-//        if (studies.isEmpty()) {
-//            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//        }
-//        return new ResponseEntity<>(studies, HttpStatus.OK);
-//    }
+    // user의 study 조회
+    @GetMapping("/user")
+    public ResponseEntity getStudiesByUser(HttpServletRequest request) {
+        List<Study> studies = studyService.findStudiesByUser(request);
+        List<StudyUserDto.Studys> response = studyMapper.studiesToStudyUserDto(studies);
 
+        return new ResponseEntity<>(
+                new SingleResponseDto(new StudyUserDto.Response(response.size(), response)),
+                HttpStatus.OK
+        );
+    }
 }
