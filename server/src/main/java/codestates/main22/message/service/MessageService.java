@@ -1,5 +1,6 @@
 package codestates.main22.message.service;
 
+import codestates.main22.chat.entity.Chat;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.message.entity.Message;
@@ -17,9 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 //@Transactional
 @Service
@@ -45,6 +44,7 @@ public class MessageService {
     public Message createMessage(long studyId, Message message, HttpServletRequest request) {
         // 유저가 스터디에 USER 권한이 있는지 찾고 없으면 exception 발생
         UserEntity user = userRepository.findByToken(request); // 토큰으로 유저 찾기
+        message.setMessageUserId(user.getUserId());
         message.setUserName(user.getUsername()); // 유저 이름 set
         String admin = "STUDY" + studyId + "_ADMIN"; // 관리자인지 확인
         String user1 = "STUDY" + studyId + "_USER"; // 가입된 유저인지 확인
@@ -64,8 +64,8 @@ public class MessageService {
                 .ifPresent(content -> findMessage.setContent(content));
         Optional.ofNullable(message.getDateTime())
                 .ifPresent(localDateTime -> findMessage.setDateTime(localDateTime));
-        Optional.ofNullable(message.getUserId())
-                .ifPresent(userId -> findMessage.setUserId(userId));
+        Optional.ofNullable(message.getMessageUserId())
+                .ifPresent(userId -> findMessage.setMessageUserId(userId));
 
         return messageRepository.save(findMessage);
     }
@@ -103,17 +103,23 @@ public class MessageService {
         return messageRepository.findByStudy(findStudy);
     }
 
-    //유저 기준으로 messaage 조회
-    public List<Object> findMessageByUserId(HttpServletRequest request) {
-        UserEntity user = userRepository.findByToken(request);
-        List<Study> studies = studyRepository.findByUserStudiesUser(user);
+    public UserEntity findUserByToken(HttpServletRequest request) {
+        return userRepository.findByToken(request);}
 
-        List<Object> messagesAndUser = new ArrayList<>();
-        studies.stream().forEach(study -> study.getMessages().stream().forEach(message -> {
-            messagesAndUser.add(message);
-            messagesAndUser.add(user.getUsername());
-            messagesAndUser.add(user.getImgUrl());
-        }));
-        return messagesAndUser;
+
+    public List<Message> findByStudyMessage(long studyId) {
+        Study study = studyService.findStudy(studyId);
+        List<Message> studyMessage = messageRepository.findByStudy(study);
+        return studyMessage;
     }
+    public Map<Long, UserEntity> findUsers(List<Message> messages) {
+        Map<Long, UserEntity> users = new HashMap<>();
+
+        for (Message message : messages) {
+            UserEntity user = userRepository.findById(message.getMessageUserId()).get();
+            if (!users.containsKey(message.getMessageUserId())) users.put(message.getMessageUserId(), user);
+        }
+        return users;
+    }
+
 }

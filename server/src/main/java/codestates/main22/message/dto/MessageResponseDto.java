@@ -20,6 +20,7 @@ public class MessageResponseDto {
     public static class UserResponse {
         public String content;
         public LocalDateTime dateTime;
+        public long messageUserId;
         public String username;
         private String imgUrl;
     }
