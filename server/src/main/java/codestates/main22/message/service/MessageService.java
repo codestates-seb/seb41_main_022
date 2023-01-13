@@ -6,6 +6,7 @@ import codestates.main22.message.entity.Message;
 import codestates.main22.message.repository.MessageRepository;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
+import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,13 +28,16 @@ public class MessageService {
     private StudyService studyService;
     private final UserRepository userRepository;
     private final CustomAuthorityUtils customAuthorityUtils;
+    private final StudyRepository studyRepository;
 
     public MessageService(MessageRepository messageRepository, StudyService studyService,
-                          UserRepository userRepository, CustomAuthorityUtils customAuthorityUtils) {
+                          UserRepository userRepository, CustomAuthorityUtils customAuthorityUtils,
+                          StudyRepository studyRepository) {
         this.messageRepository = messageRepository;
         this.studyService = studyService;
         this.userRepository = userRepository;
         this.customAuthorityUtils = customAuthorityUtils;
+        this.studyRepository = studyRepository;
     }
 
     // 메세지 생성
@@ -96,5 +101,19 @@ public class MessageService {
     public List<Message> findByStudy(long studyId) {
         Study findStudy = studyService.VerifiedStudy(studyId);
         return messageRepository.findByStudy(findStudy);
+    }
+
+    //유저 기준으로 messaage 조회
+    public List<Object> findMessageByUserId(HttpServletRequest request) {
+        UserEntity user = userRepository.findByToken(request);
+        List<Study> studies = studyRepository.findByUserStudiesUser(user);
+
+        List<Object> messagesAndUser = new ArrayList<>();
+        studies.stream().forEach(study -> study.getMessages().stream().forEach(message -> {
+            messagesAndUser.add(message);
+            messagesAndUser.add(user.getUsername());
+            messagesAndUser.add(user.getImgUrl());
+        }));
+        return messagesAndUser;
     }
 }
