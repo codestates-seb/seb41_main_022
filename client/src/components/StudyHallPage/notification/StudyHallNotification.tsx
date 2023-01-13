@@ -3,8 +3,7 @@ import StudyHallNotificationSidebar from "./StudyHallNotificationSidebar";
 import { useForm } from "react-hook-form";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import DemoApp from "../../Calendar/DemoApp";
-import { useEffect, useState } from "react";
+import DemoApp from "./Calendar/DemoApp";
 
 const StudyHallNotification = () => {
   const { register, handleSubmit } = useForm();
