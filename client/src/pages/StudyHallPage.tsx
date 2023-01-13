@@ -10,7 +10,7 @@ import StudyHallMain from "../components/StudyHallPage/StudyHallMain";
 
 const StudyHallPage = () => {
   const { page } = useParams();
-  console.log(page);
+
   return (
     <div>
       <StudyHallHead />
