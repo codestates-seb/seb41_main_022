@@ -1,7 +1,7 @@
 package codestates.main22.study.entity;
 
 import codestates.main22.calendar.entity.Calendar;
-import codestates.main22.chat.entity.ChatEntity;
+import codestates.main22.chat.entity.Chat;
 import codestates.main22.message.entity.Message;
 import codestates.main22.tag.entity.TagStudy;
 import codestates.main22.tree.entity.Tree;
@@ -89,7 +89,7 @@ public class Study {
 
     // 연관관계 매핑 - 한 study 에 여러개의 chat
     @OneToMany(mappedBy = "study", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<ChatEntity> chats = new ArrayList<>();
+    private List<Chat> chats = new ArrayList<>();
 
     public void deleteTagStudy(TagStudy tagStudy) {
         this.tagStudies.remove(tagStudy);

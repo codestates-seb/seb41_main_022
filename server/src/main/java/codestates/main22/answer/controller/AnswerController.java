@@ -1,11 +1,12 @@
 package codestates.main22.answer.controller;
 
 import codestates.main22.answer.dto.AnswerDto;
-import codestates.main22.answer.entity.AnswerEntity;
+import codestates.main22.answer.entity.Answer;
 import codestates.main22.answer.mapper.AnswerMapper;
 import codestates.main22.answer.service.AnswerService;
 import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
+import codestates.main22.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,35 +29,36 @@ public class AnswerController {
 
     //CRUD 순서에 맞춰서
 
-    //CREATE
+    // studyHall/main 댓글 작성(아래)
     @PostMapping("/{chat-id}")
     public ResponseEntity postAnswer(@Positive @PathVariable("chat-id") long chatId,
                                      @Valid @RequestBody AnswerDto.Post post,
                                      HttpServletRequest request) {
-        AnswerEntity answer = answerService.createAnswer(chatId, answerMapper.answerPostDtoToAnswerEntity(post), request);
+        UserEntity user = answerService.findUserByToken(request);
+        Answer answer = answerService.createAnswer(chatId, answerMapper.answerPostDtoToAnswer(post), user);
 
-        AnswerDto.Response responseDto = answerMapper.answerEntityToResponseCheck(answer);
-        SingleResponseDto<AnswerDto.Response> response = new SingleResponseDto<>(responseDto);
+        AnswerDto.Response response = answerMapper.answerToResponseCheck(answer, user);
+        response.setAnswerCreatedAt(answer.getCreatedAt());
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(new SingleResponseDto(response), HttpStatus.CREATED);
     }
 
     //READ - 하나 조회
-    @GetMapping("/{answer-id}")
-    public ResponseEntity getAnswer(@Positive @PathVariable("answer-id") long answerId) {
-        AnswerEntity answer = answerService.findAnswer(answerId);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(
-                        answerMapper.answerEntityToResponseCheck(answer)),HttpStatus.OK);
-    }
+//    @GetMapping("/{answer-id}")
+//    public ResponseEntity getAnswer(@Positive @PathVariable("answer-id") long answerId) {
+//        Answer answer = answerService.findAnswer(answerId);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(
+//                        answerMapper.answerToResponseCheck(answer)),HttpStatus.OK);
+//    }
 
     //READ - 전체 조회
     @GetMapping
     public ResponseEntity getAnswers(@Positive @RequestParam int page,
                                      @Positive @RequestParam int size) {
-        Page<AnswerEntity> pageAnswers = answerService.findAnswers(page - 1 , size);
-        List<AnswerEntity> answers = pageAnswers.getContent();
+        Page<Answer> pageAnswers = answerService.findAnswers(page - 1 , size);
+        List<Answer> answers = pageAnswers.getContent();
 
         return new ResponseEntity(
                 new MultiResponseDto<>(
@@ -64,16 +66,15 @@ public class AnswerController {
     }
 
     //UPDATE
-    @PatchMapping("/{answer-id}")
-    public ResponseEntity patchAnswer(@Positive @PathVariable("answer-id") long answerId,
-                                      @Valid @RequestBody AnswerDto.Patch patch) {
-        AnswerEntity answer = answerService.updateAnswer(
-                answerId, answerMapper.answerPatchDtoToAnswerEntity(patch));
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(
-                        answerMapper.answerEntityToResponseCheck(answer)),HttpStatus.OK);
-    }
+//    @PatchMapping("/{answer-id}")
+//    public ResponseEntity patchAnswer(@Positive @PathVariable("answer-id") long answerId,
+//                                      @Valid @RequestBody AnswerDto.Patch patch) {
+//        Answer answer = answerService.updateAnswer(answerId, answerMapper.answerPatchDtoToAnswer(patch));
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(
+//                        answerMapper.answerToResponseCheck(answer)),HttpStatus.OK);
+//    }
 
     //DELETE
     @DeleteMapping("/{answer-id}")

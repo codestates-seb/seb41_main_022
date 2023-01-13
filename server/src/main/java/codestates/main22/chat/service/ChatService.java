@@ -1,55 +1,151 @@
 package codestates.main22.chat.service;
 
-import codestates.main22.chat.entity.ChatEntity;
+import codestates.main22.chat.entity.Chat;
 import codestates.main22.chat.repository.ChatRepository;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
-import codestates.main22.message.entity.Message;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
-import lombok.AllArgsConstructor;
+import codestates.main22.user.repository.UserRepository;
+import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
 public class ChatService {
     private ChatRepository chatRepository;
     private StudyService studyService;
 
+    private UserRepository userRepository;
+
+    String secretChatUserImgUrl = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F0Pfd6%2FbtrVZWBVjpY%2FBkJIKgG8Fbj1hqEnjqK1r1%2Fimg.png";
+    String SecretChatUserName = "Secret";
+
+    public ChatService(ChatRepository chatRepository, StudyService studyService, UserRepository userRepository) {
+        this.chatRepository = chatRepository;
+        this.studyService = studyService;
+        this.userRepository = userRepository;
+    }
+
     //CRUD 순서에 맞춰서
 
     //CREATE
-    public ChatEntity createChat(long studyId, ChatEntity chat) {
+    @Transactional
+    public Chat createChat(long studyId, Chat chat, UserEntity user) {
         Study findStudy = studyService.findStudy(studyId);
+        chat.setChatUserId(user.getUserId());
         chat.setStudy(findStudy);
+
         return chatRepository.save(chat);
+    }
+
+
+    // 토큰값으로 user 조회
+    public UserEntity findUserByToken(HttpServletRequest request) {
+        return userRepository.findByToken(request);
+    }
+
+    // Study 별 Chat 조회
+    public Page<Chat> findByStudy(long studyId, int page, int size) {
+        Study findStudy = studyService.VerifiedStudy(studyId);
+        return chatRepository.findByStudy(findStudy, PageRequest.of(page, size, Sort.by("chatId").descending()));
+    }
+
+    // study별 chat에서 공개여부에 따른 필터링
+    public List<Chat> filterByIsClosedChat(List<Chat> chats, HttpServletRequest request) {
+        UserEntity user = userRepository.findByToken(request);
+        long studyId = Optional.ofNullable(chats.get(0)).get().getStudy().getStudyId();
+
+        // 1. isClosedChat = false 인 경우 : 있던 chat 출력
+        // 2. isClosedChat = true 인 경우
+        // 1. chat 작성자인 경우 : 있던 chat 출력
+        // 2. study 장인 경우 : 있던 chat 출력
+        // 3. 그 외의 경우 : Secret chat -> isClosedChat=true이고, chat 작성자가 아니고, study 장이 아닌 경우
+
+        return chats.stream().map(chat -> {
+            // Secret chat 반환 -> isClosedChat=true이고, chat 작성자가 아니고, study 장이 아닌 경우
+            if(chat.getIsClosedChat() &&
+                    chat.getChatUserId() != user.getUserId() &&
+                    !user.getRole().contains("STUDY" + studyId + "_ADMIN")){
+
+                return makeSecretChat(chat);
+            }
+            else return chat;
+
+        }).collect(Collectors.toList());
+
+//        return chats;
+    }
+
+    // 필요한 List<User> 반환
+    public Map<Long, UserEntity> findUsers(List<Chat> chats) {
+        Map<Long, UserEntity> users = new HashMap<>();
+
+        for (Chat chat : chats) {
+            // secret chat인 경우는 user 저장 X
+            if(chat.getChatUserId() == 0) continue;
+
+            UserEntity user = userRepository.findById(chat.getChatUserId()).get();
+            if (!users.containsKey(chat.getChatUserId())) users.put(chat.getChatUserId(), user);
+
+            chat.getAnswers().stream().forEach(answer -> {
+                UserEntity user1 = userRepository.findById(answer.getAnswerUserId()).get();
+                if (!users.containsKey(answer.getAnswerUserId())) users.put(answer.getAnswerUserId(), user1);
+            });
+        }
+
+        // secret user 생성
+        UserEntity user = makeSecretUser();
+        users.put(user.getUserId(), user);
+
+        return users;
+    }
+
+    // Secret Chat 생성
+    public Chat makeSecretChat(Chat chat) {
+        Chat secretChat = new Chat();
+        secretChat.setChatId(chat.getChatId());
+        secretChat.setChatUserId(0);
+        secretChat.setContent(this.SecretChatUserName);
+        secretChat.setIsClosedChat(true);
+        secretChat.setCreatedAt(chat.getCreatedAt());
+
+        return secretChat;
+    }
+
+    // Secret User 생성
+    public UserEntity makeSecretUser() {
+        UserEntity user = new UserEntity();
+        user.setUserId(0);
+        user.setUsername(SecretChatUserName);
+        user.setImgUrl(secretChatUserImgUrl);
+
+        return user;
     }
 
     //READ - 하나 조회
-    public ChatEntity findChat(long chatId) {
-        ChatEntity chat = verifiedChat(chatId); // chat 이 있는지 검증
-
-        return chatRepository.save(chat);
+    public Chat findChat(long chatId) {
+        return verifiedChat(chatId); // chat 이 있는지 검증
     }
 
     //READ - 전체 조회
-    public Page<ChatEntity> findChats(int page, int size) {
+    public Page<Chat> findChats(int page, int size) {
         return chatRepository.findAll(
                 PageRequest.of(page, size, Sort.by("chatId").descending())
         );
     }
 
     //UPDATE
-    public ChatEntity updateChat(long chatId, ChatEntity changedChat) {
-        ChatEntity chat = verifiedChat(chatId); // chat 이 있는지 검증
+    public Chat updateChat(long chatId, Chat changedChat) {
+        Chat chat = verifiedChat(chatId); // chat 이 있는지 검증
 
         chat.setContent(changedChat.getContent());
         chat.setIsClosedChat(changedChat.getIsClosedChat());
@@ -59,17 +155,13 @@ public class ChatService {
 
     //DELETE
     public void deleteChat(long chatId) {
-        ChatEntity chat = verifiedChat(chatId); // chat 이 있는지 검증
+        Chat chat = verifiedChat(chatId); // chat 이 있는지 검증
         chatRepository.delete(chat);
     }
 
-    public ChatEntity verifiedChat(long chatId) { // 해당 chatId를 사용하고 있는 채팅이 존재하는가?
-        Optional<ChatEntity> chat = chatRepository.findById(chatId);
+    // chat 이 있는지 검증
+    public Chat verifiedChat(long chatId) { // 해당 chatId를 사용하고 있는 채팅이 존재하는가?
+        Optional<Chat> chat = chatRepository.findById(chatId);
         return chat.orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHAT_NOT_FOUND));
-    }
-
-    public Page<ChatEntity> findByStudy(long studyId, int page, int size) {
-        Study findStudy = studyService.VerifiedStudy(studyId);
-        return chatRepository.findByStudy(findStudy, PageRequest.of(page, size, Sort.by("chatId").descending()));
     }
 }

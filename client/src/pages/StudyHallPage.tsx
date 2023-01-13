@@ -1,5 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+
+import Setting from "../components/StudyHallPage/setting/Setting";
 import StudyHallHead from "../components/StudyHallPage/StudyHallHead";
 import StudyHallTopNav from "../components/StudyHallPage/StudyHallTopNav";
 import StudyHallNotification from "../components/StudyHallPage/notification/StudyHallNotification";
@@ -8,7 +10,7 @@ import StudyHallMain from "../components/StudyHallPage/StudyHallMain";
 
 const StudyHallPage = () => {
   const { page } = useParams();
-  console.log(page);
+
   return (
     <div>
       <StudyHallHead />
@@ -16,7 +18,7 @@ const StudyHallPage = () => {
       {page === "main" && <StudyHallMain />}
       {page === "community" && <Community />}
       {page === "calendar" && <StudyHallNotification />}
-      {page === "setting" && <div></div>}
+      {page === "setting" && <Setting />}
     </div>
   );
 };

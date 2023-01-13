@@ -1,9 +1,6 @@
 package codestates.main22.study.mapper;
 
-import codestates.main22.study.dto.StudyDto;
-import codestates.main22.study.dto.StudyMainDto;
-import codestates.main22.study.dto.StudyNotificationDto;
-import codestates.main22.study.dto.StudyRequesterDto;
+import codestates.main22.study.dto.*;
 import codestates.main22.study.entity.Study;
 import org.mapstruct.Mapper;
 
@@ -20,6 +17,23 @@ public interface StudyMapper {
     StudyNotificationDto.NoticeResponse studyToStudyNoticeResponseDto(Study study); // 공지사항 호출
     StudyRequesterDto.Response studyToStudyRequesterResponseDto(Study study); // 가입 신청자만 호출
     StudyMainDto.HeaderResponse studyToStudyHeaderResponseDto(Study study); // main - header
+
+    // 권한 관련 변수 넘겨주기
+    default StudyMainDto.AuthResponse studyToStudyAuthResponseDto(
+            Study study, Boolean checkMember, Boolean checkHost, Boolean checkRequest) {
+        if (study == null) {
+            return null;
+        }
+        boolean isMember = checkMember;
+        boolean isHost = checkHost;
+        boolean isRequest = checkRequest;
+
+        StudyMainDto.AuthResponse response =
+                new StudyMainDto.AuthResponse(isMember, isHost, isRequest);
+        return response;
+    }
     StudyMainDto.MainResponse studyToStudyMainResponseDto(Study study); // main - 본문
     Study studyMainPatchDtoToStudyMain(StudyMainDto.MainResponse patch); // main - 본문 수정
+
+    List<StudyUserDto.Studys> studiesToStudyUserDto(List<Study> studies); // user
 }

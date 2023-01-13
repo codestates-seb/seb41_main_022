@@ -65,23 +65,6 @@ public class TreeService {
 
         return treesAndTeamNames;
     }
-//    public Map<String, Tree> findTreeByUserId(HttpServletRequest request) {
-//        UserEntity user = userRepository.findByToken(request);
-//        List<Study> studies = studyRepository.findByUserStudiesUser(user);
-//
-//        System.out.println("!! study size : " + studies.size());
-//
-//        Map<String, Tree> treesAndTeamNames = new HashMap<>();
-//        studies.stream().forEach(study ->
-//                study.getTrees().stream().forEach(tree -> {
-//                            treesAndTeamNames.put(study.getTeamName(), tree);
-//                            System.out.println("!! treesAndTeamNames size : " + treesAndTeamNames.size());
-//                        }
-//                )
-//        );
-//
-//        return treesAndTeamNames;
-//    }
 
     // studyId를 기준으로 tree 조회
     public List<Tree> findTreeByStudyId(long studyId) {
