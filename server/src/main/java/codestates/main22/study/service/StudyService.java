@@ -42,10 +42,9 @@ public class StudyService {
 
     @Transactional
     public Study createStudy(Study study, HttpServletRequest request) {
-        studyRepository.save(study);
-        
         // 토큰값으로 스터디장에게 권한 부여
         UserEntity user = userRepository.findByToken(request);
+        studyRepository.save(study);
         user.getRole().add(customAuthorityUtils.createStudyRoles(study.getStudyId(), true));
 
         // leaderId 등록

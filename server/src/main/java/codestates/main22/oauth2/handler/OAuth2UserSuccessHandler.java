@@ -38,13 +38,16 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
 
-        // email로 가입된 사람이 없는경우
-//        if()
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
-        String name = String.valueOf(oAuth2User.getAttributes().get("name"));
-        String imgUrl = String.valueOf(oAuth2User.getAttributes().get("picture"));
+        UserEntity user = userService.findByEmail(email);
         List<String> authorities = authorityUtils.createRoles(email);
-        UserEntity user = saveUser(email, name, imgUrl);
+
+        // email로 가입된 사람이 없는 경우
+        if(user == null) {
+            String name = String.valueOf(oAuth2User.getAttributes().get("name"));
+            String imgUrl = String.valueOf(oAuth2User.getAttributes().get("picture"));
+            user = saveUser(email, name, imgUrl);
+        }
 
         // 콘솔 출력 코드
 //        oAuth2User.getAttributes().forEach((s, o) -> System.out.println("!! " + s + " : " + String.valueOf(o)));
@@ -137,6 +140,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         queryParams.add("access-Token", accessToken);
         queryParams.add("refresh-Token", refreshToken);
 
+        // backend local test
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
@@ -146,6 +150,27 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .queryParams(queryParams)
                 .build()
                 .toUri();
+
+        // frontend local test
+//        return UriComponentsBuilder
+//                .newInstance()
+//                .scheme("http")
+//                .host("localhost")
+////                .port(3000)
+////                .path("/receive-token.html")
+//                .queryParams(queryParams)
+//                .build()
+//                .toUri();
+
+        // S3 배포 시 : http://seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/
+//        return UriComponentsBuilder
+//                .newInstance()
+//                .scheme("http")
+//                .host("seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/")
+////                .path("/receive-token.html")
+//                .queryParams(queryParams)
+//                .build()
+//                .toUri();
     }
 
     @AllArgsConstructor
