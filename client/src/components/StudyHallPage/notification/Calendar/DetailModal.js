@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-const AddModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
+const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
   const [todoThatDay, setTodoThatDay] = useState();
   useEffect(() => {
     if (data) {
@@ -26,6 +26,12 @@ const AddModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
                   <li> 날짜 : {todoThatDay[0].start.slice(0, 10)} </li>
                   <li> 시간 : {todoThatDay[0].start.slice(11)} </li>
                   <li> 일정 : {todoThatDay[0].title} </li>
+                  <hr />
+                  {todoThatDay[0].participant.map((el) => (
+                    <li key={el.userId}>
+                      {el.name} : {el.joinState}
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -36,7 +42,7 @@ const AddModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
   );
 };
 
-export default AddModal;
+export default DetailModal;
 const ModalDiv = styled.main`
   margin-left: 150px;
   margin-top: -100px;
