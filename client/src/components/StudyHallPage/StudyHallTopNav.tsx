@@ -1,23 +1,45 @@
 import styled from "styled-components";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import StudyHallRightNav from "./StudyHallRightNav";
 
 const StudyHallTopNav = () => {
   const navigate = useNavigate();
+  const { page } = useParams();
+  console.log(page);
 
-  const navigateStudyHall = (page: string) => {
-    navigate(`/study-hall/${page}`);
+  const navigateStudyHall = (whichPage: string) => {
+    navigate(`/study-hall/${whichPage}`);
   };
 
   return (
     <TopNavWrapper>
       <Nav>
-        <div onClick={() => navigateStudyHall("main")}>Main</div>
-        <div onClick={() => navigateStudyHall("community")}>Community</div>
-        <div onClick={() => navigateStudyHall("calendar")}>Calendar</div>
-        <div onClick={() => navigateStudyHall("setting")}>Setting</div>
+        <div
+          onClick={() => navigateStudyHall("main")}
+          className={page === "main" ? `selected` : undefined}
+        >
+          Main
+        </div>
+        <div
+          onClick={() => navigateStudyHall("community")}
+          className={page === "community" ? `selected` : undefined}
+        >
+          Community
+        </div>
+        <div
+          onClick={() => navigateStudyHall("calendar")}
+          className={page === "calendar" ? `selected` : undefined}
+        >
+          Calendar
+        </div>
+        <div
+          onClick={() => navigateStudyHall("setting")}
+          className={page === "setting" ? `selected` : undefined}
+        >
+          Setting
+        </div>
       </Nav>
       <StudyHallRightNav />
     </TopNavWrapper>
@@ -57,6 +79,11 @@ const Nav = styled.nav`
     :hover {
       color: var(--beige-00);
       background-color: var(--green);
+      cursor: pointer;
     }
+  }
+  > .selected {
+    color: var(--beige-00);
+    background-color: var(--green);
   }
 `;
