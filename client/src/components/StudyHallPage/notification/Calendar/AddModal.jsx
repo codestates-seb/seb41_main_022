@@ -1,7 +1,6 @@
-import styles from "./modal.css";
 import styled from "styled-components";
 
-const Modal = ({ show, event }) => {
+const AddModal = ({ show, event }) => {
   return show ? (
     <ModalDiv id="modal">
       <h2> {event.title}</h2>
@@ -16,7 +15,7 @@ const Modal = ({ show, event }) => {
   ) : null;
 };
 
-export default Modal;
+export default AddModal;
 const ModalDiv = styled.div`
   width: 460px;
   margin-left: 70px;
