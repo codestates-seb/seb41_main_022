@@ -2,33 +2,23 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-const AddModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
-  const [todoThatDay, setTodoThatDay] = useState();
-  useEffect(() => {
-    if (data) {
-      setTodoThatDay(
-        data.filter((el) => el.start === event.startStr.slice(0, 19))
-      );
-    }
-  }, [showDetailModal]);
+const AddModal = ({ showAddModal, setShowAddModal, event, setTodo }) => {
   return (
-    showDetailModal && (
+    showAddModal && (
       <ModalDiv>
         <ContentsDiv>
           <div className="flexDiv">
             <h2> DetailModal</h2>
-            <AiOutlineCloseCircle onClick={() => setShowDetailModal(false)} />
+            <AiOutlineCloseCircle onClick={() => setShowAddModal(false)} />
           </div>
           <div>
-            {todoThatDay && (
-              <div>
-                <ul>
-                  <li> 날짜 : {todoThatDay[0].start.slice(0, 10)} </li>
-                  <li> 시간 : {todoThatDay[0].start.slice(11)} </li>
-                  <li> 일정 : {todoThatDay[0].title} </li>
-                </ul>
-              </div>
-            )}
+            <ul>
+              <li> 날짜 : </li>
+              <li> 시간 : </li>
+              <li>
+                일정 : <input type="text" />
+              </li>
+            </ul>
           </div>
         </ContentsDiv>
       </ModalDiv>
@@ -39,9 +29,9 @@ const AddModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
 export default AddModal;
 const ModalDiv = styled.main`
   margin-left: 150px;
-  margin-top: -100px;
+  margin-top: -50px;
   max-width: 300px;
-  max-height: 300px;
+  max-height: 200px;
   box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, 0.5);
   filter: blur(0);
   opacity: 1;
@@ -58,7 +48,7 @@ const ModalDiv = styled.main`
 `;
 const ContentsDiv = styled.article`
   width: 256px;
-  height: 256px;
+  height: 156px;
   border: 2px solid var(--beige-00);
   padding: 20px;
   border-radius: var(--radius-10);
