@@ -1,9 +1,6 @@
 package codestates.main22.study.mapper;
 
-import codestates.main22.study.dto.StudyDto;
-import codestates.main22.study.dto.StudyMainDto;
-import codestates.main22.study.dto.StudyNotificationDto;
-import codestates.main22.study.dto.StudyRequesterDto;
+import codestates.main22.study.dto.*;
 import codestates.main22.study.entity.Study;
 import org.mapstruct.Mapper;
 
@@ -37,4 +34,6 @@ public interface StudyMapper {
     }
     StudyMainDto.MainResponse studyToStudyMainResponseDto(Study study); // main - 본문
     Study studyMainPatchDtoToStudyMain(StudyMainDto.MainResponse patch); // main - 본문 수정
+
+    List<StudyUserDto.Studys> studiesToStudyUserDto(List<Study> studies); // user
 }

@@ -137,19 +137,10 @@ public class StudyService {
         studyRepository.save(study);
     }
 
-//    public List<Study> findStudiesByUser(long userId) {
-//        List<Study> studies = studyRepository.findAll();
-//        return studies.stream()
-//                .filter(study -> isUserInStudy(userId, study.getStudyId()))
-//                .collect(Collectors.toList());
-//    }
-//
-//    public boolean isUserInStudy(long userId, long studyId) {
-//        Study findStudy = findStudy(studyId);
-//        List<UserStudyEntity> userStudies = findStudy.getUserStudies();
-//        return userStudies.stream()
-//                .anyMatch(userStudy -> userStudy.getUser().getUserId() == userId);
-//    }
+    public List<Study> findStudiesByUser(HttpServletRequest request) {
+        UserEntity user = userRepository.findByToken(request);
+        List<Study> studies = studyRepository.findByUserStudiesUser(user);
 
-
+        return studies;
+    }
 }

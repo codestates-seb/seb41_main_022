@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ChatDto {
@@ -36,9 +37,11 @@ public class ChatDto {
     @AllArgsConstructor
     public static class Response {
         private long chatId;
-        private long chatUserId;
+        private String username;
+        private String imgUrl;
         private String content;
         private Boolean isClosedChat; // 공개 = false, 비공개 = true
+        private LocalDateTime chatCreatedAt;
 
         private List<AnswerDto.Response> answers;
     }
