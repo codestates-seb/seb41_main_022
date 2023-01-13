@@ -1,4 +1,3 @@
-import { el } from "@fullcalendar/core/internal-common";
 import styled, { StyleSheetManager } from "styled-components";
 
 //컴포넌트 import

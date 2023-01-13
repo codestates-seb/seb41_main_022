@@ -8,42 +8,45 @@ import styled from "styled-components";
 import "./main.css";
 import DetailModal from "./DetailModal";
 import TodoListData from "../../../../util/dummyDataTodoList";
+import AddModal from "./AddModal";
 
-const DemoApp = () => {
+const CalendarApp = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [event, setEvent] = useState({});
   const [data, setData] = useState();
+  const [todo, setTodo] = useState();
 
   useEffect(() => {
     let obj = TodoListData.data;
     setData(obj);
     console.log("data", data);
   }, []);
-
+  useEffect(() => {
+    if (todo) {
+      console.log("hi");
+    }
+  }, [todo]);
   const DetailToggle = () => {
-    setShowDetailModal(!showDetailModal);
-    console.log("event", event);
+    setShowDetailModal(true);
+  };
+  const AddToggle = () => {
+    setShowAddModal(true);
   };
   const handleEventClick = (arg) => {
     setEvent(arg.event);
     DetailToggle();
-    console.log(
-      "Clicked event",
-      arg.event.title,
-      arg.event.startStr,
-      arg.event.endStr,
-      arg.event.allDay
-    );
+    console.log("Clicked event", arg.event.title, arg.event.dateStr);
   };
   const addEvent = (e) => {
+    AddToggle();
+    //추가 예시
     const calendarApi = e.view.calendar;
+    console.log(e);
     calendarApi.addEvent({
-      title: "event 3",
+      title: "비빔면",
       date: e.dateStr,
-      allDay: false,
       start: e.startStr,
-      end: "2023-01-05",
       display: "list-item",
     });
   };
@@ -55,6 +58,12 @@ const DemoApp = () => {
           setShowDetailModal={setShowDetailModal}
           event={event}
           data={data}
+        />
+        <AddModal
+          showAddModal={showAddModal}
+          setShowAddModal={setShowAddModal}
+          event={event}
+          setTodo={setTodo}
         />
         <div className="demo-app-main">
           <FullCalendar
@@ -81,4 +90,4 @@ const DemoApp = () => {
   );
 };
 
-export default DemoApp;
+export default CalendarApp;

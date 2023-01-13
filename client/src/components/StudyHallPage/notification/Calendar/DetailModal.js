@@ -5,9 +5,10 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
   const [todoThatDay, setTodoThatDay] = useState();
   useEffect(() => {
+    console.log("1", event);
     if (data) {
       setTodoThatDay(
-        data.filter((el) => el.start === event.startStr.slice(0, 19))
+        data.filter((el) => el.date === event.startStr.slice(0, 19))
       );
     }
   }, [showDetailModal]);
@@ -23,8 +24,8 @@ const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
             {todoThatDay && (
               <div>
                 <ul>
-                  <li> 날짜 : {todoThatDay[0].start.slice(0, 10)} </li>
-                  <li> 시간 : {todoThatDay[0].start.slice(11)} </li>
+                  <li> 날짜 : {todoThatDay[0].date.slice(0, 10)} </li>
+                  <li> 시간 : {todoThatDay[0].date.slice(11)} </li>
                   <li> 일정 : {todoThatDay[0].title} </li>
                   <hr />
                   {todoThatDay[0].participant.map((el) => (
