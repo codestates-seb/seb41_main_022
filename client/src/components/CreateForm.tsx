@@ -1,9 +1,14 @@
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useState } from "react";
+
 import WeekBar from "./WeekBar";
 import Toggle from "./Toggle";
 
 const CreateForm = () => {
+  const [startDate, setStartDate] = useState<Date>(new Date());
   const { register, handleSubmit } = useForm();
   return (
     <Main>
@@ -41,6 +46,11 @@ const CreateForm = () => {
           </div>
           <div>
             <StartDateButton>시작 날짜</StartDateButton>
+            <DatePicker
+              dateFormat="yyyy/MM/dd"
+              selected={startDate}
+              onChange={(date: Date) => setStartDate(date)}
+            />
           </div>
           <label htmlFor="content">내용</label>
           <div>
