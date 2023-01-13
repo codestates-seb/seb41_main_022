@@ -15,7 +15,7 @@ const StudyHallPage = () => {
       <StudyHallTopNav />
       {page === "main" && <StudyHallMain />}
       {page === "community" && <Community />}
-      {page === "calendar" && <div></div>}
+      {page === "calendar" && <StudyHallNotification />}
       {page === "setting" && <div></div>}
     </div>
   );
