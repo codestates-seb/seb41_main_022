@@ -1,10 +1,16 @@
 import styled from "styled-components";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useState } from "react";
+
 import WeekBar from "./WeekBar";
 import Toggle from "./Toggle";
 
 const CreateForm = () => {
-  const { register, handleSubmit } = useForm();
+  const [startDate, setStartDate] = useState(new Date());
+
+  const { register, handleSubmit, control } = useForm();
   return (
     <Main>
       <ContentDiv>
@@ -40,7 +46,25 @@ const CreateForm = () => {
             </div>
           </div>
           <div>
-            <StartDateButton>시작 날짜</StartDateButton>
+            <Controller
+              name="date"
+              control={control}
+              render={({ field: { onChange } }) => (
+                // antd의 datepicker에서 e.target.value는
+                // moment 객체 그대로를 반환하기에,
+                // "2021-04-15"와 같은 값을 얻고싶다면, 두번째 파라미터
+                // "dateString"을 추가해서 값을 넣어야 한다.
+                <DatePicker
+                  dateFormat="yyyy/MM/dd"
+                  selected={startDate}
+                  onChange={(date: any) => {
+                    setStartDate(date);
+                    console.log(date);
+                    onChange(date);
+                  }}
+                />
+              )}
+            />
           </div>
           <label htmlFor="content">내용</label>
           <div>

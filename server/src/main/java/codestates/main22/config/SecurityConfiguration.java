@@ -1,6 +1,7 @@
 package codestates.main22.config;
 
 import codestates.main22.oauth2.filter.JwtVerificationFilter;
+import codestates.main22.oauth2.handler.UserLogoutSuccessHandler;
 import codestates.main22.oauth2.handler.OAuth2UserSuccessHandler;
 import codestates.main22.oauth2.handler.UserAccessDeniedHandler;
 import codestates.main22.oauth2.handler.UserAuthenticationEntryPoint;
@@ -16,13 +17,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * JWT 검증 기능 추가
@@ -35,8 +29,8 @@ public class SecurityConfiguration {
     private final UserService userService;
 
     public SecurityConfiguration(JwtTokenizer jwtTokenizer,
-                                   CustomAuthorityUtils authorityUtils,
-                                   UserService userService) {
+                                 CustomAuthorityUtils authorityUtils,
+                                 UserService userService) {
         this.jwtTokenizer = jwtTokenizer;
         this.authorityUtils = authorityUtils;
         this.userService = userService;
@@ -54,11 +48,18 @@ public class SecurityConfiguration {
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
-                .exceptionHandling()  // 추가
+                .exceptionHandling()
                 .authenticationEntryPoint(new UserAuthenticationEntryPoint())
                 .accessDeniedHandler(new UserAccessDeniedHandler())
                 .and()
-                .apply(new CustomFilterConfigurer())  // 추가
+                .apply(new CustomFilterConfigurer())
+                .and()
+                .logout()
+                .logoutUrl("/logout") // 로그아웃 처리 URL(기본값)
+                .invalidateHttpSession(true) // 로그아웃 성공 시 세션 제거
+                .clearAuthentication(true) // 로그아웃 시 권한 제거
+                .permitAll() // 모두 허용
+                .logoutSuccessHandler(new UserLogoutSuccessHandler(userService)) // 로그아웃 성공 후 핸들러
                 .and()
                 .authorizeHttpRequests(authorize -> authorize // url authorization 전체 추가
 //                                .antMatchers(HttpMethod.POST, "/*/coffees").hasRole("ADMIN")
@@ -71,7 +72,7 @@ public class SecurityConfiguration {
 //                                .antMatchers(HttpMethod.GET, "/*/orders/**").hasAnyRole("USER", "ADMIN")
 //                                .antMatchers(HttpMethod.DELETE, "/*/orders").hasRole("USER")
 
-//                                .antMatchers(HttpMethod.POST, "/study").hasAnyRole("USER")
+//                                .antMatchers(HttpMethod.POST, "/study").hasAnyRole("USER", "ADMIN")
                                 .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2

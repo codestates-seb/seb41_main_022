@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { FaBeer } from "react-icons/fa";
@@ -20,6 +21,12 @@ const CreateComment = () => {
       </Wrapper>
     </CreateWrapper>
   );
+=======
+import styled from "styled-components";
+
+const CreateComment = () => {
+  return <CreateWrapper>Create</CreateWrapper>;
+>>>>>>> dev
 };
 
 export default CreateComment;
@@ -32,6 +39,7 @@ const CreateWrapper = styled.div`
   }
   background-color: var(--green);
   color: var(--beige-00);
+<<<<<<< HEAD
   padding-top: 20px;
 `;
 
@@ -96,4 +104,6 @@ const StyledInput = styled.input`
     background-repeat: no-repeat;
     background-color: var(--green);
   }
+=======
+>>>>>>> dev
 `;

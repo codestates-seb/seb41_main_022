@@ -65,10 +65,9 @@ public class TagService {
     // 태그 수정 By Study-Id
     public List<Tag> updateTag(long studyId, List<String> names, HttpServletRequest request) {
         // 스터디장 권한이 있는지 확인
-        UserEntity user = userRepository.findByToken(request);
-        if(!user.getRole().contains("STUDY" + studyId + "_ADMIN")) // 권한이 없으면 에러 발생
-            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        UserEntity user = userRepository.checkStudyAdmin(request, studyId);
 
+        // 스터디 조회
         Study study = studyService.findStudy(studyId);
 
         List<Tag> before = findTagsByStudyId(studyId);

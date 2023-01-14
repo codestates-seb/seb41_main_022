@@ -11,17 +11,19 @@ public enum ExceptionCode {
     TAG_NOT_FOUND(404, "Tag not found"),
     CHAT_NOT_FOUND(404, "Chat not found"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
-    UNREGISTERED_USER(500, "You are an unregistered user"),
-    NOT_AN_ADMINISTRATOR(500, "you are not an administrator"),
-    NO_AUTHORITY(404, "No Authority. Only Access Study leader");
+    UNREGISTERED_USER(404.5, "You are an unregistered user"),
+    NOT_AN_ADMINISTRATOR(404.5, "you are not an study administrator"),
+    UNAUTHORIZED_MEMBER(404.5, "Unauthorized member"),
+    NO_AUTHORITY(404.5, "No Authority. Only Access Study leader"),
+    NOT_JOIN_STUDY(404.5, "Not join study");
 
     @Getter
-    private int status;
+    private double status;
 
     @Getter
     private String message;
 
-    ExceptionCode(int code, String message) {
+    ExceptionCode(double code, String message) {
         this.status = code;
         this.message = message;
     }

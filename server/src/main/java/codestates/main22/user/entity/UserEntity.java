@@ -21,7 +21,7 @@ public class UserEntity extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userId;
 
-    @Column(length = 10, unique = true, nullable = false)
+    @Column(length = 10, nullable = false)
     private String username;
 
     @Column(unique = true, nullable = false)

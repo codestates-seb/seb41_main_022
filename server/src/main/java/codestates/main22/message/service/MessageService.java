@@ -1,11 +1,13 @@
 package codestates.main22.message.service;
 
+import codestates.main22.chat.entity.Chat;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.message.entity.Message;
 import codestates.main22.message.repository.MessageRepository;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
+import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
@@ -16,8 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 //@Transactional
 @Service
@@ -26,13 +27,16 @@ public class MessageService {
     private StudyService studyService;
     private final UserRepository userRepository;
     private final CustomAuthorityUtils customAuthorityUtils;
+    private final StudyRepository studyRepository;
 
     public MessageService(MessageRepository messageRepository, StudyService studyService,
-                          UserRepository userRepository, CustomAuthorityUtils customAuthorityUtils) {
+                          UserRepository userRepository, CustomAuthorityUtils customAuthorityUtils,
+                          StudyRepository studyRepository) {
         this.messageRepository = messageRepository;
         this.studyService = studyService;
         this.userRepository = userRepository;
         this.customAuthorityUtils = customAuthorityUtils;
+        this.studyRepository = studyRepository;
     }
 
     // 메세지 생성
@@ -40,6 +44,7 @@ public class MessageService {
     public Message createMessage(long studyId, Message message, HttpServletRequest request) {
         // 유저가 스터디에 USER 권한이 있는지 찾고 없으면 exception 발생
         UserEntity user = userRepository.findByToken(request); // 토큰으로 유저 찾기
+        message.setMessageUserId(user.getUserId());
         message.setUserName(user.getUsername()); // 유저 이름 set
         String admin = "STUDY" + studyId + "_ADMIN"; // 관리자인지 확인
         String user1 = "STUDY" + studyId + "_USER"; // 가입된 유저인지 확인
@@ -59,8 +64,8 @@ public class MessageService {
                 .ifPresent(content -> findMessage.setContent(content));
         Optional.ofNullable(message.getDateTime())
                 .ifPresent(localDateTime -> findMessage.setDateTime(localDateTime));
-        Optional.ofNullable(message.getUserId())
-                .ifPresent(userId -> findMessage.setUserId(userId));
+        Optional.ofNullable(message.getMessageUserId())
+                .ifPresent(userId -> findMessage.setMessageUserId(userId));
 
         return messageRepository.save(findMessage);
     }
@@ -97,4 +102,24 @@ public class MessageService {
         Study findStudy = studyService.VerifiedStudy(studyId);
         return messageRepository.findByStudy(findStudy);
     }
+
+    public UserEntity findUserByToken(HttpServletRequest request) {
+        return userRepository.findByToken(request);}
+
+
+    public List<Message> findByStudyMessage(long studyId) {
+        Study study = studyService.findStudy(studyId);
+        List<Message> studyMessage = messageRepository.findByStudy(study);
+        return studyMessage;
+    }
+    public Map<Long, UserEntity> findUsers(List<Message> messages) {
+        Map<Long, UserEntity> users = new HashMap<>();
+
+        for (Message message : messages) {
+            UserEntity user = userRepository.findById(message.getMessageUserId()).get();
+            if (!users.containsKey(message.getMessageUserId())) users.put(message.getMessageUserId(), user);
+        }
+        return users;
+    }
+
 }

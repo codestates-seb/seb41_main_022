@@ -1,6 +1,6 @@
 package codestates.main22.chat.entity;
 
-import codestates.main22.answer.entity.AnswerEntity;
+import codestates.main22.answer.entity.Answer;
 import codestates.main22.auditable.Auditable;
 import codestates.main22.study.entity.Study;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "CHAT")
-public class ChatEntity extends Auditable {
+public class Chat extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long chatId;
@@ -43,10 +43,16 @@ public class ChatEntity extends Auditable {
 
     // 연관관계 매핑 - 한 chat 에 여러개의 answer
     @OneToMany(mappedBy = "chat", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<AnswerEntity> answers = new ArrayList<>();
+    private List<Answer> answers = new ArrayList<>();
 
     // 연관관계 매핑 - 한 study 에 여러개의 chat
     @ManyToOne
     @JoinColumn(name = "STUDY_ID")
     private Study study;
+
+//    public void setStuyd(Study study) {
+//        this.study = study;
+//        if(!this.study.getChats().contains(this))
+//            this.study.getChats().add(this);
+//    }
 }

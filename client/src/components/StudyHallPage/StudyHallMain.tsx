@@ -9,7 +9,6 @@ import Comments from "./Main/Comments";
 //API Data import
 import StudyHallData from "../../util/dummyDataStudyHall";
 import { CommentsData } from "../../util/dummyDataStudyHall";
-
 const StudyHallMain = () => {
   return (
     <MainWrapper>
