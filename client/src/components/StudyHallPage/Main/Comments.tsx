@@ -1,39 +1,87 @@
 import styled from "styled-components";
 import { CommentsData } from "../../../util/dummyDataStudyHall";
+import { FiTrash2 } from "react-icons/fi";
+import React, { useForm } from "react-hook-form";
+import { useState } from "react";
 //내부컴포넌트 임포트
-import Answer from "./Answer";
+import Answers from "./Answers";
+import { stringify } from "querystring";
+import CreateAnswer from "./CreateAnswer";
 
 //타입지정
-interface ComementsProps {
+export interface ComementsProps {
   chatUserId: string;
   content: string;
-  //   <T>(answers: T): T;
   answers: any[];
+  totalElements: number;
 }
 
-const Comments = ({ chatUserId, content, answers }: ComementsProps) => {
+const Comments = ({
+  chatUserId,
+  content,
+  answers,
+  totalElements,
+}: ComementsProps) => {
+  const { register, handleSubmit } = useForm();
+  const [showAnswer, setShowAnswer] = useState(false);
+
   return (
-    <CommentsWrapper>
+    <CommentsWrapper
+      onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
+    >
       <Wrapper>
         <CommentBox>
           <CommentImg></CommentImg>
           <Texts>
             <UserId>{chatUserId}</UserId>
             <Content>{content}</Content>
-            <div className="numAnswers">답글{}</div>
-            {answers.map((el) => (
-              <Answer
-                key={el.answerId}
-                answerUserId={el.answerUserId}
-                content={el.content}
+            <span className="answerNum">
+              <AddButton
+                type="button"
+                className="numAnswers"
+                onClick={() => {
+                  setShowAnswer(!showAnswer);
+                }}
+              >
+                답글
+              </AddButton>
+              <div className="totalElements">{totalElements}</div>
+              <div className="trashIcon">
+                <FiTrash2></FiTrash2>
+              </div>
+            </span>
+            {showAnswer && (
+              <span>
+                <Input type="text" {...register("content")} />
+                <AnswerButton type="submit" {...register("answer")}>
+                  Add
+                </AnswerButton>
+
+                {answers.map((el) => (
+                  <Answers
+                    key={el.answerId}
+                    answerUserId={el.answerUserId}
+                    content={el.content}
+                  />
+                ))}
+              </span>
+            )}
+            {/* {CommentsData.data.map((el) => (
+              <CreateAnswer
+                chatUserId={chatUserId}
+                content={content}
+                answers={answers}
+                totalElements={totalElements}
               />
-            ))}
+            ))} */}
           </Texts>
         </CommentBox>
       </Wrapper>
     </CommentsWrapper>
   );
 };
+
+//FiTrash2
 export default Comments;
 
 const CommentsWrapper = styled.div`
@@ -59,21 +107,37 @@ const CommentBox = styled.div`
   border-radius: 10px;
   display: flex;
   padding: 10px;
-
-  > .numAnswers {
-    font-size: 8px;
+`;
+const AddButton = styled.button`
+  color: var(--beige-00);
+  background-color: var(--green);
+  border: none;
+  font-size: 10px;
+  :hover {
+    color: var(--blue);
+  }
+  > .totalElements {
+    font-size: 10px;
   }
 `;
 
 const Texts = styled.div`
   margin-left: 10px;
+
+  > .numAnswers {
+    font-size: 9px;
+  }
+  > .answerNum {
+    display: flex;
+    font-size: 9px;
+  }
 `;
 
 const CommentImg = styled.div`
   width: 30px;
   height: 30px;
   background-color: blue;
-  border-radius: 10px;
+  border-radius: 70%;
 `;
 
 const UserId = styled.div`
@@ -81,4 +145,25 @@ const UserId = styled.div`
   margin: 5px;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  font-size: 12px;
+  padding-left: 2px;
+`;
+
+const Input = styled.input`
+  background-color: var(--green);
+  color: var(--beige-00);
+  background-color: var(--green);
+  border: solid 1px;
+  border-radius: 30px;
+  padding: 1px 9px 1px 9px;
+  font-size: 10px;
+`;
+const AnswerButton = styled.button`
+  font-size: 10px;
+  color: var(--beige-00);
+  background-color: var(--green);
+  border: solid 1px;
+  border-radius: 30px;
+  padding: 1px 9px 1px 9px;
+`;

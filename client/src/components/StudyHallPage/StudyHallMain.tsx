@@ -5,11 +5,11 @@ import styled, { StyleSheetManager } from "styled-components";
 import StudyInfo from "./Main/StudyInfo";
 import CreateComment from "./Main/CreateComment";
 import Comments from "./Main/Comments";
-import Answer from "./Main/Answer";
 
 //API Data import
 import StudyHallData from "../../util/dummyDataStudyHall";
 import { CommentsData } from "../../util/dummyDataStudyHall";
+
 const StudyHallMain = () => {
   return (
     <MainWrapper>
@@ -29,6 +29,7 @@ const StudyHallMain = () => {
               chatUserId={el.chatUserId}
               content={el.content}
               answers={el.answers}
+              totalElements={CommentsData.pageInfo.totalElements}
             />
           ))}
         </div>

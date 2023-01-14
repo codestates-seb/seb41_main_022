@@ -80,7 +80,7 @@ const CommentsData = {
   pageInfo: {
     page: 1,
     size: 15,
-    totalElements: 2,
+    totalElements: 3,
     totalPages: 1,
   },
 };
