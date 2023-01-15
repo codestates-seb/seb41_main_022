@@ -7,7 +7,7 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 
 import WeekBar from "../WeekBar";
 import Toggle from "../Toggle";
-import Tags from "./Tags";
+import CreatePageTags from "./CreatePageTags";
 
 const CreateForm = () => {
   const [startDate, setStartDate] = useState(new Date());
@@ -22,7 +22,7 @@ const CreateForm = () => {
     "IT",
     "영어회화",
   ]);
-  const [selectedTags, setSelectedTags] = useState(["가나다"]);
+  const [selectedTags, setSelectedTags] = useState([]);
   const { register, handleSubmit, control } = useForm();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
@@ -35,6 +35,10 @@ const CreateForm = () => {
   const openModal = () => {
     setIsOpen(!isOpen);
   };
+
+  // const addTag = (e) => {
+  //   setSelectedTags([...selectedTags, e.target.value]);
+  // };
 
   return (
     <Main>
@@ -50,10 +54,21 @@ const CreateForm = () => {
               Tags&nbsp;
               <AiOutlinePlusCircle onClick={openModal} className="AddButton" />
             </div>
-            {isOpen && <AddTagsModal>hi</AddTagsModal>}
+            {isOpen && (
+              <AddTagsModal>
+                {tags.map((el, idx) => (
+                  <CreatePageTags
+                    key={idx}
+                    setSelectedTags={setSelectedTags}
+                    selectedTags={selectedTags}
+                    tagName={el}
+                  />
+                ))}
+              </AddTagsModal>
+            )}
             <TagsWrapper>
               {selectedTags.map((el, idx) => (
-                <Tags key={idx} tagName={el} />
+                <CreatePageTags key={idx} tagName={el} />
               ))}
             </TagsWrapper>
           </div>
@@ -275,7 +290,19 @@ const RedButton = styled.button`
   }
 `;
 
-const AddTagsModal = styled.div``;
+const AddTagsModal = styled.div`
+  border: 1px solid var(--green);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
+
+  align-items: center;
+`;
 const TagsWrapper = styled.div`
   margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
+
+  align-items: center;
 `;
