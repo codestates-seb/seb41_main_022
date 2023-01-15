@@ -3,12 +3,26 @@ import { Controller, useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useRef, useCallback } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import WeekBar from "./WeekBar";
-import Toggle from "./Toggle";
+import WeekBar from "../WeekBar";
+import Toggle from "../Toggle";
+import Tags from "./Tags";
 
 const CreateForm = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const [isOpen, setIsOpen] = useState(false);
+  const [tags, setTags] = useState([
+    "가나다",
+    "공부",
+    "영어",
+    "수학",
+    "사회",
+    "과학",
+    "IT",
+    "영어회화",
+  ]);
+  const [selectedTags, setSelectedTags] = useState(["가나다"]);
   const { register, handleSubmit, control } = useForm();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
@@ -17,6 +31,11 @@ const CreateForm = () => {
       textRef.current.style.height = textRef.current.scrollHeight + "px";
     }
   }, []);
+
+  const openModal = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <Main>
       <ContentDiv>
@@ -26,7 +45,18 @@ const CreateForm = () => {
           <input id="title" type="text" {...register("title")} />
           <label htmlFor="text">한 줄 설명</label>
           <input id="text" type="text" {...register("text")} />
-          <div>Tags</div>
+          <div className="tagSection">
+            <div className="tagAddButton">
+              Tags&nbsp;
+              <AiOutlinePlusCircle onClick={openModal} className="AddButton" />
+            </div>
+            {isOpen && <AddTagsModal>hi</AddTagsModal>}
+            <TagsWrapper>
+              {selectedTags.map((el, idx) => (
+                <Tags key={idx} tagName={el} />
+              ))}
+            </TagsWrapper>
+          </div>
           <div className="weekbarWrapper">
             <span>진행요일</span>
             <WeekBar />
@@ -136,6 +166,17 @@ const Form = styled.form`
   font-size: 20px;
   display: flex;
   flex-direction: column;
+  > .tagSection {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    .AddButton {
+      :hover {
+        cursor: pointer;
+      }
+    }
+  }
   > .weekbarWrapper {
     display: flex;
     flex-direction: column;
@@ -232,4 +273,9 @@ const RedButton = styled.button`
   :hover {
     background-color: var(--red-10);
   }
+`;
+
+const AddTagsModal = styled.div``;
+const TagsWrapper = styled.div`
+  margin-top: 5px;
 `;
