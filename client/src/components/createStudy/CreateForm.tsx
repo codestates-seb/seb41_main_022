@@ -10,7 +10,7 @@ import Toggle from "../Toggle";
 import CreatePageTags from "./CreatePageTags";
 
 const CreateForm = () => {
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [tags, setTags] = useState([
     "가나다",
@@ -35,10 +35,6 @@ const CreateForm = () => {
   const openModal = () => {
     setIsOpen(!isOpen);
   };
-
-  // const addTag = (e) => {
-  //   setSelectedTags([...selectedTags, e.target.value]);
-  // };
 
   return (
     <Main>
@@ -84,7 +80,7 @@ const CreateForm = () => {
               type="number"
               {...register("person")}
               min="1"
-              placeholder="1"
+              placeholder="0"
             />
             명
           </div>
@@ -104,16 +100,13 @@ const CreateForm = () => {
               name="date"
               control={control}
               render={({ field: { onChange } }) => (
-                // antd의 datepicker에서 e.target.value는
-                // moment 객체 그대로를 반환하기에,
-                // "2021-04-15"와 같은 값을 얻고싶다면, 두번째 파라미터
-                // "dateString"을 추가해서 값을 넣어야 한다.
                 <DatePicker
+                  className="datepicker"
+                  placeholderText="click and select the date"
                   dateFormat="yyyy/MM/dd"
                   selected={startDate}
                   onChange={(date: any) => {
                     setStartDate(date);
-                    console.log(date);
                     onChange(date);
                   }}
                 />
@@ -264,19 +257,13 @@ const Form = styled.form`
     font-size: 12px;
     margin-right: 25px;
   }
-`;
-const StartDateButton = styled.button`
-  background-color: #dfe4e0;
-  width: 200px;
-  font-family: "mainM", Arial;
-  border: 1px solid var(red);
-  border-radius: var(--radius-10);
-  padding: 6px;
-  :hover {
-    border: 1px solid var(--green-00);
-    padding: 5px;
+  .datepicker {
+    :hover {
+      cursor: pointer;
+    }
   }
 `;
+
 const RedButton = styled.button`
   width: 240px;
   padding: 3px;
