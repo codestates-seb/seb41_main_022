@@ -295,8 +295,9 @@ const AddTagsModal = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 8px;
-
   align-items: center;
+  margin-top: 5px;
+  border-radius: var(--radius-20);
 `;
 const TagsWrapper = styled.div`
   margin-top: 5px;

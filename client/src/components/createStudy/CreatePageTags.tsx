@@ -12,7 +12,13 @@ const CreatePageTags = ({
   selectedTags,
 }: TagsProps) => {
   const addTag = () => {
-    selectedTags && setSelectedTags([...selectedTags, tagName]);
+    if (selectedTags) {
+      if (selectedTags?.includes(tagName)) {
+        return;
+      } else {
+        setSelectedTags([...selectedTags, tagName]);
+      }
+    }
   };
 
   return (
