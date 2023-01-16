@@ -17,7 +17,8 @@ public interface UserMapper {
     UserDto.ImageResponse userEntityToImageResponseCheck(UserEntity user); //이미지만 호출
     UserEntity userNamePatchDtoToUserEntity(UserDto.NamePatch namePatch); //이름만 변경
     UserDto.NameResponse userEntityToNameResponse(UserEntity user); //이름만 호출
-    UserDto.SearchUserResponse userEntityToSearchUserReponse(UserEntity user); // 유저 식별값, 이름, 이미지만 호출
+    UserDto.SearchUserResponse userEntityToSearchUserResponse(UserEntity user); // 유저 식별값, 이름, 이미지만 호출
+    List<UserDto.SearchUserResponse> userEntityToSearchUsersResponse(List<UserEntity> requesterList); //스터디 신청자의 필요 정보만 모아서 보기
 
     // 스터디에 포함된 유저들 이름, 이미지, 역할만 호출
     default List<UserDto.StudyUserResponse> usersToStudyUserResponse(List<UserEntity> users, String studyId) {

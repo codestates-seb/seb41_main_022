@@ -1,5 +1,6 @@
 package codestates.main22.study.entity;
 
+import codestates.main22.auditable.Auditable;
 import codestates.main22.calendar.entity.Calendar;
 import codestates.main22.chat.entity.Chat;
 import codestates.main22.message.entity.Message;
@@ -11,6 +12,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class Study {
+public class Study extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long studyId;
@@ -32,7 +35,7 @@ public class Study {
     @Column
     private int want;
     @Column
-    private String startDate;
+    private LocalDate startDate;
     @Column
     private boolean procedure;
     @Column

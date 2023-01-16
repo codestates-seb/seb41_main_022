@@ -16,6 +16,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByToken(String token);
     Optional<UserEntity> findByEmail(String email);
+    UserEntity findByUserId(long userId);
 
     // access-Token을 이용해서 user 정보 조회하기
     default UserEntity findByToken(HttpServletRequest request) {

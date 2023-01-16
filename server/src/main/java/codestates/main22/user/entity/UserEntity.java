@@ -1,6 +1,7 @@
 package codestates.main22.user.entity;
 
 import codestates.main22.auditable.Auditable;
+import codestates.main22.study.entity.Study;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,4 +58,9 @@ public class UserEntity extends Auditable {
         this.username = name;
         this.imgUrl = imgUrl;
     }
+
+    public void removeStudy(Study study) {
+        userStudies.removeIf(userStudy -> userStudy.getStudy().equals(study));
+    }
+
 }

@@ -2,6 +2,7 @@ package codestates.main22.calendar.entity;
 
 import codestates.main22.auditable.Auditable;
 import codestates.main22.study.entity.Study;
+import codestates.main22.user.entity.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,13 +20,10 @@ public class Calendar extends Auditable {
     private long calendarId;
 
     @Column(nullable = false)
-    private LocalDate date;
-
-    @Column
-    private LocalTime time;
+    private LocalDate dateTime;
 
     @Column(length = 100, nullable = false)
-    private String content;
+    private String title;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Map<Long, String> participant = new HashMap<>(); // Map<Long, String> : Long은 userId, String은 attendance의 값

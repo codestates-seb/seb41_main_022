@@ -2,9 +2,19 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import Bell from "../assets/Bell.svg";
+import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
+  const getToken = () => {
+    axios
+      .put(
+        "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google"
+      )
+      .then(function (response) {
+        console.log(response);
+      });
+  };
   return (
     <>
       <HeaderWrapper>
@@ -15,7 +25,7 @@ const Header = () => {
           <WhiteButton>Log in</WhiteButton>
           <WhiteButton>Sign up</WhiteButton>
         </ItemWrapper>
-        {/* <ItemWrapper>
+        <ItemWrapper>
           <div className="imgWrapper" onClick={() => navigate("/user")}>
             <img src="https://mystickermania.com/cdn/stickers/cartoons/pokemon-ditto-you-can-be-anything-512x512.png" />
           </div>
@@ -23,8 +33,8 @@ const Header = () => {
           <WhiteButton onClick={() => navigate("/study-hall/main")}>
             My Study
           </WhiteButton>
-          <WhiteButton>Log out</WhiteButton>
-        </ItemWrapper> */}
+          <WhiteButton onClick={getToken}>Log out</WhiteButton>
+        </ItemWrapper>
       </HeaderWrapper>
     </>
   );
