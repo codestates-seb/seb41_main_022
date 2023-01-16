@@ -81,7 +81,7 @@ const ContentWrapper = styled.div`
     > li {
       font-size: 12px;
       font-family: "mainL";
-      margin-top: 16px;
+      margin-top: 8px;
       > a {
         color: var(--gray-10);
         :hover {
@@ -90,7 +90,7 @@ const ContentWrapper = styled.div`
       }
     }
     > .top {
-      margin-top: 32px;
+      margin-top: 16px;
     }
   }
   > .member {
@@ -104,7 +104,8 @@ const ContentWrapper = styled.div`
     align-items: center;
   }
   > .rightMargin {
-    /* margin-right: 200px; */
+    display: flex;
+    flex-direction: column;
     @media screen and (max-width: 768px) {
       margin-right: 0;
     }
