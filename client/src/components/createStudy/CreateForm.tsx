@@ -24,6 +24,8 @@ const CreateForm = () => {
   ]);
   const [selectedTags, setSelectedTags] = useState([]);
   const { register, handleSubmit, control } = useForm();
+  const [isOnlineToggleClicked, setIsOnlineToggleClicked] = useState(true);
+  const [isPublicToggleClicked, setIsPublicToggleClicked] = useState(true);
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
@@ -34,6 +36,13 @@ const CreateForm = () => {
 
   const openModal = () => {
     setIsOpen(!isOpen);
+  };
+
+  const hadleOnlineToggleClick = () => {
+    setIsOnlineToggleClicked(!isOnlineToggleClicked);
+  };
+  const hadlePublicToggleClick = () => {
+    setIsPublicToggleClicked(!isPublicToggleClicked);
   };
 
   return (
@@ -87,11 +96,17 @@ const CreateForm = () => {
           <div>
             <div className="toggleBox">
               Online
-              <Toggle />
+              <Toggle
+                isToggleClicked={isOnlineToggleClicked}
+                handleToggleClick={hadleOnlineToggleClick}
+              />
             </div>
             <div className="toggleBox">
               Public
-              <Toggle />
+              <Toggle
+                isToggleClicked={isPublicToggleClicked}
+                handleToggleClick={hadlePublicToggleClick}
+              />
             </div>
           </div>
           <div className="dateWrapper">
