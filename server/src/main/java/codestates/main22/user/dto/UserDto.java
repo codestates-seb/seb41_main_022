@@ -96,6 +96,6 @@ public class UserDto {
     public static class StudyUserResponse {
         private String username;
         private String imgUrl;
-        private List<String> role;
+        private String role;
     }
 }

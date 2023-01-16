@@ -103,6 +103,9 @@ public class UserController {
     @GetMapping("/study") //해당 스터디 구성원만 모아서 보기
     public ResponseEntity getStudyUsers(@Positive @RequestParam int studyId) {
         List<UserEntity> studyUsers = userService.findByStudy(studyId);
-        return new ResponseEntity<>(new ListResponseDto<>(userMapper.usersToStudyUserResponse(studyUsers)), HttpStatus.OK);
+        return new ResponseEntity<>(
+                new ListResponseDto<>(userMapper.usersToStudyUserResponse(studyUsers, String.valueOf(studyId))),
+                HttpStatus.OK
+        );
     }
 }

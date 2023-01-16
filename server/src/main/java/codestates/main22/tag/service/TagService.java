@@ -26,18 +26,15 @@ import java.util.stream.Collectors;
 public class TagService {
     private final TagRepository tagRepository;
     private final TagStudyRepository tagStudyRepository;
-    private final UserService userService;
     private final UserRepository userRepository;
     private final StudyService studyService;
 
     public TagService(TagRepository tagRepository,
                       TagStudyRepository tagStudyRepository,
-                      UserService userService,
                       UserRepository userRepository,
                       StudyService studyService) {
         this.tagRepository = tagRepository;
         this.tagStudyRepository = tagStudyRepository;
-        this.userService = userService;
         this.userRepository = userRepository;
         this.studyService = studyService;
     }

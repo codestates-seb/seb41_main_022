@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const CreateStudyButton = () => {
+  const navigate = useNavigate();
   return (
     <CreateStudyWrapper>
       <div className="flexWrapper">
@@ -9,7 +11,7 @@ const CreateStudyButton = () => {
           <br />
           새로 만들어보세요!
         </div>
-        <RedButton>Create Study</RedButton>
+        <RedButton onClick={() => navigate("/create")}>Create Study</RedButton>
       </div>
     </CreateStudyWrapper>
   );

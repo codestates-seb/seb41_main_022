@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 import WeekBar from "../WeekBar";
 
 interface CardProps {
@@ -7,8 +9,10 @@ interface CardProps {
 }
 
 const Recruitment = ({ teamName, summary }: CardProps) => {
+  const navigate = useNavigate();
+
   return (
-    <RecruitmentBackground>
+    <RecruitmentBackground onClick={() => navigate("/study-hall/main")}>
       <div className="recruitmentBody">
         <div className="border">
           <BodyWrapper>

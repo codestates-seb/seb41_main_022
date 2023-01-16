@@ -30,7 +30,6 @@ b { /* used for event dates/times */
     width: 600px;
     display: flex;
     min-height: 100%;
-    font-family: 'mainb', sans-serif;
     font-size: 14px;
 }
 .demo-app-sidebar-section {
@@ -84,4 +83,44 @@ b { /* used for event dates/times */
     padding:2px;
     background-color: var(--mopo-00);
     border-style: none;
+}
+.fc-daygrid-event-dot, .fc-event-time{
+    display: none;
+}
+.fc-day-mon a{
+    color: var(--green);
+}
+.fc-day-tue a{
+    color: var(--green);
+}
+.fc-day-wed a{
+    color: var(--green);
+}
+.fc-day-thu a{
+    color: var(--green);
+}
+.fc-day-fri a{
+    color: var(--green);
+}
+.fc-day-mon a:hover{
+    color: #4C7A65;
+}
+.fc-day-tue a:hover{
+    color: #4C7A65;
+}
+.fc-day-wed a:hover{
+    color: #4C7A65;
+}
+.fc-day-thu a:hover{
+    color: #4C7A65;
+}
+.fc-day-fri a:hover{
+    color: #4C7A65;
+}
+.fc-event-title div{
+    font-family: "mainL", Arial;
+    color: var(--green);
+}
+.fc-toolbar-title{
+    color: var(--green);
 }
