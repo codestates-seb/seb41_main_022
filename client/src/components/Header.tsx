@@ -12,6 +12,10 @@ const Header = () => {
           Stu<span>d</span>y Tree
         </div>
         <ItemWrapper>
+          <WhiteButton>Log in</WhiteButton>
+          <WhiteButton>Sign up</WhiteButton>
+        </ItemWrapper>
+        {/* <ItemWrapper>
           <div className="imgWrapper" onClick={() => navigate("/user")}>
             <img src="https://mystickermania.com/cdn/stickers/cartoons/pokemon-ditto-you-can-be-anything-512x512.png" />
           </div>
@@ -20,7 +24,7 @@ const Header = () => {
             My Study
           </WhiteButton>
           <WhiteButton>Log out</WhiteButton>
-        </ItemWrapper>
+        </ItemWrapper> */}
       </HeaderWrapper>
     </>
   );
@@ -75,6 +79,7 @@ const ItemWrapper = styled.div`
 
 // 마이 스터디, 로그인, 로그아웃 버튼
 const WhiteButton = styled.button`
+  min-width: 55px;
   font-size: 12px;
   background-color: var(--gray-10);
   border-radius: var(--radius-20);
