@@ -68,11 +68,27 @@ public class StudyController {
                 new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
-    @GetMapping("/cards") //스터디 전체 조회 (openClose 기준으로)
+    @GetMapping("/first-cards") //스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우
     public ResponseEntity getStudiesByOpenClose(@RequestParam int page,
                                                 @RequestParam int size) {
-        Page<Study> pageStudies = studyService.findStudiesByOpenClose(page-1, size);
+
+        Page<Study> pageStudies = studyService.findStudiesByFilters(page-1, size);
         List<Study> studies = pageStudies.getContent();
+
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
+    }
+
+    @GetMapping("/cards") //스터디 전체 조회 (openClose 기준으로)
+    public ResponseEntity getStudiesByOpenClose(@RequestParam int page,
+                                                @RequestParam int size,
+                                                @RequestParam String search,
+                                                @RequestParam String filter,
+                                                @RequestParam List<String> tags) {
+
+        Page<Study> pageStudies = studyService.findStudiesByFilters(page-1, size, search, filter, tags);
+        List<Study> studies = pageStudies.getContent();
+
         return new ResponseEntity<>(
                 new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
     }

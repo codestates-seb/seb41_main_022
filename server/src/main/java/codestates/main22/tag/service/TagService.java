@@ -3,6 +3,7 @@ package codestates.main22.tag.service;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.study.entity.Study;
+import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.tag.entity.Tag;
 import codestates.main22.tag.entity.TagStudy;
@@ -10,7 +11,6 @@ import codestates.main22.tag.repository.TagRepository;
 import codestates.main22.tag.repository.TagStudyRepository;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
-import codestates.main22.user.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -27,16 +27,16 @@ public class TagService {
     private final TagRepository tagRepository;
     private final TagStudyRepository tagStudyRepository;
     private final UserRepository userRepository;
-    private final StudyService studyService;
+    private final StudyRepository studyRepository;
 
     public TagService(TagRepository tagRepository,
                       TagStudyRepository tagStudyRepository,
                       UserRepository userRepository,
-                      StudyService studyService) {
+                      StudyRepository studyRepository) {
         this.tagRepository = tagRepository;
         this.tagStudyRepository = tagStudyRepository;
         this.userRepository = userRepository;
-        this.studyService = studyService;
+        this.studyRepository = studyRepository;
     }
 
     // 태그 생성
@@ -47,7 +47,7 @@ public class TagService {
 
     // Study와 연관된 tagStudies 생성
     public List<Tag> createTagStudies(long studyId, List<String> names) {
-        Study study = studyService.findStudy(studyId);
+        Study study = studyRepository.findById(studyId).get();
         List<Tag> tags = makeListTags(names);
 
         for(Tag tag : tags) {
@@ -65,7 +65,7 @@ public class TagService {
         UserEntity user = userRepository.checkStudyAdmin(request, studyId);
 
         // 스터디 조회
-        Study study = studyService.findStudy(studyId);
+        Study study = studyRepository.findById(studyId).get();
 
         List<Tag> before = findTagsByStudyId(studyId);
         List<Tag> after = makeListTags(names);
@@ -141,7 +141,7 @@ public class TagService {
 
     // 태그 조회 by studyId
     public List<Tag> findTagsByStudyId(long studyId) {
-        return tagRepository.findByTagStudiesStudy(studyService.findStudy(studyId));
+        return tagRepository.findByTagStudiesStudy(studyRepository.findById(studyId).get());
     }
 
     // List<String>으로 List<Tag> 만들기
