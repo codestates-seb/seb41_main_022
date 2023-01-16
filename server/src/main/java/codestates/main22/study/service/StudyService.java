@@ -99,6 +99,34 @@ public class StudyService {
         return studyRepository.save(study);
     }
 
+    public Study giveUserAuth(Study study, long userId) {
+        UserEntity user = userRepository.findById(userId).get();
+
+        UserStudyEntity userStudyEntity = new UserStudyEntity();
+        userStudyEntity.setUser(user);
+        userStudyEntity.setStudy(study);
+
+        userStudyRepository.save(userStudyEntity);
+        return study;
+    }
+
+//    public Study removeUserAuth(Study study, long userId) {
+//        UserEntity user = userRepository.findById(userId).get();
+//        UserStudyEntity userStudyEntity = userStudyRepository.findByUserAndStudy(user, study);
+//        user.removeStudy(study);
+//        userStudyRepository.delete(userStudyEntity);
+//        return study;
+//    }
+
+    @Transactional
+    public void removeUserAuth(Study study, long userId) {
+        UserEntity user = userRepository.findByUserId(userId);
+        UserStudyEntity userStudyEntity = userStudyRepository.findByUserAndStudy(user, study);
+        study.getUserStudies().remove(userStudyEntity);
+        user.getUserStudies().remove(userStudyEntity);
+        userStudyRepository.delete(userStudyEntity);
+    }
+
     public Study findStudy(long studyId) {
         Study study = VerifiedStudy(studyId);
         return study;
@@ -158,10 +186,23 @@ public class StudyService {
         studyRepository.save(study);
     }
 
+    public void removeRequester(Study study, Long userId) {
+        study.getRequester().remove(userId);
+        studyRepository.save(study);
+    }
+
+//    public List<Study> findStudiesByUser(HttpServletRequest request) {
+//        UserEntity user = userRepository.findByToken(request);
+//        List<Study> studies = studyRepository.findByUserStudiesUser(user);
+//
+//        return studies;
+//    }
     public List<Study> findStudiesByUser(HttpServletRequest request) {
         UserEntity user = userRepository.findByToken(request);
-        List<Study> studies = studyRepository.findByUserStudiesUser(user);
+        List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
+        List<Study> studies = userStudies.stream().map(UserStudyEntity::getStudy).collect(Collectors.toList());
+    return studies;
+}
 
-        return studies;
-    }
+
 }
