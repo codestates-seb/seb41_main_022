@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
   const getToken = () => {
     axios
-      .post(
+      .put(
         "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google"
       )
       .then(function (response) {
