@@ -139,6 +139,7 @@ const StartDateButton = styled.button`
   }
 `;
 const RedButton = styled.button`
+  border-style: none;
   width: 240px;
   padding: 3px;
   background-color: var(--red-00);

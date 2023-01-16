@@ -5,7 +5,6 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
   const [todoThatDay, setTodoThatDay] = useState();
   useEffect(() => {
-    console.log("1", event);
     if (data) {
       setTodoThatDay(
         data.filter((el) => el.date === event.startStr.slice(0, 19))
@@ -72,5 +71,8 @@ const ContentsDiv = styled.article`
   .flexDiv {
     display: flex;
     justify-content: space-between;
+    * {
+      font-size: 24px;
+    }
   }
 `;
