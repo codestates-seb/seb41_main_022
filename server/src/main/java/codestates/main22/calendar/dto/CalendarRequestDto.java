@@ -1,5 +1,6 @@
 package codestates.main22.calendar.dto;
 
+import codestates.main22.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +15,8 @@ public class CalendarRequestDto {
     @AllArgsConstructor
     @Getter
     public static class Post{
-        private LocalDate date;
-        private LocalTime time;
-        private String content;
+        private LocalDateTime dateTime;
+        private String title;
     }
 
     @AllArgsConstructor
@@ -24,9 +24,8 @@ public class CalendarRequestDto {
     @Setter
     public static class Patch {
         public long calendarId;
-        private LocalDate date;
-        private LocalTime time;
-        private String content;
-        private Map<String, String> participant = new HashMap<>();
+        private LocalDateTime dateTime;
+        private String title;
+        private Map<Long, String> participant = new HashMap<>();
     }
 }

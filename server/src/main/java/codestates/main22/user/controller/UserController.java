@@ -1,14 +1,19 @@
 package codestates.main22.user.controller;
 
 import codestates.main22.dto.ListResponseDto;
-import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
+import codestates.main22.exception.BusinessLogicException;
+import codestates.main22.exception.ExceptionCode;
+import codestates.main22.study.dto.StudyRequesterDto;
+import codestates.main22.study.entity.Study;
+import codestates.main22.study.mapper.StudyMapper;
+import codestates.main22.study.service.StudyService;
 import codestates.main22.user.dto.UserDto;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.mapper.UserMapper;
+import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,6 +31,9 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
+    private final UserRepository userRepository;
+    private final StudyService studyService;
+    private final StudyMapper studyMapper;
 
     //CRUD 순서에 맞춰서
 
@@ -47,7 +55,7 @@ public class UserController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(
-                        userMapper.userEntityToSearchUserReponse(user)),HttpStatus.OK);
+                        userMapper.userEntityToSearchUserResponse(user)),HttpStatus.OK);
     }
 
 //    //READ - 전체 조회 // 사용않음 + URL 중복으로 주석처리
@@ -107,5 +115,21 @@ public class UserController {
                 new ListResponseDto<>(userMapper.usersToStudyUserResponse(studyUsers, String.valueOf(studyId))),
                 HttpStatus.OK
         );
+    }
+
+    @GetMapping("/{study-id}/requester") //스터디 신청자만 모아서 보기
+    public ResponseEntity getRequester(@PathVariable("study-id") @Positive long studyId,
+                                       HttpServletRequest request) {
+
+        Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = userRepository.findByToken(request);
+
+        if (findStudy.getLeaderId() != loginUser.getUserId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
+
+        StudyRequesterDto.Response userList = studyMapper.studyToStudyRequesterResponseDto(findStudy);
+        List<UserEntity> requesterList = userService.findRequester(userList);
+        return new ResponseEntity<>(new SingleResponseDto<>(userMapper.userEntityToSearchUsersResponse(requesterList)), HttpStatus.OK);
     }
 }

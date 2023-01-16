@@ -1,5 +1,6 @@
 package codestates.main22.calendar.dto;
 
+import codestates.main22.user.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,9 +13,8 @@ public class CalendarResponseDto {
     @Getter
     public static class Post {
         public long calendarId;
-        private LocalDate date;
-        private LocalTime time;
-        private String content;
-        private Map<String, String> participant = new HashMap<>();
+        private LocalDateTime dateTime;
+        private String title;
+        private Map<Long, String> participant = new HashMap<>();
     }
 }
