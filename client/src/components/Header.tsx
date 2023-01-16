@@ -2,9 +2,19 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 import Bell from "../assets/Bell.svg";
+import axios from "axios";
 
 const Header = () => {
   const navigate = useNavigate();
+  const getToken = () => {
+    axios
+      .post(
+        "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google"
+      )
+      .then(function (response) {
+        console.log(response);
+      });
+  };
   return (
     <>
       <HeaderWrapper>
@@ -19,7 +29,7 @@ const Header = () => {
           <WhiteButton onClick={() => navigate("/study-hall/main")}>
             My Study
           </WhiteButton>
-          <WhiteButton>Log out</WhiteButton>
+          <WhiteButton onClick={getToken}>Log out</WhiteButton>
         </ItemWrapper>
       </HeaderWrapper>
     </>
