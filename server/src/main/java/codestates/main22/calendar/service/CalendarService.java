@@ -4,6 +4,7 @@ import codestates.main22.calendar.entity.Calendar;
 import codestates.main22.calendar.repository.CalendarRepository;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
+import codestates.main22.user.entity.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +28,7 @@ public class CalendarService {
     // 캘린더 생성
     public Calendar createCalendar(Calendar calendar) {
         Map<Long, String> participant = new HashMap<>();
+        UserEntity user = new UserEntity();
         participant.put(1L, Calendar.attendance.NONE.name());
         calendar.setParticipant(participant);
 
@@ -36,12 +39,10 @@ public class CalendarService {
     public Calendar updateCalendar(Calendar calendar) {
         Calendar findCalendar = verifiedCalendar(calendar.getCalendarId());
 
-        Optional.ofNullable(calendar.getDate())
-                .ifPresent(date -> findCalendar.setDate(date));
-        Optional.ofNullable(calendar.getTime())
-                .ifPresent(time -> findCalendar.setTime(time));
-        Optional.ofNullable(calendar.getContent())
-                .ifPresent(content -> findCalendar.setContent(content));
+        Optional.ofNullable(calendar.getDateTime())
+                .ifPresent(dateTime -> findCalendar.setDateTime(dateTime));
+        Optional.ofNullable(calendar.getTitle())
+                .ifPresent(title -> findCalendar.setTitle(title));
         Optional.ofNullable(calendar.getParticipant())
                 .ifPresent(participant -> findCalendar.setParticipant(participant));
 
