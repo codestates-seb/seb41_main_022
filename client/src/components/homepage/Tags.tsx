@@ -18,6 +18,7 @@ const TagWrapper = styled.div`
   justify-content: space-between;
   align-content: flex-start;
   width: 320px;
+
   //모바일
   @media screen and (max-width: 768px) {
     width: 160px;
