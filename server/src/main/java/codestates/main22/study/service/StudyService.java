@@ -6,12 +6,15 @@ import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.tag.entity.TagStudy;
+import codestates.main22.tag.service.TagService;
 import codestates.main22.tree.entity.Tree;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.entity.UserStudyEntity;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.repository.UserStudyRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -24,18 +27,23 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+//@AllArgsConstructor
 public class StudyService {
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
+//    private final TagService tagService;
     private final UserStudyRepository userStudyRepository;
     private final CustomAuthorityUtils customAuthorityUtils;
 
+
     public StudyService(StudyRepository studyRepository,
                         UserRepository userRepository,
+//                        TagService tagService,
                         CustomAuthorityUtils customAuthorityUtils,
                         UserStudyRepository userStudyRepository) {
         this.studyRepository = studyRepository;
         this.userRepository = userRepository;
+//        this.tagService = tagService;
         this.userStudyRepository = userStudyRepository;
         this.customAuthorityUtils = customAuthorityUtils;
     }
@@ -99,6 +107,20 @@ public class StudyService {
     public Page<Study> findStudies(int page, int size) {
         return studyRepository.findAll(PageRequest.of(page, size, Sort.by("studyId").descending()));
     }
+
+    public Page<Study> findStudiesByOpenClose(int page, int size) {
+        List<Study> studies = studyRepository.findAll().stream()
+            .filter(study -> study.isOpenClose())
+            .collect(Collectors.toList());
+
+        int start = page * size;
+        int end = Math.min(start + size, studies.size());
+        return new PageImpl<>(studies.subList(start, end), PageRequest.of(page, size), studies.size());
+    }
+
+//    public List<Study> findStudiesByTagId(long tagId) {
+//        return studyRepository.findByTagStudiesTag(tagService.findTag(tagId));
+//    }
 
     public void deleteStudy(long studyId) {studyRepository.deleteById(studyId);}
 
