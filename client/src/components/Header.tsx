@@ -1,20 +1,24 @@
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 import Bell from "../assets/Bell.svg";
 
 const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <HeaderWrapper>
-        <div className="header-logo">
+        <div className="header-logo" onClick={() => navigate("/")}>
           Stu<span>d</span>y Tree
         </div>
         <ItemWrapper>
-          <div className="imgWrapper">
+          <div className="imgWrapper" onClick={() => navigate("/user")}>
             <img src="https://mystickermania.com/cdn/stickers/cartoons/pokemon-ditto-you-can-be-anything-512x512.png" />
           </div>
           <img className="bell" src={Bell} />
-          <WhiteButton>My Study</WhiteButton>
+          <WhiteButton onClick={() => navigate("/study-hall/main")}>
+            My Study
+          </WhiteButton>
           <WhiteButton>Log out</WhiteButton>
         </ItemWrapper>
       </HeaderWrapper>
