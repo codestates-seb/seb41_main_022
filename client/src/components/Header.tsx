@@ -8,7 +8,7 @@ const Header = () => {
   const navigate = useNavigate();
   const getToken = () => {
     axios
-      .post(
+      .put(
         "http://localhost:8080/oauth2/authorization/google"
       )
       .then(function (response) {
