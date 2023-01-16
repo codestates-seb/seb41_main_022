@@ -1,7 +1,7 @@
 import React from "react";
 import "./global.css";
 import "./reset.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import CreatePage from "./pages/CreatePage";
@@ -14,17 +14,15 @@ import NotFound from "./pages/NotFound";
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/*" element={<NotFound />} />
-          <Route path="/create" element={<CreatePage />} />
-          <Route path="/study-hall/:page" element={<StudyHallPage />} />
-          <Route path="/user" element={<UserPage />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/*" element={<NotFound />} />
+        <Route path="/create" element={<CreatePage />} />
+        <Route path="/study-hall/:page" element={<StudyHallPage />} />
+        <Route path="/user" element={<UserPage />} />
+      </Routes>
+      <Footer />
     </>
   );
 }
