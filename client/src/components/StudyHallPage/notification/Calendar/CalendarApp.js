@@ -36,13 +36,12 @@ const CalendarApp = () => {
   const handleEventClick = (arg) => {
     setEvent(arg.event);
     DetailToggle();
-    console.log("Clicked event", arg.event.title, arg.event.dateStr);
   };
   const addEvent = (e) => {
-    AddToggle();
+    setEvent(e);
+    AddToggle(e);
     //추가 예시
     const calendarApi = e.view.calendar;
-    console.log(e);
     calendarApi.addEvent({
       title: "비빔면",
       date: e.dateStr,
