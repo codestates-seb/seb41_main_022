@@ -19,8 +19,6 @@ const StudyHallPage = () => {
       {page === "community" && <Community />}
       {page === "calendar" && <StudyHallNotification />}
       {page === "setting" && <Setting />}
-      {page === "calendar" && <StudyHallNotification />}
-      {page === "setting" && <div></div>}
     </div>
   );
 };
