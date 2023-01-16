@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface UserStudyRepository extends JpaRepository<UserStudyEntity, Long> {
     List<UserStudyEntity> findByStudy(Study study);
+    List<UserStudyEntity> findByUser(UserEntity user);
+    UserStudyEntity findByUserAndStudy(UserEntity user, Study study);
 }

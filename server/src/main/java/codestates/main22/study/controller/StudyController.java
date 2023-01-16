@@ -101,20 +101,16 @@ public class StudyController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{study-id}?userId={user-id}") //스터디 탈퇴 (멤버인 경우에만)
+    @DeleteMapping("/{study-id}/{user-id}") //스터디 탈퇴 (멤버인 경우에만)
     public ResponseEntity withdrawStudy(@PathVariable("study-id") @Positive long studyId,
-                                        @PathVariable("user-id") int userId,
-                                      HttpServletRequest request) {
+                                        @PathVariable("user-id") int userId) {
         Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = userRepository.findByToken(request);
 
         if(!studyService.isMember(userId, studyId)) {
             throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER);
         }
 
-        // TODO user-id를 변수로 받아드리고 있긴 하지만 로그인 한 유저 기준으로 봐야 하지 않을까?
-
-        studyService.deleteStudy(studyId);
+        studyService.removeUserAuth(findStudy, userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -152,6 +148,31 @@ public class StudyController {
         UserEntity loginUser = userRepository.findByToken(request);
 
         studyService.addRequester(findStudy, loginUser.getUserId());
+
+        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{study-id}/requester/{user-id}/accept") // main 스터디 신청 수락
+    public ResponseEntity acceptRegisterStudy(@PathVariable("study-id") @Positive long studyId,
+                                              @PathVariable("user-id") @Positive long userId) {
+
+        Study findStudy = studyService.findStudy(studyId);
+
+        studyService.removeRequester(findStudy, userId);
+        studyService.giveUserAuth(findStudy, userId);
+
+        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{study-id}/requester/{user-id}/reject") // main 스터디 신청 거절
+    public ResponseEntity rejectRegisterStudy(@PathVariable("study-id") @Positive long studyId,
+                                              @PathVariable("user-id") @Positive long userId) {
+
+        Study findStudy = studyService.findStudy(studyId);
+
+        studyService.removeRequester(findStudy, userId);
 
         StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
