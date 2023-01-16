@@ -3,6 +3,7 @@ package codestates.main22.user.service;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
+import codestates.main22.study.dto.StudyRequesterDto;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -122,5 +124,15 @@ public class UserService {
         UserEntity user = optionalUser.orElse(null);
 
         return user;
+    }
+
+    public List<UserEntity> findRequester(StudyRequesterDto.Response userList) {
+        List<UserEntity> requester = new ArrayList<>();
+        List<Long> list = userList.getRequester();
+        for(int i=0; i<list.size(); i++) {
+            UserEntity user = verifiedUser(list.get(i));
+            requester.add(user);
+        }
+        return requester;
     }
 }
