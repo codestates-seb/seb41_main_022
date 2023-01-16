@@ -25,6 +25,7 @@ const WeekWrapper = styled.main`
   padding: 1px;
   * {
     font-size: 12px;
+    color: var(--beige-00);
   }
   > .border {
     border: 1px solid var(--beige-00);
