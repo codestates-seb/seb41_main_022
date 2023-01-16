@@ -50,10 +50,20 @@ const CreateForm = () => {
       <ContentDiv>
         Create New Study
         <Form onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
-          <label htmlFor="title">Team Name</label>
-          <input id="title" type="text" {...register("title")} />
-          <label htmlFor="text">한 줄 설명</label>
-          <input id="text" type="text" {...register("text")} />
+          {/* <label htmlFor="title">Team Name</label> */}
+          <input
+            id="title"
+            type="text"
+            placeholder="Team Name"
+            {...register("title")}
+          />
+          {/* <label htmlFor="text">한 줄 설명</label> */}
+          <input
+            id="text"
+            type="text"
+            placeholder="한 줄 설명"
+            {...register("text")}
+          />
           <div className="tagSection">
             <div className="tagAddButton">
               Tags&nbsp;
@@ -212,9 +222,10 @@ const Form = styled.form`
     margin: 5px 0 20px;
     font-family: "mainM", Arial;
     height: 30px;
-    background-color: var(--mopo-00);
-    border: none;
-    padding: 4px;
+    background-color: var(--beige-00);
+    border: solid 2px var(--green);
+    border-radius: 30px;
+    padding: 4px 15px 4px 15px;
   }
   > input:focus {
     outline: none;
@@ -238,30 +249,32 @@ const Form = styled.form`
       border-radius: var(--radius-20);
     }
     > textarea {
-      background-color: var(--mopo-00);
-      border: none;
+      background-color: var(--beige-00);
+      border: solid 2px var(--green);
+      border-radius: 10px;
       width: 100%;
-      color: var(--beige-00);
+      color: var(--green);
       max-height: 80px;
       resize: none;
       overflow: auto;
       padding: 8px;
+      padding-right: 5px;
     }
     > textarea:focus {
       outline: none;
     }
     .textArea::-webkit-scrollbar {
-      width: 8px; /* 스크롤바의 너비 */
+      width: 5px; /* 스크롤바의 너비 */
     }
 
     .textArea::-webkit-scrollbar-thumb {
-      height: 30%; /* 스크롤바의 길이 */
-      background: rgba(255, 255, 255, 0.15); /* 스크롤바의 색상 */
+      height: 20%; /* 스크롤바의 길이 */
+      background: var(--green); /* 스크롤바의 색상 */
       border-radius: 10px;
     }
 
     .textArea::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2); /*스크롤바 뒷 배경 색상*/
+      background: none; /*스크롤바 뒷 배경 색상*/
     }
   }
   .person {
