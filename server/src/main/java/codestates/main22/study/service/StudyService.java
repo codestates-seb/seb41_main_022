@@ -198,11 +198,11 @@ public class StudyService {
 //        return studies;
 //    }
     public List<Study> findStudiesByUser(HttpServletRequest request) {
-        UserEntity user = userRepository.findByToken(request);
-        List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
-        List<Study> studies = userStudies.stream().map(UserStudyEntity::getStudy).collect(Collectors.toList());
-    return studies;
-}
+            UserEntity user = userRepository.findByToken(request);
+            List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
+            List<Study> studies = userStudies.stream().map(UserStudyEntity::getStudy).collect(Collectors.toList());
+        return studies;
+    }
 
 
 }
