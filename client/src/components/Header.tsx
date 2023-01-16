@@ -9,7 +9,7 @@ const Header = () => {
   const getToken = () => {
     axios
       .post(
-        "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google"
+        "http://localhost:8080/oauth2/authorization/google"
       )
       .then(function (response) {
         console.log(response);

@@ -24,7 +24,9 @@ public class CorsConfig implements Filter {
         response.setHeader("Access-Control-Allow-Headers",
                 "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization");
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod()) || "POST".equalsIgnoreCase(request.getMethod())) {
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod()) || "POST".equalsIgnoreCase(request.getMethod())
+         || "GET".equalsIgnoreCase(request.getMethod()) || "PATCH" .equalsIgnoreCase(request.getMethod())
+         || "DELETE" .equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
         } else {
             chain.doFilter(req, res);
