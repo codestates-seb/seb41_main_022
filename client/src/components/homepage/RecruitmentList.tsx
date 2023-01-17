@@ -9,7 +9,7 @@ interface Data {
   data: any;
 }
 
-interface AxiosData {
+export interface AxiosData {
   content: string;
   dayOfWeek: string[];
   image: string;
