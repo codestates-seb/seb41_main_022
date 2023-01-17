@@ -6,9 +6,10 @@ import WeekBar from "../WeekBar";
 interface CardProps {
   teamName: string;
   summary: string;
+  dayOfWeek: string[];
 }
 
-const Recruitment = ({ teamName, summary }: CardProps) => {
+const Recruitment = ({ teamName, summary, dayOfWeek }: CardProps) => {
   const navigate = useNavigate();
 
   return (
@@ -20,7 +21,7 @@ const Recruitment = ({ teamName, summary }: CardProps) => {
             <div className="body-content--wrapper">
               <div className="body-content">{summary}</div>
             </div>
-            <WeekBar />
+            <WeekBar dayOfWeek={dayOfWeek} />
             <div className="body-online">
               <span className="online">Online </span>
               <span className="online offline">&nbsp;/&nbsp;</span>
