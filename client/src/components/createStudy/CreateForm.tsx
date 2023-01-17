@@ -6,9 +6,10 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 import CreateWeekBar from "./CreateWeekBar";
-import Toggle from "../Toggle";
+import ToggleOnline from "./ToggleOnline";
 import CreatePageTags from "./CreatePageTags";
 import axios, { AxiosResponse } from "axios";
+import TogglePublic from "./TogglePublic";
 
 interface MyFormProps {
   teamName: string;
@@ -164,8 +165,8 @@ const CreateForm = () => {
             명
           </div>
           <div>
-            <Toggle name={"procedure"} form={form} setForm={setForm} />
-            <Toggle name={"openClose"} form={form} setForm={setForm} />
+            <ToggleOnline form={form} setForm={setForm} />
+            <TogglePublic form={form} setForm={setForm} />
           </div>
           <div className="dateWrapper">
             <span>시작날짜</span>
