@@ -30,7 +30,6 @@ import java.util.List;
 public class StudyController {
     private final StudyService studyService;
     private final StudyMapper studyMapper;
-    private final UserService userService;
     private final UserRepository userRepository;
 
     @PostMapping // #38 - 스터디 작성 'Create New Study'
@@ -38,8 +37,12 @@ public class StudyController {
                                     HttpServletRequest request) {
         Study study = studyMapper.studyPostDtoToStudy(requestBody);
         Study createStudy = studyService.createStudy(study, request);
-        StudyDto.Response response = studyMapper.studyToStudyResponseDto(createStudy);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+        List<String> tags = studyService.createTagStudies(createStudy, requestBody.getTags());
+        StudyDto.ResponseTag response = studyMapper.studyToStudyResponseDto(createStudy, tags);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response), HttpStatus.CREATED
+        );
     }
 
     @PatchMapping("/{study-id}") // 스터디 수정 (기본 CRUD)
@@ -225,8 +228,11 @@ public class StudyController {
     @GetMapping("/{study-id}/main") // #29 - studyHall/main 본문
     public ResponseEntity getMainBody(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
-        StudyMainDto.MainResponse response = studyMapper.studyToStudyMainResponseDto(findStudy);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+        List<String> tags = studyService.findTagsByStudy(findStudy);
+        StudyMainDto.MainResponse response = studyMapper.studyToStudyMainResponseDto(findStudy, tags);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response), HttpStatus.OK
+        );
     }
 
     @PatchMapping("/{study-id}/main") // #31 - studyHall/main 본문 수정
@@ -235,10 +241,12 @@ public class StudyController {
 
         Study study = studyService.updateMainBody(
                 studyId, studyMapper.studyMainPatchDtoToStudyMain(patch));
+        List<String> tags = studyService.updateTag(study, patch.getTags());
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(
-                        studyMapper.studyToStudyMainResponseDto(study)),HttpStatus.OK);
+                        studyMapper.studyToStudyMainResponseDto(study, tags)),HttpStatus.OK
+        );
     }
 
     // #9 - user의 study 조회

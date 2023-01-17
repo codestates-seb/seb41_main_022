@@ -2,6 +2,7 @@ package codestates.main22.study.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +13,7 @@ public class StudyDto {
     public static class Post {
         private String teamName;
         private String summary;
+        public List<String> tags;
         private List<String> dayOfWeek;
         private int want;
         private LocalDate startDate;
@@ -46,6 +48,26 @@ public class StudyDto {
         private Long studyId;
         private String teamName;
         private String summary;
+        private List<String> dayOfWeek;
+        private int want;
+        private LocalDate startDate;
+        private boolean procedure;
+        private boolean openClose;
+        private String content;
+        private String notice;
+        private String image;
+        private long leaderId;
+        private List<Long> requester;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class ResponseTag {
+        private Long studyId;
+        private String teamName;
+        private String summary;
+        public List<String> tags;
         private List<String> dayOfWeek;
         private int want;
         private LocalDate startDate;
