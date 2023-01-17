@@ -10,6 +10,9 @@ import ToggleOnline from "./ToggleOnline";
 import CreatePageTags from "./CreatePageTags";
 import axios, { AxiosResponse } from "axios";
 import TogglePublic from "./TogglePublic";
+import { createStudyStore } from "../../util/zustandCreateStudy";
+
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 interface MyFormProps {
   teamName: string;
@@ -27,6 +30,7 @@ interface MyFormTag {
   tags: string[];
 }
 const CreateForm = () => {
+  const { fetchCreateStudy, studyId } = createStudyStore();
   const fetch = (url: string): Promise<AxiosResponse<any>> => {
     return axios.get(url);
   };
@@ -82,10 +86,8 @@ const CreateForm = () => {
     });
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    // 여기도 모르니까 any 로 하겠습니다.
     e.preventDefault();
-    alert(JSON.stringify(form));
-    alert(JSON.stringify(myTag));
+    fetchCreateStudy(URL, form);
   };
   const openModal = () => {
     setIsOpen(!isOpen);
