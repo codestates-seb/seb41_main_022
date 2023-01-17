@@ -105,6 +105,8 @@ public class StudyService {
         userStudyEntity.setUser(user);
         userStudyEntity.setStudy(study);
 
+        user.getRole().add(customAuthorityUtils.createStudyRoles(study.getStudyId(), false));
+
         userStudyRepository.save(userStudyEntity);
         return study;
     }
@@ -141,7 +143,7 @@ public class StudyService {
             int size
     ) {
         List<Study> studies = studyRepository.findAll().stream()
-                .filter(study -> !study.isOpenClose()) // 공개된 스터디 필터링
+                .filter(study -> study.isOpenClose()) // 공개된 스터디 필터링
                 .sorted(Comparator.comparing(Study::getCreatedAt).reversed()) // new(최신) 순으로 정렬(default)
                 .collect(Collectors.toList());
 
@@ -168,7 +170,7 @@ public class StudyService {
 
         // 공개된 스터디 필터링 & search로 스터디 조회
         studies = studies.stream()
-                .filter(study -> !study.isOpenClose()) // 공개된 스터디 필터링
+                .filter(study -> study.isOpenClose()) // 공개된 스터디 필터링
                 .filter(study -> searchWord(study, search)) // search로 스터디 조회
                 .collect(Collectors.toSet());
 
