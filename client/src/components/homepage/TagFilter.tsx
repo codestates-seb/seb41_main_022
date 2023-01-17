@@ -2,9 +2,11 @@ import { useState } from "react";
 import styled from "styled-components";
 
 import Tags from "./Tags";
+import HomeStore from "../../util/zustandHome";
 
 const TagFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { setFilter } = HomeStore();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -27,9 +29,15 @@ const TagFilter = () => {
         )}
         {isOpen && (
           <ul className="dropdown">
-            <li className="menu">최신순</li>
-            <li className="menu">이름순</li>
-            <li className="menu">대충정렬</li>
+            <li onClick={() => setFilter("now")} className="menu">
+              최신순
+            </li>
+            <li onClick={() => setFilter("name")} className="menu">
+              이름순
+            </li>
+            <li onClick={() => setFilter("random")} className="menu">
+              대충정렬
+            </li>
           </ul>
         )}
       </div>
