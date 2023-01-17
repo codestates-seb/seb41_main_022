@@ -1,17 +1,31 @@
 import styled from "styled-components";
-
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
+import HomeStore from "../../util/zustandHome";
 
 interface Data {
   data: any;
 }
 
 const Tags = () => {
+  const { setTags, tags } = HomeStore();
   const [tagList, setTagList] = useState<string[]>();
+  const [selectedTagList, setSelectedTagList] = useState<string[]>([]);
   const getTags = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url);
   };
+
+  const handleClickTag = (tagName: string) => {
+    if (selectedTagList.includes(tagName)) {
+      setSelectedTagList([...selectedTagList.filter((el) => el !== tagName)]);
+    } else {
+      setSelectedTagList([...selectedTagList, tagName]);
+    }
+  };
+  useEffect(() => {
+    setTags(selectedTagList.join(","));
+  }, [selectedTagList]);
+
   useEffect(() => {
     const url =
       "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
@@ -19,7 +33,16 @@ const Tags = () => {
   }, []);
   return (
     <TagWrapper>
-      {tagList && tagList.map((el, idx) => <Tag key={idx}>{el}</Tag>)}
+      {tagList &&
+        tagList.map((el, idx) => (
+          <Tag
+            key={idx}
+            onClick={() => handleClickTag(el)}
+            className={selectedTagList.includes(el) ? "active" : undefined}
+          >
+            {el}
+          </Tag>
+        ))}
     </TagWrapper>
   );
 };
@@ -30,6 +53,10 @@ const TagWrapper = styled.div`
   justify-content: space-between;
   align-content: flex-start;
   width: 320px;
+
+  > .active {
+    background-color: var(--mopo-10);
+  }
 
   //모바일
   @media screen and (max-width: 768px) {

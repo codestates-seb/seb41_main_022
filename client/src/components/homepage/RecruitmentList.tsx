@@ -4,40 +4,32 @@ import { useState, useEffect } from "react";
 
 import Data from "../../util/dummyData";
 import Recruitment from "./Recruitment";
+import HomeStore from "../../util/zustandHome";
 
 interface Data {
   data: any;
 }
 
-export interface AxiosData {
-  content: string;
-  dayOfWeek: string[];
-  image: string;
-  leaderId: number;
-  notice?: null;
-  openClose: boolean;
-  procedure: boolean;
-  requester: [];
-  startDate: string;
-  studyId: number;
-  summary: string;
-  teamName: string;
-  want: number;
-}
-
 const RecruitmentList = () => {
-  const [recruitmentData, setRecruitmentData] = useState<AxiosData[]>();
+  const { tags, filter, search, recruitmentData, fetch, setRecruitment } =
+    HomeStore();
   const getRecruitmentData = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url);
   };
 
+  // 초기 데이터 요청
   useEffect(() => {
     getRecruitmentData(
       `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/first-cards?page=${1}&size=${10}`
     ).then((res) => {
-      setRecruitmentData(res.data.data);
+      setRecruitment(res.data.data);
     });
   }, []);
+
+  // 필터링 api요청
+  useEffect(() => {
+    console.log(fetch(tags, filter, search));
+  }, [tags, filter, search]);
 
   return (
     <RecruitmentWrapper>

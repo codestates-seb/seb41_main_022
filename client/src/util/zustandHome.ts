@@ -1,39 +1,61 @@
 import create from "zustand";
 import axios from "axios";
 
-import { AxiosData } from "../components/homepage/RecruitmentList";
-
 interface Home {
   tags: string;
   filter: string;
   search: string;
-  fetch: (url: string) => any;
+  recruitmentData: undefined | Recruitment[];
+  fetch: (tags: string, filter: string, search: string) => any;
+  setTags: (tag: string) => void;
+  setFilter: (filter: string) => void;
+  setSearch: (search: string) => void;
+  setRecruitment: (data: Recruitment[]) => void;
+}
+
+interface Recruitment {
+  content: string;
+  dayOfWeek: string[];
+  image: string;
+  leaderId: number;
+  notice?: null;
+  openClose: boolean;
+  procedure: boolean;
+  requester: [];
+  startDate: string;
+  studyId: number;
+  summary: string;
+  teamName: string;
+  want: number;
 }
 
 const HomeStore = create<Home>()((set) => ({
   tags: "",
-  setTags: (tag: string) => {
-    set((state) => ({ tags: tag }));
-  },
-  search: "",
-  setSearch: (search: string) => {
-    set((state) => ({ search: search }));
-  },
   filter: "",
-  setFilter: (filter: string) => {
-    set((state) => ({ filter: filter }));
+  search: "",
+  recruitmentData: undefined,
+  setRecruitment: (data: Recruitment[]) => {
+    set((state) => ({ recruitmentData: data }));
   },
-  fetch: async (url) => {
+  fetch: async (tags: string, filter: string, search: string) => {
     try {
       await axios
         .get(
-          url +
-            `?page={1}&size={10}&search={Loud}&filter={random}&tags={IT,수학}`
+          `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=1&size=10&search=${search}&filter=${filter}&tags=${tags}`
         )
-        .then((res) => alert(JSON.stringify(res)));
+        .then((res) => res.data.data);
     } catch (e) {
       console.log(e);
     }
+  },
+  setTags: (tag: string) => {
+    set((state) => ({ tags: tag }));
+  },
+  setFilter: (filter: string) => {
+    set((state) => ({ filter: filter }));
+  },
+  setSearch: (search: string) => {
+    set((state) => ({ search: search }));
   },
 }));
 
