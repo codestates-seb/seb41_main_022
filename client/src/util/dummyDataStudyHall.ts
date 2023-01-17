@@ -367,5 +367,13 @@ const Reply = {
   },
 };
 
+const User = {
+  data: {
+    userId: 1,
+    username: "test-Name",
+    imgUrl: "http://image.png",
+  },
+};
+
 export default StudyHallData;
-export { CommentCreate, CommentsData, Reply };
+export { CommentCreate, CommentsData, Reply, User };
