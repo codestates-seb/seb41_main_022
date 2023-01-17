@@ -76,6 +76,237 @@ const CommentsData = {
         },
       ],
     },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
+    {
+      chatId: 1,
+      chatUserId: "kung036",
+      content: "이 스터디는 몇시까지 하나요?",
+      isClosedChat: false,
+      answers: [],
+    },
   ],
   pageInfo: {
     page: 1,
@@ -85,6 +316,50 @@ const CommentsData = {
   },
 };
 
+// {
+//   data: [
+//       {
+//           chatId: 2,
+//           username: "신우경",
+//           imgUrl: "http://image.png",
+//           content: "저는 민트가 싫어요",
+//           isClosedChat: true,
+//           chatCreatedAt: "2023-01-12T20:35:37.340372",
+//           answers: [
+//               {
+//                   answerId: 2,
+//                   username: "신우경",
+//                   imgUrl: "http://image.png",
+//                   content: "저도 민트가 좋아요",
+//                   answerCreatedAt: "2023-01-12T20:35:39.697613"
+//               },
+//               {
+//                   answerId: 3,
+//                   username: "신우경",
+//                   imgUrl: "http://image.png",
+//                   content: "저도 민트가 좋아요",
+//                   answerCreatedAt: "2023-01-12T20:39:27.009807"
+//               }
+//           ]
+//       },
+//       {
+//           chatId: 1,
+//           username: "Secret",
+//           imgUrl: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F0Pfd6%2FbtrVZWBVjpY%2FBkJIKgG8Fbj1hqEnjqK1r1%2Fimg.png",
+//           content: "Secret",
+//           isClosedChat: true,
+//           chatCreatedAt: "2023-01-12T20:35:35.902837",
+//           answers: []
+//       }
+//   ],
+//   pageInfo: {
+//       page: 1,
+//       size: 15,
+//       totalElements: 2,
+//       totalPages: 1
+//   }
+// }
+
 const Reply = {
   data: {
     content: "저는 민트가 좋아요",
@@ -92,5 +367,13 @@ const Reply = {
   },
 };
 
+const User = {
+  data: {
+    userId: 1,
+    username: "test-Name",
+    imgUrl: "http://image.png",
+  },
+};
+
 export default StudyHallData;
-export { CommentCreate, CommentsData, Reply };
+export { CommentCreate, CommentsData, Reply, User };
