@@ -1,18 +1,55 @@
 import styled from "styled-components";
+import axios, { AxiosResponse } from "axios";
+import { useState, useEffect } from "react";
 
 import Data from "../../util/dummyData";
 import Recruitment from "./Recruitment";
 
+interface Data {
+  data: any;
+}
+
+interface AxiosData {
+  content: string;
+  dayOfWeek: string[];
+  image: string;
+  leaderId: number;
+  notice?: null;
+  openClose: boolean;
+  procedure: boolean;
+  requester: [];
+  startDate: string;
+  studyId: number;
+  summary: string;
+  teamName: string;
+  want: number;
+}
+
 const RecruitmentList = () => {
+  const [recruitmentData, setRecruitmentData] = useState<AxiosData[]>();
+  const getRecruitmentData = (url: string): Promise<AxiosResponse<Data>> => {
+    return axios.get(url);
+  };
+
+  useEffect(() => {
+    getRecruitmentData(
+      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/first-cards?page=${1}&size=${10}`
+    ).then((res) => {
+      setRecruitmentData(res.data.data);
+    });
+  }, []);
+
   return (
     <RecruitmentWrapper>
-      {Data.data.map((el) => (
-        <Recruitment
-          key={el.studyId}
-          teamName={el.teamName}
-          summary={el.summary}
-        />
-      ))}
+      {recruitmentData &&
+        recruitmentData.map((el) => (
+          <Recruitment
+            key={el.studyId}
+            teamName={el.teamName}
+            summary={el.summary}
+            dayOfWeek={el.dayOfWeek}
+          />
+        ))}
     </RecruitmentWrapper>
   );
 };

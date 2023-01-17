@@ -89,7 +89,7 @@ const CreateForm = () => {
           </div>
           <div className="weekbarWrapper">
             <span>진행요일</span>
-            <WeekBar />
+            <WeekBar dayOfWeek={["MON"]} />
           </div>
           <div>
             인원 :{" "}
