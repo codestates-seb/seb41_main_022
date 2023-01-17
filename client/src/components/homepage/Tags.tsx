@@ -1,13 +1,25 @@
 import styled from "styled-components";
 
-import { TagData } from "../../util/dummyData";
+import { useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
+
+interface Data {
+  data: any;
+}
 
 const Tags = () => {
+  const [tagList, setTagList] = useState<string[]>();
+  const getTags = (url: string): Promise<AxiosResponse<Data>> => {
+    return axios.get(url);
+  };
+  useEffect(() => {
+    const url =
+      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
+    getTags(url).then((res) => setTagList(res.data.data.tags));
+  }, []);
   return (
     <TagWrapper>
-      {TagData.data.tags.map((el, idx) => (
-        <Tag key={idx}>{el}</Tag>
-      ))}
+      {tagList && tagList.map((el, idx) => <Tag key={idx}>{el}</Tag>)}
     </TagWrapper>
   );
 };
