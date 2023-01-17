@@ -141,26 +141,26 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         queryParams.add("refresh-Token", refreshToken);
 
         // backend local test
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-//                .port(8080)
-                .path("/receive-token.html")
-                .queryParams(queryParams)
-                .build()
-                .toUri();
-
-        // frontend local test
 //        return UriComponentsBuilder
 //                .newInstance()
 //                .scheme("http")
 //                .host("localhost")
-////                .port(3000)
-////                .path("/receive-token.html")
+////                .port(8080)
+//                .path("/receive-token.html")
 //                .queryParams(queryParams)
 //                .build()
 //                .toUri();
+
+        // frontend local test
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(3000)
+                .path("/Token.html")
+                .queryParams(queryParams)
+                .build()
+                .toUri();
 
         // S3 배포 시 : http://seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/
 //        return UriComponentsBuilder

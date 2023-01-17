@@ -5,11 +5,17 @@ import Bell from "../assets/Bell.svg";
 import axios from "axios";
 
 const Header = () => {
+  const googleLocalURL = "http://localhost:8080/oauth2/authorization/google";
+  const googleserverURL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
+  function moveURL() {
+    window.location.href = googleserverURL
+  }
+
   const navigate = useNavigate();
   const getToken = () => {
     axios
-      .put(
-        "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google"
+      .post(
+        "http://localhost:8080/oauth2/authorization/google"
       )
       .then(function (response) {
         console.log(response);
@@ -33,7 +39,9 @@ const Header = () => {
           <WhiteButton onClick={() => navigate("/study-hall/main")}>
             My Study
           </WhiteButton>
-          <WhiteButton onClick={getToken}>Log out</WhiteButton>
+          {/*<WhiteButton onClick={getToken}>Log out</WhiteButton>*/}
+          {/*<WhiteButton onClick={() => `location.href=${googleURL}`} >Log out</WhiteButton>*/}
+          <WhiteButton onClick={() => moveURL()} >Log out</WhiteButton>
         </ItemWrapper>
       </HeaderWrapper>
     </>
