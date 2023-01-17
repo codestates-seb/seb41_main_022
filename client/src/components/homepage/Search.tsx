@@ -1,12 +1,26 @@
 import styled from "styled-components";
+import { useState, KeyboardEvent } from "react";
 
-import SearchIcon from "../.././assets/Search.svg";
+import HomeStore from "../../util/zustandHome";
 
 const Search = () => {
+  const { setSearch } = HomeStore();
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setSearch(searchValue);
+    }
+  };
+
   return (
     <BorderBottomWrapper>
       <div className="searchWrapper">
-        <Input placeholder="Search..." />
+        <Input
+          onChange={(e) => setSearchValue(e.target.value)}
+          onKeyPress={handleKeyPress}
+          placeholder="Search..."
+        />
       </div>
     </BorderBottomWrapper>
   );
