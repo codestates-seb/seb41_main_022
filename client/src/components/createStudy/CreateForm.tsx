@@ -2,30 +2,39 @@ import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-import WeekBar from "../WeekBar";
+import CreateWeekBar from "./CreateWeekBar";
 import Toggle from "../Toggle";
 import CreatePageTags from "./CreatePageTags";
+import axios, { AxiosResponse } from "axios";
 
 const CreateForm = () => {
   const [startDate, setStartDate] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [tags, setTags] = useState([
-    "가나다",
-    "공부",
-    "영어",
-    "수학",
-    "사회",
-    "과학",
-    "IT",
-    "영어회화",
-  ]);
+  const [tags, setTags] = useState<string[]>();
   const [selectedTags, setSelectedTags] = useState([]);
   const { register, handleSubmit, control } = useForm();
   const [isOnlineToggleClicked, setIsOnlineToggleClicked] = useState(true);
   const [isPublicToggleClicked, setIsPublicToggleClicked] = useState(true);
+  const [week, setWeek] = useState({
+    mon: false,
+    tue: false,
+    wen: false,
+    thu: false,
+    fri: false,
+    sat: false,
+    sun: false,
+  });
+  const fetch = (url: string): Promise<AxiosResponse<any>> => {
+    return axios.get(url);
+  };
+  useEffect(() => {
+    const url =
+      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
+    fetch(url).then((res) => setTags(res.data.data.tags));
+  }, []);
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
@@ -71,14 +80,15 @@ const CreateForm = () => {
             </div>
             {isOpen && (
               <AddTagsModal>
-                {tags.map((el, idx) => (
-                  <CreatePageTags
-                    key={idx}
-                    setSelectedTags={setSelectedTags}
-                    selectedTags={selectedTags}
-                    tagName={el}
-                  />
-                ))}
+                {tags &&
+                  tags.map((el, idx) => (
+                    <CreatePageTags
+                      key={idx}
+                      setSelectedTags={setSelectedTags}
+                      selectedTags={selectedTags}
+                      tagName={el}
+                    />
+                  ))}
               </AddTagsModal>
             )}
             <TagsWrapper>
@@ -89,7 +99,7 @@ const CreateForm = () => {
           </div>
           <div className="weekbarWrapper">
             <span>진행요일</span>
-            <WeekBar />
+            <CreateWeekBar week={week} setWeek={setWeek} />
           </div>
           <div>
             인원 :{" "}
@@ -152,6 +162,13 @@ const CreateForm = () => {
             <RedButton type="submit">Create Study</RedButton>
           </div>
         </Form>
+        <button
+          onClick={() => {
+            console.log(week);
+          }}
+        >
+          btnbtn
+        </button>
       </ContentDiv>
     </Main>
   );
