@@ -1,16 +1,34 @@
 import styled from "styled-components";
 
-const WeekBar = () => {
+interface WeekbarProps {
+  dayOfWeek: string[];
+}
+
+const WeekBar = ({ dayOfWeek }: WeekbarProps) => {
   return (
     <WeekWrapper>
       <div className="border">
-        <WeekBlock>월</WeekBlock>
-        <WeekBlock>화</WeekBlock>
-        <WeekBlock>수</WeekBlock>
-        <WeekBlock>목</WeekBlock>
-        <WeekBlock>금</WeekBlock>
-        <WeekBlock>토</WeekBlock>
-        <WeekBlock>일</WeekBlock>
+        <WeekBlock className={dayOfWeek.includes("MON") ? "active" : undefined}>
+          월
+        </WeekBlock>
+        <WeekBlock className={dayOfWeek.includes("TUE") ? "active" : undefined}>
+          화
+        </WeekBlock>
+        <WeekBlock className={dayOfWeek.includes("WED") ? "active" : undefined}>
+          수
+        </WeekBlock>
+        <WeekBlock className={dayOfWeek.includes("THU") ? "active" : undefined}>
+          목
+        </WeekBlock>
+        <WeekBlock className={dayOfWeek.includes("FRI") ? "active" : undefined}>
+          금
+        </WeekBlock>
+        <WeekBlock className={dayOfWeek.includes("SAT") ? "active" : undefined}>
+          토
+        </WeekBlock>
+        <WeekBlock className={dayOfWeek.includes("SUN") ? "active" : undefined}>
+          일
+        </WeekBlock>
       </div>
     </WeekWrapper>
   );
@@ -34,6 +52,10 @@ const WeekWrapper = styled.main`
     align-items: center;
     justify-content: space-between;
     padding: 0 2px;
+    .active {
+      background-color: var(--beige-00);
+      color: var(--green);
+    }
   }
 `;
 //요일 들어가는 div
@@ -49,8 +71,4 @@ const WeekBlock = styled.div`
   border-radius: var(--radius-30);
   color: var(--gray-00);
   text-align: center;
-  :hover {
-    background-color: var(--beige-00);
-    color: var(--green);
-  }
 `;

@@ -78,6 +78,7 @@ const TagFilterWrapper = styled.div`
       align-items: center;
       border-bottom-right-radius: var(--radius-20);
       border-bottom-left-radius: var(--radius-20);
+      padding: 0;
       > li {
         width: 90px;
         text-align: center;
@@ -87,6 +88,7 @@ const TagFilterWrapper = styled.div`
         justify-content: center;
         border-top: 2px dotted black;
         padding-bottom: 4px;
+        margin: 0;
         :hover {
           cursor: pointer;
         }

@@ -6,7 +6,7 @@ import { VscBellDot } from "react-icons/vsc";
 const StudyHallRightNav = () => {
   return (
     <Margin20>
-      <WeekBar />
+      <WeekBar dayOfWeek={["MON"]} />
       <Notice>
         <div className="wrapper">
           <div>

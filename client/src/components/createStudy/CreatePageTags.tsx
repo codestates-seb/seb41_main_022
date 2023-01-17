@@ -1,20 +1,30 @@
 import styled from "styled-components";
+import { useEffect } from "react";
 
 interface TagsProps {
   tagName: string;
   setSelectedTags?: any;
   selectedTags?: string[];
+  myTag: any;
+  setMyTag: any;
 }
 
 const CreatePageTags = ({
   tagName,
   setSelectedTags,
   selectedTags,
+  myTag,
+  setMyTag,
 }: TagsProps) => {
+  useEffect(() => {
+    setMyTag({
+      tags: selectedTags,
+    });
+  }, [selectedTags]);
   const addTag = () => {
     if (selectedTags) {
       if (selectedTags?.includes(tagName)) {
-        return;
+        setSelectedTags([...selectedTags.filter((el) => el !== tagName)]);
       } else {
         setSelectedTags([...selectedTags, tagName]);
       }
