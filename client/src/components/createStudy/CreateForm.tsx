@@ -50,21 +50,12 @@ const CreateForm = () => {
       <ContentDiv>
         Create New Study
         <Form onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
-<<<<<<< HEAD
-          {/* <label htmlFor="title">Team Name</label> */}
-=======
->>>>>>> feat/ydv/hall-main
           <input
             id="title"
             type="text"
             placeholder="Team Name"
             {...register("title")}
           />
-<<<<<<< HEAD
-          {/* <label htmlFor="text">한 줄 설명</label> */}
-=======
-
->>>>>>> feat/ydv/hall-main
           <input
             id="text"
             type="text"
