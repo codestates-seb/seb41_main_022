@@ -164,9 +164,8 @@ const CreateForm = () => {
             명
           </div>
           <div>
-            <Toggle id={"procedure"} form={form} setForm={setForm} />
-
-            <Toggle id={"openClose"} form={form} setForm={setForm} />
+            <Toggle name={"procedure"} form={form} setForm={setForm} />
+            <Toggle name={"openClose"} form={form} setForm={setForm} />
           </div>
           <div className="dateWrapper">
             <span>시작날짜</span>
