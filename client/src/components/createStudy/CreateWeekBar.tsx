@@ -2,61 +2,77 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 
 interface Props {
-  week: dayType;
-  setWeek?: any;
+  form: any;
+  setForm: any;
 }
 interface dayType {
   [key: string]: boolean;
 }
-const CreateWeekBar = ({ week, setWeek }: Props) => {
-  const [click, setClick] = useState(false);
+const CreateWeekBar = ({ form, setForm }: Props) => {
+  const [dayOfWeek, setDayOfWeek] = useState([]);
+  const [week, setWeek] = useState<dayType>({
+    MON: false,
+    TUE: false,
+    WED: false,
+    THU: false,
+    FRI: false,
+    SAT: false,
+    SUN: false,
+  });
+  useEffect(() => {
+    setForm({
+      ...form,
+      dayOfWeek,
+    });
+  }, [dayOfWeek]);
   const weekFunc = (day: string) => {
     week[day] = !week[day];
     setWeek(week);
-    setClick(!click);
+    let temp: any = Object.keys(week).filter((el) => week[el]);
+    setDayOfWeek(temp);
   };
   return (
     <WeekWrapper>
       <div className="border">
         <WeekBlock
-          onClick={() => weekFunc("mon")}
-          className={week.mon ? "active" : undefined}
+          onClick={() => weekFunc("MON")}
+          className={week.MON ? "active" : undefined}
         >
           월
         </WeekBlock>
         <WeekBlock
-          onClick={() => weekFunc("tue")}
-          className={week.tue ? "active" : undefined}
+          onClick={() => weekFunc("TUE")}
+          className={week.TUE ? "active" : undefined}
         >
           화
         </WeekBlock>
         <WeekBlock
-          onClick={() => weekFunc("wen")}
-          className={week.wen ? "active" : undefined}
+          onClick={() => weekFunc("WED")}
+          className={week.WED ? "active" : undefined}
         >
           수
         </WeekBlock>
         <WeekBlock
-          onClick={() => weekFunc("thu")}
-          className={week.thu ? "active" : undefined}
+          onClick={() => weekFunc("THU")}
+          className={week.THU ? "active" : undefined}
         >
           목
         </WeekBlock>
         <WeekBlock
-          onClick={() => weekFunc("fri")}
-          className={week.fri ? "active" : undefined}
+          onClick={() => weekFunc("FRI")}
+          className={week.FRI ? "active" : undefined}
         >
           금
         </WeekBlock>
         <WeekBlock
-          onClick={() => weekFunc("sat")}
-          className={week.sat ? "active" : undefined}
+          onClick={() => weekFunc("SAT")}
+          className={week.SAT ? "active" : undefined}
         >
           토
         </WeekBlock>
         <WeekBlock
-          onClick={() => weekFunc("sun")}
-          className={week.sun ? "active" : undefined}
+          onClick={() => weekFunc("SUN")}
+          className={week.SUN ? "active" : undefined}
         >
           일
         </WeekBlock>

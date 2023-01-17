@@ -10,31 +10,37 @@ import Toggle from "../Toggle";
 import CreatePageTags from "./CreatePageTags";
 import axios, { AxiosResponse } from "axios";
 
+interface MyFormProps {
+  teamName: string;
+  summary: string;
+  dayOfWeek: string[];
+  want: number;
+  startDate: string;
+  procedure: boolean;
+  openClose: boolean;
+  content: string;
+  image: string;
+}
+
+interface MyFormTag {
+  tags: string[];
+}
 const CreateForm = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [tags, setTags] = useState<string[]>();
-  const [selectedTags, setSelectedTags] = useState([]);
-  const { register, handleSubmit, control } = useForm();
-  const [isOnlineToggleClicked, setIsOnlineToggleClicked] = useState(true);
-  const [isPublicToggleClicked, setIsPublicToggleClicked] = useState(true);
-  const [week, setWeek] = useState({
-    mon: false,
-    tue: false,
-    wen: false,
-    thu: false,
-    fri: false,
-    sat: false,
-    sun: false,
-  });
   const fetch = (url: string): Promise<AxiosResponse<any>> => {
     return axios.get(url);
   };
   useEffect(() => {
     const url =
       "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
-    fetch(url).then((res) => setTags(res.data.data.tags));
+    fetch(url).then((res) => setTag(res.data.data.tags));
   }, []);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [tag, setTag] = useState<string[]>();
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [isOnlineToggleClicked, setIsOnlineToggleClicked] = useState(false);
+  const [isPublicToggleClicked, setIsPublicToggleClicked] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
@@ -42,7 +48,44 @@ const CreateForm = () => {
       textRef.current.style.height = textRef.current.scrollHeight + "px";
     }
   }, []);
+  const [form, setForm] = useState<MyFormProps>({
+    teamName: "",
+    summary: "",
+    dayOfWeek: [],
+    want: 0,
+    startDate: new Date().toISOString().split("T")[0],
+    procedure: false,
+    openClose: false,
+    content: "",
+    image: "https://avatars.dicebear.com/api/bottts/222.svg",
+  });
+  const { teamName, summary, want, procedure, openClose } = form;
 
+  const [myTag, setMyTag] = useState<MyFormTag>({
+    tags: [],
+  });
+  const { tags } = myTag;
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, value } = e.target;
+    setForm({
+      ...form,
+      [id]: value,
+    });
+  };
+  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { id, value } = e.target;
+    setForm({
+      ...form,
+      [id]: value,
+    });
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // 여기도 모르니까 any 로 하겠습니다.
+    e.preventDefault();
+    alert(JSON.stringify(form));
+    alert(JSON.stringify(myTag));
+  };
   const openModal = () => {
     setIsOpen(!isOpen);
   };
@@ -58,20 +101,18 @@ const CreateForm = () => {
     <Main>
       <ContentDiv>
         Create New Study
-        <Form onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
-          {/* <label htmlFor="title">Team Name</label> */}
+        <Form onSubmit={handleSubmit}>
           <input
-            id="title"
+            id="teamName"
             type="text"
             placeholder="Team Name"
-            {...register("title")}
+            onChange={onChange}
           />
-          {/* <label htmlFor="text">한 줄 설명</label> */}
           <input
-            id="text"
+            id="summary"
             type="text"
             placeholder="한 줄 설명"
-            {...register("text")}
+            onChange={onChange}
           />
           <div className="tagSection">
             <div className="tagAddButton">
@@ -80,72 +121,67 @@ const CreateForm = () => {
             </div>
             {isOpen && (
               <AddTagsModal>
-                {tags &&
-                  tags.map((el, idx) => (
+                {tag &&
+                  tag.map((el, idx) => (
                     <CreatePageTags
                       key={idx}
                       setSelectedTags={setSelectedTags}
                       selectedTags={selectedTags}
                       tagName={el}
+                      myTag={myTag}
+                      setMyTag={setMyTag}
                     />
                   ))}
               </AddTagsModal>
             )}
             <TagsWrapper>
               {selectedTags.map((el, idx) => (
-                <CreatePageTags key={idx} tagName={el} />
+                <CreatePageTags
+                  key={idx}
+                  tagName={el}
+                  setSelectedTags={setSelectedTags}
+                  selectedTags={selectedTags}
+                  myTag={myTag}
+                  setMyTag={setMyTag}
+                />
               ))}
             </TagsWrapper>
           </div>
           <div className="weekbarWrapper">
             <span>진행요일</span>
-            <CreateWeekBar week={week} setWeek={setWeek} />
+            <CreateWeekBar form={form} setForm={setForm} />
           </div>
           <div>
             인원 :{" "}
             <input
               className="person"
-              id="person"
+              id="want"
               type="number"
-              {...register("person")}
               min="1"
               placeholder="0"
+              onChange={onChange}
             />
             명
           </div>
           <div>
-            <div className="toggleBox">
-              Online
-              <Toggle
-                isToggleClicked={isOnlineToggleClicked}
-                handleToggleClick={hadleOnlineToggleClick}
-              />
-            </div>
-            <div className="toggleBox">
-              Public
-              <Toggle
-                isToggleClicked={isPublicToggleClicked}
-                handleToggleClick={hadlePublicToggleClick}
-              />
-            </div>
+            <Toggle id={"procedure"} form={form} setForm={setForm} />
+
+            <Toggle id={"openClose"} form={form} setForm={setForm} />
           </div>
           <div className="dateWrapper">
             <span>시작날짜</span>
-            <Controller
-              name="date"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <DatePicker
-                  className="datepicker"
-                  placeholderText="click and select the date"
-                  dateFormat="yyyy/MM/dd"
-                  selected={startDate}
-                  onChange={(date: any) => {
-                    setStartDate(date);
-                    onChange(date);
-                  }}
-                />
-              )}
+            <DatePicker
+              className="datepicker"
+              placeholderText="click and select the date"
+              dateFormat="yyyy-MM-dd"
+              selected={startDate}
+              onChange={(date: any) => {
+                setStartDate(date);
+                setForm({
+                  ...form,
+                  startDate: date.toISOString().split("T")[0],
+                });
+              }}
             />
           </div>
           <label htmlFor="content">내용</label>
@@ -153,7 +189,7 @@ const CreateForm = () => {
             <textarea
               id="content"
               className="textArea"
-              {...register("content")}
+              onChange={onChangeTextArea}
               ref={textRef}
               onInput={handleResizeHeight}
             />
@@ -162,13 +198,6 @@ const CreateForm = () => {
             <RedButton type="submit">Create Study</RedButton>
           </div>
         </Form>
-        <button
-          onClick={() => {
-            console.log(week);
-          }}
-        >
-          btnbtn
-        </button>
       </ContentDiv>
     </Main>
   );
