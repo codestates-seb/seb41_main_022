@@ -46,8 +46,8 @@ public class TagService {
     }
 
     // Study와 연관된 tagStudies 생성
-    public List<Tag> createTagStudies(long studyId, List<String> names) {
-        Study study = studyRepository.findById(studyId).get();
+    public List<Tag> createTagStudies(Study study, List<String> names) {
+//        Study study = studyRepository.findById(studyId).get();
         List<Tag> tags = makeListTags(names);
 
         for(Tag tag : tags) {
@@ -64,6 +64,35 @@ public class TagService {
         // 스터디장 권한이 있는지 확인
         UserEntity user = userRepository.checkStudyAdmin(request, studyId);
 
+        // 스터디 조회
+        Study study = studyRepository.findById(studyId).get();
+
+        List<Tag> before = findTagsByStudyId(studyId);
+        List<Tag> after = makeListTags(names);
+
+        // before을 기준으로 정렬
+        for(Tag tag : before) {
+            // 삭제될 태그
+            if(!after.contains(tag)) {
+                TagStudy tagStudies = tagStudyRepository.findByStudyAndTag(study, tag);
+                study.deleteTagStudy(tagStudies);
+                tagStudyRepository.delete(tagStudies);
+            }
+            else after.remove(tag); // 공통된 태그
+        }
+
+        // 추가할 태그
+        for(Tag tag : after) {
+            TagStudy tagStudy = new TagStudy();
+            tagStudy.setStudy(study);
+            tagStudy.setTag(tag);
+        }
+
+        return makeListTags(names);
+    }
+
+    // 태그 수정 By Study-Id
+    public List<Tag> updateTag(long studyId, List<String> names) {
         // 스터디 조회
         Study study = studyRepository.findById(studyId).get();
 
@@ -142,6 +171,11 @@ public class TagService {
     // 태그 조회 by studyId
     public List<Tag> findTagsByStudyId(long studyId) {
         return tagRepository.findByTagStudiesStudy(studyRepository.findById(studyId).get());
+    }
+
+    // 태그 조회 by study
+    public List<Tag> findTagsByStudy(Study study) {
+        return tagRepository.findByTagStudiesStudy(study);
     }
 
     // List<String>으로 List<Tag> 만들기

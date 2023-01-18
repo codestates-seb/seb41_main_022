@@ -29,17 +29,17 @@ public class TagController {
         tagService.saveTags();
     }
 
-    // Create New Study
-    @PostMapping("/study/{study-id}")
-    public ResponseEntity postTag(@PathVariable("study-id") @Positive long studyId,
-                                  @Valid @RequestBody TagRequestDto.Post post) {
-        List<Tag> tags = tagService.createTagStudies(studyId, post.getTags());
-        TagResponseDto.Get response = tagMapper.tagsToTagResGetDtos(tags);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(response), HttpStatus.OK
-        );
-    }
+//    // Create New Study
+//    @PostMapping("/study/{study-id}")
+//    public ResponseEntity postTag(@PathVariable("study-id") @Positive long studyId,
+//                                  @Valid @RequestBody TagRequestDto.Post post) {
+//        List<Tag> tags = tagService.createTagStudies(studyId, post.getTags());
+//        TagResponseDto.Get response = tagMapper.tagsToTagResGetDtos(tags);
+//
+//        return new ResponseEntity<>(
+//                new SingleResponseDto<>(response), HttpStatus.OK
+//        );
+//    }
 
     // home의 태그 리스트(전체 호출)
     @GetMapping
