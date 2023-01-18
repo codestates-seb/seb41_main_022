@@ -6,6 +6,7 @@ import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.tag.entity.Tag;
+import codestates.main22.tag.entity.TagStudy;
 import codestates.main22.tag.service.TagService;
 import codestates.main22.tree.entity.Tree;
 import codestates.main22.user.entity.UserEntity;
@@ -161,11 +162,16 @@ public class StudyService {
             String filter,
             List<String> tagString
     ) {
-        // 태그로 스터디 조회
-        List<Tag> tags = tagService.makeListTags(tagString); // 필요한 태그로 변환
+        // 필요한 스터디 조회
         Set<Study> studies = new HashSet<>();
-        for(Tag tag : tags) {
-            addStudyInSet(studies, studyRepository.findByTagStudiesTag(tag));
+        if(tagString.size() == 0) { // 태그 값들이 전부 없는 경우 -> 모든 스터디 조회
+            studies = studyRepository.findAll().stream()
+                    .collect(Collectors.toSet());
+        } else { // 태그로 스터디 조회
+            List<Tag> tags = tagService.makeListTags(tagString); // 필요한 태그로 변환
+            for(Tag tag : tags) {
+                addStudyInSet(studies, studyRepository.findByTagStudiesTag(tag));
+            }
         }
 
         // 공개된 스터디 필터링 & search로 스터디 조회
@@ -273,5 +279,26 @@ public class StudyService {
         return studies;
     }
 
+    // Tag 생성
+    public List<String> createTagStudies(Study study, List<String> tags) {
+        tagService.createTagStudies(study, tags);
+
+        return tags;
+    }
+
+    // Tag 수정
+    public List<String> updateTag(Study study, List<String> tags) {
+        tagService.updateTag(study.getStudyId(), tags);
+
+        return tags;
+    }
+
+    // 태그 조회
+    public List<String> findTagsByStudy(Study study) {
+        List<Tag> tags = tagService.findTagsByStudy(study);
+        return tags.stream()
+                .map(tag -> tag.getName())
+                .collect(Collectors.toList());
+    }
 
 }

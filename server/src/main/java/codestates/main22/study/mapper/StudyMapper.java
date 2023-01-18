@@ -11,6 +11,7 @@ public interface StudyMapper {
     Study studyPostDtoToStudy(StudyDto.Post requestBody);
     Study studyPatchDtoToStudy(StudyDto.Patch requestBody);
     StudyDto.Response studyToStudyResponseDto(Study study);
+    StudyDto.ResponseTag studyToStudyResponseDto(Study study, List<String> tags);
     List<StudyDto.Response> studiesToStudyResponseDto(List<Study> studies);
     Study studyNotificationPatchDtoToStudyNotification(StudyNotificationDto.Patch patch); // 공지만 수정
     StudyNotificationDto.Response studyToStudyNotificationResponseDto(Study study); // 공지만 호출
@@ -32,7 +33,7 @@ public interface StudyMapper {
                 new StudyMainDto.AuthResponse(isMember, isHost, isRequest);
         return response;
     }
-    StudyMainDto.MainResponse studyToStudyMainResponseDto(Study study); // main - 본문
+    StudyMainDto.MainResponse studyToStudyMainResponseDto(Study study, List<String> tags); // main - 본문
     Study studyMainPatchDtoToStudyMain(StudyMainDto.MainResponse patch); // main - 본문 수정
 
     List<StudyUserDto.Studys> studiesToStudyUserDto(List<Study> studies); // user
