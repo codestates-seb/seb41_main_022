@@ -8,19 +8,20 @@ import { User } from "../../util/dummyDataStudyHall";
 import Data from "../../util/dummyData";
 
 interface User {
-  data: any;
   userId: number;
   username: string;
   imgUrl: string;
 }
+interface Data {
+  data: any;
+}
 
 const Profile = () => {
-  const [obj, setObj] = useState<string[]>(); //
-  const { data, userId, username, imgUrl, userData };
-  const getUserdata = (url: string): Promise<AxiosResponse<User>> => {
+  const [userData, setUserData] = useState<User | undefined>();
+  const getUserdata = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
       headers: {
-        "access-Token": "abc",
+        "access-Token": "abcd",
       },
     });
   };
@@ -28,7 +29,7 @@ const Profile = () => {
     getUserdata(
       "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user"
     ).then((res) => {
-      userData(res.data.data);
+      setUserData(res.data.data);
     });
   }, []);
 
@@ -36,9 +37,9 @@ const Profile = () => {
     <Main>
       <Container>
         <Banner>
-          <img src={User.data.imgUrl} />
+          <img src={userData && userData.imgUrl} />
           <div className="info">
-            <UserName>{User.data.username}</UserName>
+            <UserName>{userData && userData.username}</UserName>
             <div className="class-num">{UserData.data.studyCount} studies</div>
           </div>
         </Banner>

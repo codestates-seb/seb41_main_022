@@ -39,11 +39,11 @@ const HomeStore = create<Home>()((set) => ({
   },
   fetch: async (tags: string, filter: string, search: string) => {
     try {
-      await axios
-        .get(
-          `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=1&size=10&search=${search}&filter=${filter}&tags=${tags}`
-        )
-        .then((res) => res.data.data);
+      const res = await axios.get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=1&size=10&search=${search}&filter=${filter}&tags=${tags}`
+      );
+      set({ recruitmentData: await res.data.data });
+      console.log(res.data);
     } catch (e) {
       console.log(e);
     }

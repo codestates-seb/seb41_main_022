@@ -28,7 +28,7 @@ const RecruitmentList = () => {
 
   // 필터링 api요청
   useEffect(() => {
-    console.log(fetch(tags, filter, search));
+    fetch(tags, filter, search);
   }, [tags, filter, search]);
 
   return (
@@ -37,6 +37,7 @@ const RecruitmentList = () => {
         recruitmentData.map((el) => (
           <Recruitment
             key={el.studyId}
+            studyId={el.studyId}
             teamName={el.teamName}
             summary={el.summary}
             dayOfWeek={el.dayOfWeek}
