@@ -2,17 +2,20 @@ import create from "zustand";
 import axios from "axios";
 
 interface Notice {
+  dayOfWeek: string[];
   notice: string;
-  fetchNotice: (url: string, id: string | undefined) => void;
+  fetchRightNav: (url: string, id: string | undefined) => void;
   patchNotice: (url: string, id: string | undefined, data: object) => void;
 }
 
 const NoticeStore = create<Notice>()((set) => ({
+  dayOfWeek: [""],
   notice: "",
-  fetchNotice: async (url, id) => {
+  fetchRightNav: async (url, id) => {
     try {
-      const res = await axios.get(url + `/study/${id}/notification`);
+      const res = await axios.get(url + `/study/${id}/notice`);
       set({ notice: res.data.data.notice });
+      set({ dayOfWeek: res.data.data.dayOfWeek });
     } catch (e) {
       console.log(e);
     }
