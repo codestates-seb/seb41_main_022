@@ -41,6 +41,7 @@ const StudyHallNotification = () => {
                 placeholder="공지사항..."
                 onChange={onPatch}
                 value={tempNotice}
+                maxLength={35}
               />
               <SubmitButton type="submit">
                 <IoIosCheckmarkCircleOutline className="outline" />
@@ -104,6 +105,7 @@ const InputBorderForm = styled.form`
   > input {
     color: var(--beige-00);
     margin-left: 15px;
+    width: 100%;
   }
   input::placeholder {
     color: var(--beige-00);
