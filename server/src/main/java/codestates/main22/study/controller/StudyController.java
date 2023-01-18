@@ -202,7 +202,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/auth") // #26 - 각종 true false 변수들 넘겨주기
+    @GetMapping("/{study-id}/auth") // #26 - 각종 true false 변수들 넘겨주기 (token 값을 사용)
     public ResponseEntity getAuth(@PathVariable("study-id") @Positive long studyId,
                                   HttpServletRequest request) {
 
@@ -212,6 +212,21 @@ public class StudyController {
         Boolean checkMember = studyService.isMember(loginUser.getUserId(), studyId);
         Boolean checkHost = findStudy.getLeaderId() == loginUser.getUserId();
         Boolean checkRequest = findStudy.getRequester().contains(loginUser.getUserId());
+
+        StudyMainDto.AuthResponse response =
+                studyMapper.studyToStudyAuthResponseDto(findStudy, checkMember, checkHost, checkRequest);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
+    @GetMapping("/{study-id}/user/{user-id}/auth") // #26 - 각종 true false 변수들 넘겨주기 (token 값 사용 X)
+    public ResponseEntity getAuthWithUserId(@PathVariable("study-id") @Positive long studyId,
+                                            @PathVariable("user-id") @Positive long userId) {
+
+        Study findStudy = studyService.findStudy(studyId);
+
+        Boolean checkMember = studyService.isMember(userId, studyId);
+        Boolean checkHost = findStudy.getLeaderId() == userId;
+        Boolean checkRequest = findStudy.getRequester().contains(userId);
 
         StudyMainDto.AuthResponse response =
                 studyMapper.studyToStudyAuthResponseDto(findStudy, checkMember, checkHost, checkRequest);
