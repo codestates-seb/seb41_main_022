@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import WeekBar from "../WeekBar";
-import { FaCaretRight } from "react-icons/fa";
 import { VscBellDot } from "react-icons/vsc";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Ticker from "react-ticker";
+
 import NoticeStore from "../../util/zustandNotice";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
@@ -25,18 +26,11 @@ const StudyHallRightNav = () => {
           <div>
             <VscBellDot />
           </div>
-          {isOpen ? (
-            <div>{notice ? notice : "공지가 비어있습니다"}</div>
-          ) : (
-            <div>공지사항</div>
+          {notice && (
+            <Ticker>
+              {() => <div className="plzplz">{notice ? notice : ""}</div>}
+            </Ticker>
           )}
-          <TopNavHover>
-            <FaCaretRight
-              onClick={() => {
-                setIsOpen(!isOpen);
-              }}
-            />
-          </TopNavHover>
         </div>
       </Notice>
     </Margin20>
@@ -64,28 +58,25 @@ const Notice = styled.div`
     border-radius: var(--radius-30);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 0 2px;
+    .ticker {
+      width: 150px;
+      max-height: 16px;
+      .ticker__element {
+        width: 350px;
+        display: flex;
+        justify-content: center;
+      }
+      .plzplz {
+        font-family: "mainM", Arial;
+        font-size: 12px;
+      }
+    }
   }
   div {
     color: var(--beige-00);
     display: flex;
     align-items: center;
     padding: 3px;
-  }
-`;
-const TopNavHover = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--green);
-  border-radius: var(--radius-30);
-  margin: 1px;
-  width: 12px;
-  height: 12px;
-  color: var(--gray-00);
-  :hover {
-    background-color: var(--beige-00);
-    color: var(--green);
   }
 `;
