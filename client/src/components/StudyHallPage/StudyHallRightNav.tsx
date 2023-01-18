@@ -3,24 +3,19 @@ import WeekBar from "../WeekBar";
 import { FaCaretRight } from "react-icons/fa";
 import { VscBellDot } from "react-icons/vsc";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router-dom";
+import NoticeStore from "../../util/zustandNotice";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const StudyHallRightNav = () => {
+  const { notice, fetchNotice } = NoticeStore();
   const { studyId } = useParams();
-  const [notification, setNotification] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   useEffect(() => {
-    axios
-      .get(URL + `/study/${studyId}/notification`)
-      .then((res) => setNotification(res.data.data.notice))
-      .then(() => {
-        if (notification === null) {
-          setNotification("공지가 비어있습니다");
-        }
-      });
+    if (notice === "") {
+      fetchNotice(URL, studyId);
+    }
   }, []);
   return (
     <Margin20>
@@ -30,7 +25,11 @@ const StudyHallRightNav = () => {
           <div>
             <VscBellDot />
           </div>
-          {isOpen ? <div>{notification}</div> : <div>공지사항</div>}
+          {isOpen ? (
+            <div>{notice ? notice : "공지가 비어있습니다"}</div>
+          ) : (
+            <div>공지사항</div>
+          )}
           <TopNavHover>
             <FaCaretRight
               onClick={() => {
