@@ -6,7 +6,7 @@ import StudyHallHead from "../components/StudyHallPage/StudyHallHead";
 import StudyHallTopNav from "../components/StudyHallPage/StudyHallTopNav";
 import StudyHallNotification from "../components/StudyHallPage/notification/StudyHallNotification";
 import Community from "../components/StudyHallPage/community/Community";
-import StudyHallMain from "../components/StudyHallPage/StudyHallMain";
+import StudyHallMain from "../components/StudyHallPage/Main/StudyHallMain";
 
 const StudyHallPage = () => {
   const { page } = useParams();
