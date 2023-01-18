@@ -40,7 +40,6 @@ const ChatStore = create<Community>()((set) => ({
         `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/message?studyId=${studyId}`
       );
       set({ chatData: await res.data.data });
-      console.log(res.data.data);
     } catch (e) {
       console.log(e);
     }

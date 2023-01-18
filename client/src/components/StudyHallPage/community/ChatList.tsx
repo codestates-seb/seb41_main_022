@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useRef, useCallback, useState } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import ChatStore from "../../../util/zustandCommunity";
@@ -7,6 +7,7 @@ import Chat from "./Chat";
 import { ChatData } from "../../../util/dummyData";
 
 const ChatList = () => {
+  const userId = 2;
   const { chatData, submitChat, getChatData } = ChatStore();
   const { studyId } = useParams();
   const [chatContent, setChatContent] = useState("");
@@ -17,7 +18,6 @@ const ChatList = () => {
       textRef.current.style.height = textRef.current.scrollHeight + "px";
     }
   }, []);
-
   const handleSendClick = () => {
     const date = new Date();
 
@@ -38,6 +38,11 @@ const ChatList = () => {
 
     setChatContent("");
   };
+  useEffect(() => {
+    if (studyId) {
+      getChatData(studyId);
+    }
+  }, []);
   return (
     <ChatListWrapper>
       <div className="flex">
@@ -53,22 +58,24 @@ const ChatList = () => {
           <button onClick={handleSendClick}>Send</button>
         </WriteChat>
       </div>
-      {/* 내 채팅일때랑 아닐때 구분 */}
-      {ChatData.data.map((el, idx) =>
-        el.userId === 6 ? (
-          <div className="myChatWrapper">
-            <div className="myChat">{el.content}</div>
-          </div>
-        ) : (
-          <Chat
-            key={idx}
-            username={el.username}
-            content={el.content}
-            dateTime={el.dateTime}
-            imgUrl={el.imgUrl}
-          />
-        )
-      )}
+      <ChatWrapper>
+        {/* 내 채팅일때랑 아닐때 구분 */}
+        {chatData.map((el, idx) =>
+          el.messageUserId === userId ? (
+            <div className="myChatWrapper">
+              <div className="myChat">{el.content}</div>
+            </div>
+          ) : (
+            <Chat
+              key={idx}
+              username={el.username}
+              content={el.content}
+              dateTime={el.dateTime}
+              imgUrl={el.imgUrl}
+            />
+          )
+        )}
+      </ChatWrapper>
     </ChatListWrapper>
   );
 };
@@ -79,25 +86,16 @@ const ChatListWrapper = styled.div`
   width: calc(460px - 40px);
   padding: 16px 20px;
   margin: 16px 0 16px 0;
-  > .myChatWrapper {
-    .myChat {
-      font-family: "mainL";
-    }
-    border: 1px solid var(--beige-00);
-    border-radius: var(--radius-20);
-    background-color: var(--green);
-    max-width: 270px;
-    font-size: 12px;
-    color: var(--beige-00);
-    padding: 8px 8px 8px 16px;
-    line-height: 16px;
-    margin-top: 8px;
-    margin-left: calc(420px - 270px);
-  }
+  min-height: 500px;
+  max-height: 700px;
+  display: flex;
+  flex-direction: column-reverse;
+
   > .flex {
     width: 100%;
     display: flex;
     align-items: center;
+    margin-top: 16px;
   }
 `;
 const WriteChat = styled.div`
@@ -153,6 +151,27 @@ const WriteChat = styled.div`
       cursor: pointer;
       color: var(--blue);
     }
+  }
+`;
+
+const ChatWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  > .myChatWrapper {
+    .myChat {
+      font-family: "mainL";
+    }
+    border: 1px solid var(--beige-00);
+    border-radius: var(--radius-20);
+    background-color: var(--green);
+    max-width: 270px;
+    font-size: 12px;
+    color: var(--beige-00);
+    padding: 8px 8px 8px 16px;
+    line-height: 16px;
+    margin-top: 8px;
+    margin-left: calc(420px - 270px);
   }
 `;
 
