@@ -4,7 +4,7 @@ import { TbCrown } from "react-icons/tb";
 interface MemberProps {
   username: string;
   imgUrl: string;
-  role: number[];
+  role: string;
 }
 
 const StudyHallCommunityMember = ({ username, imgUrl, role }: MemberProps) => {
@@ -14,7 +14,7 @@ const StudyHallCommunityMember = ({ username, imgUrl, role }: MemberProps) => {
         <img src={imgUrl} />
         <div className="name">{username}</div>
         {/* 역할이 방장일때 왕관 표시 */}
-        {role[0] === 1 ? (
+        {role.includes("ADMIN") ? (
           <span>
             <TbCrown />
           </span>
@@ -47,6 +47,12 @@ const Notice = styled.div`
     > span {
       width: 26px;
       height: 26px;
+      display: flex;
+      align-items: center;
+      > svg {
+        width: 20px;
+        height: 20px;
+      }
     }
   }
   div {
