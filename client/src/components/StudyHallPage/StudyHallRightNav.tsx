@@ -2,8 +2,21 @@ import styled from "styled-components";
 import WeekBar from "../WeekBar";
 import { FaCaretRight } from "react-icons/fa";
 import { VscBellDot } from "react-icons/vsc";
-//반드시 detail component(main, community, calendar, setting)를 부모로 받아야 합니다
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import NoticeStore from "../../util/zustandNotice";
+
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+
 const StudyHallRightNav = () => {
+  const { notice, fetchNotice } = NoticeStore();
+  const { studyId } = useParams();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  useEffect(() => {
+    if (notice === "") {
+      fetchNotice(URL, studyId);
+    }
+  }, []);
   return (
     <Margin20>
       <WeekBar dayOfWeek={["MON"]} />
@@ -12,9 +25,17 @@ const StudyHallRightNav = () => {
           <div>
             <VscBellDot />
           </div>
-          <div>공지사항</div>
+          {isOpen ? (
+            <div>{notice ? notice : "공지가 비어있습니다"}</div>
+          ) : (
+            <div>공지사항</div>
+          )}
           <TopNavHover>
-            <FaCaretRight />
+            <FaCaretRight
+              onClick={() => {
+                setIsOpen(!isOpen);
+              }}
+            />
           </TopNavHover>
         </div>
       </Notice>
@@ -22,8 +43,7 @@ const StudyHallRightNav = () => {
   );
 };
 export default StudyHallRightNav;
-// content의 width와 nav width의 합에 25px만큼 마진
-// top은 20만큼 마진
+
 const Margin20 = styled.main`
   margin-top: 122px;
   position: absolute;

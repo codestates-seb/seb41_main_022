@@ -4,9 +4,27 @@ import { useForm } from "react-hook-form";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import CalendarApp from "./Calendar/CalendarApp";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios/index";
+import NoticeStore from "../../../util/zustandNotice";
+
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const StudyHallNotification = () => {
-  const { register, handleSubmit } = useForm();
+  const { notice, patchNotice } = NoticeStore();
+  const { studyId } = useParams();
+  const [tempNotice, setTempNotice] = useState("");
+  useEffect(() => {
+    setTempNotice(notice);
+  }, [notice]);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    patchNotice(URL, studyId, { notice: tempNotice });
+    alert("변경되었습니다");
+  };
+  const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTempNotice(e.target.value);
+  };
   return (
     <>
       <NotificationWrapper>
@@ -15,16 +33,14 @@ const StudyHallNotification = () => {
           <StudyHallNotificationSidebar />
           <div className="title">Notification</div>
           <NotificationCreate>
-            <InputBorderForm
-              className="inputBorder"
-              onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
-            >
+            <InputBorderForm className="inputBorder" onSubmit={handleSubmit}>
               <input
                 className="input"
                 id="notification"
                 type="text"
                 placeholder="공지사항..."
-                {...register("notification")}
+                onChange={onPatch}
+                value={tempNotice}
               />
               <SubmitButton type="submit">
                 <IoIosCheckmarkCircleOutline className="outline" />

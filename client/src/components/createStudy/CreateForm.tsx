@@ -69,6 +69,7 @@ const CreateForm = () => {
   const [myTag, setMyTag] = useState<MyFormTag>({
     tags: [],
   });
+
   const { tags } = myTag;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
