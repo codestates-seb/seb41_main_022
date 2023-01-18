@@ -1,10 +1,15 @@
 import styled from "styled-components";
-import { useRef, useCallback } from "react";
+import { useRef, useCallback, useState } from "react";
+import { useParams } from "react-router-dom";
 
+import ChatStore from "../../../util/zustandCommunity";
 import Chat from "./Chat";
 import { ChatData } from "../../../util/dummyData";
 
 const ChatList = () => {
+  const { chatData, submitChat, getChatData } = ChatStore();
+  const { studyId } = useParams();
+  const [chatContent, setChatContent] = useState("");
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
@@ -13,17 +18,39 @@ const ChatList = () => {
     }
   }, []);
 
+  const handleSendClick = () => {
+    const date = new Date();
+
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const hours = ("0" + date.getHours()).slice(-2);
+    const minutes = ("0" + date.getMinutes()).slice(-2);
+    const seconds = ("0" + date.getSeconds()).slice(-2);
+
+    studyId &&
+      submitChat(
+        studyId,
+        chatContent,
+        `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`,
+        "khw"
+      );
+
+    setChatContent("");
+  };
   return (
     <ChatListWrapper>
       <div className="flex">
         <WriteChat>
           <textarea
+            value={chatContent}
+            onChange={(e) => setChatContent(e.target.value)}
             className="textArea"
             ref={textRef}
             onInput={handleResizeHeight}
             placeholder="Write Message here..."
           ></textarea>
-          <button>Send</button>
+          <button onClick={handleSendClick}>Send</button>
         </WriteChat>
       </div>
       {/* 내 채팅일때랑 아닐때 구분 */}
