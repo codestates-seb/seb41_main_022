@@ -11,6 +11,7 @@ import CreatePageTags from "./CreatePageTags";
 import axios, { AxiosResponse } from "axios";
 import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
+import { useNavigate } from "react-router-dom";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -40,7 +41,7 @@ const CreateForm = () => {
       "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
     fetch(url).then((res) => setTag(res.data.data.tags));
   }, []);
-
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[]>();
   const [selectedTags, setSelectedTags] = useState([]);
@@ -85,6 +86,8 @@ const CreateForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetchCreateStudy(URL, form);
+    alert("스터디가 생성되었습니다");
+    navigate("/");
   };
   const openModal = () => {
     setIsOpen(!isOpen);
