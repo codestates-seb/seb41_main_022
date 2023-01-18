@@ -64,5 +64,11 @@
   "devDependencies": {
     "@types/react-datepicker": "^4.8.0",
     "@types/styled-components": "^5.1.26"
+  },
+  "overrides": {
+    "react-ticker":{
+      "react": "^18.0.0",
+      "react-dom": "^18.0.0"
+    }
   }
 }
