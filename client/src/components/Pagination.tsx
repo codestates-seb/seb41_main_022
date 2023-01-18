@@ -1,46 +1,70 @@
-import React from "react";
-import PropTypes from "prop-types";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-interface Props {
-  currentPage: number;
-  totalPages: number;
-  handleNextPage: (page: number) => void;
-  handlePrevPage: (page: number) => void;
+interface PageProps {
+  total: any;
+  limit: any;
+  page: any;
+  setPage: any;
 }
-const Pagination: React.FC<Props> = ({
-  currentPage,
-  totalPages,
-  handlePrevPage,
-  handleNextPage,
-}) => {
+const Pagination = ({ total, limit, page, setPage }: PageProps) => {
+  const numPages = Math.ceil(total / limit);
+  const navigate = useNavigate();
+
   return (
-    <div className="pagination-button-wrapper">
-      <button
-        className="pagination-button"
-        onClick={() => handlePrevPage(currentPage)}
-        disabled={currentPage === 1}
-      >
-        &larr;
-      </button>
-
-      <span className="pagination-page-info">
-        Page {currentPage} of {totalPages}
-      </span>
-
-      <button
-        className="pagination-button"
-        onClick={() => handleNextPage(currentPage)}
-        disabled={currentPage === totalPages}
-      ></button>
-    </div>
+    <>
+      <Nav>
+        {Array(numPages).map((_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => {
+              setPage(i + 1);
+              navigate(`/?page=${i}&size=${limit}`);
+            }}
+            // aria-current={page === i + 1 ? "page" : null}
+          >
+            {i + 1}
+          </button>
+        ))}
+      </Nav>
+    </>
   );
 };
 
-Pagination.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  totalPages: PropTypes.number.isRequired,
-  handlePrevPage: PropTypes.func.isRequired,
-  handleNextPage: PropTypes.func.isRequired,
-};
-
 export default Pagination;
+
+const Nav = styled.nav`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  margin: 16px;
+`;
+
+const Button = styled.button`
+  width: 24px;
+  height: 27px;
+
+  border: 1px solid rgba(103, 112, 121, 0.7);
+
+  border-radius: 3px;
+
+  padding: 0 8px;
+  font-size: 13px;
+  margin: 0;
+  background: white;
+  color: #3b4045;
+
+  &:hover {
+    background: rgba(103, 112, 121, 0.2);
+    cursor: pointer;
+  }
+
+  &[aria-current] {
+    background: #f48225;
+    color: white;
+    border: 1px solid transparent;
+    cursor: revert;
+    transform: revert;
+  }
+`;
