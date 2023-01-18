@@ -7,13 +7,16 @@ interface CardProps {
   teamName: string;
   summary: string;
   dayOfWeek: string[];
+  studyId: number;
 }
 
-const Recruitment = ({ teamName, summary, dayOfWeek }: CardProps) => {
+const Recruitment = ({ teamName, summary, dayOfWeek, studyId }: CardProps) => {
   const navigate = useNavigate();
 
   return (
-    <RecruitmentBackground onClick={() => navigate("/study-hall/main")}>
+    <RecruitmentBackground
+      onClick={() => navigate(`/study-hall/main/${studyId}`)}
+    >
       <div className="recruitmentBody">
         <div className="border">
           <BodyWrapper>
