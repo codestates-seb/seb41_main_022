@@ -38,14 +38,14 @@ const InfoWrapper = styled.div`
 const Info = styled.div`
   width: 460px;
   margin: 0px auto;
-  padding-top: 100px;
+  /* padding-top: 100px; */
 `;
 
 //Title 글씨크기
 const Title = styled.div`
   font-family: "mainB";
   font-size: 35px;
-  padding-top: 50px;
+  padding-top: 25px;
 `;
 
 const Summary = styled.div`
