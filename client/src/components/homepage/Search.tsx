@@ -25,7 +25,13 @@ const Search = () => {
             placeholder="Search..."
           ></Input>
           {searchValue !== "" && (
-            <div onClick={() => setSearchValue("")} className="iconWrapper">
+            <div
+              onClick={() => {
+                setSearchValue("");
+                setSearch("");
+              }}
+              className="iconWrapper"
+            >
               <MdOutlineBackspace />
             </div>
           )}
