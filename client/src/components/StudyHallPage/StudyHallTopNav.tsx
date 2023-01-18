@@ -6,36 +6,37 @@ import StudyHallRightNav from "./StudyHallRightNav";
 
 const StudyHallTopNav = () => {
   const navigate = useNavigate();
-  const { page } = useParams();
+  const { page, studyId } = useParams();
+  const sId = Number(studyId);
   console.log(page);
 
-  const navigateStudyHall = (whichPage: string) => {
-    navigate(`/study-hall/${whichPage}`);
+  const navigateStudyHall = (whichPage: string, studyId: number) => {
+    navigate(`/study-hall/${whichPage}/${studyId}`);
   };
 
   return (
     <TopNavWrapper>
       <Nav>
         <div
-          onClick={() => navigateStudyHall("main")}
+          onClick={() => navigateStudyHall("main", sId)}
           className={page === "main" ? `selected` : undefined}
         >
           Main
         </div>
         <div
-          onClick={() => navigateStudyHall("community")}
+          onClick={() => navigateStudyHall("community", sId)}
           className={page === "community" ? `selected` : undefined}
         >
           Community
         </div>
         <div
-          onClick={() => navigateStudyHall("calendar")}
+          onClick={() => navigateStudyHall("calendar", sId)}
           className={page === "calendar" ? `selected` : undefined}
         >
           Calendar
         </div>
         <div
-          onClick={() => navigateStudyHall("setting")}
+          onClick={() => navigateStudyHall("setting", sId)}
           className={page === "setting" ? `selected` : undefined}
         >
           Setting
