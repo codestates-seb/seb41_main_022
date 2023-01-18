@@ -8,35 +8,38 @@ import { User } from "../../util/dummyDataStudyHall";
 import Data from "../../util/dummyData";
 
 interface User {
-  data: any;
   userId: number;
   username: string;
   imgUrl: string;
 }
+interface Data {
+  data: any;
+}
 
 const Profile = () => {
-  const [obj, setObj] = useState<string[]>(); //
-
-  const fetch = (url: string): Promise<AxiosResponse<User>> => {
+  const [userData, setUserData] = useState<User | undefined>();
+  const getUserdata = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
       headers: {
-        "access-Token": "abc",
+        "access-Token": "abcd",
       },
     });
   };
   useEffect(() => {
-    const urlUser =
-      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user";
-    fetch(urlUser).then((res) => console.log(res.data.data));
+    getUserdata(
+      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user"
+    ).then((res) => {
+      setUserData(res.data.data);
+    });
   }, []);
 
   return (
     <Main>
       <Container>
         <Banner>
-          <img src={User.data.imgUrl} />
+          <img src={userData && userData.imgUrl} />
           <div className="info">
-            <UserName>{User.data.username}</UserName>
+            <UserName>{userData && userData.username}</UserName>
             <div className="class-num">{UserData.data.studyCount} studies</div>
           </div>
         </Banner>
@@ -48,7 +51,6 @@ const Profile = () => {
 export default Profile;
 
 const Main = styled.div`
-  /* background-color: var(--beige-00); */
   width: 1024px;
   height: 300px;
   margin: 0px auto;

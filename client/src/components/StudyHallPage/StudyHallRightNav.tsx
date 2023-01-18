@@ -3,24 +3,20 @@ import WeekBar from "../WeekBar";
 import { VscBellDot } from "react-icons/vsc";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Ticker from "react-ticker";
-
 import NoticeStore from "../../util/zustandNotice";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const StudyHallRightNav = () => {
-  const { notice, fetchNotice } = NoticeStore();
+  const { dayOfWeek, notice, fetchNotice } = NoticeStore();
   const { studyId } = useParams();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   useEffect(() => {
-    if (notice === "") {
-      fetchNotice(URL, studyId);
-    }
+    fetchNotice(URL, studyId);
   }, []);
   return (
     <Margin20>
-      <WeekBar dayOfWeek={["MON"]} />
+      <WeekBar dayOfWeek={dayOfWeek} />
       <Notice>
         <div className="wrapper">
           <div>

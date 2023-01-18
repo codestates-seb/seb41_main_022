@@ -1,22 +1,35 @@
 import styled from "styled-components";
-//내부 임포트
-import Tags from "../../homepage/Tags";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-//받아오는 인자
-interface InfoProps {
-  teamName: string;
-  summary: string;
+import TagReadOnly from "./TagReadOnly";
+
+interface StudyInfoData {
   content: string;
+  summary: string;
+  tags: string[];
+  teamName: string;
 }
 
-const StudyInfo = ({ teamName, summary, content }: InfoProps) => {
+const StudyInfo = () => {
+  const { studyId } = useParams();
+  const [studyInfoData, setStudyInfoData] = useState<StudyInfoData>();
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/main`
+      )
+      .then((res) => setStudyInfoData(res.data.data));
+  }, []);
   return (
     <InfoWrapper>
       <Info>
-        <Title>{teamName}</Title>
-        <Summary>{summary}</Summary>
-        <Tags />
-        <Content>{content}</Content>
+        <Title>{studyInfoData && studyInfoData.teamName}</Title>
+        <Summary>{studyInfoData && studyInfoData.summary}</Summary>
+        <TagReadOnly tags={studyInfoData?.tags} />
+        <Content>{studyInfoData && studyInfoData.content}</Content>
       </Info>
     </InfoWrapper>
   );
@@ -55,6 +68,7 @@ const Summary = styled.div`
   font-size: 16px;
   font-family: "mainB";
 `;
+
 const Content = styled.div`
   width: 350px;
   padding-top: 30px;
