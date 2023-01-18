@@ -16,8 +16,8 @@ interface User {
 
 const Profile = () => {
   const [obj, setObj] = useState<string[]>(); //
-
-  const fetch = (url: string): Promise<AxiosResponse<User>> => {
+  const { data, userId, username, imgUrl, userData };
+  const getUserdata = (url: string): Promise<AxiosResponse<User>> => {
     return axios.get(url, {
       headers: {
         "access-Token": "abc",
@@ -25,9 +25,11 @@ const Profile = () => {
     });
   };
   useEffect(() => {
-    const urlUser =
-      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user";
-    fetch(urlUser).then((res) => console.log(res.data.data));
+    getUserdata(
+      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user"
+    ).then((res) => {
+      userData(res.data.data);
+    });
   }, []);
 
   return (
@@ -48,7 +50,6 @@ const Profile = () => {
 export default Profile;
 
 const Main = styled.div`
-  /* background-color: var(--beige-00); */
   width: 1024px;
   height: 300px;
   margin: 0px auto;

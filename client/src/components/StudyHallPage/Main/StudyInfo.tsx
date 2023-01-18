@@ -55,6 +55,7 @@ const Summary = styled.div`
   font-size: 16px;
   font-family: "mainB";
 `;
+
 const Content = styled.div`
   width: 350px;
   padding-top: 30px;
