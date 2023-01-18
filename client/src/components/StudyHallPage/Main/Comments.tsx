@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 import Answers from "./Answers";
 import { stringify } from "querystring";
 import CreateAnswer from "./CreateAnswer";
-import Pagination from "../../Pagination";
 
 //타입지정
 export interface ComementsProps {
@@ -25,29 +24,6 @@ const Comments = ({
 }: ComementsProps) => {
   const { register, handleSubmit } = useForm();
   const [showAnswer, setShowAnswer] = useState(false);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(10);
-
-  const handlePrevPage = (prevPage: number) => {
-    setPage((prevPage) => prevPage - 1);
-  };
-
-  const handleNextPage = (nextPage: number) => {
-    setPage((nextPage) => nextPage + 1);
-  };
-
-  const fetchData = async () => {
-    const response =
-      await fetch(`https://api.coingecko.com/api/v3/coins/markets? 
-    vs_currency=usd&order=market_cap_desc&?${page}&per_page=10&sparkline=false`);
-    const result = await response.json();
-
-    setTotalPages(totalPages);
-  };
-
-  useEffect(() => {
-    fetchData();
-  });
 
   return (
     <CommentsWrapper
@@ -93,12 +69,6 @@ const Comments = ({
           </Texts>
         </CommentBox>
       </Wrapper>
-      <Pagination
-        totalPages={totalPages}
-        currentPage={page}
-        handlePrevPage={handlePrevPage}
-        handleNextPage={handleNextPage}
-      />
     </CommentsWrapper>
   );
 };
