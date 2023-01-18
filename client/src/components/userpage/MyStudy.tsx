@@ -7,6 +7,7 @@ interface BoxProps {
 }
 
 const MyStudy = ({ image, teamName }: BoxProps) => {
+  console.log(image, teamName);
   return (
     <Main>
       <Container>
@@ -21,15 +22,6 @@ const MyStudy = ({ image, teamName }: BoxProps) => {
 
 export default MyStudy;
 
-const img = styled.div`
-  width: 70px;
-  height: 70px;
-  background-color: #b0ac93;
-  border-radius: var(--radius-30);
-  margin: auto 0px;
-  margin-left: 15px;
-`;
-
 const Box = styled.div`
   display: flex;
   width: 273px;
@@ -40,6 +32,14 @@ const Box = styled.div`
   > .study-name {
     margin-left: 20px;
     margin-top: 20px;
+  }
+  > .img {
+    width: 70px;
+    height: 70px;
+    background-color: #b0ac93;
+    border-radius: var(--radius-30);
+    margin: auto 0px;
+    margin-left: 15px;
   }
 `;
 

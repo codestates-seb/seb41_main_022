@@ -69,8 +69,6 @@ const Summary = styled.div`
   font-family: "mainB";
 `;
 
-const Tag = styled;
-
 const Content = styled.div`
   width: 350px;
   padding-top: 30px;
