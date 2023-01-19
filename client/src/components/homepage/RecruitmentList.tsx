@@ -11,6 +11,7 @@ interface Data {
 }
 
 const RecruitmentList = () => {
+  const [page, setPage] = useState<number>(1);
   const { tags, filter, search, recruitmentData, fetch, setRecruitment } =
     HomeStore();
   const getRecruitmentData = (url: string): Promise<AxiosResponse<Data>> => {
@@ -20,7 +21,7 @@ const RecruitmentList = () => {
   // 초기 데이터 요청
   useEffect(() => {
     getRecruitmentData(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/first-cards?page=${1}&size=${10}`
+      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/first-cards?page=${1}&size=${12}`
     ).then((res) => {
       setRecruitment(res.data.data);
     });
@@ -28,7 +29,7 @@ const RecruitmentList = () => {
 
   // 필터링 api요청
   useEffect(() => {
-    fetch(tags, filter, search);
+    fetch(tags, filter, search, page);
   }, [tags, filter, search]);
 
   return (

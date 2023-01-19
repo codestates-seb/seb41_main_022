@@ -6,18 +6,17 @@ import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.tag.entity.Tag;
-import codestates.main22.tag.entity.TagStudy;
 import codestates.main22.tag.service.TagService;
 import codestates.main22.tree.entity.Tree;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.entity.UserStudyEntity;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.repository.UserStudyRepository;
+import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,24 +33,27 @@ public class StudyService {
     private final TagService tagService;
     private final UserStudyRepository userStudyRepository;
     private final CustomAuthorityUtils customAuthorityUtils;
+    private final Token token;
 
 
     public StudyService(StudyRepository studyRepository,
                         UserRepository userRepository,
                         TagService tagService,
                         CustomAuthorityUtils customAuthorityUtils,
-                        UserStudyRepository userStudyRepository) {
+                        UserStudyRepository userStudyRepository,
+                        Token token) {
         this.studyRepository = studyRepository;
         this.userRepository = userRepository;
         this.tagService = tagService;
         this.userStudyRepository = userStudyRepository;
         this.customAuthorityUtils = customAuthorityUtils;
+        this.token = token;
     }
 
     @Transactional
     public Study createStudy(Study study, HttpServletRequest request) {
         // 토큰값으로 스터디장에게 권한 부여
-        UserEntity user = userRepository.findByToken(request);
+        UserEntity user = token.findByToken(request);
         studyRepository.save(study);
         user.getRole().add(customAuthorityUtils.createStudyRoles(study.getStudyId(), true));
 
@@ -273,7 +275,7 @@ public class StudyService {
 //        return studies;
 //    }
     public List<Study> findStudiesByUser(HttpServletRequest request) {
-            UserEntity user = userRepository.findByToken(request);
+            UserEntity user = token.findByToken(request);
             List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
             List<Study> studies = userStudies.stream().map(UserStudyEntity::getStudy).collect(Collectors.toList());
         return studies;

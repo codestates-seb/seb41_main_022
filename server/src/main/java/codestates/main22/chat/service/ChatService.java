@@ -8,7 +8,7 @@ import codestates.main22.study.entity.Study;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
-import org.apache.catalina.User;
+import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -21,18 +21,23 @@ import java.util.stream.Collectors;
 
 @Service
 public class ChatService {
-    private ChatRepository chatRepository;
-    private StudyService studyService;
+    private final ChatRepository chatRepository;
+    private final StudyService studyService;
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final Token token;
 
     String secretChatUserImgUrl = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F0Pfd6%2FbtrVZWBVjpY%2FBkJIKgG8Fbj1hqEnjqK1r1%2Fimg.png";
     String SecretChatUserName = "Secret";
 
-    public ChatService(ChatRepository chatRepository, StudyService studyService, UserRepository userRepository) {
+    public ChatService(ChatRepository chatRepository,
+                       StudyService studyService,
+                       UserRepository userRepository,
+                       Token token) {
         this.chatRepository = chatRepository;
         this.studyService = studyService;
         this.userRepository = userRepository;
+        this.token = token;
     }
 
     //CRUD 순서에 맞춰서
@@ -50,7 +55,7 @@ public class ChatService {
 
     // 토큰값으로 user 조회
     public UserEntity findUserByToken(HttpServletRequest request) {
-        return userRepository.findByToken(request);
+        return token.findByToken(request);
     }
 
     // Study 별 Chat 조회
@@ -61,7 +66,7 @@ public class ChatService {
 
     // study별 chat에서 공개여부에 따른 필터링
     public List<Chat> filterByIsClosedChat(List<Chat> chats, HttpServletRequest request) {
-        UserEntity user = userRepository.findByToken(request);
+        UserEntity user = token.findByToken(request);
         long studyId = Optional.ofNullable(chats.get(0)).get().getStudy().getStudyId();
 
         // 1. isClosedChat = false 인 경우 : 있던 chat 출력

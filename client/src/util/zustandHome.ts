@@ -1,12 +1,13 @@
 import create from "zustand";
 import axios from "axios";
+import { useState } from "react";
 
 interface Home {
   tags: string;
   filter: string;
   search: string;
   recruitmentData: undefined | Recruitment[];
-  fetch: (tags: string, filter: string, search: string) => any;
+  fetch: (tags: string, filter: string, search: string, page: number) => any;
   setTags: (tag: string) => void;
   setFilter: (filter: string) => void;
   setSearch: (search: string) => void;
@@ -28,7 +29,6 @@ interface Recruitment {
   teamName: string;
   want: number;
 }
-
 const HomeStore = create<Home>()((set) => ({
   tags: "",
   filter: "",
@@ -37,10 +37,10 @@ const HomeStore = create<Home>()((set) => ({
   setRecruitment: (data: Recruitment[]) => {
     set((state) => ({ recruitmentData: data }));
   },
-  fetch: async (tags: string, filter: string, search: string) => {
+  fetch: async (tags, filter, search, page) => {
     try {
       const res = await axios.get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=1&size=10&search=${search}&filter=${filter}&tags=${tags}`
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=${page}&size=12&search=${search}&filter=${filter}&tags=${tags}`
       );
       set({ recruitmentData: await res.data.data });
       console.log(res.data);

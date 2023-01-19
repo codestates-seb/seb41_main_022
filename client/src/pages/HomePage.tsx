@@ -6,11 +6,8 @@ import Banner from "../components/homepage/Banner";
 import CreateStudyButton from "../components/homepage/CreateStudyButton";
 import Search from "../components/homepage/Search";
 import TagFilter from "../components/homepage/TagFilter";
-import { useCookies } from "react-cookie";
 
 const HomePage = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  console.log(cookies.token);
   return (
     <>
       <HomepageWrapper>
@@ -28,7 +25,7 @@ const HomePage = () => {
 
 // 전체 감싸는 태그
 const HomepageWrapper = styled.div`
-  margin: 0, auto;
+  margin: 0 auto;
   height: auto;
   width: 100%;
   background-color: var(--green);

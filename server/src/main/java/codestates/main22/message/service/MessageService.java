@@ -1,6 +1,5 @@
 package codestates.main22.message.service;
 
-import codestates.main22.chat.entity.Chat;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.message.entity.Message;
@@ -11,6 +10,7 @@ import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
+import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,24 +26,23 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private StudyService studyService;
     private final UserRepository userRepository;
-    private final CustomAuthorityUtils customAuthorityUtils;
-    private final StudyRepository studyRepository;
+    private final Token token;
 
-    public MessageService(MessageRepository messageRepository, StudyService studyService,
-                          UserRepository userRepository, CustomAuthorityUtils customAuthorityUtils,
-                          StudyRepository studyRepository) {
+    public MessageService(MessageRepository messageRepository,
+                          StudyService studyService,
+                          UserRepository userRepository,
+                          Token token) {
         this.messageRepository = messageRepository;
         this.studyService = studyService;
         this.userRepository = userRepository;
-        this.customAuthorityUtils = customAuthorityUtils;
-        this.studyRepository = studyRepository;
+        this.token = token;
     }
 
     // 메세지 생성
     @Transactional
     public Message createMessage(long studyId, Message message, HttpServletRequest request) {
         // 유저가 스터디에 USER 권한이 있는지 찾고 없으면 exception 발생
-        UserEntity user = userRepository.findByToken(request); // 토큰으로 유저 찾기
+        UserEntity user = token.findByToken(request); // 토큰으로 유저 찾기
         message.setMessageUserId(user.getUserId());
         message.setUserName(user.getUsername()); // 유저 이름 set
         String admin = "STUDY" + studyId + "_ADMIN"; // 관리자인지 확인
@@ -104,7 +103,7 @@ public class MessageService {
     }
 
     public UserEntity findUserByToken(HttpServletRequest request) {
-        return userRepository.findByToken(request);}
+        return token.findByToken(request);}
 
 
     public List<Message> findByStudyMessage(long studyId) {

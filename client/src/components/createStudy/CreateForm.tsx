@@ -12,6 +12,7 @@ import axios, { AxiosResponse } from "axios";
 import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -32,6 +33,7 @@ interface MyFormTag {
   tags: string[];
 }
 const CreateForm = () => {
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const { fetchCreateStudy, studyId } = createStudyStore();
   const fetch = (url: string): Promise<AxiosResponse<any>> => {
     return axios.get(url);
@@ -85,7 +87,7 @@ const CreateForm = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetchCreateStudy(URL, form);
+    fetchCreateStudy(URL, form, cookies.token.accessToken);
     alert("스터디가 생성되었습니다");
     navigate("/");
   };

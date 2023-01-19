@@ -10,7 +10,7 @@ import codestates.main22.study.mapper.StudyMapper;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
-import codestates.main22.user.service.UserService;
+import codestates.main22.utils.Token;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ import java.util.List;
 public class StudyController {
     private final StudyService studyService;
     private final StudyMapper studyMapper;
-    private final UserRepository userRepository;
+    private final Token token;
 
     @PostMapping // #38 - 스터디 작성 'Create New Study'
     public ResponseEntity postStudy(@Valid @RequestBody StudyDto.Post requestBody,
@@ -100,7 +100,7 @@ public class StudyController {
     public ResponseEntity deleteStudy(@PathVariable("study-id") @Positive long studyId,
                                       HttpServletRequest request) {
         Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = userRepository.findByToken(request);
+        UserEntity loginUser = token.findByToken(request);
 
         if(findStudy.getLeaderId() != loginUser.getUserId()) {
             throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
@@ -154,7 +154,7 @@ public class StudyController {
                                         HttpServletRequest request) {
 
         Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = userRepository.findByToken(request);
+        UserEntity loginUser = token.findByToken(request);
 
         studyService.addRequester(findStudy, loginUser.getUserId());
 
@@ -192,7 +192,7 @@ public class StudyController {
                                        HttpServletRequest request) {
 
         Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = userRepository.findByToken(request);
+        UserEntity loginUser = token.findByToken(request);
 
         if (findStudy.getLeaderId() != loginUser.getUserId()) {
             throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
@@ -207,7 +207,7 @@ public class StudyController {
                                   HttpServletRequest request) {
 
         Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = userRepository.findByToken(request);
+        UserEntity loginUser = token.findByToken(request);
 
         Boolean checkMember = studyService.isMember(loginUser.getUserId(), studyId);
         Boolean checkHost = findStudy.getLeaderId() == loginUser.getUserId();
