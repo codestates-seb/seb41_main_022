@@ -18,6 +18,14 @@ const ChatList = () => {
       textRef.current.style.height = textRef.current.scrollHeight + "px";
     }
   }, []);
+
+  const messageBoxRef = useRef<any>();
+  const scrollToBottom = () => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+    }
+  };
+
   const handleSendClick = () => {
     const date = new Date();
 
@@ -43,6 +51,9 @@ const ChatList = () => {
       getChatData(studyId);
     }
   }, []);
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatData]);
   return (
     <ChatListWrapper>
       <div className="flex">
@@ -58,7 +69,7 @@ const ChatList = () => {
           <button onClick={handleSendClick}>Send</button>
         </WriteChat>
       </div>
-      <ChatWrapper>
+      <ChatWrapper ref={messageBoxRef}>
         {/* 내 채팅일때랑 아닐때 구분 */}
         {chatData.map((el, idx) =>
           el.messageUserId === userId ? (
@@ -86,10 +97,10 @@ const ChatListWrapper = styled.div`
   width: calc(460px - 40px);
   padding: 16px 20px;
   margin: 16px 0 16px 0;
-  min-height: 500px;
-  max-height: 700px;
+  height: 600px;
   display: flex;
   flex-direction: column-reverse;
+  max-height: 635px;
 
   > .flex {
     width: 100%;
