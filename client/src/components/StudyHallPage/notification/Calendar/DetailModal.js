@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { FiTrash2, FiEdit2 } from "react-icons/fi";
 
 const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
   const [todoThatDay, setTodoThatDay] = useState();
@@ -35,6 +36,14 @@ const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
                 </ul>
               </div>
             )}
+            <IconDiv>
+              <div className="icon" onClick={() => alert("수정")}>
+                <FiEdit2 />
+              </div>
+              <div className="icon" onClick={() => alert("삭제")}>
+                <FiTrash2 />
+              </div>
+            </IconDiv>
           </div>
         </ContentsDiv>
       </ModalDiv>
@@ -43,11 +52,16 @@ const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
 };
 
 export default DetailModal;
+const Back = styled.div`
+  position: absolute;
+  background-color: black;
+  width: 1000px;
+  height: 1000px;
+`;
 const ModalDiv = styled.main`
   margin-left: 150px;
   margin-top: -100px;
   max-width: 300px;
-  max-height: 300px;
   box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, 0.5);
   filter: blur(0);
   opacity: 1;
@@ -64,7 +78,6 @@ const ModalDiv = styled.main`
 `;
 const ContentsDiv = styled.article`
   width: 256px;
-  height: 256px;
   border: 2px solid var(--beige-00);
   padding: 20px;
   border-radius: var(--radius-10);
@@ -74,5 +87,13 @@ const ContentsDiv = styled.article`
     * {
       font-size: 24px;
     }
+  }
+`;
+const IconDiv = styled.div`
+  display: flex;
+  font-size: 18px;
+  justify-content: right;
+  .icon {
+    margin: 0 5px;
   }
 `;
