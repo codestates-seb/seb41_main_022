@@ -25,19 +25,19 @@ const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
               <div>
                 <ul>
                   <li> 날짜 : {todoThatDay[0].date.slice(0, 10)} </li>
-                  <li> 시간 : {todoThatDay[0].date.slice(11)} </li>
+                  <li> 시간 : {todoThatDay[0].date.slice(11, 16)} </li>
                   <li> 일정 : {todoThatDay[0].title} </li>
                   <hr />
-                  {todoThatDay[0].participant.map((el) => (
-                    <li key={el.userId}>
-                      {el.name} : {el.joinState}
-                    </li>
+                  {todoThatDay[0].participants.map((el) => (
+                    <div>
+                      {el.username}:{el.joinState}
+                    </div>
                   ))}
                 </ul>
               </div>
             )}
             <IconDiv>
-              <div className="icon" onClick={() => alert("수정")}>
+              <div className="icon" onClick={() => console.log(todoThatDay[0])}>
                 <FiEdit2 />
               </div>
               <div className="icon" onClick={() => alert("삭제")}>

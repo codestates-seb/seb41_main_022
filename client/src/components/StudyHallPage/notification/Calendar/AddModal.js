@@ -3,11 +3,25 @@ import { Controller, useForm } from "react-hook-form";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
+import { calendarStore } from "../../../../util/zustandCalendar";
+import { useParams } from "react-router-dom";
 
-const AddModal = ({ showAddModal, setShowAddModal, event, setTodo }) => {
-  const [startTime, setStartTime] = useState(new Date());
-  const { register, handleSubmit, control } = useForm();
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
+const AddModal = ({ showAddModal, setShowAddModal, event }) => {
+  const calendarPatch = calendarStore((state) => state.calendarPatch);
+  const { studyId } = useParams();
+  const [title, setTitle] = useState("");
+  const [hour, setHour] = useState("00");
+  const [minute, setMinute] = useState("00");
+  const handleSubmit = (e) => {
+    calendarPatch(URL, studyId, {
+      title,
+      date: `${event.dateStr.slice(0, 19)}T${hour}:${minute}:00`,
+    });
+    alert("스터디가 생성되었습니다");
+    setShowAddModal(false);
+  };
   return (
     showAddModal && (
       <ModalDiv>
@@ -17,9 +31,7 @@ const AddModal = ({ showAddModal, setShowAddModal, event, setTodo }) => {
             <AiOutlineCloseCircle onClick={() => setShowAddModal(false)} />
           </div>
           <div>
-            <Form
-              onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
-            >
+            <Form onSubmit={handleSubmit}>
               <div>
                 날짜
                 <br />
@@ -27,23 +39,39 @@ const AddModal = ({ showAddModal, setShowAddModal, event, setTodo }) => {
               </div>
               <div className="time">
                 시간
-                <Controller
-                  name="time"
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <DatePicker
-                      selected={startTime}
-                      onChange={(time) => {
-                        setStartTime(time);
-                      }}
-                      showTimeSelect
-                      showTimeSelectOnly
-                      timeIntervals={15}
-                      timeCaption="Time"
-                      dateFormat="h:mm aa"
-                    />
-                  )}
-                />
+                <br />
+                <select name="h" onClick={(e) => setHour(e.target.value)}>
+                  <option value="00">00</option>
+                  <option value="01">01</option>
+                  <option value="02">02</option>
+                  <option value="03">03</option>
+                  <option value="04">04</option>
+                  <option value="05">05</option>
+                  <option value="06">06</option>
+                  <option value="07">07</option>
+                  <option value="08">08</option>
+                  <option value="09">09</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                </select>
+                <select name="m" onClick={(e) => setMinute(e.target.value)}>
+                  <option value="00">00</option>
+                  <option value="15">15</option>
+                  <option value="30">30</option>
+                  <option value="45">45</option>
+                </select>
               </div>
               <div>
                 일정
@@ -52,13 +80,11 @@ const AddModal = ({ showAddModal, setShowAddModal, event, setTodo }) => {
                   type="text"
                   className="person"
                   id="title"
-                  {...register("title")}
                   placeholder="what to do..."
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              <RedButton type="submit" onClick={() => {}}>
-                제출
-              </RedButton>
+              <RedButton type="submit">생성</RedButton>
             </Form>
           </div>
         </ContentsDiv>
@@ -71,7 +97,6 @@ const ModalDiv = styled.main`
   margin-left: 150px;
   margin-top: -50px;
   max-width: 300px;
-  height: 250px;
   box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, 0.5);
   filter: blur(0);
   opacity: 1;
@@ -88,7 +113,6 @@ const ModalDiv = styled.main`
 `;
 const ContentsDiv = styled.article`
   width: 256px;
-  height: 206px;
   border: 2px solid var(--beige-00);
   padding: 20px;
   border-radius: var(--radius-10);
@@ -117,7 +141,7 @@ const RedButton = styled.button`
   color: var(--beige-00);
   border-radius: var(--radius-30);
   font-family: "mainL", Arial;
-  font-size: 18px;
+  font-size: 16px;
   :hover {
     background-color: var(--red-10);
   }

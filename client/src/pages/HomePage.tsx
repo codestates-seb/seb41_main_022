@@ -11,6 +11,7 @@ import { useCookies } from "react-cookie";
 const HomePage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   console.log(cookies.token);
+
   return (
     <>
       <HomepageWrapper>
