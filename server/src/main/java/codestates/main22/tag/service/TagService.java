@@ -4,13 +4,13 @@ import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
-import codestates.main22.study.service.StudyService;
 import codestates.main22.tag.entity.Tag;
 import codestates.main22.tag.entity.TagStudy;
 import codestates.main22.tag.repository.TagRepository;
 import codestates.main22.tag.repository.TagStudyRepository;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
+import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -26,17 +26,17 @@ import java.util.stream.Collectors;
 public class TagService {
     private final TagRepository tagRepository;
     private final TagStudyRepository tagStudyRepository;
-    private final UserRepository userRepository;
     private final StudyRepository studyRepository;
+    private final Token token;
 
     public TagService(TagRepository tagRepository,
                       TagStudyRepository tagStudyRepository,
-                      UserRepository userRepository,
-                      StudyRepository studyRepository) {
+                      StudyRepository studyRepository,
+                      Token token) {
         this.tagRepository = tagRepository;
         this.tagStudyRepository = tagStudyRepository;
-        this.userRepository = userRepository;
         this.studyRepository = studyRepository;
+        this.token = token;
     }
 
     // 태그 생성
@@ -62,7 +62,7 @@ public class TagService {
     // 태그 수정 By Study-Id
     public List<Tag> updateTag(long studyId, List<String> names, HttpServletRequest request) {
         // 스터디장 권한이 있는지 확인
-        UserEntity user = userRepository.checkStudyAdmin(request, studyId);
+        UserEntity user = token.checkStudyAdmin(request, studyId);
 
         // 스터디 조회
         Study study = studyRepository.findById(studyId).get();
@@ -149,7 +149,7 @@ public class TagService {
 
     // 태그 조회 by userId
     public List<Tag> findTagsByUserId(HttpServletRequest request) {
-        UserEntity user = userRepository.findByToken(request);
+        UserEntity user = token.findByToken(request);
         Set<Tag> tags = new HashSet<>();
         user.getUserStudies().stream().forEach(
                 userStudyEntity -> {

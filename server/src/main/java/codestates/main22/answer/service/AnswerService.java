@@ -6,11 +6,10 @@ import codestates.main22.chat.entity.Chat;
 import codestates.main22.chat.service.ChatService;
 import codestates.main22.exception.BusinessLogicException;
 import codestates.main22.exception.ExceptionCode;
-import codestates.main22.study.entity.Study;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
+import codestates.main22.utils.Token;
 import lombok.AllArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -24,7 +23,7 @@ import java.util.Optional;
 public class AnswerService {
     private AnswerRepository answerRepository;
     private ChatService chatService;
-    private final UserRepository userRepository;
+    private final Token token;
 
     //CRUD 순서에 맞춰서
 
@@ -38,7 +37,7 @@ public class AnswerService {
     }
 
     public UserEntity findUserByToken(HttpServletRequest request) {
-        return userRepository.findByToken(request);
+        return token.findByToken(request);
     }
 
     //READ - 하나 조회
