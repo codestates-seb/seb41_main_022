@@ -25,7 +25,7 @@ const HomePage = () => {
 
 // 전체 감싸는 태그
 const HomepageWrapper = styled.div`
-  margin: 0, auto;
+  margin: 0 auto;
   height: auto;
   width: 100%;
   background-color: var(--green);
