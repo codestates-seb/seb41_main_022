@@ -13,7 +13,8 @@ interface UserData {
 }
 
 const Header = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const [isReady, setIsReady] = useState<string | undefined>(undefined);
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | undefined>();
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const Header = () => {
 
   const handleLogout = () => {
     removeCookie("token");
+    removeCookie("userData");
     setIsLogin(false);
     navigate("/");
     window.location.reload();
@@ -32,6 +34,12 @@ const Header = () => {
 
   useEffect(() => {
     if (cookies.token) {
+      setIsReady("ready");
+    }
+  }, [cookies.token]);
+
+  useEffect(() => {
+    if (isReady) {
       axios
         .get(
           "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user",
@@ -43,14 +51,13 @@ const Header = () => {
         )
         .then((res) => {
           setUserData(res.data.data);
-          setCookie("token", {
-            ...cookies.token,
+          setCookie("userData", {
             userId: res.data.data.userId,
           });
           setIsLogin(true);
         });
     }
-  }, [cookies.token]);
+  }, [isReady]);
 
   return (
     <>
