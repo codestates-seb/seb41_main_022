@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import axios, { AxiosResponse } from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import Data from "../../util/dummyData";
 import Recruitment from "./Recruitment";
@@ -18,26 +18,48 @@ const RecruitmentList = () => {
     return axios.get(url);
   };
 
-  // 초기 데이터 요청
-  useEffect(() => {
-    getRecruitmentData(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/first-cards?page=${1}&size=${12}`
-    ).then((res) => {
-      setRecruitment(res.data.data);
-    });
-  }, []);
-
   // 필터링 api요청
   useEffect(() => {
-    fetch(tags, filter, search, page);
-  }, [tags, filter, search]);
+    fetch(tags, filter, search, page, recruitmentData);
+  }, [tags, filter, search, page]);
+
+  const handleScroll = useCallback((): void => {
+    const { innerHeight } = window;
+    // 브라우저창 내용의 크기 (스크롤을 포함하지 않음)
+
+    const { scrollHeight } = document.body;
+    // 브라우저 총 내용의 크기 (스크롤을 포함한다)
+
+    const { scrollTop } = document.documentElement;
+    // 현재 스크롤바의 위치
+
+    if (Math.round(scrollTop + innerHeight + 300) >= scrollHeight) {
+      // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
+
+      // setPosts(posts.concat(getPostList(page + 1)));
+      // // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
+
+      setPage(page + 1);
+      // 페이지 state 변수의 값도 1씩 늘려줍니다.
+    }
+  }, [page]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, true);
+    // 스크롤이 발생할때마다 handleScroll 함수를 호출하도록 추가합니다.
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+      // 해당 컴포넌트가 언마운트 될때, 스크롤 이벤트를 제거합니다.
+    };
+  }, [handleScroll]);
 
   return (
     <RecruitmentWrapper>
       {recruitmentData &&
-        recruitmentData.map((el) => (
+        recruitmentData.map((el, idx) => (
           <Recruitment
-            key={el.studyId}
+            key={idx}
             studyId={el.studyId}
             teamName={el.teamName}
             summary={el.summary}
