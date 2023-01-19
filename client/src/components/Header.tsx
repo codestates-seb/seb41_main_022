@@ -1,49 +1,59 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
 
 import Bell from "../assets/Bell.svg";
 import axios from "axios";
 
 const Header = () => {
-  const googleLocalURL = "http://localhost:8080/oauth2/authorization/google";
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
+  console.log(cookies.token);
+  console.log(isLogin);
   const googleserverURL =
     "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
-  function moveURL() {
+  const handleLogin = () => {
     window.location.assign(googleserverURL);
-  }
-
-  const navigate = useNavigate();
-  const getToken = () => {
-    axios
-      .post("http://localhost:8080/oauth2/authorization/google")
-      .then(function (response) {
-        console.log(response);
-        alert("로그인 되었습니다");
-        navigate("/");
-      });
   };
+
+  const handleLogout = () => {
+    removeCookie("token");
+    setIsLogin(false);
+  };
+
+  useEffect(() => {
+    if (cookies.token) {
+      setIsLogin(true);
+    }
+  }, [cookies.token]);
+
   return (
     <>
       <HeaderWrapper>
         <div className="header-logo" onClick={() => navigate("/")}>
           Stu<span>d</span>y Tree
         </div>
-        <ItemWrapper>
-          <WhiteButton>Log in</WhiteButton>
-          <WhiteButton>Sign up</WhiteButton>
-        </ItemWrapper>
-        <ItemWrapper>
-          <div className="imgWrapper" onClick={() => navigate("/user")}>
-            <img src="https://mystickermania.com/cdn/stickers/cartoons/pokemon-ditto-you-can-be-anything-512x512.png" />
-          </div>
-          <img className="bell" src={Bell} />
-          <WhiteButton onClick={() => navigate("/study-hall/main")}>
-            My Study
-          </WhiteButton>
-          {/*<WhiteButton onClick={getToken}>Log out</WhiteButton>*/}
-          {/*<WhiteButton onClick={() => `location.href=${googleURL}`} >Log out</WhiteButton>*/}
-          <WhiteButton onClick={() => moveURL()}>Log out</WhiteButton>
-        </ItemWrapper>
+        {isLogin ? (
+          <ItemWrapper>
+            <div className="imgWrapper" onClick={() => navigate("/user")}>
+              <img src="https://mystickermania.com/cdn/stickers/cartoons/pokemon-ditto-you-can-be-anything-512x512.png" />
+            </div>
+            <img className="bell" src={Bell} />
+            <WhiteButton onClick={() => navigate("/study-hall/main")}>
+              My Study
+            </WhiteButton>
+            {/*<WhiteButton onClick={getToken}>Log out</WhiteButton>*/}
+            {/*<WhiteButton onClick={() => `location.href=${googleURL}`} >Log out</WhiteButton>*/}
+            <WhiteButton onClick={() => handleLogout()}>Log out</WhiteButton>
+          </ItemWrapper>
+        ) : (
+          <ItemWrapper>
+            <WhiteButton onClick={() => handleLogin()}>Log in</WhiteButton>
+            <WhiteButton onClick={() => handleLogin()}>Sign up</WhiteButton>
+          </ItemWrapper>
+        )}
       </HeaderWrapper>
     </>
   );
