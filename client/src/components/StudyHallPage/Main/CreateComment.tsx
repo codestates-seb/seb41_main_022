@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import { commentStore } from "../../../util/zustandComment";
+
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const CreateComment = () => {
@@ -19,7 +20,7 @@ const CreateComment = () => {
     console.log(studyId);
     console.log(cookies.token.accessToken);
   }, []);
-
+  //
   const handleSubmit = () => {
     if (studyId) {
       postComment(
