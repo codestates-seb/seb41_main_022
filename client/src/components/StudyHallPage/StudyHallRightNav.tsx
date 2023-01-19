@@ -9,10 +9,20 @@ import Ticker from "react-ticker";
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const StudyHallRightNav = () => {
-  const { dayOfWeek, notice, fetchRightNav } = NoticeStore();
+  const {
+    dayOfWeek,
+    notice,
+    zustandStudyId,
+    resetNotice,
+    fetchRightNav,
+    patchNotice,
+  } = NoticeStore();
   const { studyId } = useParams();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   useEffect(() => {
+    if (zustandStudyId !== studyId) {
+      resetNotice();
+    }
     fetchRightNav(URL, studyId);
   }, []);
   return (
