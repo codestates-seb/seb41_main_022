@@ -6,10 +6,16 @@ import { useEffect, useState } from "react";
 import Bell from "../assets/Bell.svg";
 import axios from "axios";
 
+interface UserData {
+  userId: number;
+  username: string;
+  imgUrl: string;
+}
+
 const Header = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [isLogin, setIsLogin] = useState(false);
-  const [userImg, setUserImg] = useState<string | undefined>();
+  const [userData, setUserData] = useState<UserData | undefined>();
   const navigate = useNavigate();
   const googleserverURL =
     "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
@@ -28,7 +34,7 @@ const Header = () => {
     if (cookies.token) {
       axios
         .get(
-          "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user/image",
+          "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user",
           {
             headers: {
               "access-Token": cookies.token.accessToken,
@@ -36,7 +42,11 @@ const Header = () => {
           }
         )
         .then((res) => {
-          setUserImg(res.data.data.imgUrl);
+          setUserData(res.data.data);
+          setCookie("token", {
+            ...cookies.token,
+            userId: res.data.data.userId,
+          });
           setIsLogin(true);
         });
     }
@@ -51,7 +61,7 @@ const Header = () => {
         {isLogin ? (
           <ItemWrapper>
             <div className="imgWrapper" onClick={() => navigate("/user")}>
-              <img src={userImg} />
+              {userData && <img src={userData.imgUrl} />}
             </div>
             <img className="bell" src={Bell} />
             <WhiteButton onClick={() => navigate("/study-hall/main")}>

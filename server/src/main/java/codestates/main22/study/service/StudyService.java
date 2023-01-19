@@ -67,9 +67,13 @@ public class StudyService {
 
         // tree 생성하기
         Tree tree = new Tree();
-        tree.setTreeImage("https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FpjywQ%2FbtrVZVh0ers%2Fe9JHXVkvDOnVrkcf8pvpik%2Fimg.png");
+        tree.setTreeImage("https://seb41-main-022.s3.ap-northeast-2.amazonaws.com/favicon.ico");
         tree.setMakeMonth(LocalDate.now().getMonthValue());
         tree.setStudy(study);
+
+        // image 자동 세팅
+        int randImage = randBetween(1,30);
+        if(study.getImage() == null) {study.setImage("https://seb41-main-022.s3.ap-northeast-2.amazonaws.com/main" + randImage + ".png");}
 
         return study;
     }
@@ -302,5 +306,9 @@ public class StudyService {
                 .map(tag -> tag.getName())
                 .collect(Collectors.toList());
     }
+
+    //랜덤 이미지를 넣기 위한 로직
+    private static final Random rng = new Random();
+    public static int randBetween(int min, int max) {return min+rng.nextInt(max-min+1);}
 
 }
