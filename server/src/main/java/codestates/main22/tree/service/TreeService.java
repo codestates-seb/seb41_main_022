@@ -5,11 +5,12 @@ import codestates.main22.exception.ExceptionCode;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
-import codestates.main22.tree.dto.TreeDto;
 import codestates.main22.tree.entity.Tree;
 import codestates.main22.tree.repository.TreeRepository;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
+import codestates.main22.utils.Token;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,15 +22,18 @@ public class TreeService {
     private final StudyRepository studyRepository;
     private final StudyService studyService;
     private final UserRepository userRepository;
+    private final Token token;
 
     public TreeService(TreeRepository treeRepository,
                        StudyRepository studyRepository,
                        StudyService studyService,
-                       UserRepository userRepository) {
+                       UserRepository userRepository,
+                       Token token) {
         this.treeRepository = treeRepository;
         this.studyRepository = studyRepository;
         this.studyService = studyService;
         this.userRepository = userRepository;
+        this.token = token;
     }
 
     public Tree createTree(Tree tree) {
@@ -51,7 +55,7 @@ public class TreeService {
 
     // userId를 기준으로 tree 조회
     public List<Object> findTreeByUserId(HttpServletRequest request) {
-        UserEntity user = userRepository.findByToken(request);
+        UserEntity user = token.findByToken(request);
         List<Study> studies = studyRepository.findByUserStudiesUser(user);
 
         List<Object> treesAndTeamNames = new ArrayList<>();

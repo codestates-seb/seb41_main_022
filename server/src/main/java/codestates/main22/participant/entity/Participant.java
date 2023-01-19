@@ -1,5 +1,6 @@
 package codestates.main22.participant.entity;
 
+import codestates.main22.auditable.Auditable;
 import codestates.main22.calendar.entity.Calendar;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,15 +13,15 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Participant {
+public class Participant extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long participantId;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private long userId;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private String username;
 
     @Enumerated(EnumType.STRING)
