@@ -11,12 +11,14 @@ import CreatePageTags from "./CreatePageTags";
 import axios, { AxiosResponse } from "axios";
 import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
+import { useNavigate } from "react-router-dom";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 interface MyFormProps {
   teamName: string;
   summary: string;
+  tags: string[];
   dayOfWeek: string[];
   want: number;
   startDate: string;
@@ -39,7 +41,7 @@ const CreateForm = () => {
       "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
     fetch(url).then((res) => setTag(res.data.data.tags));
   }, []);
-
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[]>();
   const [selectedTags, setSelectedTags] = useState([]);
@@ -56,6 +58,7 @@ const CreateForm = () => {
   const [form, setForm] = useState<MyFormProps>({
     teamName: "",
     summary: "",
+    tags: [],
     dayOfWeek: [],
     want: 0,
     startDate: new Date().toISOString().split("T")[0],
@@ -64,13 +67,7 @@ const CreateForm = () => {
     content: "",
     image: "https://avatars.dicebear.com/api/bottts/222.svg",
   });
-  const { teamName, summary, want, procedure, openClose } = form;
-
-  const [myTag, setMyTag] = useState<MyFormTag>({
-    tags: [],
-  });
-
-  const { tags } = myTag;
+  const { teamName, summary, tags, want, procedure, openClose } = form;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -89,6 +86,8 @@ const CreateForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     fetchCreateStudy(URL, form);
+    alert("스터디가 생성되었습니다");
+    navigate("/");
   };
   const openModal = () => {
     setIsOpen(!isOpen);
@@ -132,8 +131,8 @@ const CreateForm = () => {
                       setSelectedTags={setSelectedTags}
                       selectedTags={selectedTags}
                       tagName={el}
-                      myTag={myTag}
-                      setMyTag={setMyTag}
+                      form={form}
+                      setForm={setForm}
                     />
                   ))}
               </AddTagsModal>
@@ -145,8 +144,8 @@ const CreateForm = () => {
                   tagName={el}
                   setSelectedTags={setSelectedTags}
                   selectedTags={selectedTags}
-                  myTag={myTag}
-                  setMyTag={setMyTag}
+                  form={form}
+                  setForm={setForm}
                 />
               ))}
             </TagsWrapper>

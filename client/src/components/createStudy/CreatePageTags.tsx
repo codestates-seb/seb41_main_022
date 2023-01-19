@@ -5,19 +5,20 @@ interface TagsProps {
   tagName: string;
   setSelectedTags?: any;
   selectedTags?: string[];
-  myTag: any;
-  setMyTag: any;
+  form: any;
+  setForm: any;
 }
 
 const CreatePageTags = ({
   tagName,
   setSelectedTags,
   selectedTags,
-  myTag,
-  setMyTag,
+  form,
+  setForm,
 }: TagsProps) => {
   useEffect(() => {
-    setMyTag({
+    setForm({
+      ...form,
       tags: selectedTags,
     });
   }, [selectedTags]);

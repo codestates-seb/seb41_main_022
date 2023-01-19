@@ -13,7 +13,7 @@ export const createStudyStore = create<createStudyState>((set) => ({
     try {
       const response: any = await axios.post(url + "/study", form, {
         headers: {
-          "access-Token": "abc",
+          "access-Token": "abcd",
         },
       });
       set({ studyId: await response.data.data.studyId });

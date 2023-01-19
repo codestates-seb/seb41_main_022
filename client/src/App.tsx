@@ -10,6 +10,7 @@ import UserPage from "./pages/UserPage";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
+import TokenPage from "./pages/TokenPage";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/create" element={<CreatePage />} />
         <Route path="/study-hall/:page/:studyId" element={<StudyHallPage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/Token.html" element={<TokenPage />} />
       </Routes>
       <Footer />
     </>
