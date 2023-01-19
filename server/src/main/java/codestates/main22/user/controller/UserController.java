@@ -13,6 +13,7 @@ import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.mapper.UserMapper;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.service.UserService;
+import codestates.main22.utils.Token;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +32,9 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
-    private final UserRepository userRepository;
     private final StudyService studyService;
     private final StudyMapper studyMapper;
+    private final Token token;
 
     //CRUD 순서에 맞춰서
 
@@ -122,7 +123,7 @@ public class UserController {
                                        HttpServletRequest request) {
 
         Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = userRepository.findByToken(request);
+        UserEntity loginUser = token.findByToken(request);
 
         if (findStudy.getLeaderId() != loginUser.getUserId()) {
             throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);

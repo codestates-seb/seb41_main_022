@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { useRef, useCallback, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import ChatStore from "../../../util/zustandCommunity";
 import Chat from "./Chat";
-import { ChatData } from "../../../util/dummyData";
 
 const ChatList = () => {
-  const userId = 2;
+  const [cookies] = useCookies(["token"]);
+  const userId = cookies.token.userId;
   const { chatData, submitChat, getChatData } = ChatStore();
   const { studyId } = useParams();
   const [chatContent, setChatContent] = useState("");
@@ -18,6 +19,14 @@ const ChatList = () => {
       textRef.current.style.height = textRef.current.scrollHeight + "px";
     }
   }, []);
+
+  const messageBoxRef = useRef<any>();
+  const scrollToBottom = () => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollTop = messageBoxRef.current.scrollHeight;
+    }
+  };
+
   const handleSendClick = () => {
     const date = new Date();
 
@@ -33,7 +42,7 @@ const ChatList = () => {
         studyId,
         chatContent,
         `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`,
-        "khw"
+        cookies.token.accessToken
       );
 
     setChatContent("");
@@ -43,6 +52,9 @@ const ChatList = () => {
       getChatData(studyId);
     }
   }, []);
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatData]);
   return (
     <ChatListWrapper>
       <div className="flex">
@@ -58,11 +70,11 @@ const ChatList = () => {
           <button onClick={handleSendClick}>Send</button>
         </WriteChat>
       </div>
-      <ChatWrapper>
+      <ChatWrapper ref={messageBoxRef}>
         {/* 내 채팅일때랑 아닐때 구분 */}
         {chatData.map((el, idx) =>
           el.messageUserId === userId ? (
-            <div className="myChatWrapper">
+            <div key={idx} className="myChatWrapper">
               <div className="myChat">{el.content}</div>
             </div>
           ) : (
@@ -86,10 +98,10 @@ const ChatListWrapper = styled.div`
   width: calc(460px - 40px);
   padding: 16px 20px;
   margin: 16px 0 16px 0;
-  min-height: 500px;
-  max-height: 700px;
+  height: 600px;
   display: flex;
   flex-direction: column-reverse;
+  max-height: 635px;
 
   > .flex {
     width: 100%;

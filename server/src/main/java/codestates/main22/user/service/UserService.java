@@ -10,6 +10,7 @@ import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.repository.UserStudyRepository;
+import codestates.main22.utils.Token;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,6 +32,7 @@ public class UserService {
     private final StudyRepository studyRepository;
 
     private final CustomAuthorityUtils authorityUtils;
+    private final Token token;
 
     //CRUD 순서에 맞춰서
 
@@ -45,7 +47,7 @@ public class UserService {
 
     //READ - 하나 조회
     public UserEntity findUser(HttpServletRequest request) {
-        UserEntity user = userRepository.findByToken(request); // user 가 있는지 검증
+        UserEntity user = token.findByToken(request); // user 가 있는지 검증
 
         return userRepository.save(user);
     }
@@ -115,7 +117,7 @@ public class UserService {
 
     // access-Token을 이용해서 user 정보 조회하기
     public UserEntity findByToken(HttpServletRequest request) {
-        return userRepository.findByToken(request);
+        return token.findByToken(request);
     }
 
     // email로 user 정보 조회
