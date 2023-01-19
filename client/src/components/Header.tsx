@@ -9,9 +9,8 @@ import axios from "axios";
 const Header = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [isLogin, setIsLogin] = useState(false);
+  const [userImg, setUserImg] = useState<string | undefined>();
   const navigate = useNavigate();
-  console.log(cookies.token);
-  console.log(isLogin);
   const googleserverURL =
     "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
   const handleLogin = () => {
@@ -21,11 +20,25 @@ const Header = () => {
   const handleLogout = () => {
     removeCookie("token");
     setIsLogin(false);
+    navigate("/");
+    window.location.reload();
   };
 
   useEffect(() => {
     if (cookies.token) {
-      setIsLogin(true);
+      axios
+        .get(
+          "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user/image",
+          {
+            headers: {
+              "access-Token": cookies.token.accessToken,
+            },
+          }
+        )
+        .then((res) => {
+          setUserImg(res.data.data.imgUrl);
+          setIsLogin(true);
+        });
     }
   }, [cookies.token]);
 
@@ -38,7 +51,7 @@ const Header = () => {
         {isLogin ? (
           <ItemWrapper>
             <div className="imgWrapper" onClick={() => navigate("/user")}>
-              <img src="https://mystickermania.com/cdn/stickers/cartoons/pokemon-ditto-you-can-be-anything-512x512.png" />
+              <img src={userImg} />
             </div>
             <img className="bell" src={Bell} />
             <WhiteButton onClick={() => navigate("/study-hall/main")}>
