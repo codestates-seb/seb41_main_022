@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { useRef, useCallback, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import ChatStore from "../../../util/zustandCommunity";
 import Chat from "./Chat";
-import { ChatData } from "../../../util/dummyData";
 
 const ChatList = () => {
-  const userId = 2;
+  const [cookies] = useCookies(["token"]);
+  const userId = cookies.token.userId;
   const { chatData, submitChat, getChatData } = ChatStore();
   const { studyId } = useParams();
   const [chatContent, setChatContent] = useState("");
@@ -41,7 +42,7 @@ const ChatList = () => {
         studyId,
         chatContent,
         `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`,
-        "khw"
+        cookies.token.accessToken
       );
 
     setChatContent("");
@@ -73,7 +74,7 @@ const ChatList = () => {
         {/* 내 채팅일때랑 아닐때 구분 */}
         {chatData.map((el, idx) =>
           el.messageUserId === userId ? (
-            <div className="myChatWrapper">
+            <div key={idx} className="myChatWrapper">
               <div className="myChat">{el.content}</div>
             </div>
           ) : (

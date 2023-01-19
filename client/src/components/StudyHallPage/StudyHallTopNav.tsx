@@ -8,7 +8,6 @@ const StudyHallTopNav = () => {
   const navigate = useNavigate();
   const { page, studyId } = useParams();
   const sId = Number(studyId);
-  console.log(page);
 
   const navigateStudyHall = (whichPage: string, studyId: number) => {
     navigate(`/study-hall/${whichPage}/${studyId}`);
