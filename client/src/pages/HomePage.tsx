@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import { useEffect } from "react";
 
 import RecruitmentList from "../components/homepage/RecruitmentList";
 import Banner from "../components/homepage/Banner";
@@ -8,6 +8,11 @@ import Search from "../components/homepage/Search";
 import TagFilter from "../components/homepage/TagFilter";
 
 const HomePage = () => {
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
+  }, []);
   return (
     <>
       <HomepageWrapper>

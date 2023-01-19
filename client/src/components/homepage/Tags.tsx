@@ -8,7 +8,7 @@ interface Data {
 }
 
 const Tags = () => {
-  const { setTags, tags } = HomeStore();
+  const { setTags, tags, setRecruitment } = HomeStore();
   const [tagList, setTagList] = useState<string[]>();
   const [selectedTagList, setSelectedTagList] = useState<string[]>([]);
   const getTags = (url: string): Promise<AxiosResponse<Data>> => {
@@ -22,6 +22,7 @@ const Tags = () => {
       setSelectedTagList([...selectedTagList, tagName]);
     }
   };
+
   useEffect(() => {
     setTags(selectedTagList.join(","));
   }, [selectedTagList]);
