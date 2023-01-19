@@ -1,5 +1,6 @@
 import create from "zustand";
 import axios from "axios";
+import { useState } from "react";
 
 interface Home {
   tags: string;
@@ -28,7 +29,6 @@ interface Recruitment {
   teamName: string;
   want: number;
 }
-
 const HomeStore = create<Home>()((set) => ({
   tags: "",
   filter: "",
