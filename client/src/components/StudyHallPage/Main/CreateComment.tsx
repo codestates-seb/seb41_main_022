@@ -1,20 +1,58 @@
-import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { FaBeer } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import { commentStore } from "../../../util/zustandComment";
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const CreateComment = () => {
-  const { register, handleSubmit } = useForm();
+  const [content, setContent] = useState(""); //댓글작성 상태변화
+  const [isClosedChat, setIsClosedChat] = useState(false); //공개/비공개 상태변화
+  const { studyId } = useParams(); //API에 보내지는 파람스와 동일
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]); //쿠키 보내주기
+  const postComment = commentStore((state) => state.postComment);
 
+  //정보 들어오는지 확인
+  useEffect(() => {
+    console.log(studyId);
+    console.log(cookies.token.accessToken);
+  }, []);
+
+  const handleSubmit = () => {
+    if (studyId) {
+      postComment(
+        URL,
+        studyId,
+        { content, isClosedChat },
+        cookies.token.accessToken
+      );
+    }
+  };
   return (
     <CreateWrapper>
-      <Wrapper onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}>
+      <Wrapper onSubmit={handleSubmit}>
         <Create>
           <img className="profile" />
-          <Comment id="comment" type="text" {...register("comment")} />
+          <Comment
+            id="comment"
+            type="text"
+            placeholder="Write Message Here..."
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setContent(e.target.value);
+            }}
+          />
           <AddButton type="submit">Add</AddButton>
         </Create>
         <CheckBox>
-          <StyledInput type="checkbox" id="checkBox" {...register("secret")} />
+          <StyledInput
+            type="checkbox"
+            id="checkBox"
+            onClick={() => {
+              setIsClosedChat(!isClosedChat);
+            }}
+          />
           <div className="private">비공개</div>
         </CheckBox>
       </Wrapper>

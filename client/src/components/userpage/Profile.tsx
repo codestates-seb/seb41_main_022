@@ -6,6 +6,7 @@ import axios, { AxiosResponse } from "axios";
 import UserData from "../../util/dummyDataUser";
 import { User } from "../../util/dummyDataStudyHall";
 import Data from "../../util/dummyData";
+import { useCookies } from "react-cookie";
 
 interface User {
   userId: number;
@@ -17,11 +18,12 @@ interface Data {
 }
 
 const Profile = () => {
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [userData, setUserData] = useState<User | undefined>();
   const getUserdata = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
       headers: {
-        "access-Token": "abcd",
+        "access-Token": cookies.token.accessToken,
       },
     });
   };
