@@ -1,13 +1,18 @@
 import create from "zustand";
 import axios from "axios";
-import { useState } from "react";
 
 interface Home {
   tags: string;
   filter: string;
   search: string;
-  recruitmentData: undefined | Recruitment[];
-  fetch: (tags: string, filter: string, search: string, page: number) => any;
+  recruitmentData: [] | Recruitment[];
+  fetch: (
+    tags: string,
+    filter: string,
+    search: string,
+    page: number,
+    recruitmentData: Recruitment[] | []
+  ) => void;
   setTags: (tag: string) => void;
   setFilter: (filter: string) => void;
   setSearch: (search: string) => void;
@@ -29,33 +34,36 @@ interface Recruitment {
   teamName: string;
   want: number;
 }
+
 const HomeStore = create<Home>()((set) => ({
   tags: "",
   filter: "",
   search: "",
-  recruitmentData: undefined,
-  setRecruitment: (data: Recruitment[]) => {
-    set((state) => ({ recruitmentData: data }));
+  recruitmentData: [],
+  setRecruitment: (data: Recruitment[] | []) => {
+    set(() => ({ recruitmentData: data }));
   },
-  fetch: async (tags, filter, search, page) => {
+  fetch: async (tags, filter, search, page, recruitmentData) => {
     try {
       const res = await axios.get(
         `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=${page}&size=12&search=${search}&filter=${filter}&tags=${tags}`
       );
-      set({ recruitmentData: await res.data.data });
+      set((state) => ({
+        recruitmentData: [...recruitmentData, ...res.data.data],
+      }));
       console.log(res.data);
     } catch (e) {
       console.log(e);
     }
   },
   setTags: (tag: string) => {
-    set((state) => ({ tags: tag }));
+    set(() => ({ tags: tag, recruitmentData: [] }));
   },
   setFilter: (filter: string) => {
-    set((state) => ({ filter: filter }));
+    set(() => ({ filter: filter }));
   },
   setSearch: (search: string) => {
-    set((state) => ({ search: search }));
+    set(() => ({ search: search }));
   },
 }));
 
