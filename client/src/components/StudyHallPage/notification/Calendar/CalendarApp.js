@@ -9,24 +9,20 @@ import "./main.css";
 import DetailModal from "./DetailModal";
 import TodoListData from "../../../../util/dummyDataTodoList";
 import AddModal from "./AddModal";
-
+import { calendarStore } from "../../../../util/zustandCalendar";
+import { useParams } from "react-router-dom";
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 const CalendarApp = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [event, setEvent] = useState({});
   const [data, setData] = useState();
   const [todo, setTodo] = useState();
-
+  const { studyId } = useParams();
   useEffect(() => {
-    let obj = TodoListData.data;
-    setData(obj);
-    console.log("data", data);
+    const calendarGet = calendarStore((state) => state.calendarGet);
+    calendarGet(URL, 7);
   }, []);
-  useEffect(() => {
-    if (todo) {
-      console.log("hi");
-    }
-  }, [todo]);
   const DetailToggle = () => {
     setShowDetailModal(true);
   };
