@@ -39,7 +39,7 @@ server:
       force-response: true
 mail:
   address:
-    admin: admin@gmail.com # admin mail address
+    admin: utest3912@gmail.com # admin mail address
 jwt:
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30     # 30분 (0.5시간)

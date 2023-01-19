@@ -25,6 +25,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
 
         UserEntity user = userService.findByToken(request);
         user.setToken("");
+        user.setRefresh("");
         userService.updateUser(user);
     }
 }
