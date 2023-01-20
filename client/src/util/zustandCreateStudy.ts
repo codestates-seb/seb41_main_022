@@ -3,7 +3,7 @@ import axios from "axios";
 interface createStudyState {
   studyId: number | null;
   isLoading: boolean;
-  fetchCreateStudy: (url: string, form: object, token: string) => void;
+  fetchCreateStudy: (url: string, form: object, token: object) => void;
 }
 export const createStudyStore = create<createStudyState>((set) => ({
   studyId: null,
@@ -12,9 +12,7 @@ export const createStudyStore = create<createStudyState>((set) => ({
     set({ isLoading: true });
     try {
       const response: any = await axios.post(url + "/study", form, {
-        headers: {
-          "access-Token": token,
-        },
+        headers: token,
       });
       set({ studyId: await response.data.data.studyId });
     } catch (error) {

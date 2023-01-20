@@ -86,7 +86,10 @@ const CreateForm = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    fetchCreateStudy(URL, form, cookies.token.accessToken);
+    fetchCreateStudy(URL, form, {
+      "access-Token": cookies.token.accessToken,
+      "refresh-Token": cookies.token.refreshToken,
+    });
     alert("스터디가 생성되었습니다");
     navigate("/");
   };
