@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 import Tags from "./Tags";
 import HomeStore from "../../util/zustandHome";
@@ -19,12 +20,16 @@ const TagFilter = () => {
         {isOpen ? (
           <FilterOpen onClick={handleClick}>
             <span>필터</span>
-            <span className="triangle">{isOpen ? "▲" : "▼"}</span>
+            <span className="triangle">
+              {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+            </span>
           </FilterOpen>
         ) : (
           <Filter onClick={handleClick}>
             <span>필터</span>
-            <span className="triangle">{isOpen ? "▲" : "▼"}</span>
+            <span className="triangle">
+              {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
+            </span>
           </Filter>
         )}
         {isOpen && (

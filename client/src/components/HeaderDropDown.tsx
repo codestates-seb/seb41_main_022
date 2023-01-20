@@ -1,14 +1,15 @@
 import Dropdown from "react-bootstrap/Dropdown";
-import "bootstrap/dist/css/bootstrap.min.css";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const HeaderDropDown = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [myStudyArr, setMyStudyArr] = useState([]);
   const navigate = useNavigate();
@@ -26,26 +27,27 @@ const HeaderDropDown = () => {
     }
   }, []);
   return (
-    <Wrapper>
-      <Dropdown>
-        <Dropdown.Toggle id="dropdown-autoclose-true">My Study</Dropdown.Toggle>
-        <Dropdown.Menu>
-          {myStudyArr &&
-            myStudyArr.map((el: { studyId: string; teamName: string }) => (
-              <div onClick={() => navigate(`/study-hall/main/${el.studyId}`)}>
-                <Dropdown.Item>{el.teamName}</Dropdown.Item>
-              </div>
-            ))}
-        </Dropdown.Menu>
+    <Wrapper className="bootstrapCss">
+      <Dropdown onClick={() => setIsOpen(!isOpen)}>
+        <Dropdown.Toggle id="dropdown-autoclose-true">
+          My Study {isOpen ? <IoMdArrowDropdown /> : <IoMdArrowDropup />}
+        </Dropdown.Toggle>
+        {isOpen && (
+          <Dropdown.Menu>
+            {myStudyArr &&
+              myStudyArr.map((el: { studyId: string; teamName: string }) => (
+                <div onClick={() => navigate(`/study-hall/main/${el.studyId}`)}>
+                  <Dropdown.Item>{el.teamName}</Dropdown.Item>
+                </div>
+              ))}
+          </Dropdown.Menu>
+        )}
       </Dropdown>
     </Wrapper>
   );
 };
 export default HeaderDropDown;
 const Wrapper = styled.div`
-  .dropdown-menu {
-    margin-top: 15px;
-  }
   .show {
     button {
       background-color: var(--green);
@@ -67,6 +69,26 @@ const Wrapper = styled.div`
       background-color: var(--green);
       color: var(--gray-10);
       border: 1px solid var(--gray-10);
+    }
+  }
+  .dropdown-menu {
+    position: absolute;
+    margin-top: 17px;
+    min-width: 80px;
+    border-radius: 3px;
+    padding: 5px 0;
+    z-index: 999;
+    background-color: var(--gray-10);
+    a {
+      text-decoration: none;
+      color: var(--green-00);
+      font-size: 12px;
+    }
+    > div {
+      padding: 2px 7px;
+      :hover {
+        background-color: #bfbfbf;
+      }
     }
   }
 `;
