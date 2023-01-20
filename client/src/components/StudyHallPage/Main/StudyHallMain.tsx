@@ -46,6 +46,7 @@ const StudyHallMain = () => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.accessToken,
       },
     });
   };
