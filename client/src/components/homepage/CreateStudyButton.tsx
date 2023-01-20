@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import LoginStore from "../../util/zustandLogin";
 
 const CreateStudyButton = () => {
   const navigate = useNavigate();
+  const { isLogin } = LoginStore();
   return (
     <CreateStudyWrapper>
       <div className="flexWrapper">
@@ -11,7 +13,15 @@ const CreateStudyButton = () => {
           <br />
           새로 만들어보세요!
         </div>
-        <RedButton onClick={() => navigate("/create")}>Create Study</RedButton>
+        <RedButton
+          onClick={
+            isLogin
+              ? () => navigate("/create")
+              : () => alert("로그인 후 이용해주세요!")
+          }
+        >
+          Create Study
+        </RedButton>
       </div>
     </CreateStudyWrapper>
   );

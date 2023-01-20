@@ -8,6 +8,7 @@ import axios from "axios";
 import Bell from "../assets/Bell.svg";
 import HeaderDropDown from "./HeaderDropDown";
 import HomeStore from "../util/zustandHome";
+import LoginStore from "../util/zustandLogin";
 
 interface UserData {
   userId: number;
@@ -22,7 +23,7 @@ const Header = () => {
     "authData",
   ]);
   const [isReady, setIsReady] = useState<string | undefined>(undefined);
-  const [isLogin, setIsLogin] = useState(false);
+  const { isLogin, setIsLogin } = LoginStore();
   const [userData, setUserData] = useState<UserData | undefined>();
   const { setRecruitment } = HomeStore();
   const navigate = useNavigate();
