@@ -38,6 +38,7 @@ const StudyHallMain = () => {
   const [cookies, setCookie, removeCookie] = useCookies([
     "userData",
     "authData",
+    "token"
   ]);
 
   const [page, setPage] = useState(1);
