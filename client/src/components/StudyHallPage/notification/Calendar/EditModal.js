@@ -15,7 +15,6 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["userData"]);
   const calendarPatch = calendarStore((state) => state.calendarPatch);
   useEffect(() => {
-    console.log("88", editData);
     setMyUserId(cookies.userData.userId);
     setParticipants(editData.participants);
     setTitle(editData.title);
@@ -27,6 +26,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
       date: `${editData.date.slice(0, 10)}T${hour}:${minute}:00`,
       participants,
     });
+    window.location.reload();
   };
   return (
     showEditModal && (
@@ -93,9 +93,9 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
               </div>
               <hr />
               {editData.participants.map((el) => (
-                <ul key={el.userid} className="beige">
+                <ul>
                   {myUserId === el.userId ? (
-                    <li>
+                    <li key={el.userid}>
                       {el.username}
                       {" : "}
                       <select
@@ -116,7 +116,9 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
                       </select>
                     </li>
                   ) : (
-                    <li>{el.username + " : " + el.joinState}</li>
+                    <li key={el.userid}>
+                      {el.username + " : " + el.joinState}
+                    </li>
                   )}
                 </ul>
               ))}
