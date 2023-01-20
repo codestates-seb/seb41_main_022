@@ -29,9 +29,6 @@ interface MyFormProps {
   image: string;
 }
 
-interface MyFormTag {
-  tags: string[];
-}
 const CreateForm = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const { fetchCreateStudy, studyId } = createStudyStore();
@@ -46,8 +43,6 @@ const CreateForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[]>();
   const [selectedTags, setSelectedTags] = useState([]);
-  const [isOnlineToggleClicked, setIsOnlineToggleClicked] = useState(false);
-  const [isPublicToggleClicked, setIsPublicToggleClicked] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
