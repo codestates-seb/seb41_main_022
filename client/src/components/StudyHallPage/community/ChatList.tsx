@@ -42,7 +42,8 @@ const ChatList = () => {
         studyId,
         chatContent,
         `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`,
-        cookies.token.accessToken
+        cookies.token.accessToken,
+        cookies.token.refreshToken
       );
 
     setChatContent("");

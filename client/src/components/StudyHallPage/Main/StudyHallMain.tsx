@@ -35,7 +35,11 @@ interface Hi {
 }
 
 const StudyHallMain = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "userData",
+    "authData",
+    "token"
+  ]);
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
@@ -49,6 +53,7 @@ const StudyHallMain = () => {
       },
     });
   };
+
   useEffect(() => {
     getCommentsData(
       `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=10`
@@ -57,6 +62,19 @@ const StudyHallMain = () => {
       console.log(res.data);
     });
   }, []);
+
+  // API를 받아서 코멘트로 쏴준다
+
+  // useEffect(() => {
+  //   getCommentsData(
+  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${1}&size=${15}`
+  //   ).then((res) => {
+  //     setCommentsData(res.data.data);
+  //   });
+  // });
+  // useEffect(() => {
+  //   // fetchData();
+  // }, []);
 
   return (
     <MainWrapper>
