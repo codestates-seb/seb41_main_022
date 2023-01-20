@@ -7,6 +7,7 @@ import axios from "axios";
 
 import Bell from "../assets/Bell.svg";
 import HeaderDropDown from "./HeaderDropDown";
+import HomeStore from "../util/zustandHome";
 
 interface UserData {
   userId: number;
@@ -19,6 +20,7 @@ const Header = () => {
   const [isReady, setIsReady] = useState<string | undefined>(undefined);
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | undefined>();
+  const { setRecruitment } = HomeStore();
   const navigate = useNavigate();
   const googleserverURL =
     "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
@@ -65,7 +67,13 @@ const Header = () => {
   return (
     <>
       <HeaderWrapper>
-        <div className="header-logo" onClick={() => navigate("/")}>
+        <div
+          className="header-logo"
+          onClick={() => {
+            navigate("/");
+            setRecruitment([]);
+          }}
+        >
           Stu<span>d</span>y Tree
         </div>
         {isLogin ? (
