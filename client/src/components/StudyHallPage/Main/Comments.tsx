@@ -54,11 +54,6 @@ const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
   const { studyId } = useParams();
   const [answer, setAnswer] = useState("");
 
-  useEffect(() => {
-    console.log("chatId", chatId);
-    console.log(cookies.token.accessToken);
-    console.log(answer);
-  }, []);
   //대댓글 작성
   const handleSubmit = () => {
     if (chatId) {

@@ -2,10 +2,11 @@ import styled from "styled-components";
 
 interface RedButtonProps {
   text: string;
+  handleClick: () => void;
 }
 
-const RedButton = ({ text }: RedButtonProps) => {
-  return <Button>{text}</Button>;
+const RedButton = ({ text, handleClick }: RedButtonProps) => {
+  return <Button onClick={() => handleClick()}>{text}</Button>;
 };
 
 const Button = styled.button`
