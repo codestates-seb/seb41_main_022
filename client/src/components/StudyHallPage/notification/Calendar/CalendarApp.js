@@ -7,7 +7,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import "./main.css";
 import DetailModal from "./DetailModal";
 import AddModal from "./AddModal";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import EditModal from "./EditModal";
 
@@ -26,7 +26,6 @@ const CalendarApp = () => {
   };
   useEffect(() => {
     fetch(URL).then((res) => {
-      console.log(res.data.data);
       setData(res.data.data);
     });
   }, [showAddModal, showDetailModal, showEditModal]);

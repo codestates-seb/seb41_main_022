@@ -24,6 +24,7 @@ export const calendarStore = create<calendarState>((set) => ({
       alert("삭제되었습니다");
     } catch (error) {
       console.log("err", error);
+      alert("에러");
     }
   },
   calendarPatch: (url, id, data) => {

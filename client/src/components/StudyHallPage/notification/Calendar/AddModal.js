@@ -19,8 +19,8 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
       title,
       date: `${event.dateStr.slice(0, 19)}T${hour}:${minute}:00`,
     });
-    alert("스터디가 생성되었습니다");
     setShowAddModal(false);
+    window.location.reload();
   };
   return (
     showAddModal && (
