@@ -31,6 +31,7 @@ const StudyHallTopNav = () => {
         }
       )
       .then((res) => setCookie("authData", { data: res.data.data }));
+    // .then(() => console.log("123",cookies.authData));
   }, []);
 
   return (
