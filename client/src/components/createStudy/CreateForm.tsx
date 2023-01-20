@@ -39,8 +39,7 @@ const CreateForm = () => {
     return axios.get(url);
   };
   useEffect(() => {
-    const url =
-      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
+    const url = URL + "/tag";
     fetch(url).then((res) => setTag(res.data.data.tags));
   }, []);
   const navigate = useNavigate();
@@ -93,13 +92,6 @@ const CreateForm = () => {
   };
   const openModal = () => {
     setIsOpen(!isOpen);
-  };
-
-  const hadleOnlineToggleClick = () => {
-    setIsOnlineToggleClicked(!isOnlineToggleClicked);
-  };
-  const hadlePublicToggleClick = () => {
-    setIsPublicToggleClicked(!isPublicToggleClicked);
   };
 
   return (

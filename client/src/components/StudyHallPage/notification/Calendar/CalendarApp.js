@@ -3,51 +3,40 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import styled from "styled-components";
 
 import "./main.css";
 import DetailModal from "./DetailModal";
-import TodoListData from "../../../../util/dummyDataTodoList";
 import AddModal from "./AddModal";
+import axios, { AxiosResponse } from "axios";
+import { useParams } from "react-router-dom";
+import EditModal from "./EditModal";
+
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const CalendarApp = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [event, setEvent] = useState({});
   const [data, setData] = useState();
-  const [todo, setTodo] = useState();
-
-  useEffect(() => {
-    let obj = TodoListData.data;
-    setData(obj);
-    console.log("data", data);
-  }, []);
-  useEffect(() => {
-    if (todo) {
-      console.log("hi");
-    }
-  }, [todo]);
-  const DetailToggle = () => {
-    setShowDetailModal(true);
+  const [editData, setEditData] = useState("0");
+  const { studyId } = useParams();
+  const fetch = (url) => {
+    return axios.get(url + "/calendar?studyId=" + studyId);
   };
-  const AddToggle = () => {
-    setShowAddModal(true);
-  };
+  useEffect(() => {
+    fetch(URL).then((res) => {
+      console.log(res.data.data);
+      setData(res.data.data);
+    });
+  }, [showAddModal, showDetailModal, showEditModal]);
   const handleEventClick = (arg) => {
     setEvent(arg.event);
-    DetailToggle();
+    setShowDetailModal(true);
   };
   const addEvent = (e) => {
     setEvent(e);
-    AddToggle(e);
-    //추가 예시
-    const calendarApi = e.view.calendar;
-    calendarApi.addEvent({
-      title: "비빔면",
-      date: e.dateStr,
-      start: e.startStr,
-      display: "list-item",
-    });
+    setShowAddModal(true);
   };
   return (
     <>
@@ -55,6 +44,8 @@ const CalendarApp = () => {
         <DetailModal
           showDetailModal={showDetailModal}
           setShowDetailModal={setShowDetailModal}
+          setShowEditModal={setShowEditModal}
+          setEditData={setEditData}
           event={event}
           data={data}
         />
@@ -62,7 +53,12 @@ const CalendarApp = () => {
           showAddModal={showAddModal}
           setShowAddModal={setShowAddModal}
           event={event}
-          setTodo={setTodo}
+        />
+        <EditModal
+          showEditModal={showEditModal}
+          setShowEditModal={setShowEditModal}
+          editData={editData}
+          event={event}
         />
         <div className="demo-app-main">
           <FullCalendar
