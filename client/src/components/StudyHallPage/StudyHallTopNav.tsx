@@ -1,6 +1,8 @@
 import styled from "styled-components";
-
 import { useNavigate, useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
+import axios from "axios";
 
 import StudyHallRightNav from "./StudyHallRightNav";
 
@@ -8,10 +10,28 @@ const StudyHallTopNav = () => {
   const navigate = useNavigate();
   const { page, studyId } = useParams();
   const sId = Number(studyId);
-
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "userData",
+    "authData",
+    "token",
+  ]);
   const navigateStudyHall = (whichPage: string, studyId: number) => {
     navigate(`/study-hall/${whichPage}/${studyId}`);
   };
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/user/${cookies.userData.userId}/auth`,
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refesh-Token": cookies.token.refrershToken,
+          },
+        }
+      )
+      .then((res) => setCookie("authData", { data: res.data.data }));
+  }, []);
 
   return (
     <TopNavWrapper>

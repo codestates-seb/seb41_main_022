@@ -35,12 +35,7 @@ interface Hi {
 }
 
 const StudyHallMain = () => {
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "userData",
-    "authData",
-    "token"
-  ]);
-
+  const [cookies, setCookie, removeCookie] = useCookies(["userData", "token"]);
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);

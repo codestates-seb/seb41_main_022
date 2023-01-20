@@ -29,7 +29,13 @@ const Setting = () => {
   const handleClickLeaveStudy = () => {
     axios
       .delete(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/${cookies.userData.userId}`
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/${cookies.userData.userId}`,
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.refreshToken,
+          },
+        }
       )
       .then(() => navigate("/"));
   };
@@ -63,7 +69,10 @@ const Setting = () => {
               handleClick={handleClickDeleteStudy}
               text="Delete Study"
             ></RedButton>
-            <RedButton handleClick={() => {}} text="Leave Study"></RedButton>
+            <RedButton
+              handleClick={handleClickLeaveStudy}
+              text="Leave Study"
+            ></RedButton>
           </div>
         </div>
       </SettingSection>
