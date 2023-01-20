@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 import Bell from "../assets/Bell.svg";
-import axios from "axios";
 
 interface UserData {
   userId: number;
