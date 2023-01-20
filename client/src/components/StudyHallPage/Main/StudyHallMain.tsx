@@ -10,18 +10,28 @@ import Comments from "./Comments";
 import Pagination from "../../Pagination";
 import { CommentsData } from "../../../util/dummyDataStudyHall";
 interface Studies {
-  chatId: number;
+  chatId: any;
   el: string;
   content: string;
   answers: [];
   pageInfo: any;
   totalElements: number;
   size: number;
-  studyId: string;
+  imgUrl: string;
+}
+interface PageInfo {
   page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
 }
 interface Data {
   data: any;
+  pageInfo: any;
+}
+interface Hi {
+  data: Studies[];
+  pageInfo: PageInfo;
 }
 
 const StudyHallMain = () => {
@@ -29,39 +39,42 @@ const StudyHallMain = () => {
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
-  const { studyId, i, limit } = useParams();
+  const { studyId, i, limit, size } = useParams();
   //데이터 요청
-  const [answers, setAnswers] = useState<Studies[] | undefined>();
-  const getAnswersData = (url: string): Promise<AxiosResponse<Data>> => {
+  const [commentsData, setCommentsData] = useState<Hi | undefined>();
+  const getCommentsData = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
       },
     });
   };
-  // useEffect(() => {
-  //   getAnswersData(
-  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/answer/${chatId}`
-  //   ).then((res) => {
-  //     setAnswers(res.data.data);
-  //   });
-  // });
+  useEffect(() => {
+    getCommentsData(
+      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=10`
+    ).then((res) => {
+      setCommentsData(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
   return (
     <MainWrapper>
       <div className="padding">
         <div>
           {<StudyInfo />}
           <CreateComment />
-          {/* {commentsData &&
-            commentsData.map((el) => (
+          {commentsData &&
+            commentsData.data.map((el) => (
               <Comments
-                key={el.chatId}
                 el={el.el}
                 content={el.content}
                 answers={el.answers}
-                totalElements={el.pageInfo.totalElements}
+                totalElements={commentsData.pageInfo.totalElements}
+                size={el.size}
+                imgUrl={el.imgUrl}
               />
-            ))} */}
+            ))}
           {/* <Pagination
             // total={totalQuestions}
             limit={limit}
@@ -94,14 +107,3 @@ const MainWrapper = styled.div``;
 // };
 
 // // API를 받아서 코멘트로 쏴준다
-
-// useEffect(() => {
-//   getCommentsData(
-//     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080//study/${studyId}/main`
-//   ).then((res) => {
-//     setCommentsData(res.data.data);
-//   });
-// });
-// useEffect(() => {
-//   fetchData();
-// }, []);
