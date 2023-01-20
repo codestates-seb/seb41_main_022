@@ -47,6 +47,7 @@ const Header = () => {
           {
             headers: {
               "access-Token": cookies.token.accessToken,
+              "refresh-Token": cookies.token.refreshToken,
             },
           }
         )

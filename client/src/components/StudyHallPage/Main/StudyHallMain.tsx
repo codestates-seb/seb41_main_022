@@ -2,6 +2,7 @@ import styled, { StyleSheetManager } from "styled-components";
 import { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import StudyInfo from "./StudyInfo";
 import CreateComment from "./CreateComment";
@@ -21,6 +22,10 @@ interface Data {
 }
 
 const StudyHallMain = () => {
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "userData",
+    "authData",
+  ]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const { studyId, i, limit } = useParams();
@@ -42,26 +47,39 @@ const StudyHallMain = () => {
     setPage((nextPage) => nextPage + 1);
   };
 
-  const fetchData = async () => {
-    const response = await fetch(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080//chat/${studyId}?page=${i}&size=${limit}`
-    );
-    const result = await response.json();
-    setTotalPages(totalPages);
-  };
+  // const fetchData = async () => {
+  //   const response = await fetch(
+  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080//chat/${studyId}?page=${i}&size=${limit}`
+  //   );
+  //   const result = await response.json();
+  //   setTotalPages(totalPages);
+  // };
+
+  // 스터디 권한정보 가져오기
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/user/${cookies.userData.userId}/auth`
+      )
+      .then((res) =>
+        setCookie("authData", {
+          data: res.data.data,
+        })
+      );
+  }, []);
 
   // API를 받아서 코멘트로 쏴준다
 
-  useEffect(() => {
-    getCommentsData(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${1}&size=${15}`
-    ).then((res) => {
-      setCommentsData(res.data.data);
-    });
-  });
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   getCommentsData(
+  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${1}&size=${15}`
+  //   ).then((res) => {
+  //     setCommentsData(res.data.data);
+  //   });
+  // });
+  // useEffect(() => {
+  //   // fetchData();
+  // }, []);
 
   return (
     <MainWrapper>
