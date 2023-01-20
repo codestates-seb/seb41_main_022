@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 import StudyInfo from "./StudyInfo";
 import CreateComment from "./CreateComment";
 import Comments from "./Comments";
-import Pagination from "../../Pagination";
 import { CommentsData } from "../../../util/dummyDataStudyHall";
 
 interface Studies {
@@ -43,8 +42,10 @@ const StudyHallMain = () => {
   ]);
 
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(10);
-  const { studyId, i, limit, size } = useParams();
+  const [size, setSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+  const { studyId, i, limit } = useParams();
+
   //데이터 요청
   const [commentsData, setCommentsData] = useState<GroupType | undefined>();
   const getCommentsData = (url: string): Promise<AxiosResponse<Data>> => {
@@ -58,12 +59,12 @@ const StudyHallMain = () => {
 
   useEffect(() => {
     getCommentsData(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=10`
+      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=${size}`
     ).then((res) => {
+      setTotalPages(res.data.pageInfo.totalElements);
       setCommentsData(res.data);
-      console.log(res.data);
     });
-  }, []);
+  }, [page, size]);
 
   // useEffect(() => {
   // axios
@@ -97,6 +98,26 @@ const StudyHallMain = () => {
                 imgUrl={el.imgUrl}
               />
             ))}
+          <Pagination>
+            <button
+              onClick={() => {
+                if (page > 1) {
+                  setPage(page - 1);
+                }
+              }}
+            >
+              이전
+            </button>
+            <button
+              onClick={() => {
+                if (page < totalPages) {
+                  setPage(page + 1);
+                }
+              }}
+            >
+              다음
+            </button>
+          </Pagination>
         </div>
       </div>
     </MainWrapper>
@@ -105,3 +126,21 @@ const StudyHallMain = () => {
 export default StudyHallMain;
 
 const MainWrapper = styled.div``;
+
+const Pagination = styled.div`
+  background-color: var(--green);
+  display: center;
+  font-size: 2px;
+  button {
+    display: center;
+    width: 50px;
+    height: 30px;
+    color: var(--beige-00);
+    background-color: var(--green);
+    border: solid 1px var(--beige-00);
+    border-radius: 15px;
+    font-size: 14px;
+    margin: 3px;
+    padding: 4px;
+  }
+`;
