@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import LoginStore from "../../util/zustandLogin";
 
 import WeekBar from "../WeekBar";
 
@@ -12,10 +13,15 @@ interface CardProps {
 
 const Recruitment = ({ teamName, summary, dayOfWeek, studyId }: CardProps) => {
   const navigate = useNavigate();
+  const { isLogin } = LoginStore();
 
   return (
     <RecruitmentBackground
-      onClick={() => navigate(`/study-hall/main/${studyId}`)}
+      onClick={
+        isLogin
+          ? () => navigate(`/study-hall/main/${studyId}`)
+          : () => alert("로그인 후 이용해주세요!")
+      }
     >
       <div className="recruitmentBody">
         <div className="border">
