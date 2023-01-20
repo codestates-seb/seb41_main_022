@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final UserStudyRepository userStudyRepository;
@@ -67,6 +69,7 @@ public class UserService {
         Optional.ofNullable(changedUser.getInfo()).ifPresent(findUser::setInfo);
         Optional.ofNullable(changedUser.getImgUrl()).ifPresent(findUser::setImgUrl);
         Optional.ofNullable(changedUser.getToken()).ifPresent(findUser::setToken);
+        Optional.ofNullable(changedUser.getRefresh()).ifPresent(findUser::setRefresh);
 //        user.setUsername(changedUser.getUsername());
 //        user.setEmail(changedUser.getEmail());
 //        user.setInfo(changedUser.getInfo());
@@ -136,5 +139,9 @@ public class UserService {
             requester.add(user);
         }
         return requester;
+    }
+
+    public Optional<UserEntity> findByToken(String token) {
+        return userRepository.findByToken(token);
     }
 }

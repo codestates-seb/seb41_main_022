@@ -12,6 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByToken(String token);
+    Optional<UserEntity> findByRefresh(String Refresh);
     Optional<UserEntity> findByEmail(String email);
     UserEntity findByUserId(long userId);
 }
