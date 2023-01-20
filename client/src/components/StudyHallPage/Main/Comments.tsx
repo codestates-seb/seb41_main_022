@@ -3,25 +3,54 @@ import { CommentsData } from "../../../util/dummyDataStudyHall";
 import { FiTrash2 } from "react-icons/fi";
 import React, { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
 //내부컴포넌트 임포트
 import Answers from "./Answers";
 import { stringify } from "querystring";
 import CreateAnswer from "./CreateAnswer";
+import axios, { AxiosResponse } from "axios";
 
 //타입지정
-export interface ComementsProps {
-  chatUserId: string;
+export interface CommentsProps {
+  el: string;
   content: string;
   answers: any[];
   totalElements: number;
+  studyId: string;
+  page: number;
+  size: number;
+}
+interface Data {
+  data: any;
 }
 
 const Comments = ({
-  chatUserId,
+  el,
   content,
   answers,
   totalElements,
-}: ComementsProps) => {
+  studyId,
+  page,
+  size,
+}: CommentsProps) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const [comments, setComments] = useState<CommentsProps | undefined>();
+  const getCommentsData = (url: string): Promise<AxiosResponse<Data>> => {
+    return axios.get(url, {
+      headers: {
+        "access-Token": cookies.token.accessToken,
+      },
+    });
+  };
+
+  useEffect(() => {
+    getCommentsData(
+      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=${size}`
+    ).then((res) => {
+      setComments(res.data.data);
+    });
+  });
+
   const { register, handleSubmit } = useForm();
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -33,7 +62,7 @@ const Comments = ({
         <CommentBox>
           <CommentImg></CommentImg>
           <Texts>
-            <UserId>{chatUserId}</UserId>
+            <UserName>{el}</UserName>
             <Content>{content}</Content>
             <span className="answerNum">
               <AddButton
@@ -132,7 +161,7 @@ const CommentImg = styled.div`
   border-radius: 70%;
 `;
 
-const UserId = styled.div`
+const UserName = styled.div`
   font-size: 10px;
   margin: 5px;
 `;

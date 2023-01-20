@@ -20,7 +20,7 @@ const CreateComment = () => {
     console.log(studyId);
     console.log(cookies.token.accessToken);
   }, []);
-  //
+  //url obj cookie의 토큰갚을 studyId정보를 post요청
   const handleSubmit = () => {
     if (studyId) {
       postComment(
