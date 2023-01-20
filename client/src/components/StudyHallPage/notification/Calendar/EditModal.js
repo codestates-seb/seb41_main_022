@@ -2,16 +2,21 @@ import styled from "styled-components";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { calendarStore } from "../../../../util/zustandCalendar";
+import { useCookies } from "react-cookie";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   const [title, setTitle] = useState("");
   const [hour, setHour] = useState("00");
+  const [participants, setParticipants] = useState([]);
   const [minute, setMinute] = useState("00");
-  const [form, setForm] = useState();
+  const [myUserId, setMyUserId] = useState();
+  const [cookies, setCookie, removeCookie] = useCookies(["userData"]);
   const calendarPatch = calendarStore((state) => state.calendarPatch);
   useEffect(() => {
+    setMyUserId(cookies.userData.userId);
+    setParticipants(editData.participants);
     setTitle(editData.title);
   }, [showEditModal]);
   const handleSubmit = () => {
@@ -19,7 +24,9 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
       ...editData,
       title,
       date: `${editData.date.slice(0, 10)}T${hour}:${minute}:00`,
+      participants,
     });
+    window.location.reload();
   };
   return (
     showEditModal && (
@@ -84,6 +91,37 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
+              <hr />
+              {editData.participants.map((el) => (
+                <ul>
+                  {myUserId === el.userId ? (
+                    <li key={el.userid}>
+                      {el.username}
+                      {" : "}
+                      <select
+                        onClick={(e) =>
+                          setParticipants([
+                            ...participants,
+                            {
+                              userId: el.userId,
+                              username: el.username,
+                              joinState: e.target.value,
+                            },
+                          ])
+                        }
+                      >
+                        <option value="NONE ">NONE </option>
+                        <option value="YES ">YES </option>
+                        <option value="NO ">NO </option>
+                      </select>
+                    </li>
+                  ) : (
+                    <li key={el.userid}>
+                      {el.username + " : " + el.joinState}
+                    </li>
+                  )}
+                </ul>
+              ))}
               <div className="flex-between">
                 <RedButton type="submit">수정</RedButton>
                 <RedButton
@@ -118,6 +156,10 @@ const ModalDiv = styled.main`
   * {
     font-family: "mainB", Arial;
     color: var(--beige-00);
+  }
+  select,
+  option {
+    color: var(--green);
   }
 `;
 const ContentsDiv = styled.article`

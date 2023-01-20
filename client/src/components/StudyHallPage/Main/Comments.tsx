@@ -3,25 +3,48 @@ import { CommentsData } from "../../../util/dummyDataStudyHall";
 import { FiTrash2 } from "react-icons/fi";
 import React, { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import CreateAnswer from "./CreateAnswer";
+import axios, { AxiosResponse } from "axios";
+import { useParams } from "react-router-dom";
 //내부컴포넌트 임포트
 import Answers from "./Answers";
-import { stringify } from "querystring";
-import CreateAnswer from "./CreateAnswer";
+import { SpawnSyncOptionsWithBufferEncoding } from "child_process";
 
 //타입지정
-export interface ComementsProps {
-  chatUserId: string;
+export interface CommentsProps {
+  el: string;
   content: string;
   answers: any[];
   totalElements: number;
+  size: number;
+  imgUrl: string;
+}
+interface Data {
+  data: any;
 }
 
-const Comments = ({
-  chatUserId,
-  content,
-  answers,
-  totalElements,
-}: ComementsProps) => {
+const Comments = ({ el, content, answers, imgUrl }: CommentsProps) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  // const { studyId, page } = useParams;
+
+  const [answersData, setAnswersData] = useState<CommentsProps | undefined>();
+  const getAnswersData = (url: string): Promise<AxiosResponse<Data>> => {
+    return axios.get(url, {
+      headers: {
+        "access-Token": cookies.token.accessToken,
+      },
+    });
+  };
+
+  // useEffect(() => {
+  //   getAnswersData(
+  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=${size}`
+  //   ).then((res) => {
+  //     setAnswersData(res.data.data);
+  //   });
+  // });
+
   const { register, handleSubmit } = useForm();
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -31,9 +54,9 @@ const Comments = ({
     >
       <Wrapper>
         <CommentBox>
-          <CommentImg></CommentImg>
+          <img src={imgUrl} />
           <Texts>
-            <UserId>{chatUserId}</UserId>
+            <UserName>{el}</UserName>
             <Content>{content}</Content>
             <span className="answerNum">
               <AddButton
@@ -45,7 +68,9 @@ const Comments = ({
               >
                 답글
               </AddButton>
-              <div className="totalElements">{totalElements}</div>
+              <div className="totalElements">
+                {answersData && answersData.totalElements}
+              </div>
               <div className="trashIcon">
                 <FiTrash2></FiTrash2>
               </div>
@@ -99,6 +124,12 @@ const CommentBox = styled.div`
   border-radius: 10px;
   display: flex;
   padding: 10px;
+  > img {
+    width: 30px;
+    height: 30px;
+    background-color: blue;
+    border-radius: 70%;
+  }
 `;
 const AddButton = styled.button`
   color: var(--beige-00);
@@ -124,15 +155,7 @@ const Texts = styled.div`
     font-size: 9px;
   }
 `;
-
-const CommentImg = styled.div`
-  width: 30px;
-  height: 30px;
-  background-color: blue;
-  border-radius: 70%;
-`;
-
-const UserId = styled.div`
+const UserName = styled.div`
   font-size: 10px;
   margin: 5px;
 `;

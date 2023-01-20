@@ -3,16 +3,16 @@ import styled from "styled-components";
 
 interface BoxProps {
   teamName: string;
-  image: string;
+  imgUrl: string;
 }
 
-const MyStudy = ({ image, teamName }: BoxProps) => {
-  console.log(image, teamName);
+const MyStudy = ({ imgUrl, teamName }: BoxProps) => {
+  console.log(imgUrl, teamName);
   return (
     <Main>
       <Container>
         <Box>
-          <img src={image} />
+          <img src={imgUrl} />
           <div className="study-name">{teamName}</div>
         </Box>
       </Container>

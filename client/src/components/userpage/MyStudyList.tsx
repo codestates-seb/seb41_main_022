@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import styled from "styled-components";
+import { useCookies } from "react-cookie";
 
 import MyStudy from "./MyStudy";
 
 interface MyStudyList {
   studyId: number;
   teamName: string;
-  image: string;
+  imgUrl: string;
   studies: [];
 }
 
@@ -16,11 +17,12 @@ interface Data {
 }
 
 const MyStudyList = () => {
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
   const [myStudyList, setMyStudyList] = useState<MyStudyList[] | undefined>();
   const getMyStudyData = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
       headers: {
-        "access-Token": "abcd",
+        "access-Token": cookies.token.accessToken,
       },
     });
   };
@@ -36,7 +38,7 @@ const MyStudyList = () => {
     <MyStudyWrapper>
       {myStudyList &&
         myStudyList.map((el) => (
-          <MyStudy key={el.studyId} teamName={el.teamName} image={el.image} />
+          <MyStudy key={el.studyId} teamName={el.teamName} imgUrl={el.imgUrl} />
         ))}
     </MyStudyWrapper>
   );

@@ -1,16 +1,44 @@
 import styled from "styled-components";
 
-import TodoData from "../../../util/dummyDataTodo";
-//화면에 오늘 할일 리스트로 표시
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+
 const StudyHallNotificationSidebarList = () => {
+  const { studyId } = useParams();
+  const [todayData, setTodayData] = useState([]);
+  const fetch = (url: string) => {
+    return axios.get(url + "/calendar?studyId=" + studyId);
+  };
+  const date: string = new Date().toISOString().split("T")[0];
+  useEffect(() => {
+    fetch(URL).then((res) => {
+      setTodayData(
+        res.data.data.filter(
+          (el: { date: string }) => el.date.split("T")[0] === date
+        )
+      );
+    });
+  }, []);
   return (
     <TodoWrapper>
-      {TodoData.data.map((el) => (
-        <Todo key={el.calendarId}>
-          {el.date} / {el.time.slice(0, 5)}
-          <div>{el.content}</div>
+      {todayData.length ? (
+        todayData.map(
+          (el: { calendarId: string; date: string; title: string }) => (
+            <Todo key={el.calendarId}>
+              {el.date.split("T")[0] + " / " + el.date.split("T")[1]}
+              <div>{el.title}</div>
+            </Todo>
+          )
+        )
+      ) : (
+        <Todo>
+          {date}
+          <div>일정이 없습니다</div>
         </Todo>
-      ))}
+      )}
     </TodoWrapper>
   );
 };
@@ -18,7 +46,16 @@ const StudyHallNotificationSidebarList = () => {
 const TodoWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: 4px auto;
+  max-height: 160px;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: var(--green-00);
+  }
   * {
     font-size: 14px;
     font-family: mainM;
