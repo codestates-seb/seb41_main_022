@@ -27,6 +27,7 @@ const Header = () => {
   const handleLogout = () => {
     removeCookie("token");
     removeCookie("userData");
+
     setIsLogin(false);
     navigate("/");
     window.location.reload();
@@ -57,8 +58,7 @@ const Header = () => {
           setIsLogin(true);
         });
     }
-  }, []);
-
+  }, [isReady]);
   return (
     <>
       <HeaderWrapper>

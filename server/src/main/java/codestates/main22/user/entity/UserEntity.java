@@ -38,8 +38,11 @@ public class UserEntity extends Auditable {
     @Column
     private String imgUrl;
 
-    @Column
+    @Column(length = 300)
     private String token;
+
+    @Column(length = 300)
+    private String refresh;
 
 
     @Column(nullable = false)

@@ -1,41 +1,47 @@
 import styled from "styled-components";
-import { Controller, useForm } from "react-hook-form";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import { calendarStore } from "../../../../util/zustandCalendar";
-import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
-const AddModal = ({ showAddModal, setShowAddModal, event }) => {
-  const calendarPost = calendarStore((state) => state.calendarPost);
-  const { studyId } = useParams();
+const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   const [title, setTitle] = useState("");
   const [hour, setHour] = useState("00");
+  const [participants, setParticipants] = useState([]);
   const [minute, setMinute] = useState("00");
-  const handleSubmit = (e) => {
-    calendarPost(URL, studyId, {
+  const [myUserId, setMyUserId] = useState();
+  const [cookies, setCookie, removeCookie] = useCookies(["userData"]);
+  const calendarPatch = calendarStore((state) => state.calendarPatch);
+  useEffect(() => {
+    setMyUserId(cookies.userData.userId);
+    setParticipants(editData.participants);
+    setTitle(editData.title);
+  }, [showEditModal]);
+  const handleSubmit = () => {
+    calendarPatch(URL, editData.calendarId, {
+      ...editData,
       title,
-      date: `${event.dateStr.slice(0, 19)}T${hour}:${minute}:00`,
+      date: `${editData.date.slice(0, 10)}T${hour}:${minute}:00`,
+      participants,
     });
-    setShowAddModal(false);
     window.location.reload();
   };
   return (
-    showAddModal && (
+    showEditModal && (
       <ModalDiv>
         <ContentsDiv>
           <div className="flexDiv">
-            <h2> AddModal</h2>
-            <AiOutlineCloseCircle onClick={() => setShowAddModal(false)} />
+            <h2> EditModal</h2>
+            <AiOutlineCloseCircle onClick={() => setShowEditModal(false)} />
           </div>
           <div>
             <Form onSubmit={handleSubmit}>
               <div>
                 날짜
                 <br />
-                {event.dateStr.slice(0, 19)}
+                {editData.date.slice(0, 10)}
               </div>
               <div className="time">
                 시간
@@ -81,10 +87,50 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
                   className="person"
                   id="title"
                   placeholder="what to do..."
+                  value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               </div>
-              <RedButton type="submit">생성</RedButton>
+              <hr />
+              {editData.participants.map((el) => (
+                <ul>
+                  {myUserId === el.userId ? (
+                    <li key={el.userid}>
+                      {el.username}
+                      {" : "}
+                      <select
+                        onClick={(e) =>
+                          setParticipants([
+                            ...participants,
+                            {
+                              userId: el.userId,
+                              username: el.username,
+                              joinState: e.target.value,
+                            },
+                          ])
+                        }
+                      >
+                        <option value="NONE ">NONE </option>
+                        <option value="YES ">YES </option>
+                        <option value="NO ">NO </option>
+                      </select>
+                    </li>
+                  ) : (
+                    <li key={el.userid}>
+                      {el.username + " : " + el.joinState}
+                    </li>
+                  )}
+                </ul>
+              ))}
+              <div className="flex-between">
+                <RedButton type="submit">수정</RedButton>
+                <RedButton
+                  type="button"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  취소
+                </RedButton>
+              </div>
             </Form>
           </div>
         </ContentsDiv>
@@ -92,7 +138,8 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
     )
   );
 };
-export default AddModal;
+export default EditModal;
+
 const ModalDiv = styled.main`
   margin-left: 150px;
   margin-top: -50px;
@@ -109,6 +156,10 @@ const ModalDiv = styled.main`
   * {
     font-family: "mainB", Arial;
     color: var(--beige-00);
+  }
+  select,
+  option {
+    color: var(--green);
   }
 `;
 const ContentsDiv = styled.article`
@@ -132,13 +183,21 @@ const Form = styled.form`
       color: var(--green);
     }
   }
+  .flex-between {
+    display: flex;
+    color: var(--beige-00);
+    justify-content: space-between;
+    padding-top: 10px;
+    button {
+      color: var(--beige-00);
+    }
+  }
 `;
 const RedButton = styled.button`
   border-style: none;
-  width: 100px;
+  width: 80px;
   padding: 3px;
   background-color: var(--red-00);
-  color: var(--beige-00);
   border-radius: var(--radius-30);
   font-family: "mainL", Arial;
   font-size: 16px;

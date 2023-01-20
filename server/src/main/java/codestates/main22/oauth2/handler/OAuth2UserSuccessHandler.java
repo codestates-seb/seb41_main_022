@@ -76,8 +76,11 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         response.setHeader("access-Token", accessToken);
         response.setHeader("refresh-Token", refreshToken);
 
-        // access token 저장
+        // access token & refresh token 저장
         user.setToken(accessToken);
+        user.setRefresh(refreshToken);
+        System.out.println("!! accessToken : " + accessToken);
+        System.out.println("!! refreshToken : " + refreshToken);
         userService.updateUser(user);
 
         // 콘솔 출력 코드

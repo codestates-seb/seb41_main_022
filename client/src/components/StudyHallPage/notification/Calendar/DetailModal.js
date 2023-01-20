@@ -3,8 +3,20 @@ import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
 
-const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
+import { calendarStore } from "../../../../util/zustandCalendar";
+
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+
+const DetailModal = ({
+  showDetailModal,
+  setShowDetailModal,
+  setShowEditModal,
+  setEditData,
+  event,
+  data,
+}) => {
   const [todoThatDay, setTodoThatDay] = useState();
+  const calendarDelete = calendarStore((state) => state.calendarDelete);
   useEffect(() => {
     if (data) {
       setTodoThatDay(
@@ -12,6 +24,16 @@ const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
       );
     }
   }, [showDetailModal]);
+  const clickEdit = () => {
+    setShowDetailModal(false);
+    setShowEditModal(true);
+    setEditData(todoThatDay[0]);
+  };
+  const clickDelete = () => {
+    calendarDelete(URL, todoThatDay[0].calendarId);
+    setShowDetailModal(false);
+    window.location.reload();
+  };
   return (
     showDetailModal && (
       <ModalDiv>
@@ -25,22 +47,22 @@ const DetailModal = ({ showDetailModal, setShowDetailModal, event, data }) => {
               <div>
                 <ul>
                   <li> 날짜 : {todoThatDay[0].date.slice(0, 10)} </li>
-                  <li> 시간 : {todoThatDay[0].date.slice(11)} </li>
+                  <li> 시간 : {todoThatDay[0].date.slice(11, 16)} </li>
                   <li> 일정 : {todoThatDay[0].title} </li>
                   <hr />
-                  {todoThatDay[0].participant.map((el) => (
-                    <li key={el.userId}>
-                      {el.name} : {el.joinState}
-                    </li>
+                  {todoThatDay[0].participants.map((el) => (
+                    <div key={el.userId}>
+                      {el.username}:{el.joinState}
+                    </div>
                   ))}
                 </ul>
               </div>
             )}
             <IconDiv>
-              <div className="icon" onClick={() => alert("수정")}>
+              <div className="icon" onClick={clickEdit}>
                 <FiEdit2 />
               </div>
-              <div className="icon" onClick={() => alert("삭제")}>
+              <div className="icon" onClick={clickDelete}>
                 <FiTrash2 />
               </div>
             </IconDiv>

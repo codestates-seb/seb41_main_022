@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import StudyHallNotificationSidebarList from "./StudyHallNotificationSidebarList";
 
-//좌측 사이드 바로 할일 을 보여줌
 const StudyHallNotificationSidebar = () => {
   return (
     <Margin25>
