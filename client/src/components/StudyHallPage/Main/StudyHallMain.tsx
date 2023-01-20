@@ -46,7 +46,7 @@ const StudyHallMain = () => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
-        "refresh-Token": cookies.token.accessToken,
+        // "refresh-Token": cookies.token.accessToken,
       },
     });
   };
@@ -72,7 +72,6 @@ const StudyHallMain = () => {
                 content={el.content}
                 answers={el.answers}
                 totalElements={commentsData.pageInfo.totalElements}
-                size={el.size}
                 imgUrl={el.imgUrl}
               />
             ))}
