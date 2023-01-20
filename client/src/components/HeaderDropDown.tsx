@@ -30,7 +30,7 @@ const HeaderDropDown = () => {
     <Wrapper className="bootstrapCss">
       <Dropdown onClick={() => setIsOpen(!isOpen)}>
         <Dropdown.Toggle id="dropdown-autoclose-true">
-          My Study {isOpen ? <IoMdArrowDropdown /> : <IoMdArrowDropup />}
+          My Study {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
         </Dropdown.Toggle>
         {isOpen && (
           <Dropdown.Menu>
