@@ -7,15 +7,6 @@ import Application from "./Application";
 const Setting = () => {
   return (
     <SettingPageWrapper>
-      <SettingSection>
-        <div className="contentWrapper">
-          <span className="text textSetting">Setting</span>
-          <div className="buttonWrapper">
-            <RedButton text="Delete Study"></RedButton>
-            <RedButton text="Leave Study"></RedButton>
-          </div>
-        </div>
-      </SettingSection>
       <ApplicationSection>
         <article>
           <span className="text textApplication">Application</span>
@@ -36,6 +27,15 @@ const Setting = () => {
           </div>
         </article>
       </ApplicationSection>
+      <SettingSection>
+        <div className="contentWrapper">
+          <span className="text textSetting">Setting</span>
+          <div className="buttonWrapper">
+            <RedButton text="Delete Study"></RedButton>
+            <RedButton text="Leave Study"></RedButton>
+          </div>
+        </div>
+      </SettingSection>
     </SettingPageWrapper>
   );
 };
@@ -50,8 +50,8 @@ const SettingPageWrapper = styled.main`
   }
 `;
 const SettingSection = styled.section`
-  background-color: var(--beige-00);
-  min-height: 300px;
+  background-color: var(--green);
+  min-height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,7 +60,7 @@ const SettingSection = styled.section`
     display: flex;
     flex-direction: column;
     > .textSetting {
-      color: var(--green);
+      color: var(--beige-00);
     }
     .buttonWrapper {
       display: flex;
@@ -74,7 +74,7 @@ const SettingSection = styled.section`
 `;
 const ApplicationSection = styled.section`
   min-height: 200px;
-  background-color: var(--green);
+  background-color: var(--beige-00);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -84,13 +84,13 @@ const ApplicationSection = styled.section`
     align-items: center;
     margin: 32px;
     > .textApplication {
-      color: var(--beige-00);
+      color: var(--green);
       margin-right: calc(400px - 80px);
     }
     .contentWrapper {
       margin-top: 16px;
       width: 447px;
-      border: 1px solid var(--beige-00);
+      border: 1px solid var(--green);
       border-radius: var(--radius-20);
       padding: 8px 8px 24px 8px;
     }
