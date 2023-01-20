@@ -72,7 +72,6 @@ const Header = () => {
           onClick={() => {
             navigate("/");
             setRecruitment([]);
-            window.location.reload();
           }}
         >
           Stu<span>d</span>y Tree
