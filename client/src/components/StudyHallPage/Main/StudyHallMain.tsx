@@ -65,19 +65,6 @@ const StudyHallMain = () => {
     });
   }, []);
 
-  // API를 받아서 코멘트로 쏴준다
-
-  // useEffect(() => {
-  //   getCommentsData(
-  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${1}&size=${15}`
-  //   ).then((res) => {
-  //     setCommentsData(res.data.data);
-  //   });
-  // });
-  // useEffect(() => {
-  //   // fetchData();
-  // }, []);
-
   useEffect(() => {
     axios
       .get(
@@ -110,12 +97,6 @@ const StudyHallMain = () => {
                 imgUrl={el.imgUrl}
               />
             ))}
-          {/* <Pagination
-            // total={totalQuestions}
-            limit={limit}
-            page={page}
-            setPage={setPage}
-          /> */}
         </div>
       </div>
     </MainWrapper>
@@ -124,21 +105,3 @@ const StudyHallMain = () => {
 export default StudyHallMain;
 
 const MainWrapper = styled.div``;
-
-// const handlePrevPage = (prevPage: number) => {
-//   setPage((prevPage) => prevPage - 1);
-// };
-
-// const handleNextPage = (nextPage: number) => {
-//   setPage((nextPage) => nextPage + 1);
-// };
-
-// const fetchData = async () => {
-//   const response = await fetch(
-//     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080//chat/${studyId}?page=${i}&size=${limit}`
-//   );
-//   const result = await response.json();
-//   setTotalPages(totalPages);
-// };
-
-// // API를 받아서 코멘트로 쏴준다
