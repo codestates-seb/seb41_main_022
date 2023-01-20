@@ -25,7 +25,9 @@ const StudyHallHead = () => {
       <div className="padding" />
       <TopDiv>
         <div className="studyName">{studyData && studyData.teamName}</div>
-        <div className="studyHall">study hall</div>
+        <div className="studyHall">
+          <button>스터디 가입</button>study hall
+        </div>
       </TopDiv>
       <FlexDiv>
         <span
