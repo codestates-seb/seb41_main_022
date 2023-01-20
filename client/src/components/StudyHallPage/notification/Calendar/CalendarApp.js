@@ -6,18 +6,20 @@ import interactionPlugin from "@fullcalendar/interaction";
 
 import "./main.css";
 import DetailModal from "./DetailModal";
-import TodoListData from "../../../../util/dummyDataTodoList";
 import AddModal from "./AddModal";
 import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
+import EditModal from "./EditModal";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const CalendarApp = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [event, setEvent] = useState({});
   const [data, setData] = useState();
+  const [editData, setEditData] = useState("0");
   const { studyId } = useParams();
   const fetch = (url) => {
     return axios.get(url + "/calendar?studyId=" + studyId);
@@ -27,7 +29,7 @@ const CalendarApp = () => {
       console.log(res.data.data);
       setData(res.data.data);
     });
-  }, [showAddModal]);
+  }, [showAddModal, showDetailModal, showEditModal]);
   const handleEventClick = (arg) => {
     setEvent(arg.event);
     setShowDetailModal(true);
@@ -42,12 +44,20 @@ const CalendarApp = () => {
         <DetailModal
           showDetailModal={showDetailModal}
           setShowDetailModal={setShowDetailModal}
+          setShowEditModal={setShowEditModal}
+          setEditData={setEditData}
           event={event}
           data={data}
         />
         <AddModal
           showAddModal={showAddModal}
           setShowAddModal={setShowAddModal}
+          event={event}
+        />
+        <EditModal
+          showEditModal={showEditModal}
+          setShowEditModal={setShowEditModal}
+          editData={editData}
           event={event}
         />
         <div className="demo-app-main">
