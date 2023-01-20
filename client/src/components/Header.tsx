@@ -1,10 +1,12 @@
 import styled from "styled-components";
+
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 import Bell from "../assets/Bell.svg";
+import HeaderDropDown from "./HeaderDropDown";
 
 interface UserData {
   userId: number;
@@ -72,11 +74,7 @@ const Header = () => {
               {userData && <img src={userData.imgUrl} />}
             </div>
             <img className="bell" src={Bell} />
-            <WhiteButton onClick={() => navigate("/study-hall/main")}>
-              My Study
-            </WhiteButton>
-            {/*<WhiteButton onClick={getToken}>Log out</WhiteButton>*/}
-            {/*<WhiteButton onClick={() => `location.href=${googleURL}`} >Log out</WhiteButton>*/}
+            <HeaderDropDown />
             <WhiteButton onClick={() => handleLogout()}>Log out</WhiteButton>
           </ItemWrapper>
         ) : (
