@@ -38,7 +38,7 @@ const StudyHallTopNav = () => {
       <Nav>
         <div
           onClick={
-            cookies.authData.data.member
+            cookies.authData && cookies.authData.data.member
               ? () => {
                   navigateStudyHall("main", sId);
                 }
@@ -52,7 +52,7 @@ const StudyHallTopNav = () => {
         </div>
         <div
           onClick={
-            cookies.authData.data.member
+            cookies.authData && cookies.authData.data.member
               ? () => {
                   navigateStudyHall("community", sId);
                 }
@@ -66,7 +66,7 @@ const StudyHallTopNav = () => {
         </div>
         <div
           onClick={
-            cookies.authData.data.member
+            cookies.authData && cookies.authData.data.member
               ? () => {
                   navigateStudyHall("calendar", sId);
                 }
@@ -80,7 +80,7 @@ const StudyHallTopNav = () => {
         </div>
         <div
           onClick={
-            cookies.authData.data.member
+            cookies.authData && cookies.authData.data.member
               ? () => {
                   navigateStudyHall("setting", sId);
                 }

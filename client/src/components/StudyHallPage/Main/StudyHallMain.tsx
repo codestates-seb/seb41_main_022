@@ -35,7 +35,11 @@ interface Hi {
 }
 
 const StudyHallMain = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["userData", "token"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "userData",
+    "authData",
+    "token",
+  ]);
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
@@ -72,6 +76,20 @@ const StudyHallMain = () => {
   // useEffect(() => {
   //   // fetchData();
   // }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${cookies.userData.userId}/user/${cookies.userData.userId}/auth`,
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.accessToken,
+          },
+        }
+      )
+      .then((res) => setCookie("authData", { data: res.data.data }));
+  }, []);
 
   return (
     <MainWrapper>
