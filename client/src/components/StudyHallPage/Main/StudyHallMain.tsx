@@ -64,6 +64,33 @@ const StudyHallMain = () => {
       console.log(res.data);
     });
   }, []);
+  
+  // API를 받아서 코멘트로 쏴준다
+
+  // useEffect(() => {
+  //   getCommentsData(
+  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${1}&size=${15}`
+  //   ).then((res) => {
+  //     setCommentsData(res.data.data);
+  //   });
+  // });
+  // useEffect(() => {
+  //   // fetchData();
+  // }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${cookies.userData.userId}/user/${cookies.userData.userId}/auth`,
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.accessToken,
+          },
+        }
+      )
+      .then((res) => setCookie("authData", { data: res.data.data }));
+  }, []);
 
   return (
     <MainWrapper>
@@ -98,20 +125,3 @@ export default StudyHallMain;
 
 const MainWrapper = styled.div``;
 
-// const handlePrevPage = (prevPage: number) => {
-//   setPage((prevPage) => prevPage - 1);
-// };
-
-// const handleNextPage = (nextPage: number) => {
-//   setPage((nextPage) => nextPage + 1);
-// };
-
-// const fetchData = async () => {
-//   const response = await fetch(
-//     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080//chat/${studyId}?page=${i}&size=${limit}`
-//   );
-//   const result = await response.json();
-//   setTotalPages(totalPages);
-// };
-
-// // API를 받아서 코멘트로 쏴준다
