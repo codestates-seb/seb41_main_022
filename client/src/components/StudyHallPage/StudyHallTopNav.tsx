@@ -26,7 +26,7 @@ const StudyHallTopNav = () => {
         {
           headers: {
             "access-Token": cookies.token.accessToken,
-            "refesh-Token": cookies.token.refreshToken,
+            "refresh-Token": cookies.token.refreshToken,
           },
         }
       )
