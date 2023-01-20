@@ -31,13 +31,13 @@ const Application = ({ username, imgUrl }: ApplicationProps) => {
 const EachApplication = styled.div`
   width: 370px;
   height: 71px;
-  color: var(--beige-00);
+  color: var(--green);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 16px 0 16px;
   border-radius: var(--radius-30);
-  border: 1px solid var(--beige-00);
+  border: 1px solid var(--green);
   margin-top: 16px;
   > img {
     border-radius: var(--radius-30);
@@ -63,6 +63,7 @@ const CheckIcon = styled.div`
   }
   :hover {
     .inLineIcon {
+      cursor: pointer;
       margin-bottom: 1px;
       display: block;
     }
@@ -77,6 +78,7 @@ const XIcon = styled.div`
   }
   :hover {
     .inLineIcon {
+      cursor: pointer;
       display: block;
     }
     .outLineIcon {

@@ -1,26 +1,15 @@
 import create from "zustand";
 import axios from "axios";
 
-// interface Home {
-//   tags: string;
-//   filter: string;
-//   search: string;
-//   recruitmentData: undefined | Recruitment[];
-//   fetch: (tags: string, filter: string, search: string) => any;
-//   setTags: (tag: string) => void;
-//   setFilter: (filter: string) => void;
-//   setSearch: (search: string) => void;
-//   setRecruitment: (data: Recruitment[]) => void;
-// }
-
 interface Community {
   chatData: ChatData[];
   getChatData: (studyId: string) => void;
   submitChat: (
     studyId: string,
     content: string,
-    token: string,
-    dateTime: string
+    dateTime: string,
+    accessToken: string,
+    refreshToken: string
   ) => void;
 }
 
@@ -44,7 +33,7 @@ const ChatStore = create<Community>()((set) => ({
       console.log(e);
     }
   },
-  submitChat: async (studyId, content, dateTime, token) => {
+  submitChat: async (studyId, content, dateTime, accessToken, refreshToken) => {
     try {
       const res = await axios.post(
         `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/message?studyId=${studyId}`,
@@ -54,7 +43,8 @@ const ChatStore = create<Community>()((set) => ({
         },
         {
           headers: {
-            "access-Token": token,
+            "access-Token": accessToken,
+            "refresh-Token": refreshToken,
           },
         }
       );

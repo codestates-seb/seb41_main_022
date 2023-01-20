@@ -3,18 +3,19 @@ import { FiTrash2 } from "react-icons/fi";
 
 //타입지정
 export interface AnswerProps {
-  answerUserId: string;
+  username: string;
   content: string;
+  imgUrl: string;
 }
 
-const Answers = ({ answerUserId, content }: AnswerProps) => {
+const Answers = ({ username, content, imgUrl }: AnswerProps) => {
   return (
     <AnswerWrapper>
       <Answer>
         <div className="answerpack">
           <div className="idContent">
-            <Img />
-            {answerUserId} : {content}
+            <Img src={imgUrl} />
+            {username} : {content}
           </div>
           <EctWrap>
             <div className="trashIcon">
@@ -53,6 +54,13 @@ const Answer = styled.div`
       justify-content: flex-end;
     }
     > .input {
+    }
+    .img {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      border-radius: 5px;
+      margin-right: 5px;
     }
   }
 

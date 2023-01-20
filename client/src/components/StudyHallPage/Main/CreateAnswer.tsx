@@ -4,17 +4,19 @@ import { useForm } from "react-hook-form";
 import Answers from "./Answers";
 
 export interface CreatAnswerProps {
-  chatUserId: string;
+  username: string;
   content: string;
   answers: any[];
   totalElements: number;
+  imgUrl: string;
 }
 
 const CreateAnswer = ({
-  chatUserId,
+  username,
   content,
   answers,
   totalElements,
+  imgUrl,
 }: CreatAnswerProps) => {
   const { register, handleSubmit } = useForm();
   return (
@@ -30,8 +32,9 @@ const CreateAnswer = ({
         {answers.map((el) => (
           <Answers
             key={el.answerId}
-            answerUserId={el.answerUserId}
+            username={el.username}
             content={el.content}
+            imgUrl={el.imgUrl}
           />
         ))}
       </span>

@@ -9,6 +9,7 @@ import CreateComment from "./CreateComment";
 import Comments from "./Comments";
 import Pagination from "../../Pagination";
 import { CommentsData } from "../../../util/dummyDataStudyHall";
+
 interface Studies {
   chatId: any;
   el: string;
@@ -29,27 +30,32 @@ interface Data {
   data: any;
   pageInfo: any;
 }
-interface Hi {
+interface GroupType {
   data: Studies[];
   pageInfo: PageInfo;
 }
 
 const StudyHallMain = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "userData",
+    "authData",
+    "token",
+  ]);
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const { studyId, i, limit, size } = useParams();
   //데이터 요청
-  const [commentsData, setCommentsData] = useState<Hi | undefined>();
+  const [commentsData, setCommentsData] = useState<GroupType | undefined>();
   const getCommentsData = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
-        // "refresh-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.refeshToken,
       },
     });
   };
+
   useEffect(() => {
     getCommentsData(
       `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=10`
@@ -68,10 +74,12 @@ const StudyHallMain = () => {
           {commentsData &&
             commentsData.data.map((el) => (
               <Comments
+                chatId={el.chatId}
                 el={el.el}
                 content={el.content}
                 answers={el.answers}
                 totalElements={commentsData.pageInfo.totalElements}
+                size={el.size}
                 imgUrl={el.imgUrl}
               />
             ))}
