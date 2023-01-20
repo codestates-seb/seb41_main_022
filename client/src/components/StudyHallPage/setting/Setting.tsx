@@ -12,7 +12,7 @@ const Setting = () => {
   const { studyId } = useParams();
   const navigate = useNavigate();
   const [cookies] = useCookies(["token", "userData", "authData"]);
-
+  const handleClickEditStudy = () => {};
   const handleClickDeleteStudy = () => {
     axios
       .delete(
@@ -66,16 +66,23 @@ const Setting = () => {
           <span className="text textSetting">Setting</span>
           <div className="buttonWrapper">
             {cookies.authData && cookies.authData.data.host ? (
-              <RedButton
-                handleClick={handleClickDeleteStudy}
-                text="Delete Study"
-              ></RedButton>
+              <>
+                <RedButton
+                  handleClick={handleClickEditStudy}
+                  text="Edit Study"
+                ></RedButton>
+                <RedButton
+                  handleClick={handleClickDeleteStudy}
+                  text="Delete Study"
+                ></RedButton>
+              </>
             ) : (
-              <RedButton
-                handleClick={handleClickLeaveStudy}
-                text="Leave Study"
-              ></RedButton>
+              <></>
             )}
+            <RedButton
+              handleClick={handleClickLeaveStudy}
+              text="Leave Study"
+            ></RedButton>
           </div>
         </div>
       </SettingSection>
