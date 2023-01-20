@@ -9,7 +9,7 @@ import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
 //내부컴포넌트 임포트
 import Answers from "./Answers";
-import { SpawnSyncOptionsWithBufferEncoding } from "child_process";
+import { answerStore } from "../../../util/zustandCreatAnswer";
 
 //타입지정
 export interface CommentsProps {
@@ -19,12 +19,23 @@ export interface CommentsProps {
   totalElements: number;
   size: number;
   imgUrl: string;
+  chatId: number;
+}
+
+interface AnswerProps {
+  answerId: number;
+  username: string;
+  imgUrl: string;
+  content: string;
+  answerCreatedAt: string;
 }
 interface Data {
   data: any;
 }
 
-const Comments = ({ el, content, answers, imgUrl }: CommentsProps) => {
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+
+const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
   const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
   // const { studyId, page } = useParams;
 
@@ -37,21 +48,29 @@ const Comments = ({ el, content, answers, imgUrl }: CommentsProps) => {
     });
   };
 
-  // useEffect(() => {
-  //   getAnswersData(
-  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=${size}`
-  //   ).then((res) => {
-  //     setAnswersData(res.data.data);
-  //   });
-  // });
-
-  const { register, handleSubmit } = useForm();
   const [showAnswer, setShowAnswer] = useState(false);
 
+  const postAnswer = answerStore((state) => state.postAnswer);
+  const { studyId } = useParams();
+  const [answer, setAnswer] = useState("");
+
+  //대댓글 작성
+  const handleSubmit = () => {
+    if (chatId) {
+      postAnswer(
+        URL,
+        chatId,
+        { content: answer },
+        {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        }
+      );
+    }
+  };
+
   return (
-    <CommentsWrapper
-      onSubmit={handleSubmit((data) => alert(JSON.stringify(data)))}
-    >
+    <CommentsWrapper onSubmit={handleSubmit}>
       <Wrapper>
         <CommentBox>
           <img src={imgUrl} />
@@ -77,16 +96,22 @@ const Comments = ({ el, content, answers, imgUrl }: CommentsProps) => {
             </span>
             {showAnswer && (
               <span>
-                <Input type="text" {...register("content")} />
-                <AnswerButton type="submit" {...register("answer")}>
-                  Add
-                </AnswerButton>
+                <Input
+                  id="answer"
+                  type="text"
+                  placeholder="Write your answer"
+                  onChange={(e: any) => {
+                    setAnswer(e.target.value);
+                  }}
+                />
+                <AnswerButton type="submit">Add</AnswerButton>
 
                 {answers.map((el) => (
                   <Answers
                     key={el.answerId}
-                    answerUserId={el.answerUserId}
+                    username={el.username}
                     content={el.content}
+                    imgUrl={el.imgUrl}
                   />
                 ))}
               </span>
@@ -101,7 +126,7 @@ const Comments = ({ el, content, answers, imgUrl }: CommentsProps) => {
 //FiTrash2
 export default Comments;
 
-const CommentsWrapper = styled.div`
+const CommentsWrapper = styled.form`
   * {
     font-family: "mainEB";
     font-size: 14px;
