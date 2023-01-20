@@ -41,6 +41,7 @@ const StudyHallMain = () => {
     "token"
   ]);
 
+
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const { studyId, i, limit, size } = useParams();
@@ -50,6 +51,7 @@ const StudyHallMain = () => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.accessToken,
       },
     });
   };
