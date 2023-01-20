@@ -37,25 +37,57 @@ const StudyHallTopNav = () => {
     <TopNavWrapper>
       <Nav>
         <div
-          onClick={() => navigateStudyHall("main", sId)}
+          onClick={
+            cookies.authData.data.member
+              ? () => {
+                  navigateStudyHall("main", sId);
+                }
+              : () => {
+                  alert("해당 스터디원만 이용가능한 기능입니다.");
+                }
+          }
           className={page === "main" ? `selected` : undefined}
         >
           Main
         </div>
         <div
-          onClick={() => navigateStudyHall("community", sId)}
+          onClick={
+            cookies.authData.data.member
+              ? () => {
+                  navigateStudyHall("community", sId);
+                }
+              : () => {
+                  alert("해당 스터디원만 이용가능한 기능입니다.");
+                }
+          }
           className={page === "community" ? `selected` : undefined}
         >
           Community
         </div>
         <div
-          onClick={() => navigateStudyHall("calendar", sId)}
+          onClick={
+            cookies.authData.data.member
+              ? () => {
+                  navigateStudyHall("calendar", sId);
+                }
+              : () => {
+                  alert("해당 스터디원만 이용가능한 기능입니다.");
+                }
+          }
           className={page === "calendar" ? `selected` : undefined}
         >
           Calendar
         </div>
         <div
-          onClick={() => navigateStudyHall("setting", sId)}
+          onClick={
+            cookies.authData.data.member
+              ? () => {
+                  navigateStudyHall("setting", sId);
+                }
+              : () => {
+                  alert("해당 스터디원만 이용가능한 기능입니다.");
+                }
+          }
           className={page === "setting" ? `selected` : undefined}
         >
           Setting

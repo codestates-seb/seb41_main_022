@@ -11,7 +11,7 @@ import Application from "./Application";
 const Setting = () => {
   const { studyId } = useParams();
   const navigate = useNavigate();
-  const [cookies] = useCookies(["token", "userData"]);
+  const [cookies] = useCookies(["token", "userData", "authData"]);
 
   const handleClickDeleteStudy = () => {
     axios
@@ -65,14 +65,17 @@ const Setting = () => {
         <div className="contentWrapper">
           <span className="text textSetting">Setting</span>
           <div className="buttonWrapper">
-            <RedButton
-              handleClick={handleClickDeleteStudy}
-              text="Delete Study"
-            ></RedButton>
-            <RedButton
-              handleClick={handleClickLeaveStudy}
-              text="Leave Study"
-            ></RedButton>
+            {cookies.authData && cookies.authData.data.host ? (
+              <RedButton
+                handleClick={handleClickDeleteStudy}
+                text="Delete Study"
+              ></RedButton>
+            ) : (
+              <RedButton
+                handleClick={handleClickLeaveStudy}
+                text="Leave Study"
+              ></RedButton>
+            )}
           </div>
         </div>
       </SettingSection>
