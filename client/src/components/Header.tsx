@@ -16,7 +16,11 @@ interface UserData {
 }
 
 const Header = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "token",
+    "userData",
+    "authData",
+  ]);
   const [isReady, setIsReady] = useState<string | undefined>(undefined);
   const [isLogin, setIsLogin] = useState(false);
   const [userData, setUserData] = useState<UserData | undefined>();
@@ -31,6 +35,7 @@ const Header = () => {
   const handleLogout = () => {
     removeCookie("token");
     removeCookie("userData");
+    removeCookie("authData");
 
     setIsLogin(false);
     navigate("/");
