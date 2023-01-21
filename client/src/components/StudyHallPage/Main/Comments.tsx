@@ -6,7 +6,6 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import CreateAnswer from "./CreateAnswer";
 import axios, { AxiosResponse } from "axios";
-import { useParams } from "react-router-dom";
 //내부컴포넌트 임포트
 import Answers from "./Answers";
 import { answerStore } from "../../../util/zustandCreatAnswer";
@@ -44,6 +43,7 @@ const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.refreshToken,
       },
     });
   };
@@ -51,7 +51,6 @@ const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
   const [showAnswer, setShowAnswer] = useState(false);
 
   const postAnswer = answerStore((state) => state.postAnswer);
-  const { studyId } = useParams();
   const [answer, setAnswer] = useState("");
 
   //대댓글 작성
@@ -73,7 +72,7 @@ const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
     <CommentsWrapper onSubmit={handleSubmit}>
       <Wrapper>
         <CommentBox>
-          <img src={imgUrl} />
+          <Img src={imgUrl} />
           <Texts>
             <UserName>{el}</UserName>
             <Content>{content}</Content>
@@ -99,7 +98,7 @@ const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
                 <Input
                   id="answer"
                   type="text"
-                  placeholder="Write your answer"
+                  placeholder="Answer"
                   onChange={(e: any) => {
                     setAnswer(e.target.value);
                   }}
@@ -149,12 +148,12 @@ const CommentBox = styled.div`
   border-radius: 10px;
   display: flex;
   padding: 10px;
-  > img {
-    width: 30px;
-    height: 30px;
-    background-color: blue;
-    border-radius: 70%;
-  }
+`;
+const Img = styled.img`
+  width: 30px;
+  height: 30px;
+
+  border-radius: 70%;
 `;
 const AddButton = styled.button`
   color: var(--beige-00);
