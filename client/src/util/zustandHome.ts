@@ -6,13 +6,7 @@ interface Home {
   filter: string;
   search: string;
   recruitmentData: [] | Recruitment[];
-  fetch: (
-    tags: string,
-    filter: string,
-    search: string,
-    page: number,
-    recruitmentData: Recruitment[] | []
-  ) => void;
+  fetch: (tags: string, filter: string, search: string, page: number) => void;
   setTags: (tag: string) => void;
   setFilter: (filter: string) => void;
   setSearch: (search: string) => void;
@@ -42,14 +36,15 @@ const HomeStore = create<Home>()((set) => ({
   recruitmentData: [],
   setRecruitment: (data: Recruitment[] | []) => {
     set(() => ({ recruitmentData: data }));
+    console.log("change data");
   },
-  fetch: async (tags, filter, search, page, recruitmentData) => {
+  fetch: async (tags, filter, search, page) => {
     try {
       const res = await axios.get(
         `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=${page}&size=12&search=${search}&filter=${filter}&tags=${tags}`
       );
       set((state) => ({
-        recruitmentData: [...recruitmentData, ...res.data.data],
+        recruitmentData: [...state.recruitmentData, ...res.data.data],
       }));
       console.log(res.data);
     } catch (e) {

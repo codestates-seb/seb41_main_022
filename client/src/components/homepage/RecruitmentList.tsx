@@ -2,7 +2,6 @@ import styled from "styled-components";
 import axios, { AxiosResponse } from "axios";
 import { useState, useEffect, useCallback } from "react";
 
-import Data from "../../util/dummyData";
 import Recruitment from "./Recruitment";
 import HomeStore from "../../util/zustandHome";
 
@@ -14,13 +13,15 @@ const RecruitmentList = () => {
   const [page, setPage] = useState<number>(1);
   const { tags, filter, search, recruitmentData, fetch, setRecruitment } =
     HomeStore();
-  const getRecruitmentData = (url: string): Promise<AxiosResponse<Data>> => {
-    return axios.get(url);
-  };
 
+  useEffect(() => {
+    setRecruitment([]);
+    console.log("rerender");
+  }, []);
   // 필터링 api요청
   useEffect(() => {
-    fetch(tags, filter, search, page, recruitmentData);
+    fetch(tags, filter, search, page);
+    console.log("fetch");
   }, [tags, filter, search, page]);
 
   const handleScroll = useCallback((): void => {

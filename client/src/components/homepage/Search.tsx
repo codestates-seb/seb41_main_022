@@ -5,13 +5,12 @@ import { MdOutlineBackspace } from "react-icons/md";
 import HomeStore from "../../util/zustandHome";
 
 const Search = () => {
-  const { setSearch, setRecruitment } = HomeStore();
+  const { setSearch } = HomeStore();
   const [searchValue, setSearchValue] = useState("");
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       setSearch(searchValue);
-      setRecruitment([]);
     }
   };
 

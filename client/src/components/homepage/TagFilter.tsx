@@ -7,7 +7,7 @@ import HomeStore from "../../util/zustandHome";
 
 const TagFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { setFilter, setRecruitment } = HomeStore();
+  const { setFilter } = HomeStore();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
@@ -37,7 +37,6 @@ const TagFilter = () => {
             <li
               onClick={() => {
                 setFilter("now");
-                setRecruitment([]);
               }}
               className="menu"
             >
@@ -46,7 +45,6 @@ const TagFilter = () => {
             <li
               onClick={() => {
                 setFilter("name");
-                setRecruitment([]);
               }}
               className="menu"
             >
@@ -55,7 +53,6 @@ const TagFilter = () => {
             <li
               onClick={() => {
                 setFilter("random");
-                setRecruitment([]);
               }}
               className="menu"
             >
