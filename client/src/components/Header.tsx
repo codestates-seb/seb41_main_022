@@ -63,9 +63,13 @@ const Header = () => {
         )
         .then((res) => {
           setUserData(res.data.data);
-          setCookie("userData", {
-            userId: res.data.data.userId,
-          });
+          setCookie(
+            "userData",
+            {
+              userId: res.data.data.userId,
+            },
+            { path: "/" }
+          );
           setIsLogin(true);
         });
     }
