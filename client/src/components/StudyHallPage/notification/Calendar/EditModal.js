@@ -19,14 +19,15 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
     setParticipants(editData.participants);
     setTitle(editData.title);
   }, [showEditModal]);
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     calendarPatch(URL, editData.calendarId, {
       ...editData,
       title,
       date: `${editData.date.slice(0, 10)}T${hour}:${minute}:00`,
       participants,
     });
-    window.location.reload();
+    setShowEditModal(false);
   };
   return (
     showEditModal && (

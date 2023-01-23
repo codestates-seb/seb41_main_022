@@ -10,6 +10,7 @@ import AddModal from "./AddModal";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import EditModal from "./EditModal";
+import StudyHallNotificationSidebar from "../StudyHallNotificationSidebar";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -25,9 +26,13 @@ const CalendarApp = () => {
     return axios.get(url + "/calendar?studyId=" + studyId);
   };
   useEffect(() => {
-    fetch(URL).then((res) => {
-      setData(res.data.data);
-    });
+    setTimeout(
+      () =>
+        fetch(URL).then((res) => {
+          setData(res.data.data);
+        }),
+      100
+    );
   }, [showAddModal, showDetailModal, showEditModal]);
   const handleEventClick = (arg) => {
     setEvent(arg.event);
@@ -40,6 +45,7 @@ const CalendarApp = () => {
   return (
     <>
       <div className="demo-app">
+        <StudyHallNotificationSidebar data={data} />
         <DetailModal
           showDetailModal={showDetailModal}
           setShowDetailModal={setShowDetailModal}

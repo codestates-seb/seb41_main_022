@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import StudyHallNotificationSidebarList from "./StudyHallNotificationSidebarList";
 
-const StudyHallNotificationSidebar = () => {
+const StudyHallNotificationSidebar = (data: any) => {
   return (
     <Margin25>
       <Notice>
         <div className="wrapper">
-          <StudyHallNotificationSidebarList />
+          <StudyHallNotificationSidebarList data={data} />
         </div>
       </Notice>
     </Margin25>
@@ -16,7 +16,7 @@ export default StudyHallNotificationSidebar;
 const Margin25 = styled.main`
   position: absolute;
   margin-left: -225px;
-  margin-top: -20px;
+  margin-top: -54px;
   * {
     font-family: "mainB", Arial;
     font-size: 12px;

@@ -5,6 +5,8 @@ interface Notice {
   dayOfWeek: string[];
   notice: string;
   resetNotice: () => void;
+  saveNotice: boolean;
+  setSaveNotice: () => void;
   zustandStudyId: string;
   fetchRightNav: (url: string, id: string | undefined) => void;
   patchNotice: (url: string, id: string | undefined, data: object) => void;
@@ -14,6 +16,8 @@ const NoticeStore = create<Notice>()((set) => ({
   dayOfWeek: [""],
   notice: "",
   resetNotice: () => set({ notice: "" }),
+  saveNotice: false,
+  setSaveNotice: () => set((state) => ({ saveNotice: !state.saveNotice })),
   zustandStudyId: "",
   fetchRightNav: async (url, id) => {
     try {

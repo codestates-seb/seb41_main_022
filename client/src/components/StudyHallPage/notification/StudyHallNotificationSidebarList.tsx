@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
-const StudyHallNotificationSidebarList = () => {
+const StudyHallNotificationSidebarList = ({ data }: any) => {
   const { studyId } = useParams();
   const [todayData, setTodayData] = useState([]);
   const fetch = (url: string) => {
@@ -21,7 +21,7 @@ const StudyHallNotificationSidebarList = () => {
         )
       );
     });
-  }, []);
+  }, [data]);
   return (
     <TodoWrapper>
       {todayData.length ? (
