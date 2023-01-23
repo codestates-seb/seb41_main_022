@@ -32,7 +32,7 @@ public class StudyController {
     private final StudyMapper studyMapper;
     private final Token token;
 
-    @PostMapping // #38 - 스터디 작성 'Create New Study'
+    @PostMapping // #40 - 스터디 작성 'Create New Study'
     public ResponseEntity postStudy(@Valid @RequestBody StudyDto.Post requestBody,
                                     HttpServletRequest request) {
         Study study = studyMapper.studyPostDtoToStudy(requestBody);
@@ -96,7 +96,7 @@ public class StudyController {
                 new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{study-id}") // #21 - 스터디 삭제 (방장 권한으로)
+    @DeleteMapping("/{study-id}") // #23 - 스터디 삭제 (방장 권한으로)
     public ResponseEntity deleteStudy(@PathVariable("study-id") @Positive long studyId,
                                       HttpServletRequest request) {
         Study findStudy = studyService.findStudy(studyId);
@@ -110,7 +110,7 @@ public class StudyController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{study-id}/{user-id}") // #22 - 스터디 탈퇴 (멤버인 경우에만)
+    @DeleteMapping("/{study-id}/{user-id}") // #24 - 스터디 탈퇴 (멤버인 경우에만)
     public ResponseEntity withdrawStudy(@PathVariable("study-id") @Positive long studyId,
                                         @PathVariable("user-id") int userId) {
         Study findStudy = studyService.findStudy(studyId);
@@ -142,14 +142,14 @@ public class StudyController {
                         studyMapper.studyToStudyNotificationResponseDto(study)), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/notice") // #28 - studyHall/main 에서 공지사항 확인
+    @GetMapping("/{study-id}/notice") // #30 - studyHall/main 에서 공지사항 확인
     public ResponseEntity getNotice(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
         StudyNotificationDto.NoticeResponse response = studyMapper.studyToStudyNoticeResponseDto(findStudy);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @PostMapping("/{study-id}/requester") // #37 - main 스터디 신청 : 버튼이 이미 활성화 되어 있다 가정
+    @PostMapping("/{study-id}/requester") // #39 - main 스터디 신청 : 버튼이 이미 활성화 되어 있다 가정
     public ResponseEntity registerStudy(@PathVariable("study-id") @Positive long studyId,
                                         HttpServletRequest request) {
 
@@ -233,14 +233,14 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/header") // #27 - studyHall/main 윗부분 header
+    @GetMapping("/{study-id}/header") // #29 - studyHall/main 윗부분 header
     public ResponseEntity getMainHeader(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
         StudyMainDto.HeaderResponse response = studyMapper.studyToStudyHeaderResponseDto(findStudy);
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/main") // #29 - studyHall/main 본문
+    @GetMapping("/{study-id}/main") // #31 - studyHall/main 본문
     public ResponseEntity getMainBody(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
         List<String> tags = studyService.findTagsByStudy(findStudy);
@@ -250,9 +250,9 @@ public class StudyController {
         );
     }
 
-    @PatchMapping("/{study-id}/main") // #31 - studyHall/main 본문 수정
+    @PatchMapping("/{study-id}/main") // #33 - studyHall/main 본문 수정
     public ResponseEntity patchMainBody(@PathVariable("study-id") @Positive long studyId,
-                                            @Valid @RequestBody StudyMainDto.MainResponse patch) {
+                                            @Valid @RequestBody StudyMainDto.MainPatch patch) {
 
         Study study = studyService.updateMainBody(
                 studyId, studyMapper.studyMainPatchDtoToStudyMain(patch));
@@ -260,7 +260,7 @@ public class StudyController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(
-                        studyMapper.studyToStudyMainResponseDto(study, tags)),HttpStatus.OK
+                        studyMapper.studyToStudyMainPatchResponseDto(study, tags)),HttpStatus.OK
         );
     }
 
