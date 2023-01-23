@@ -20,7 +20,7 @@ const TogglePublic = ({ form, setForm }: ToggleProps) => {
       {!isTrue ? "Private" : ""}
       <ToggleWrapper onClick={() => setIsTrue(!isTrue)}>
         <ToggleBorder className={`background${isTrue}`}>
-          <div className={`${!isTrue}`}></div>
+          <div className={`${isTrue}`}></div>
         </ToggleBorder>
       </ToggleWrapper>
     </div>
