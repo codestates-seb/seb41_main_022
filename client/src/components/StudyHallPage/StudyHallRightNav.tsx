@@ -16,15 +16,17 @@ const StudyHallRightNav = () => {
     resetNotice,
     fetchRightNav,
     patchNotice,
+    saveNotice,
   } = NoticeStore();
   const { studyId } = useParams();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   useEffect(() => {
-    if (zustandStudyId !== studyId) {
-      resetNotice();
-    }
-    fetchRightNav(URL, studyId);
-  }, []);
+    setTimeout(() => {
+      if (zustandStudyId !== studyId) {
+        resetNotice();
+      }
+      fetchRightNav(URL, studyId);
+    }, 500);
+  }, [saveNotice]);
   return (
     <Margin20>
       <WeekBar dayOfWeek={dayOfWeek} />
@@ -35,7 +37,7 @@ const StudyHallRightNav = () => {
           </div>
           {notice && (
             <Ticker>
-              {() => <div className="plzplz">{notice ? notice : ""}</div>}
+              {() => <div className="noticeFont">{notice ? notice : ""}</div>}
             </Ticker>
           )}
         </div>
@@ -74,7 +76,7 @@ const Notice = styled.div`
         display: flex;
         justify-content: center;
       }
-      .plzplz {
+      .noticeFont {
         font-family: "mainM", Arial;
         font-size: 12px;
       }

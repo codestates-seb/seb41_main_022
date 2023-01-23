@@ -12,15 +12,16 @@ import NoticeStore from "../../../util/zustandNotice";
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const StudyHallNotification = () => {
-  const { notice, patchNotice } = NoticeStore();
+  const { notice, patchNotice, saveNotice, setSaveNotice } = NoticeStore();
   const { studyId } = useParams();
   const [tempNotice, setTempNotice] = useState("");
   useEffect(() => {
     setTempNotice(notice);
-  }, [notice]);
+  }, [saveNotice]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     patchNotice(URL, studyId, { notice: tempNotice });
-    alert("변경되었습니다");
+    setSaveNotice();
   };
   const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempNotice(e.target.value);
@@ -30,7 +31,6 @@ const StudyHallNotification = () => {
       <NotificationWrapper>
         <div className="padding" />
         <div>
-          {/*<StudyHallNotificationSidebar />*/}
           <div className="title">Notification</div>
           <NotificationCreate>
             <InputBorderForm className="inputBorder" onSubmit={handleSubmit}>
