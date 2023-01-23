@@ -6,8 +6,8 @@ import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
 
 import RedButton from "./RedButton";
-import ApplicationData from "../../../util/data/dummydataSetting";
 import Application from "./Application";
+import AuthStore from "../../../util/\bzustandAuth";
 
 interface Application {
   userId: number;
@@ -22,6 +22,7 @@ const Setting = () => {
   const [applicationData, setApplicationData] = useState<
     Application[] | undefined
   >();
+  const { authData } = AuthStore();
   const handleClickEditStudy = () => {};
   const handleClickDeleteStudy = () => {
     axios
@@ -48,6 +49,11 @@ const Setting = () => {
         }
       )
       .then(() => navigate("/"));
+  };
+  const acceptApplication = () => {
+    axios.post(
+      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/requester/${cookies.userData.userId}/accept`
+    );
   };
   useEffect(() => {
     axios
@@ -89,7 +95,7 @@ const Setting = () => {
         <div className="contentWrapper">
           <span className="text textSetting">Setting</span>
           <div className="buttonWrapper">
-            {cookies.authData && cookies.authData.data.host ? (
+            {authData && authData.host ? (
               <>
                 <RedButton
                   handleClick={handleClickEditStudy}

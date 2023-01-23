@@ -1,16 +1,10 @@
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import StudyHallRightNav from "./StudyHallRightNav";
+import AuthStore from "../../util/\bzustandAuth";
 
-interface AuthData {
-  host: boolean;
-  request: boolean;
-  member: boolean;
-}
-interface AuthDataProps {
-  authData: AuthData | undefined;
-}
-const StudyHallTopNav = ({ authData }: AuthDataProps) => {
+const StudyHallTopNav = () => {
+  const { authData } = AuthStore();
   const navigate = useNavigate();
   const { page, studyId } = useParams();
   const sId = Number(studyId);
