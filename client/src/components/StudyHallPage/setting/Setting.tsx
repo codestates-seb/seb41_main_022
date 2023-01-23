@@ -3,15 +3,25 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { useState, useEffect } from "react";
 
 import RedButton from "./RedButton";
 import ApplicationData from "../../../util/data/dummydataSetting";
 import Application from "./Application";
 
+interface Application {
+  userId: number;
+  username: string;
+  imgUrl: string;
+}
+
 const Setting = () => {
   const { studyId } = useParams();
   const navigate = useNavigate();
   const [cookies] = useCookies(["token", "userData", "authData"]);
+  const [applicationData, setApplicationData] = useState<
+    Application[] | undefined
+  >();
   const handleClickEditStudy = () => {};
   const handleClickDeleteStudy = () => {
     axios
@@ -39,6 +49,19 @@ const Setting = () => {
       )
       .then(() => navigate("/"));
   };
+  useEffect(() => {
+    axios
+      .get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user/${studyId}/requester`,
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.refreshToken,
+          },
+        }
+      )
+      .then((res) => setApplicationData(res.data.data));
+  }, []);
   return (
     <SettingPageWrapper>
       <ApplicationSection>
@@ -47,15 +70,16 @@ const Setting = () => {
           <div className="contentWrapper">
             <ApplicationWrapper>
               <ul>
-                {ApplicationData.data.map((el) => (
-                  <li>
-                    <Application
-                      key={el.userId}
-                      username={el.username}
-                      imgUrl={el.imgUrl}
-                    />
-                  </li>
-                ))}
+                {applicationData &&
+                  applicationData.map((el) => (
+                    <li>
+                      <Application
+                        key={el.userId}
+                        username={el.username}
+                        imgUrl={el.imgUrl}
+                      />
+                    </li>
+                  ))}
               </ul>
             </ApplicationWrapper>
           </div>

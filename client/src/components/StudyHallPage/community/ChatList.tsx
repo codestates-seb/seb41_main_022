@@ -7,8 +7,8 @@ import ChatStore from "../../../util/zustandCommunity";
 import Chat from "./Chat";
 
 const ChatList = () => {
-  const [cookies] = useCookies(["token"]);
-  const userId = cookies.token.userId;
+  const [cookies] = useCookies(["token", "userData"]);
+  const userId = cookies.userData.userId;
   const { chatData, submitChat, getChatData } = ChatStore();
   const { studyId } = useParams();
   const [chatContent, setChatContent] = useState("");
