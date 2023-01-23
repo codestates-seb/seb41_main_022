@@ -15,12 +15,12 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
   const [hour, setHour] = useState("00");
   const [minute, setMinute] = useState("00");
   const handleSubmit = (e) => {
+    e.preventDefault();
     calendarPost(URL, studyId, {
       title,
       date: `${event.dateStr.slice(0, 19)}T${hour}:${minute}:00`,
     });
     setShowAddModal(false);
-    window.location.reload();
   };
   return (
     showAddModal && (

@@ -9,7 +9,7 @@ import Community from "../components/StudyHallPage/community/Community";
 import StudyHallMain from "../components/StudyHallPage/Main/StudyHallMain";
 import { useCookies } from "react-cookie";
 import axios from "axios";
-import AuthStore from "../util/\bzustandAuth";
+import AuthStore from "../util/zustandAuth";
 
 interface AuthData {
   host: boolean;
