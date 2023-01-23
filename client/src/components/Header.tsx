@@ -7,7 +7,6 @@ import axios from "axios";
 
 import Bell from "../assets/Bell.svg";
 import HeaderDropDown from "./HeaderDropDown";
-import HomeStore from "../util/zustandHome";
 import LoginStore from "../util/zustandLogin";
 
 interface UserData {
@@ -25,7 +24,6 @@ const Header = () => {
   const [isReady, setIsReady] = useState<string | undefined>(undefined);
   const { isLogin, setIsLogin } = LoginStore();
   const [userData, setUserData] = useState<UserData | undefined>();
-  const { setRecruitment } = HomeStore();
   const navigate = useNavigate();
   const googleserverURL =
     "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
@@ -63,9 +61,13 @@ const Header = () => {
         )
         .then((res) => {
           setUserData(res.data.data);
-          setCookie("userData", {
-            userId: res.data.data.userId,
-          });
+          setCookie(
+            "userData",
+            {
+              userId: res.data.data.userId,
+            },
+            { path: "/" }
+          );
           setIsLogin(true);
         });
     }
@@ -77,7 +79,6 @@ const Header = () => {
           className="header-logo"
           onClick={() => {
             navigate("/");
-            setRecruitment([]);
           }}
         >
           Stu<span>d</span>y Tree

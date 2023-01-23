@@ -2,7 +2,6 @@ import styled from "styled-components";
 import axios, { AxiosResponse } from "axios";
 import { useState, useEffect, useCallback } from "react";
 
-import Data from "../../util/dummyData";
 import Recruitment from "./Recruitment";
 import HomeStore from "../../util/zustandHome";
 
@@ -12,15 +11,23 @@ interface Data {
 
 const RecruitmentList = () => {
   const [page, setPage] = useState<number>(1);
-  const { tags, filter, search, recruitmentData, fetch, setRecruitment } =
-    HomeStore();
-  const getRecruitmentData = (url: string): Promise<AxiosResponse<Data>> => {
-    return axios.get(url);
-  };
-
+  console.log("page: ", page);
+  const {
+    tags,
+    filter,
+    search,
+    recruitmentData,
+    totalPage,
+    fetch,
+    setRecruitment,
+  } = HomeStore();
+  console.log(totalPage);
+  useEffect(() => {
+    setRecruitment([]);
+  }, []);
   // 필터링 api요청
   useEffect(() => {
-    fetch(tags, filter, search, page, recruitmentData);
+    fetch(tags, filter, search, page);
   }, [tags, filter, search, page]);
 
   const handleScroll = useCallback((): void => {
@@ -38,11 +45,14 @@ const RecruitmentList = () => {
 
       // setPosts(posts.concat(getPostList(page + 1)));
       // // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
+      if (totalPage)
+        if (totalPage > page) {
+          setPage(page + 1);
+        }
 
-      setPage(page + 1);
       // 페이지 state 변수의 값도 1씩 늘려줍니다.
     }
-  }, [page]);
+  }, [page, totalPage]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
