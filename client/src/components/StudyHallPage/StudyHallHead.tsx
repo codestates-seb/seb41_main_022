@@ -10,6 +10,7 @@ interface StudyHeader {
 
 const StudyHallHead = () => {
   const [studyData, setStudyData] = useState<StudyHeader>();
+  const [auth, setAuth] = useState();
   const { studyId } = useParams();
   useEffect(() => {
     axios
@@ -19,6 +20,13 @@ const StudyHallHead = () => {
       .then((res) => {
         setStudyData(res.data.data);
       });
+    axios
+        .get(
+            `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/header`
+        )
+        .then((res) => {
+          setStudyData(res.data.data);
+        });
   }, []);
   return (
     <HeaderWrapper>
@@ -26,7 +34,7 @@ const StudyHallHead = () => {
       <TopDiv>
         <div className="studyName">{studyData && studyData.teamName}</div>
         <div className="studyHall">
-          <button>스터디 가입</button>study hall
+          {/*{<button>스터디 가입</button>study hall}*/}
         </div>
       </TopDiv>
       <FlexDiv>
