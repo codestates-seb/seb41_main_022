@@ -45,11 +45,14 @@ const RecruitmentList = () => {
 
       // setPosts(posts.concat(getPostList(page + 1)));
       // // 페이지에 따라서 불러온 배열을 posts 배열과 합쳐줍니다.
-      setPage(page + 1);
+      if (totalPage)
+        if (totalPage > page) {
+          setPage(page + 1);
+        }
 
       // 페이지 state 변수의 값도 1씩 늘려줍니다.
     }
-  }, [page]);
+  }, [page, totalPage]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
