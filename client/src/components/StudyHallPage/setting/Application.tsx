@@ -9,6 +9,7 @@ interface ApplicationProps {
   imgUrl: string;
   applicationId: number;
   acceptApplication: (id: number) => void;
+  rejectApplication: (id: number) => void;
 }
 
 const Application = ({
@@ -16,6 +17,7 @@ const Application = ({
   imgUrl,
   applicationId,
   acceptApplication,
+  rejectApplication,
 }: ApplicationProps) => {
   return (
     <EachApplication>
@@ -30,7 +32,10 @@ const Application = ({
           <IoIosCheckmarkCircleOutline className="outLineIcon icon" />
         </CheckIcon>
         <XIcon>
-          <IoIosCloseCircle className="inLineIcon icon" />
+          <IoIosCloseCircle
+            onClick={() => rejectApplication(applicationId)}
+            className="inLineIcon icon"
+          />
           <IoIosCloseCircleOutline className="outLineIcon icon" />
         </XIcon>
       </div>

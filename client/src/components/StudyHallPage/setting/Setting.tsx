@@ -22,7 +22,21 @@ const Setting = () => {
   const [applicationData, setApplicationData] = useState<
     Application[] | undefined
   >();
+  console.log(applicationData);
   const { authData } = AuthStore();
+  const fetchApplicationList = () => {
+    axios
+      .get(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user/${studyId}/requester`,
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.refreshToken,
+          },
+        }
+      )
+      .then((res) => setApplicationData(res.data.data));
+  };
   const handleClickEditStudy = () => {};
   const handleClickDeleteStudy = () => {
     axios
@@ -51,22 +65,21 @@ const Setting = () => {
       .then(() => navigate("/"));
   };
   const acceptApplication = (id: number) => {
-    axios.post(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/requester/${id}/accept`
-    );
+    axios
+      .post(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/requester/${id}/accept`
+      )
+      .then(() => fetchApplicationList());
+  };
+  const rejectApplication = (id: number) => {
+    axios
+      .post(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/requester/${id}/reject`
+      )
+      .then(() => fetchApplicationList());
   };
   useEffect(() => {
-    axios
-      .get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user/${studyId}/requester`,
-        {
-          headers: {
-            "access-Token": cookies.token.accessToken,
-            "refresh-Token": cookies.token.refreshToken,
-          },
-        }
-      )
-      .then((res) => setApplicationData(res.data.data));
+    fetchApplicationList();
   }, []);
   return (
     <SettingPageWrapper>
@@ -85,6 +98,7 @@ const Setting = () => {
                         applicationId={el.userId}
                         imgUrl={el.imgUrl}
                         acceptApplication={acceptApplication}
+                        rejectApplication={rejectApplication}
                       />
                     </li>
                   ))}
