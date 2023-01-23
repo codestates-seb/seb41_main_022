@@ -11,7 +11,6 @@ interface Data {
 
 const RecruitmentList = () => {
   const [page, setPage] = useState<number>(1);
-  console.log("page: ", page);
   const {
     tags,
     filter,
@@ -21,7 +20,7 @@ const RecruitmentList = () => {
     fetch,
     setRecruitment,
   } = HomeStore();
-  console.log(totalPage);
+
   useEffect(() => {
     setRecruitment([]);
   }, []);

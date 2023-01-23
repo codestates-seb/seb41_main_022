@@ -3,14 +3,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import StudyHallRightNav from "./StudyHallRightNav";
 
 interface AuthData {
-    host: boolean;
-    request: boolean;
-    member: boolean;
+  host: boolean;
+  request: boolean;
+  member: boolean;
 }
-interface AuthDataObj{
-    authData:AuthData|undefined;
+interface AuthDataProps {
+  authData: AuthData | undefined;
 }
-const StudyHallTopNav = ({authData}:AuthDataObj) => {
+const StudyHallTopNav = ({ authData }: AuthDataProps) => {
   const navigate = useNavigate();
   const { page, studyId } = useParams();
   const sId = Number(studyId);
@@ -44,7 +44,7 @@ const StudyHallTopNav = ({authData}:AuthDataObj) => {
         </div>
         <div
           onClick={
-              authData?.member
+            authData?.member
               ? () => {
                   navigateStudyHall("calendar", sId);
                 }
@@ -58,7 +58,7 @@ const StudyHallTopNav = ({authData}:AuthDataObj) => {
         </div>
         <div
           onClick={
-              authData?.member
+            authData?.member
               ? () => {
                   navigateStudyHall("setting", sId);
                 }
