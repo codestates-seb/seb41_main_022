@@ -6,6 +6,7 @@ interface Home {
   filter: string;
   search: string;
   recruitmentData: [] | Recruitment[];
+  totalPage: number | undefined;
   fetch: (tags: string, filter: string, search: string, page: number) => void;
   setTags: (tag: string) => void;
   setFilter: (filter: string) => void;
@@ -34,9 +35,9 @@ const HomeStore = create<Home>()((set) => ({
   filter: "",
   search: "",
   recruitmentData: [],
+  totalPage: undefined,
   setRecruitment: (data: Recruitment[] | []) => {
     set(() => ({ recruitmentData: data }));
-    console.log("change data");
   },
   fetch: async (tags, filter, search, page) => {
     try {
@@ -45,6 +46,7 @@ const HomeStore = create<Home>()((set) => ({
       );
       set((state) => ({
         recruitmentData: [...state.recruitmentData, ...res.data.data],
+        totalPage: res.data.pageInfo.totalPages,
       }));
       console.log(res.data);
     } catch (e) {
