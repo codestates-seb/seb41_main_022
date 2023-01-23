@@ -32,7 +32,6 @@ const DetailModal = ({
   const clickDelete = () => {
     calendarDelete(URL, todoThatDay[0].calendarId);
     setShowDetailModal(false);
-    window.location.reload();
   };
   return (
     showDetailModal && (
