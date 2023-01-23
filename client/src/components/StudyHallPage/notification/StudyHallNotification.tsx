@@ -30,7 +30,7 @@ const StudyHallNotification = () => {
       <NotificationWrapper>
         <div className="padding" />
         <div>
-          <StudyHallNotificationSidebar />
+          {/*<StudyHallNotificationSidebar />*/}
           <div className="title">Notification</div>
           <NotificationCreate>
             <InputBorderForm className="inputBorder" onSubmit={handleSubmit}>
