@@ -3,7 +3,9 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
+
 import { joinStudyStore } from "../../util/zustandJoinStudy";
+import AuthStore from "../../util/\bzustandAuth";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -11,18 +13,12 @@ interface StudyHeader {
   teamName: string;
   openClose: boolean;
 }
-interface AuthData {
-  host: boolean;
-  request: boolean;
-  member: boolean;
-}
-interface AuthDataObj {
-  authData: AuthData | undefined;
-}
-const StudyHallHead = ({ authData }: AuthDataObj) => {
+
+const StudyHallHead = () => {
   const [studyData, setStudyData] = useState<StudyHeader>();
   const { studyId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const { authData } = AuthStore();
 
   const fetchJoinStudy = joinStudyStore((state) => state.fetchJoinStudy);
   useEffect(() => {
