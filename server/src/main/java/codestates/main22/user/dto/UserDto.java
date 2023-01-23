@@ -22,6 +22,7 @@ public class UserDto {
 
         private String imgUrl;
         private String token;
+        private String refresh;
         private List<Long> studyId; //테스트용으로 가입 스터디 미리 넣어 봤음
     }
 
