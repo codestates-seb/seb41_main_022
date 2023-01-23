@@ -81,7 +81,7 @@ const Header = () => {
         {isLogin ? (
           <ItemWrapper>
             <div className="imgWrapper" onClick={() => navigate("/user")}>
-              {userData && <img src={userData.imgUrl} />}
+              {userData && <img src={userData?.imgUrl} />}
             </div>
             <img className="bell" src={Bell} />
             <HeaderDropDown />

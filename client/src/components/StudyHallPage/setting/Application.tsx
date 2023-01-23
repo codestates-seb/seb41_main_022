@@ -7,20 +7,35 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 interface ApplicationProps {
   username: string;
   imgUrl: string;
+  applicationId: number;
+  acceptApplication: (id: number) => void;
+  rejectApplication: (id: number) => void;
 }
 
-const Application = ({ username, imgUrl }: ApplicationProps) => {
+const Application = ({
+  username,
+  imgUrl,
+  applicationId,
+  acceptApplication,
+  rejectApplication,
+}: ApplicationProps) => {
   return (
     <EachApplication>
       <img src={imgUrl} />
       <div className="nameWrapper">{username}</div>
       <div className="buttonWrapper">
         <CheckIcon>
-          <IoIosCheckmarkCircle className="inLineIcon icon" />
+          <IoIosCheckmarkCircle
+            onClick={() => acceptApplication(applicationId)}
+            className="inLineIcon icon"
+          />
           <IoIosCheckmarkCircleOutline className="outLineIcon icon" />
         </CheckIcon>
         <XIcon>
-          <IoIosCloseCircle className="inLineIcon icon" />
+          <IoIosCloseCircle
+            onClick={() => rejectApplication(applicationId)}
+            className="inLineIcon icon"
+          />
           <IoIosCloseCircleOutline className="outLineIcon icon" />
         </XIcon>
       </div>
