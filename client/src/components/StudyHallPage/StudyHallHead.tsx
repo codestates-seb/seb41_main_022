@@ -2,40 +2,72 @@ import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { joinStudyStore } from "../../util/zustandJoinStudy";
+
+const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 interface StudyHeader {
   teamName: string;
   openClose: boolean;
 }
-
-const StudyHallHead = () => {
+interface AuthData {
+  host: boolean;
+  request: boolean;
+  member: boolean;
+}
+interface AuthDataObj {
+  authData: AuthData | undefined;
+}
+const StudyHallHead = ({ authData }: AuthDataObj) => {
   const [studyData, setStudyData] = useState<StudyHeader>();
-  const [auth, setAuth] = useState();
   const { studyId } = useParams();
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+
+  const fetchJoinStudy = joinStudyStore((state) => state.fetchJoinStudy);
   useEffect(() => {
-    axios
-      .get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/header`
-      )
-      .then((res) => {
-        setStudyData(res.data.data);
-      });
-    axios
-        .get(
-            `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/header`
-        )
-        .then((res) => {
-          setStudyData(res.data.data);
-        });
+    axios.get(URL + `/study/${studyId}/header`).then((res) => {
+      setStudyData(res.data.data);
+    });
   }, []);
+
+  const clickJoin = () => {
+    fetchJoinStudy(
+      URL,
+      studyId,
+      {},
+      {
+        "access-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.refreshToken,
+      }
+    );
+  };
   return (
     <HeaderWrapper>
       <div className="padding" />
       <TopDiv>
-        <div className="studyName">{studyData && studyData.teamName}</div>
-        <div className="studyHall">
-          {/*{<button>스터디 가입</button>study hall}*/}
+        <div className="studyName">
+          {studyData && studyData.teamName}{" "}
+          {authData?.member || !authData ? (
+            <div></div>
+          ) : authData?.request ? (
+            <JoinButton
+              request={authData?.request}
+              disabled={authData?.request}
+            >
+              가입 대기
+            </JoinButton>
+          ) : (
+            <JoinButton
+              request={authData?.request}
+              disabled={authData?.request}
+              onClick={clickJoin}
+            >
+              가입 신청
+            </JoinButton>
+          )}
         </div>
+        <div className="studyHall">study Hall</div>
       </TopDiv>
       <FlexDiv>
         <span
@@ -80,6 +112,8 @@ const TopDiv = styled.div`
   color: var(--green);
   .studyName {
     font-size: 40px;
+    display: flex;
+    align-items: center;
   }
   .studyHall {
     font-size: 14px;
@@ -98,5 +132,21 @@ const FlexDiv = styled.div`
   }
   > .active {
     color: var(--green);
+  }
+`;
+const JoinButton = styled.button<{ request?: boolean }>`
+  margin-left: 10px;
+  border-radius: var(--radius-30);
+  background-color: ${(props) =>
+    props?.request ? `var(--mopo-10)` : `var(--mopo-00)`};
+
+  color: var(--green);
+  border: none;
+  min-width: 40px;
+  padding: 4px;
+  height: 24px;
+  :hover {
+    transition-duration: 0.2s;
+    background-color: var(--mopo-10);
   }
 `;
