@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 import { joinStudyStore } from "../../util/zustandJoinStudy";
-import AuthStore from "../../util/\bzustandAuth";
+import AuthStore from "../../util/zustandAuth";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 

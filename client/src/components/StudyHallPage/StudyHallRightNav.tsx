@@ -9,24 +9,18 @@ import Ticker from "react-ticker";
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const StudyHallRightNav = () => {
-  const {
-    dayOfWeek,
-    notice,
-    zustandStudyId,
-    resetNotice,
-    fetchRightNav,
-    patchNotice,
-    saveNotice,
-  } = NoticeStore();
+  const { dayOfWeek, notice, zustandStudyId, resetNotice, fetchRightNav } =
+    NoticeStore();
   const { studyId } = useParams();
+  const [noticeR, setNoticeR] = useState("");
   useEffect(() => {
-    setTimeout(() => {
-      if (zustandStudyId !== studyId) {
-        resetNotice();
-      }
-      fetchRightNav(URL, studyId);
-    }, 500);
-  }, [saveNotice]);
+    // if()
+    if (zustandStudyId !== studyId) {
+      resetNotice();
+    }
+    fetchRightNav(URL, studyId);
+    setNoticeR(notice);
+  }, [notice]);
   return (
     <Margin20>
       <WeekBar dayOfWeek={dayOfWeek} />
@@ -35,9 +29,9 @@ const StudyHallRightNav = () => {
           <div>
             <VscBellDot />
           </div>
-          {notice && (
+          {noticeR && (
             <Ticker>
-              {() => <div className="noticeFont">{notice ? notice : ""}</div>}
+              {() => <div className="noticeFont">{noticeR ? noticeR : ""}</div>}
             </Ticker>
           )}
         </div>
@@ -72,7 +66,7 @@ const Notice = styled.div`
       width: 150px;
       max-height: 16px;
       .ticker__element {
-        width: 350px;
+        width: 100%;
         display: flex;
         justify-content: center;
       }

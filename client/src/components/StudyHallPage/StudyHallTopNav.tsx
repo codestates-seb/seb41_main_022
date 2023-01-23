@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import StudyHallRightNav from "./StudyHallRightNav";
-import AuthStore from "../../util/\bzustandAuth";
+import AuthStore from "../../util/zustandAuth";
 
 const StudyHallTopNav = () => {
   const { authData } = AuthStore();

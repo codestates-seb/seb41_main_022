@@ -1,27 +1,29 @@
 import styled from "styled-components";
-import StudyHallNotificationSidebar from "./StudyHallNotificationSidebar";
-import { useForm } from "react-hook-form";
+
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import CalendarApp from "./Calendar/CalendarApp";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios/index";
+
 import NoticeStore from "../../../util/zustandNotice";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
 const StudyHallNotification = () => {
-  const { notice, patchNotice, saveNotice, setSaveNotice } = NoticeStore();
+  const { notice, patchNotice, fetchRightNav } = NoticeStore();
   const { studyId } = useParams();
   const [tempNotice, setTempNotice] = useState("");
   useEffect(() => {
-    setTempNotice(notice);
-  }, [saveNotice]);
+    setTimeout(() => {
+      setTempNotice(notice);
+    }, 100);
+  }, [notice]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     patchNotice(URL, studyId, { notice: tempNotice });
-    setSaveNotice();
+    fetchRightNav(URL, studyId);
+    alert("공지가 수정되었습니다");
   };
   const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempNotice(e.target.value);

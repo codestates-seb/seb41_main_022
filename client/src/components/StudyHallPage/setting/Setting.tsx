@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 import RedButton from "./RedButton";
 import Application from "./Application";
-import AuthStore from "../../../util/\bzustandAuth";
+import AuthStore from "../../../util/zustandAuth";
 
 interface Application {
   userId: number;
