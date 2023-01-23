@@ -36,7 +36,13 @@ const HeaderDropDown = () => {
           <Dropdown.Menu>
             {myStudyArr &&
               myStudyArr.map((el: { studyId: string; teamName: string }) => (
-                <div onClick={() => navigate(`/study-hall/main/${el.studyId}`)}>
+                <div
+                  onClick={() => {
+                    setIsOpen(false);
+                    console.log(el.studyId);
+                    navigate(`/study-hall/main/${el.studyId}`);
+                  }}
+                >
                   <Dropdown.Item>{el.teamName}</Dropdown.Item>
                 </div>
               ))}
