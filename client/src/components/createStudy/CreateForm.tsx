@@ -12,6 +12,7 @@ import ToggleOnline from "./ToggleOnline";
 import CreatePageTags from "./CreatePageTags";
 import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -39,6 +40,7 @@ const CreateForm = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const fetchCreateStudy = createStudyStore((state) => state.fetchCreateStudy);
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[] | undefined>();
   const [startDate, setStartDate] = useState();
   const textRef = useRef<HTMLTextAreaElement>(null);
@@ -77,45 +79,113 @@ const CreateForm = () => {
             id="teamName"
             type="text"
             placeholder="Team Name"
-            {...register("teamName")}
+            maxLength={10}
+            className={
+              errors.teamName && errors.teamName.type === "required"
+                ? "errorBorder"
+                : "ㅤ"
+            }
+            {...register("teamName", { required: true })}
           />
+          <ErrorText>
+            {errors.teamName && errors.teamName.type === "required"
+              ? "* 팀이름을 입력해 주세요!"
+              : " "}
+          </ErrorText>
+
           <input
             id="summary"
             type="text"
             placeholder="한 줄 설명"
-            {...register("summary")}
+            className={
+              errors.summary && errors.summary.type === "required"
+                ? "errorBorder"
+                : "ㅤ"
+            }
+            {...register("summary", { required: true })}
           />
+          <ErrorText>
+            {errors.summary && errors.summary.type === "required"
+              ? "* 한 줄 설명을 입력해 주세요!"
+              : " "}
+          </ErrorText>
+          <div className="tagAddButton">
+            <div className="AddButton">
+              Tags&nbsp;
+              <AiOutlinePlusCircle
+                onClick={() => setIsOpen(!isOpen)}
+                className={
+                  errors.tags && errors.tags.type === "required"
+                    ? "errorIcon"
+                    : ""
+                }
+              />
+            </div>
+          </div>
           <Controller
             name="tags"
             control={control}
+            rules={{ required: true }}
             render={({ field: { onChange } }) => (
               <div className="tagSection">
-                <CreatePageTags tag={tag} onChange={onChange} />
+                <CreatePageTags
+                  tag={tag}
+                  onChange={onChange}
+                  isOpen={isOpen}
+                  setIsOpen={setIsOpen}
+                />
               </div>
             )}
           />
+          <ErrorText>
+            {errors.tags && errors.tags.type === "required"
+              ? "* 태그를 하나 이상 선택해 주세요!"
+              : " "}
+          </ErrorText>
           <div className="weekbarWrapper">
             <span>진행요일</span>
             <Controller
               name="dayOfWeek"
               control={control}
+              rules={{ required: true }}
               render={({ field: { onChange } }) => (
-                <CreateWeekBar onChange={onChange} />
+                <CreateWeekBar
+                  onChange={onChange}
+                  error={
+                    errors.dayOfWeek && errors.dayOfWeek.type === "required"
+                      ? true
+                      : false
+                  }
+                />
               )}
             />
+            <ErrorText>
+              {errors.dayOfWeek && errors.dayOfWeek.type === "required"
+                ? "* 요일을 하나 이상 선택해 주세요!"
+                : " "}
+            </ErrorText>
           </div>
           <div>
             인원 :{" "}
             <input
-              className="person"
               id="want"
               type="number"
               min="1"
               placeholder="0"
-              {...register("want")}
+              className={
+                errors.want && errors.want.type === "required"
+                  ? "errorBorder person"
+                  : "person"
+              }
+              {...register("want", { required: true })}
             />
             명
           </div>
+          <ErrorText>
+            {errors.want && errors.want.type === "required"
+              ? "* 인원을 선택해 주세요!"
+              : " "}
+          </ErrorText>
           <div>
             <Controller
               name="procedure"
@@ -137,29 +207,48 @@ const CreateForm = () => {
             <Controller
               name="startDate"
               control={control}
+              rules={{ required: true }}
               render={({ field: { onChange } }) => (
-                <DatePicker
-                  className="datepicker"
-                  placeholderText="click and select the date"
-                  dateFormat="yyyy/MM/dd"
-                  selected={startDate}
-                  onChange={(date: any) => {
-                    setStartDate(date);
-                    onChange(date.toISOString().split("T")[0]);
-                  }}
-                />
+                <DatePickerDiv
+                  className={
+                    errors.startDate && errors.startDate.type === "required"
+                      ? "errorBorder"
+                      : "ㅤ"
+                  }
+                >
+                  <DatePicker
+                    className="datepicker"
+                    placeholderText="click and select the date"
+                    dateFormat="yyyy/MM/dd"
+                    selected={startDate}
+                    onChange={(date: any) => {
+                      setStartDate(date);
+                      onChange(date.toISOString().split("T")[0]);
+                    }}
+                  />
+                </DatePickerDiv>
               )}
             />
+            <ErrorText>
+              {errors.startDate && errors.startDate.type === "required"
+                ? "* 날짜를 선택해 주세요!"
+                : " "}
+            </ErrorText>
           </div>
           <label htmlFor="content">내용</label>
           <div>
             <Controller
               name="content"
               control={control}
+              rules={{ required: true }}
               render={({ field: { onChange } }) => (
                 <textarea
                   id="content"
-                  className="textArea"
+                  className={
+                    errors.startDate && errors.startDate.type === "required"
+                      ? "errorBorder textArea"
+                      : "textArea"
+                  }
                   onChange={onChange}
                   ref={textRef}
                   onInput={handleResizeHeight}
@@ -167,6 +256,11 @@ const CreateForm = () => {
               )}
             />
           </div>
+          <ErrorText>
+            {errors.content && errors.content.type === "required"
+              ? "* 내용을 입력해 주세요!"
+              : " "}
+          </ErrorText>
           <div>
             <RedButton type="submit">Create Study</RedButton>
           </div>
@@ -223,11 +317,15 @@ const Form = styled.form`
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    .AddButton {
-      display: flex;
-      :hover {
-        cursor: pointer;
-      }
+  }
+  .tagAddButton {
+    display: flex;
+  }
+  .AddButton {
+    display: flex;
+    align-items: center;
+    :hover {
+      cursor: pointer;
     }
   }
   > .weekbarWrapper {
@@ -239,7 +337,7 @@ const Form = styled.form`
     }
   }
   > input {
-    margin: 5px 0 20px;
+    margin: 5px 0;
     font-family: "mainM", Arial;
     height: 30px;
     background-color: var(--beige-00);
@@ -259,12 +357,12 @@ const Form = styled.form`
     }
   }
   > div {
-    margin: 5px 0 20px;
+    margin: 5px 0;
     display: flex;
     align-items: center;
     > .person {
       background-color: var(--mopo-00);
-      border: none;
+      border: 0px solid rgba(0, 0, 0, 1);
       padding-left: 8px;
       border-radius: var(--radius-20);
     }
@@ -310,6 +408,12 @@ const Form = styled.form`
       cursor: pointer;
     }
   }
+  .errorBorder {
+    border: solid 2px var(--red-00);
+  }
+  .errorIcon {
+    color: var(--red-00);
+  }
 `;
 
 const RedButton = styled.button`
@@ -323,4 +427,14 @@ const RedButton = styled.button`
   :hover {
     background-color: var(--red-10);
   }
+`;
+const ErrorText = styled.div`
+  color: var(--red-00);
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+`;
+const DatePickerDiv = styled.div`
+  margin: 5px 0;
+  border-radius: 5px;
 `;

@@ -1,10 +1,13 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-
+interface PropsType {
+  onChange: (...event: any[]) => void;
+  error: boolean;
+}
 interface dayType {
   [key: string]: boolean;
 }
-const CreateWeekBar = ({ onChange }: any) => {
+const CreateWeekBar = ({ onChange, error }: PropsType) => {
   const [dayOfWeek, setDayOfWeek] = useState([]);
   const [week, setWeek] = useState<dayType>({
     MON: false,
@@ -27,7 +30,7 @@ const CreateWeekBar = ({ onChange }: any) => {
   };
   return (
     <WeekWrapper>
-      <div className="border">
+      <Border className={error ? "errorBorder" : ""}>
         <WeekBlock
           onClick={() => weekFunc("MON")}
           className={week.MON ? "active" : undefined}
@@ -70,7 +73,7 @@ const CreateWeekBar = ({ onChange }: any) => {
         >
           일
         </WeekBlock>
-      </div>
+      </Border>
     </WeekWrapper>
   );
 };
@@ -82,23 +85,28 @@ const WeekWrapper = styled.main`
   background-color: var(--green);
   border-radius: var(--radius-30);
   padding: 1px;
+  margin: 5px 0;
   * {
     font-size: 12px;
     color: var(--beige-00);
   }
-  > .border {
-    border: 1px solid var(--beige-00);
-    border-radius: var(--radius-30);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 2px;
-    > .active {
-      background-color: var(--beige-00);
-      color: var(--green);
-    }
+`;
+const Border = styled.div`
+  border: 1px solid var(--beige-00);
+  border-radius: var(--radius-30);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+  .errorBorder {
+    border: 1px solid var(--red-00);
+  }
+  > .active {
+    background-color: var(--beige-00);
+    color: var(--green);
   }
 `;
+
 //요일 들어가는 div
 const WeekBlock = styled.div`
   display: flex;

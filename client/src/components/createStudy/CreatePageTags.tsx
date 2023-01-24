@@ -1,15 +1,16 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 interface TagsProps {
   tag: string[] | undefined;
   onChange: any;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const CreatePageTags = ({ tag, onChange }: TagsProps) => {
+const CreatePageTags = ({ tag, onChange, isOpen, setIsOpen }: TagsProps) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
     onChange(selectedTags);
   }, [selectedTags]);
@@ -24,12 +25,6 @@ const CreatePageTags = ({ tag, onChange }: TagsProps) => {
   };
   return (
     <>
-      <div className="tagAddButton">
-        <span className="AddButton">
-          Tags&nbsp;
-          <AiOutlinePlusCircle onClick={() => setIsOpen(!isOpen)} />
-        </span>
-      </div>
       {isOpen && (
         <AddTagsModal>
           {tag &&
@@ -84,8 +79,3 @@ const TagsWrapper = styled.div`
   align-items: center;
 `;
 export default CreatePageTags;
-// .AddButton {
-// :hover {
-//     cursor: pointer;
-//   }
-// }
