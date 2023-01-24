@@ -66,50 +66,46 @@ const StudyHallMain = () => {
     <MainWrapper>
       <div className="padding">
         <div>
-          {<StudyInfo />}
-          <CreateComment />
-          {/* <button
-            onClick={() => {
-              console.log(commentsData);
-            }}
-          >
-            adf
-          </button> */}
-          //데이터 받아오는거 확인
-          {commentsData &&
-            commentsData.data.map((el, idx) => (
-              <Comments
-                key={idx}
-                chatId={el.chatId}
-                username={el.username}
-                imgUrl={el.imgUrl}
-                content={el.content}
-                isClosedChat={el.isClosedChat}
-                answers={el.answers}
-                totalElements={commentsData.pageInfo.totalElements}
-                size={el.size}
-              />
-            ))}
-          <Pagination>
-            <button
-              onClick={() => {
-                if (page > 1) {
-                  setPage(page - 1);
-                }
-              }}
-            >
-              이전
-            </button>
-            <button
-              onClick={() => {
-                if (page < totalPages) {
-                  setPage(page + 1);
-                }
-              }}
-            >
-              다음
-            </button>
-          </Pagination>
+          <CommentsWrap>
+            <StudyInfo />
+            <CreateComment />
+            {commentsData &&
+              commentsData.data.map((el, idx) => (
+                <Comments
+                  key={idx}
+                  chatId={el.chatId}
+                  username={el.username}
+                  imgUrl={el.imgUrl}
+                  content={el.content}
+                  isClosedChat={el.isClosedChat}
+                  answers={el.answers}
+                  totalElements={commentsData.pageInfo.totalElements}
+                  size={el.size}
+                />
+              ))}
+            <Pagination>
+              <div className="button-wrapper">
+                <button
+                  onClick={() => {
+                    if (page > 1) {
+                      setPage(page - 1);
+                    }
+                  }}
+                >
+                  이전
+                </button>
+                <button
+                  onClick={() => {
+                    if (page < totalPages) {
+                      setPage(page + 1);
+                    }
+                  }}
+                >
+                  다음
+                </button>
+              </div>
+            </Pagination>
+          </CommentsWrap>
         </div>
       </div>
     </MainWrapper>
@@ -118,21 +114,29 @@ const StudyHallMain = () => {
 export default StudyHallMain;
 
 const MainWrapper = styled.div``;
-
+const CommentsWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 const Pagination = styled.div`
   background-color: var(--green);
-  display: center;
+  display: flex;
+  justify-content: center;
   font-size: 2px;
-  button {
-    display: center;
-    width: 50px;
-    height: 30px;
-    color: var(--beige-00);
-    background-color: var(--green);
-    border: solid 1px var(--beige-00);
-    border-radius: 15px;
-    font-size: 14px;
-    margin: 3px;
-    padding: 4px;
+
+  .button-wrapper {
+    margin-top: 1px;
+    button {
+      display: center;
+      width: 50px;
+      height: 30px;
+      color: var(--beige-00);
+      background-color: var(--green);
+      border: solid 1px var(--beige-00);
+      border-radius: 15px;
+      font-size: 14px;
+      margin: 3px;
+      padding: 4px;
+    }
   }
 `;

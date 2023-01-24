@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { CommentsData } from "../../../util/dummyDataStudyHall";
 import { FiTrash2 } from "react-icons/fi";
-import React, { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
-import CreateAnswer from "./CreateAnswer";
 import axios, { AxiosResponse } from "axios";
+import { MdOutlineLock } from "react-icons/md";
+
 //내부컴포넌트 임포트
 import Answers from "./Answers";
 import { answerStore } from "../../../util/zustandCreatAnswer";
@@ -42,8 +42,12 @@ const Comments = ({
   imgUrl,
   chatId,
   isClosedChat,
+  totalElements,
 }: CommentsProps) => {
   const [cookies] = useCookies(["token"]);
+
+  console.log(content);
+
   //answer data 받아오기
   const [answersData, setAnswersData] = useState<CommentsProps | undefined>();
   const getAnswersData = (url: string): Promise<AxiosResponse<Data>> => {
@@ -83,21 +87,22 @@ const Comments = ({
           <Texts>
             <UserName>{username}</UserName>
             <Content>{content}</Content>
-            <span className="answerNum">
-              <AddButton
-                type="button"
-                className="numAnswers"
-                onClick={() => {
-                  setShowAnswer(!showAnswer);
-                }}
-              >
-                답글
-              </AddButton>
-              <div className="totalElements">
-                {answersData && answersData.totalElements}
+            <span className="answerNumIcon">
+              <div className="answerNum">
+                <AddButton
+                  type="button"
+                  className="numAnswers"
+                  onClick={() => {
+                    setShowAnswer(!showAnswer);
+                  }}
+                >
+                  답글
+                </AddButton>
+                <div className="totalElements">{answers.length}</div>
               </div>
-              <div className="trashIcon">
-                <FiTrash2></FiTrash2>
+              <div className="icons">
+                {isClosedChat === false ? null : <MdOutlineLock />}
+                <FiTrash2 />
               </div>
             </span>
             {showAnswer && (
@@ -176,14 +181,23 @@ const AddButton = styled.button`
 `;
 
 const Texts = styled.div`
+  width: 400px;
   margin-left: 10px;
 
   > .numAnswers {
     font-size: 9px;
   }
-  > .answerNum {
+  > .answerNumIcon {
+    justify-content: space-between;
     display: flex;
     font-size: 9px;
+    width: 400px;
+    > .answerNum {
+      display: flex;
+    }
+    .icons {
+      justify-content: flex-end;
+    }
   }
 `;
 const UserName = styled.div`

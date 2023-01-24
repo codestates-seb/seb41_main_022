@@ -9,7 +9,7 @@ import MyStudyList from "../components/userpage/MyStudyList";
 import { useCookies } from "react-cookie";
 
 const UserPage = () => {
-  const [cookies] = useCookies(["token"]);
+  const [cookies] = useCookies(["token", "userData"]);
   const [isOpenAgreePage, setIsOpenAgreePage] = useState(false);
   const [agreeWithdraw, setAgreeWithdraw] = useState(false);
   const navigate = useNavigate();
