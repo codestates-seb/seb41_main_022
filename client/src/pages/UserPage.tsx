@@ -1,11 +1,32 @@
-import React from "react";
+import axios from "axios";
 import styled from "styled-components";
+import { useState } from "react";
 //구분선
 import Profile from "../components/userpage/Profile";
 import MyStudy from "../components/userpage/MyStudy";
 import MyStudyList from "../components/userpage/MyStudyList";
+import { useCookies } from "react-cookie";
 
 const UserPage = () => {
+  const [cookies] = useCookies(["token"]);
+  const [isOpenAgreePage, setIsOpenAgreePage] = useState(false);
+  console.log(isOpenAgreePage);
+
+  const withdraw = () => {
+    axios.delete(
+      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user",
+      {
+        headers: {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        },
+      }
+    );
+  };
+
+  const handleClickWithdraw = () => {
+    setIsOpenAgreePage(!isOpenAgreePage);
+  };
   return (
     <Main>
       <Container>
@@ -14,9 +35,10 @@ const UserPage = () => {
         <MyStudyList />
         <h3 className="title">Tags</h3>
         <h3 className="title">나무나무</h3>
-        <button className="button" type="submit">
+        <button onClick={handleClickWithdraw} className="button" type="submit">
           회원탈퇴
         </button>
+        {isOpenAgreePage ? <WithdrawAgree>히히</WithdrawAgree> : null}
       </Container>
     </Main>
   );
@@ -63,6 +85,14 @@ const Container = styled.div`
       transition-duration: 0.5s;
     }
   }
+`;
+
+const WithdrawAgree = styled.div`
+  width: 70%;
+  height: 40px;
+  margin-left: 120px;
+  margin-top: 20px;
+  border: 1px orange solid;
 `;
 
 export default UserPage;
