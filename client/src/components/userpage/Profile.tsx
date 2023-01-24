@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
 import { useCookies } from "react-cookie";
+import TotalClass from "./TotalClass";
 
 interface User {
   userId: number;
@@ -42,7 +43,7 @@ const Profile = () => {
           <img src={userData && userData.imgUrl} />
           <div className="info">
             <UserName>{userData && userData.username}</UserName>
-            <div className="class-num">{} studies</div>
+            <TotalClass />
           </div>
         </Banner>
       </Container>
@@ -85,12 +86,5 @@ const Banner = styled.div`
     color: var(--beige-00);
     margin-left: 10px;
     margin-top: 190px;
-    > .class-num {
-      color: var(#aaaaaa);
-      font-size: 12px;
-      display: flex;
-      flex-wrap: wrap;
-      height: auto;
-    }
   }
 `;
