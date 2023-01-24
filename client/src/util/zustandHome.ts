@@ -55,19 +55,18 @@ const HomeStore = create<Home>()((set) => ({
         totalPage: res.data.pageInfo.totalPages,
       }));
       console.log(res.data);
-      console.log(tags, page);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     }
   },
   setTags: (tag: string) => {
     set(() => ({ page: 1, tags: tag, recruitmentData: [] }));
   },
   setFilter: (filter: string) => {
-    set(() => ({ page: 1, filter: filter }));
+    set(() => ({ page: 1, filter: filter, recruitmentData: [] }));
   },
   setSearch: (search: string) => {
-    set(() => ({ page: 1, search: search }));
+    set(() => ({ page: 1, search: search, recruitmentData: [] }));
   },
 }));
 
