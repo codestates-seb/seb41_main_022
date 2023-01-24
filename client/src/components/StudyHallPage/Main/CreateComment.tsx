@@ -3,7 +3,7 @@ import { FaBeer } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios from "axios";
+
 import { commentStore } from "../../../util/zustandComment";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
@@ -12,12 +12,13 @@ const CreateComment = () => {
   const [content, setContent] = useState(""); //댓글작성 상태변화
   const [isClosedChat, setIsClosedChat] = useState(false); //공개/비공개 상태변화
   const { studyId } = useParams(); //API에 보내지는 파람스와 동일
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); //쿠키 보내주기
+  const [cookies] = useCookies(["token"]); //쿠키 보내주기
   const postComment = commentStore((state) => state.postComment);
 
   //정보 들어오는지 확인
   // useEffect(() => {
   //   console.log(studyId);
+  //   console.log(content);
   //   console.log(cookies.token.accessToken);
   // }, []);
   //url obj cookie의 토큰갚을 studyId정보를 post요청
@@ -27,7 +28,10 @@ const CreateComment = () => {
         URL,
         studyId,
         { content, isClosedChat },
-        cookies.token.accessToken
+        {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        }
       );
     }
   };

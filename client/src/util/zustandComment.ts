@@ -2,8 +2,8 @@ import create from "zustand";
 import axios from "axios";
 
 //타입지정
-interface commentState {
-  postComment: (url: string, id: string, data: object, token: string) => void;
+interface CommentState {
+  postComment: (url: string, id: string, data: object, token: object) => void;
 }
 //                   함수이름   =      지정한 타입들 이거야~((set:그냥하는거)=>{
 // 코멘트보내기(이름): async (url, id, data, token) 보낼거야 =>어디로? {
@@ -18,13 +18,11 @@ interface commentState {
 //}
 //},
 //}));
-export const commentStore = create<commentState>((set) => ({
+export const commentStore = create<CommentState>((set) => ({
   postComment: async (url, id, data, token) => {
     try {
       await axios.post(url + "/chat?studyId=" + id, data, {
-        headers: {
-          "access-Token": token,
-        },
+        headers: token,
       });
     } catch (e) {
       console.log(e);

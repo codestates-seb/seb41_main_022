@@ -1,7 +1,7 @@
 import create from "zustand";
 import axios from "axios";
 
-interface answerState {
+interface AnswerState {
   postAnswer: (
     url: string,
     chatId: number,
@@ -10,7 +10,7 @@ interface answerState {
   ) => void;
 }
 
-export const answerStore = create<answerState>((set) => ({
+export const answerStore = create<AnswerState>((set) => ({
   postAnswer: async (url, chatId, data, token) => {
     try {
       await axios.post(url + "/answer/" + chatId, data, {
