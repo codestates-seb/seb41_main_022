@@ -23,7 +23,7 @@ const MyStudyList = () => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
-        "refresh-Token": cookies.token.refeshToken,
+        "refresh-Token": cookies.token.refreshToken,
       },
     });
   };
@@ -39,7 +39,12 @@ const MyStudyList = () => {
     <MyStudyWrapper>
       {myStudyList &&
         myStudyList.map((el) => (
-          <MyStudy key={el.studyId} teamName={el.teamName} imgUrl={el.imgUrl} />
+          <MyStudy
+            key={el.studyId}
+            studyId={el.studyId}
+            teamName={el.teamName}
+            imgUrl={el.imgUrl}
+          />
         ))}
     </MyStudyWrapper>
   );
@@ -47,9 +52,9 @@ const MyStudyList = () => {
 
 const MyStudyWrapper = styled.div`
   display: flex;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  height: auto;
-  margin-left: 10%;
+  margin: 0 100px;
 `;
 
 export default MyStudyList;
