@@ -66,14 +66,15 @@ const RecruitmentList = () => {
   return (
     <RecruitmentWrapper>
       {recruitmentData &&
-        recruitmentData.map((el, idx) => (
+        recruitmentData.map((el) => (
           <Recruitment
-            key={idx}
+            key={el.studyId}
             studyId={el.studyId}
             teamName={el.teamName}
             summary={el.summary}
             dayOfWeek={el.dayOfWeek}
             procedure={el.procedure}
+            imgUrl={el.image}
           />
         ))}
     </RecruitmentWrapper>

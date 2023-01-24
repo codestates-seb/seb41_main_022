@@ -10,6 +10,7 @@ interface CardProps {
   dayOfWeek: string[];
   studyId: number;
   procedure: boolean;
+  imgUrl: string;
 }
 
 const Recruitment = ({
@@ -18,12 +19,14 @@ const Recruitment = ({
   dayOfWeek,
   studyId,
   procedure,
+  imgUrl,
 }: CardProps) => {
   const navigate = useNavigate();
   const { isLogin } = LoginStore();
 
   return (
     <RecruitmentBackground
+      style={{ backgroundImage: `url(${imgUrl})` }}
       onClick={
         isLogin
           ? () => navigate(`/study-hall/main/${studyId}`)
