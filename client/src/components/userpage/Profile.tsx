@@ -3,22 +3,20 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
-import UserData from "../../util/dummyDataUser";
-import { User } from "../../util/dummyDataStudyHall";
-import Data from "../../util/dummyData";
 import { useCookies } from "react-cookie";
 
 interface User {
   userId: number;
   username: string;
   imgUrl: string;
+  data: any;
 }
 interface Data {
   data: any;
 }
 
 const Profile = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["token", "userData"]);
   const [userData, setUserData] = useState<User | undefined>();
   const getUserdata = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
@@ -33,8 +31,15 @@ const Profile = () => {
       "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user"
     ).then((res) => {
       setUserData(res.data.data);
+      setCookie("userData", {
+        userId: res.data.data.userId,
+        userName: res.data.data.username,
+        imgUrl: res.data.data.imgUrl,
+      });
     });
   }, []);
+
+  console.log({ userData });
 
   return (
     <Main>
@@ -43,7 +48,7 @@ const Profile = () => {
           <img src={userData && userData.imgUrl} />
           <div className="info">
             <UserName>{userData && userData.username}</UserName>
-            <div className="class-num">{UserData.data.studyCount} studies</div>
+            <div className="class-num">{} studies</div>
           </div>
         </Banner>
       </Container>

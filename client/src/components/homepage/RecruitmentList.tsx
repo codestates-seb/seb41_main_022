@@ -74,6 +74,7 @@ const RecruitmentList = () => {
             summary={el.summary}
             dayOfWeek={el.dayOfWeek}
             procedure={el.procedure}
+            imgUrl={el.image}
           />
         ))}
     </RecruitmentWrapper>

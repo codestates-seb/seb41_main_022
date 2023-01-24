@@ -17,7 +17,7 @@ interface Data {
 }
 
 const MyStudyList = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const [cookies] = useCookies(["token", "userData"]);
   const [myStudyList, setMyStudyList] = useState<MyStudyList[] | undefined>();
   const getMyStudyData = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
