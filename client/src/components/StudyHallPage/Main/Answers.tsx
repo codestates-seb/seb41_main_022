@@ -45,8 +45,7 @@ const Answer = styled.div`
     padding: 3px;
     flex-direction: row;
     width: 391px;
-    /* background-color: rgba(0, 0, 0, 0.5);
-    border: 0.2px solid; */
+
     justify-content: space-between;
     > .date {
       font-size: 8px;

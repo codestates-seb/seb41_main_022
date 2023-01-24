@@ -15,13 +15,6 @@ const CreateComment = () => {
   const [cookies] = useCookies(["token"]); //쿠키 보내주기
   const postComment = commentStore((state) => state.postComment);
 
-  //정보 들어오는지 확인
-  // useEffect(() => {
-  //   console.log(studyId);
-  //   console.log(content);
-  //   console.log(cookies.token.accessToken);
-  // }, []);
-  //url obj cookie의 토큰갚을 studyId정보를 post요청
   const handleSubmit = () => {
     if (studyId) {
       postComment(
