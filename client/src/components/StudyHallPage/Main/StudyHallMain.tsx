@@ -7,17 +7,17 @@ import { useCookies } from "react-cookie";
 import StudyInfo from "./StudyInfo";
 import CreateComment from "./CreateComment";
 import Comments from "./Comments";
-import { CommentsData } from "../../../util/dummyDataStudyHall";
 
 interface Studies {
   chatId: any;
-  el: string;
+  username: string;
   content: string;
   answers: [];
   pageInfo: any;
   totalElements: number;
   size: number;
   imgUrl: string;
+  isClosedChat: boolean;
 }
 interface PageInfo {
   page: number;
@@ -35,16 +35,12 @@ interface GroupType {
 }
 
 const StudyHallMain = () => {
-  const [cookies, setCookie, removeCookie] = useCookies([
-    "userData",
-    "authData",
-    "token",
-  ]);
+  const [cookies, setCookie] = useCookies(["token"]);
 
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-  const { studyId, i, limit } = useParams();
+  const { studyId } = useParams();
 
   //데이터 요청
   const [commentsData, setCommentsData] = useState<GroupType | undefined>();
@@ -61,24 +57,10 @@ const StudyHallMain = () => {
     getCommentsData(
       `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=${size}`
     ).then((res) => {
-      setTotalPages(res.data.pageInfo.totalElements);
       setCommentsData(res.data);
+      setTotalPages(res.data.pageInfo.totalElements);
     });
   }, [page, size]);
-
-  // useEffect(() => {
-  // axios
-  //   .get(
-  //     `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${cookies.userData.userId}/user/${cookies.userData.userId}/auth`,
-  //     {
-  //       headers: {
-  //         "access-Token": cookies.token.accessToken,
-  //         "refresh-Token": cookies.token.accessToken,
-  //       },
-  //     }
-  //   )
-  //   .then((res) => setCookie("authData", { data: res.data.data }));
-  // }, []);
 
   return (
     <MainWrapper>
@@ -86,16 +68,26 @@ const StudyHallMain = () => {
         <div>
           {<StudyInfo />}
           <CreateComment />
+          {/* <button
+            onClick={() => {
+              console.log(commentsData);
+            }}
+          >
+            adf
+          </button> */}
+          //데이터 받아오는거 확인
           {commentsData &&
-            commentsData.data.map((el) => (
+            commentsData.data.map((el, idx) => (
               <Comments
+                key={idx}
                 chatId={el.chatId}
-                el={el.el}
+                username={el.username}
+                imgUrl={el.imgUrl}
                 content={el.content}
+                isClosedChat={el.isClosedChat}
                 answers={el.answers}
                 totalElements={commentsData.pageInfo.totalElements}
                 size={el.size}
-                imgUrl={el.imgUrl}
               />
             ))}
           <Pagination>

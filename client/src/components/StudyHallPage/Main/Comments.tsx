@@ -12,13 +12,14 @@ import { answerStore } from "../../../util/zustandCreatAnswer";
 
 //타입지정
 export interface CommentsProps {
-  el: string;
+  username: string;
   content: string;
   answers: any[];
   totalElements: number;
   size: number;
   imgUrl: string;
   chatId: number;
+  isClosedChat: boolean;
 }
 
 interface AnswerProps {
@@ -34,10 +35,16 @@ interface Data {
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
-const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
-  // const { studyId, page } = useParams;
-
+const Comments = ({
+  username,
+  content,
+  answers,
+  imgUrl,
+  chatId,
+  isClosedChat,
+}: CommentsProps) => {
+  const [cookies] = useCookies(["token"]);
+  //answer data 받아오기
   const [answersData, setAnswersData] = useState<CommentsProps | undefined>();
   const getAnswersData = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
@@ -74,7 +81,7 @@ const Comments = ({ el, content, answers, imgUrl, chatId }: CommentsProps) => {
         <CommentBox>
           <Img src={imgUrl} />
           <Texts>
-            <UserName>{el}</UserName>
+            <UserName>{username}</UserName>
             <Content>{content}</Content>
             <span className="answerNum">
               <AddButton
