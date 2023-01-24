@@ -2,16 +2,18 @@ import create from "zustand";
 import axios from "axios";
 
 interface Home {
+  page: number;
   tags: string;
   filter: string;
   search: string;
   recruitmentData: [] | Recruitment[];
-  totalPage: number | undefined;
+  totalPage: number;
   fetch: (tags: string, filter: string, search: string, page: number) => void;
   setTags: (tag: string) => void;
   setFilter: (filter: string) => void;
   setSearch: (search: string) => void;
   setRecruitment: (data: Recruitment[]) => void;
+  setPage: (data: number) => void;
 }
 
 interface Recruitment {
@@ -34,10 +36,14 @@ const HomeStore = create<Home>()((set) => ({
   tags: "",
   filter: "",
   search: "",
+  page: 1,
   recruitmentData: [],
-  totalPage: undefined,
+  totalPage: 1,
   setRecruitment: (data: Recruitment[] | []) => {
     set(() => ({ recruitmentData: data }));
+  },
+  setPage: (data: number) => {
+    set(() => ({ page: data }));
   },
   fetch: async (tags, filter, search, page) => {
     try {
@@ -49,18 +55,18 @@ const HomeStore = create<Home>()((set) => ({
         totalPage: res.data.pageInfo.totalPages,
       }));
       console.log(res.data);
-    } catch (e) {
-      console.log(e);
+    } catch (err) {
+      console.log(err);
     }
   },
   setTags: (tag: string) => {
-    set(() => ({ tags: tag, recruitmentData: [] }));
+    set(() => ({ page: 1, tags: tag, recruitmentData: [] }));
   },
   setFilter: (filter: string) => {
-    set(() => ({ filter: filter }));
+    set(() => ({ page: 1, filter: filter, recruitmentData: [] }));
   },
   setSearch: (search: string) => {
-    set(() => ({ search: search }));
+    set(() => ({ page: 1, search: search, recruitmentData: [] }));
   },
 }));
 

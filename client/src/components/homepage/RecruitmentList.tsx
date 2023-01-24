@@ -10,15 +10,16 @@ interface Data {
 }
 
 const RecruitmentList = () => {
-  const [page, setPage] = useState<number>(1);
   const {
     tags,
+    page,
     filter,
     search,
     recruitmentData,
     totalPage,
     fetch,
     setRecruitment,
+    setPage,
   } = HomeStore();
 
   useEffect(() => {
@@ -74,6 +75,7 @@ const RecruitmentList = () => {
             summary={el.summary}
             dayOfWeek={el.dayOfWeek}
             procedure={el.procedure}
+            imgUrl={el.image}
           />
         ))}
     </RecruitmentWrapper>
