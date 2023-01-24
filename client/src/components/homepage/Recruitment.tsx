@@ -9,9 +9,16 @@ interface CardProps {
   summary: string;
   dayOfWeek: string[];
   studyId: number;
+  procedure: boolean;
 }
 
-const Recruitment = ({ teamName, summary, dayOfWeek, studyId }: CardProps) => {
+const Recruitment = ({
+  teamName,
+  summary,
+  dayOfWeek,
+  studyId,
+  procedure,
+}: CardProps) => {
   const navigate = useNavigate();
   const { isLogin } = LoginStore();
 
@@ -32,9 +39,9 @@ const Recruitment = ({ teamName, summary, dayOfWeek, studyId }: CardProps) => {
             </div>
             <WeekBar dayOfWeek={dayOfWeek} />
             <div className="body-online">
-              <span className="online">Online </span>
-              <span className="online offline">&nbsp;/&nbsp;</span>
-              <span className="offline"> Offline</span>
+              <span className={procedure ? "active" : undefined}>Online </span>
+              <span>&nbsp;/&nbsp;</span>
+              <span className={procedure ? undefined : "active"}> Offline</span>
             </div>
           </BodyWrapper>
         </div>
@@ -114,7 +121,7 @@ const BodyWrapper = styled.div`
     justify-content: center;
     margin-top: 20px;
 
-    > .online {
+    > .active {
       color: #7cc9a7;
     }
   }

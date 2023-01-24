@@ -22,7 +22,6 @@ const Setting = () => {
   const [applicationData, setApplicationData] = useState<
     Application[] | undefined
   >();
-  console.log(applicationData);
   const { authData } = AuthStore();
   const fetchApplicationList = () => {
     axios
