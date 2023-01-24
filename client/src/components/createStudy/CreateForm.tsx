@@ -3,16 +3,15 @@ import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useRef, useCallback, useEffect } from "react";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import axios, { AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import CreateWeekBar from "./CreateWeekBar";
 import ToggleOnline from "./ToggleOnline";
 import CreatePageTags from "./CreatePageTags";
-import axios, { AxiosResponse } from "axios";
 import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -37,9 +36,11 @@ const CreateForm = () => {
     const url = URL + "/tag";
     fetch(url).then((res) => setTag(res.data.data.tags));
   }, []);
-  const [isOpen, setIsOpen] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const fetchCreateStudy = createStudyStore((state) => state.fetchCreateStudy);
+  const navigate = useNavigate();
   const [tag, setTag] = useState<string[] | undefined>();
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
@@ -47,29 +48,7 @@ const CreateForm = () => {
       textRef.current.style.height = textRef.current.scrollHeight + "px";
     }
   }, []);
-  const [form, setForm] = useState<MyFormProps>({
-    teamName: "",
-    summary: "",
-    tags: [],
-    dayOfWeek: [],
-    want: 0,
-    startDate: new Date().toISOString().split("T")[0],
-    procedure: false,
-    openClose: false,
-    content: "",
-    image: "https://avatars.dicebear.com/api/bottts/222.svg",
-  });
 
-  const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { id, value } = e.target;
-    setForm({
-      ...form,
-      [id]: value,
-    });
-  };
-  const openModal = () => {
-    setIsOpen(!isOpen);
-  };
   const {
     register,
     handleSubmit,
@@ -78,7 +57,16 @@ const CreateForm = () => {
     formState: { errors },
   } = useForm<MyFormProps>();
   const onSubmitHandler: SubmitHandler<MyFormProps> = (data) => {
-    console.log(data);
+    const form = {
+      ...data,
+      image: "https://avatars.dicebear.com/api/bottts/222.svg",
+    };
+    fetchCreateStudy(URL, form, {
+      "access-Token": cookies.token.accessToken,
+      "refresh-Token": cookies.token.refreshToken,
+    });
+    alert("스터디가 생성되었습니다");
+    navigate("/");
   };
   return (
     <Main>
@@ -102,20 +90,19 @@ const CreateForm = () => {
             control={control}
             render={({ field: { onChange } }) => (
               <div className="tagSection">
-                <div className="tagAddButton">
-                  Tags&nbsp;
-                  <AiOutlinePlusCircle
-                    onClick={openModal}
-                    className="AddButton"
-                  />
-                </div>
-                {isOpen && <CreatePageTags tag={tag} onChange={onChange} />}
+                <CreatePageTags tag={tag} onChange={onChange} />
               </div>
             )}
           />
           <div className="weekbarWrapper">
             <span>진행요일</span>
-            <CreateWeekBar form={form} setForm={setForm} />
+            <Controller
+              name="dayOfWeek"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <CreateWeekBar onChange={onChange} />
+              )}
+            />
           </div>
           <div>
             인원 :{" "}
@@ -166,12 +153,18 @@ const CreateForm = () => {
           </div>
           <label htmlFor="content">내용</label>
           <div>
-            <textarea
-              id="content"
-              className="textArea"
-              onChange={onChangeTextArea}
-              ref={textRef}
-              onInput={handleResizeHeight}
+            <Controller
+              name="content"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <textarea
+                  id="content"
+                  className="textArea"
+                  onChange={onChange}
+                  ref={textRef}
+                  onInput={handleResizeHeight}
+                />
+              )}
             />
           </div>
           <div>
@@ -231,6 +224,7 @@ const Form = styled.form`
     align-items: flex-start;
     justify-content: center;
     .AddButton {
+      display: flex;
       :hover {
         cursor: pointer;
       }
@@ -329,22 +323,4 @@ const RedButton = styled.button`
   :hover {
     background-color: var(--red-10);
   }
-`;
-
-const AddTagsModal = styled.div`
-  border: 1px solid var(--green);
-  display: flex;
-  flex-wrap: wrap;
-  padding: 8px;
-  align-items: center;
-  margin-top: 5px;
-  border-radius: var(--radius-20);
-`;
-const TagsWrapper = styled.div`
-  margin-top: 5px;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 8px;
-
-  align-items: center;
 `;

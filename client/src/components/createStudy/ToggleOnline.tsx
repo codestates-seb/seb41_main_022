@@ -23,6 +23,9 @@ const ToggleWrapper = styled.main`
   .backgroundfalse {
     background-color: var(--mopo-00);
   }
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const ToggleBorder = styled.div`

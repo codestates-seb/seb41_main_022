@@ -21,6 +21,9 @@ const TogglePublic = ({ onChange }: any) => {
 export default TogglePublic;
 
 const ToggleWrapper = styled.main`
+  :hover {
+    cursor: pointer;
+  }
   .backgroundfalse {
     background-color: var(--mopo-00);
   }
