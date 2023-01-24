@@ -12,7 +12,6 @@ const HeaderDropDown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [myStudyArr, setMyStudyArr] = useState([]);
-  const navigate = useNavigate();
   const getMyStudy = (url: string, token: object) => {
     return axios.get(url + "/study/user", {
       headers: token,
@@ -27,28 +26,22 @@ const HeaderDropDown = () => {
     }
   }, []);
   return (
-    <Wrapper className="bootstrapCss">
-      <Dropdown onClick={() => setIsOpen(!isOpen)}>
-        <Dropdown.Toggle id="dropdown-autoclose-true">
+    <Wrapper>
+      <div onClick={() => setIsOpen(!isOpen)} className={isOpen ? "show" : ""}>
+        <button id="dropdown-autoclose-true">
           My Study {isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />}
-        </Dropdown.Toggle>
+        </button>
         {isOpen && (
-          <Dropdown.Menu>
+          <div className="dropdown-menu">
             {myStudyArr &&
               myStudyArr.map((el: { studyId: string; teamName: string }) => (
-                <div
-                  onClick={() => {
-                    setIsOpen(false);
-                    console.log(el.studyId);
-                    navigate(`/study-hall/main/${el.studyId}`);
-                  }}
-                >
-                  <Dropdown.Item>{el.teamName}</Dropdown.Item>
+                <div>
+                  <a href={`/study-hall/main/${el.studyId}`}>{el.teamName}</a>
                 </div>
               ))}
-          </Dropdown.Menu>
+          </div>
         )}
-      </Dropdown>
+      </div>
     </Wrapper>
   );
 };
