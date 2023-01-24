@@ -73,6 +73,7 @@ const RecruitmentList = () => {
             teamName={el.teamName}
             summary={el.summary}
             dayOfWeek={el.dayOfWeek}
+            procedure={el.procedure}
           />
         ))}
     </RecruitmentWrapper>

@@ -20,7 +20,7 @@ const ToggleOnline = ({ form, setForm }: ToggleProps) => {
       {!isTrue ? "Offline" : ""}
       <ToggleWrapper onClick={() => setIsTrue(!isTrue)}>
         <ToggleBorder className={`background${isTrue}`}>
-          <div className={`${!isTrue}`}></div>
+          <div className={`${isTrue}`}></div>
         </ToggleBorder>
       </ToggleWrapper>
     </div>
