@@ -3,6 +3,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useCookies } from "react-cookie";
+import AuthStore from "../../../../util/zustandAuth";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -14,6 +15,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   const [myUserId, setMyUserId] = useState();
   const [cookies, setCookie, removeCookie] = useCookies(["userData"]);
   const calendarPatch = calendarStore((state) => state.calendarPatch);
+  const { authData } = AuthStore();
   useEffect(() => {
     setMyUserId(cookies.userData.userId);
     setParticipants(editData.participants);

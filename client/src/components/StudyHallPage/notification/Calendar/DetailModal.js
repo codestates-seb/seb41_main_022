@@ -4,6 +4,7 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
 
 import { calendarStore } from "../../../../util/zustandCalendar";
+import AuthStore from "../../../../util/zustandAuth";
 
 const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
 
@@ -16,6 +17,7 @@ const DetailModal = ({
   data,
 }) => {
   const [todoThatDay, setTodoThatDay] = useState();
+  const { authData } = AuthStore();
   const calendarDelete = calendarStore((state) => state.calendarDelete);
   useEffect(() => {
     if (data) {
@@ -61,9 +63,11 @@ const DetailModal = ({
               <div className="icon" onClick={clickEdit}>
                 <FiEdit2 />
               </div>
-              <div className="icon" onClick={clickDelete}>
-                <FiTrash2 />
-              </div>
+              {authData?.host && (
+                <div className="icon" onClick={clickDelete}>
+                  <FiTrash2 />
+                </div>
+              )}
             </IconDiv>
           </div>
         </ContentsDiv>
