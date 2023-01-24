@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useRef, useCallback, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 import EditWeekBar from "./EditWeekBar";
@@ -37,9 +37,11 @@ const EditForm = () => {
     const url = URL + "/tag";
     fetch(url).then((res) => setTag(res.data.data.tags));
   }, []);
+  const { studyId } = useParams();
   const [cookies] = useCookies(["token"]);
   const fetchCreateStudy = createStudyStore((state) => state.fetchCreateStudy);
   const navigate = useNavigate();
+  const [initData, setInitData] = useState({});
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[] | undefined>();
   const [startDate, setStartDate] = useState();
@@ -59,16 +61,17 @@ const EditForm = () => {
     formState: { errors },
   } = useForm<MyFormProps>();
   const onSubmitHandler: SubmitHandler<MyFormProps> = (data) => {
-    const form = {
-      ...data,
-      image: "https://avatars.dicebear.com/api/bottts/222.svg",
-    };
-    fetchCreateStudy(URL, form, {
-      "access-Token": cookies.token.accessToken,
-      "refresh-Token": cookies.token.refreshToken,
-    });
-    alert("스터디가 생성되었습니다");
-    navigate("/");
+    // const form = {
+    //   ...data,
+    //   image: "https://avatars.dicebear.com/api/bottts/222.svg",
+    // };
+    // fetchCreateStudy(URL, form, {
+    //   "access-Token": cookies.token.accessToken,
+    //   "refresh-Token": cookies.token.refreshToken,
+    // });
+    // alert("스터디가 생성되었습니다");
+    // navigate("/");
+    console.log(initData);
   };
   return (
     <Main>
