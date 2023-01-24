@@ -1,13 +1,11 @@
 import React from "react";
 import CreateForm from "../components/createStudy/CreateForm";
 import styled from "styled-components";
-import CreateFormTest from "../components/createStudy/CreateFormTest";
 
 const CreatePage = () => {
   return (
     <CreateFormDiv>
-      {/*<CreateForm />*/}
-      <CreateFormTest />
+      <CreateForm />
     </CreateFormDiv>
   );
 };

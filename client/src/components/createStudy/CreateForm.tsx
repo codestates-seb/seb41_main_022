@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useRef, useCallback, useEffect } from "react";
@@ -30,8 +30,6 @@ interface MyFormProps {
 }
 
 const CreateForm = () => {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const { fetchCreateStudy, studyId } = createStudyStore();
   const fetch = (url: string): Promise<AxiosResponse<any>> => {
     return axios.get(url);
   };
@@ -39,10 +37,8 @@ const CreateForm = () => {
     const url = URL + "/tag";
     fetch(url).then((res) => setTag(res.data.data.tags));
   }, []);
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
-  const [tag, setTag] = useState<string[]>();
-  const [selectedTags, setSelectedTags] = useState([]);
+  const [tag, setTag] = useState<string[] | undefined>();
   const [startDate, setStartDate] = useState(new Date());
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
@@ -63,15 +59,7 @@ const CreateForm = () => {
     content: "",
     image: "https://avatars.dicebear.com/api/bottts/222.svg",
   });
-  const { teamName, summary, tags, want, procedure, openClose } = form;
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setForm({
-      ...form,
-      [id]: value,
-    });
-  };
   const onChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { id, value } = e.target;
     setForm({
@@ -79,69 +67,52 @@ const CreateForm = () => {
       [id]: value,
     });
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    fetchCreateStudy(URL, form, {
-      "access-Token": cookies.token.accessToken,
-      "refresh-Token": cookies.token.refreshToken,
-    });
-    alert("스터디가 생성되었습니다");
-    navigate("/");
-  };
   const openModal = () => {
     setIsOpen(!isOpen);
   };
-
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<MyFormProps>();
+  const onSubmitHandler: SubmitHandler<MyFormProps> = (data) => {
+    console.log(data);
+  };
   return (
     <Main>
       <ContentDiv>
         Create New Study
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit(onSubmitHandler)}>
           <input
             id="teamName"
             type="text"
             placeholder="Team Name"
-            onChange={onChange}
+            {...register("teamName")}
           />
           <input
             id="summary"
             type="text"
             placeholder="한 줄 설명"
-            onChange={onChange}
+            {...register("summary")}
           />
-          <div className="tagSection">
-            <div className="tagAddButton">
-              Tags&nbsp;
-              <AiOutlinePlusCircle onClick={openModal} className="AddButton" />
-            </div>
-            {isOpen && (
-              <AddTagsModal>
-                {tag &&
-                  tag.map((el, idx) => (
-                    <CreatePageTags
-                      key={idx}
-                      setSelectedTags={setSelectedTags}
-                      selectedTags={selectedTags}
-                      tagName={el}
-                      form={form}
-                      setForm={setForm}
-                    />
-                  ))}
-              </AddTagsModal>
+          <Controller
+            name="tags"
+            control={control}
+            render={({ field: { onChange } }) => (
+              <div className="tagSection">
+                <div className="tagAddButton">
+                  Tags&nbsp;
+                  <AiOutlinePlusCircle
+                    onClick={openModal}
+                    className="AddButton"
+                  />
+                </div>
+                {isOpen && <CreatePageTags tag={tag} onChange={onChange} />}
+              </div>
             )}
-            <TagsWrapper>
-              {selectedTags.map((el, idx) => (
-                <CreatePageTags
-                  key={idx}
-                  tagName={el}
-                  setSelectedTags={setSelectedTags}
-                  selectedTags={selectedTags}
-                  form={form}
-                  setForm={setForm}
-                />
-              ))}
-            </TagsWrapper>
-          </div>
+          />
           <div className="weekbarWrapper">
             <span>진행요일</span>
             <CreateWeekBar form={form} setForm={setForm} />
@@ -154,28 +125,43 @@ const CreateForm = () => {
               type="number"
               min="1"
               placeholder="0"
-              onChange={onChange}
+              {...register("want")}
             />
             명
           </div>
           <div>
-            <ToggleOnline form={form} setForm={setForm} />
-            <TogglePublic form={form} setForm={setForm} />
+            <Controller
+              name="procedure"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <ToggleOnline onChange={onChange} />
+              )}
+            />
+            <Controller
+              name="openClose"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <TogglePublic onChange={onChange} />
+              )}
+            />
           </div>
           <div className="dateWrapper">
             <span>시작날짜</span>
-            <DatePicker
-              className="datepicker"
-              placeholderText="click and select the date"
-              dateFormat="yyyy-MM-dd"
-              selected={startDate}
-              onChange={(date: any) => {
-                setStartDate(date);
-                setForm({
-                  ...form,
-                  startDate: date.toISOString().split("T")[0],
-                });
-              }}
+            <Controller
+              name="startDate"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <DatePicker
+                  className="datepicker"
+                  placeholderText="click and select the date"
+                  dateFormat="yyyy/MM/dd"
+                  selected={startDate}
+                  onChange={(date: any) => {
+                    setStartDate(date);
+                    onChange(date.toISOString().split("T")[0]);
+                  }}
+                />
+              )}
             />
           </div>
           <label htmlFor="content">내용</label>
