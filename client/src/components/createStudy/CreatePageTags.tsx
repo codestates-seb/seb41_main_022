@@ -1,44 +1,64 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 interface TagsProps {
-  tagName: string;
-  setSelectedTags?: any;
-  selectedTags?: string[];
-  form: any;
-  setForm: any;
+  tag: string[] | undefined;
+  onChange: any;
 }
 
-const CreatePageTags = ({
-  tagName,
-  setSelectedTags,
-  selectedTags,
-  form,
-  setForm,
-}: TagsProps) => {
+const CreatePageTags = ({ tag, onChange }: TagsProps) => {
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    setForm({
-      ...form,
-      tags: selectedTags,
-    });
+    onChange(selectedTags);
   }, [selectedTags]);
-  const addTag = () => {
+  const addTag = (tagName: string) => {
     if (selectedTags) {
-      if (selectedTags?.includes(tagName)) {
+      if (selectedTags.includes(tagName)) {
         setSelectedTags([...selectedTags.filter((el) => el !== tagName)]);
       } else {
         setSelectedTags([...selectedTags, tagName]);
       }
     }
   };
-
   return (
     <>
-      <Tag onClick={addTag}>{tagName}</Tag>
+      <div className="tagAddButton">
+        <span className="AddButton">
+          Tags&nbsp;
+          <AiOutlinePlusCircle onClick={() => setIsOpen(!isOpen)} />
+        </span>
+      </div>
+      {isOpen && (
+        <AddTagsModal>
+          {tag &&
+            tag.map((el, idx) => (
+              <Tag key={idx} onClick={() => addTag(el)}>
+                {el}
+              </Tag>
+            ))}
+        </AddTagsModal>
+      )}
+      <TagsWrapper>
+        {selectedTags.map((el, idx) => (
+          <Tag key={idx} onClick={() => addTag(el)}>
+            {el}
+          </Tag>
+        ))}
+      </TagsWrapper>
     </>
   );
 };
-
+const AddTagsModal = styled.div`
+  border: 1px solid var(--green);
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
+  align-items: center;
+  margin-top: 5px;
+  border-radius: var(--radius-20);
+`;
 const Tag = styled.div`
   font-family: "mainB";
   font-size: 14px;
@@ -55,5 +75,17 @@ const Tag = styled.div`
     cursor: pointer;
   }
 `;
+const TagsWrapper = styled.div`
+  margin-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 8px;
 
+  align-items: center;
+`;
 export default CreatePageTags;
+// .AddButton {
+// :hover {
+//     cursor: pointer;
+//   }
+// }

@@ -1,18 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-interface ToggleProps {
-  form: any;
-  setForm: any;
-}
-
-const TogglePublic = ({ form, setForm }: ToggleProps) => {
+const TogglePublic = ({ onChange }: any) => {
   const [isTrue, setIsTrue] = useState(false);
   useEffect(() => {
-    setForm({
-      ...form,
-      openClose: isTrue,
-    });
+    onChange(isTrue);
   }, [isTrue]);
   return (
     <div className="toggleBox">
@@ -29,6 +21,9 @@ const TogglePublic = ({ form, setForm }: ToggleProps) => {
 export default TogglePublic;
 
 const ToggleWrapper = styled.main`
+  :hover {
+    cursor: pointer;
+  }
   .backgroundfalse {
     background-color: var(--mopo-00);
   }

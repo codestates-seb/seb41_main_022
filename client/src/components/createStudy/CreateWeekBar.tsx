@@ -1,14 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-interface Props {
-  form: any;
-  setForm: any;
-}
 interface dayType {
   [key: string]: boolean;
 }
-const CreateWeekBar = ({ form, setForm }: Props) => {
+const CreateWeekBar = ({ onChange }: any) => {
   const [dayOfWeek, setDayOfWeek] = useState([]);
   const [week, setWeek] = useState<dayType>({
     MON: false,
@@ -20,11 +16,9 @@ const CreateWeekBar = ({ form, setForm }: Props) => {
     SUN: false,
   });
   useEffect(() => {
-    setForm({
-      ...form,
-      dayOfWeek,
-    });
+    onChange(dayOfWeek);
   }, [dayOfWeek]);
+
   const weekFunc = (day: string) => {
     week[day] = !week[day];
     setWeek(week);
@@ -121,5 +115,6 @@ const WeekBlock = styled.div`
   :hover {
     background-color: var(--beige-00);
     color: var(--green);
+    cursor: pointer;
   }
 `;

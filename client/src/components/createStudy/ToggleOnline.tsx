@@ -1,18 +1,10 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-interface ToggleProps {
-  form: any;
-  setForm: any;
-}
-
-const ToggleOnline = ({ form, setForm }: ToggleProps) => {
+const ToggleOnline = ({ onChange }: any) => {
   const [isTrue, setIsTrue] = useState(false);
   useEffect(() => {
-    setForm({
-      ...form,
-      procedure: isTrue,
-    });
+    onChange(isTrue);
   }, [isTrue]);
   return (
     <div className="toggleBox">
@@ -27,10 +19,12 @@ const ToggleOnline = ({ form, setForm }: ToggleProps) => {
   );
 };
 export default ToggleOnline;
-
 const ToggleWrapper = styled.main`
   .backgroundfalse {
     background-color: var(--mopo-00);
+  }
+  :hover {
+    cursor: pointer;
   }
 `;
 
@@ -41,7 +35,6 @@ const ToggleBorder = styled.div`
   border-radius: var(--radius-30);
   background-color: var(--green-00);
   padding: 2px;
-
   .true {
     left: 20px;
   }
