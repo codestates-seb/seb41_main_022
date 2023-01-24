@@ -72,7 +72,7 @@ const Notice = styled.div`
       }
       .noticeFont {
         font-family: "mainM", Arial;
-        font-size: 12px;
+        font-size: 10px;
       }
     }
   }

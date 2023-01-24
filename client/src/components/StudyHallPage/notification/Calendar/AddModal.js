@@ -33,8 +33,7 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
           <div>
             <Form onSubmit={handleSubmit}>
               <div>
-                날짜
-                <br />
+                날짜{" : "}
                 {event.dateStr.slice(0, 19)}
               </div>
               <div className="time">
@@ -95,7 +94,7 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
 export default AddModal;
 const ModalDiv = styled.main`
   margin-left: 150px;
-  margin-top: -50px;
+  margin-top: -100px;
   max-width: 300px;
   box-shadow: 0rem 1rem 2rem rgba(0, 0, 0, 0.5);
   filter: blur(0);
@@ -106,9 +105,19 @@ const ModalDiv = styled.main`
   border-radius: var(--radius-10);
   background-color: var(--green);
   padding: 2px;
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    color: var(--beige-00) !important;
+  }
   * {
     font-family: "mainB", Arial;
     color: var(--beige-00);
+  }
+  select,
+  option {
+    color: var(--green);
   }
 `;
 const ContentsDiv = styled.article`
@@ -126,19 +135,27 @@ const ContentsDiv = styled.article`
 `;
 const Form = styled.form`
   margin: 10px;
-  > div {
-    margin: 10px;
+  div {
+    margin: 20px 10px;
     * {
       color: var(--green);
+    }
+  }
+  .flex-between {
+    display: flex;
+    color: var(--beige-00);
+    justify-content: space-between;
+    padding-top: 10px;
+    button {
+      color: var(--beige-00);
     }
   }
 `;
 const RedButton = styled.button`
   border-style: none;
-  width: 100px;
+  width: 80px;
   padding: 3px;
   background-color: var(--red-00);
-  color: var(--beige-00);
   border-radius: var(--radius-30);
   font-family: "mainL", Arial;
   font-size: 16px;

@@ -24,6 +24,7 @@ const StudyHallNotification = () => {
     patchNotice(URL, studyId, { notice: tempNotice });
     fetchRightNav(URL, studyId);
     alert("공지가 수정되었습니다");
+    window.location.reload();
   };
   const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempNotice(e.target.value);
