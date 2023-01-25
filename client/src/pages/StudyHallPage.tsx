@@ -20,19 +20,23 @@ interface AuthData {
 const StudyHallPage = () => {
   const { page, studyId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["userData", "token"]);
-  const [authData, setAuthData] = useState<AuthData | undefined>();
-  const { checkAuth } = AuthStore();
+  const [callTimes, setCallTimes] = useState(0);
+  const { checkAuth, authData } = AuthStore();
 
   useEffect(() => {
-    studyId &&
-      setTimeout(() => {
-        checkAuth(
-          studyId,
-          cookies.userData.userId,
-          cookies.token.accessToken,
-          cookies.token.refreshToken
-        );
-      }, 500);
+    if (callTimes === 0) {
+      if (studyId && !authData?.request) {
+        setTimeout(() => {
+          checkAuth(
+            studyId,
+            cookies.userData.userId,
+            cookies.token.accessToken,
+            cookies.token.refreshToken
+          );
+        }, 500);
+        setCallTimes(callTimes + 1);
+      }
+    }
   }, [authData]);
 
   return (

@@ -15,8 +15,8 @@ interface StudyHeader {
 const StudyHallHead = () => {
   const [studyData, setStudyData] = useState<StudyHeader>();
   const { studyId } = useParams();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const { authData } = AuthStore();
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const { authData, checkAuth } = AuthStore();
 
   const fetchJoinStudy = joinStudyStore((state) => state.fetchJoinStudy);
   useEffect(() => {
@@ -36,6 +36,15 @@ const StudyHallHead = () => {
         "refresh-Token": cookies.token.refreshToken,
       }
     );
+
+    if (studyId !== undefined) {
+      checkAuth(
+        studyId,
+        cookies.userData.userId,
+        cookies.token.accessToken,
+        cookies.token.refreshToken
+      );
+    }
   };
   return (
     <HeaderWrapper>
