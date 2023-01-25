@@ -1,0 +1,35 @@
+.mainDiv{
+    margin-top: 160px;
+    margin-left: 112.625px;
+    display: flex;
+    flex-direction: row;
+}
+.userIconSkeleton{
+    width: 85px;
+    height: 85px;
+    border-radius: var(--radius-30);
+}
+.userNameSkeleton{
+    width: 50px;
+    border-radius: var(--radius-10);
+}
+.rightDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 85px;
+    margin-left: 5px;
+}
+.rightDiv>*{
+        margin: 2px 0;
+    }
+.studyCard{
+    width: 321px;
+    height: 246px;
+    border-radius: var(--radius-10);
+    margin: 16px 20px 16px 20px;
+}
+.studyCardWrapper{
+    display: flex;
+    flex-direction: row;
+}

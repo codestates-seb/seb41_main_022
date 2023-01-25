@@ -4,13 +4,16 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
 import { useCookies } from "react-cookie";
-import TotalClass from "./TotalClass";
+import UserSkeleton from "./UserSkeleton";
 
 interface User {
   userId: number;
   username: string;
   imgUrl: string;
   data: any;
+}
+interface Count {
+  studyCount: number;
 }
 interface Data {
   data: any;
@@ -19,6 +22,7 @@ interface Data {
 const Profile = () => {
   const [cookies, setCookie] = useCookies(["token", "userData"]);
   const [userData, setUserData] = useState<User | undefined>();
+  const [studyCount, setStudyCount] = useState<Count | undefined>();
   const getUserdata = (url: string): Promise<AxiosResponse<Data>> => {
     return axios.get(url, {
       headers: {
@@ -28,21 +32,35 @@ const Profile = () => {
     });
   };
   useEffect(() => {
-    getUserdata(process.env.REACT_APP_API_URL + "/user").then((res) => {
-      setUserData(res.data.data);
-      console.log(res.data.data);
-    });
+    setTimeout(() => {
+      axios
+        .all([
+          getUserdata(process.env.REACT_APP_API_URL + "/user"),
+          getUserdata(process.env.REACT_APP_API_URL + "/study/user"),
+        ])
+        .then(
+          axios.spread((res1, res2) => {
+            setUserData(res1.data.data);
+            setStudyCount(res2.data.data);
+          })
+        );
+    }, 1500);
   }, []);
 
   return (
     <Main>
       <Container>
         <Banner>
-          <img src={userData && userData.imgUrl} />
-          <div className="info">
-            <UserName>{userData && userData.username}</UserName>
-            <TotalClass />
-          </div>
+          {userData && studyCount && (
+            <>
+              <img src={userData.imgUrl} />
+              <div className="info">
+                <UserName>{userData.username}</UserName>
+                <Classes>{studyCount.studyCount} studies</Classes>
+              </div>
+            </>
+          )}
+          {!userData && <UserSkeleton />}
         </Banner>
       </Container>
     </Main>
@@ -85,4 +103,11 @@ const Banner = styled.div`
     margin-left: 10px;
     margin-top: 190px;
   }
+`;
+const Classes = styled.div`
+  color: var(#aaaaaa);
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
 `;
