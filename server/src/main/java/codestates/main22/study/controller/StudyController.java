@@ -55,7 +55,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}") // (postman 디버깅용) 특정 스터디 조회 (기본 CRUD)
+    @GetMapping("/{study-id}") // (postman 디버깅용) 특정 스터디 조회 (기본 CRUD) --> 해당 부분도 사용함
     public ResponseEntity getStudy(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
         StudyDto.Response response = studyMapper.studyToStudyResponseDto(findStudy);
@@ -83,11 +83,11 @@ public class StudyController {
     }
 
     @GetMapping("/cards") // #7 - 스터디 전체 조회 (tag 기준 필터링)
-    public ResponseEntity getStudiesByOpenClose(@RequestParam int page,
-                                                @RequestParam int size,
-                                                @RequestParam String search,
-                                                @RequestParam String filter,
-                                                @RequestParam List<String> tags) {
+    public ResponseEntity getStudiesByTags(@RequestParam int page,
+                                           @RequestParam int size,
+                                           @RequestParam String search,
+                                           @RequestParam String filter,
+                                           @RequestParam List<String> tags) {
 
         Page<Study> pageStudies = studyService.findStudiesByFilters(page-1, size, search, filter, tags);
         List<Study> studies = pageStudies.getContent();
@@ -162,7 +162,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{study-id}/requester/{user-id}/accept") // #24 - main 스터디 신청 수락
+    @PostMapping("/{study-id}/requester/{user-id}/accept") // #26 - main 스터디 신청 수락
     public ResponseEntity acceptRegisterStudy(@PathVariable("study-id") @Positive long studyId,
                                               @PathVariable("user-id") @Positive long userId) {
 
@@ -175,7 +175,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{study-id}/requester/{user-id}/reject") // #25 - main 스터디 신청 거절
+    @PostMapping("/{study-id}/requester/{user-id}/reject") // #27 - main 스터디 신청 거절
     public ResponseEntity rejectRegisterStudy(@PathVariable("study-id") @Positive long studyId,
                                               @PathVariable("user-id") @Positive long userId) {
 
@@ -202,7 +202,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/auth") // #26 - 각종 true false 변수들 넘겨주기 (token 값을 사용)
+    @GetMapping("/{study-id}/auth") // #28 - 각종 true false 변수들 넘겨주기 (token 값을 사용)
     public ResponseEntity getAuth(@PathVariable("study-id") @Positive long studyId,
                                   HttpServletRequest request) {
 
@@ -218,7 +218,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/user/{user-id}/auth") // #26 - 각종 true false 변수들 넘겨주기 (token 값 사용 X)
+    @GetMapping("/{study-id}/user/{user-id}/auth") // #28 - 각종 true false 변수들 넘겨주기 (token 값 사용 X)
     public ResponseEntity getAuthWithUserId(@PathVariable("study-id") @Positive long studyId,
                                             @PathVariable("user-id") @Positive long userId) {
 
