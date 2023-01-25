@@ -17,9 +17,7 @@ const StudyHallCommunityMemberList = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user/study?studyId=${studyId}`
-      )
+      .get(process.env.REACT_APP_API_URL + `/user/study?studyId=${studyId}`)
       .then((res) => setMemberInfo(res.data.data));
   }, []);
   return (

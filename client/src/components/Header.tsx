@@ -22,7 +22,7 @@ const Header = () => {
   const [userData, setUserData] = useState<UserData | undefined>();
   const navigate = useNavigate();
   const googleserverURL =
-    "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google";
+    process.env.REACT_APP_API_URL + "/oauth2/authorization/google";
   const handleLogin = () => {
     window.location.assign(googleserverURL);
   };
@@ -45,15 +45,12 @@ const Header = () => {
   useEffect(() => {
     if (isReady) {
       axios
-        .get(
-          "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user",
-          {
-            headers: {
-              "access-Token": cookies.token.accessToken,
-              "refresh-Token": cookies.token.refreshToken,
-            },
-          }
-        )
+        .get(process.env.REACT_APP_API_URL + "/user", {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.refreshToken,
+          },
+        })
         .then((res) => {
           setUserData(res.data.data);
           setCookie(
