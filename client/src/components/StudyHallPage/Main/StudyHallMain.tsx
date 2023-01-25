@@ -55,7 +55,8 @@ const StudyHallMain = () => {
 
   useEffect(() => {
     getCommentsData(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${studyId}?page=${page}&size=${size}`
+      process.env.REACT_APP_API_URL +
+        `/chat/${studyId}?page=${page}&size=${size}`
     ).then((res) => {
       setCommentsData(res.data);
       setTotalPages(res.data.pageInfo.totalElements);

@@ -18,9 +18,7 @@ const StudyInfo = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/main`
-      )
+      .get(process.env.REACT_APP_API_URL + `/study/${studyId}/main`)
       .then((res) => setStudyInfoData(res.data.data));
   }, []);
   return (

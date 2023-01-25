@@ -28,9 +28,7 @@ const Profile = () => {
     });
   };
   useEffect(() => {
-    getUserdata(
-      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user"
-    ).then((res) => {
+    getUserdata(process.env.REACT_APP_API_URL + "/user").then((res) => {
       setUserData(res.data.data);
       console.log(res.data.data);
     });

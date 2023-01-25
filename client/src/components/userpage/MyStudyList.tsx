@@ -28,11 +28,11 @@ const MyStudyList = () => {
     });
   };
   useEffect(() => {
-    getMyStudyData(
-      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/user"
-    ).then((res) => {
-      setMyStudyList(res.data.data.studies);
-    });
+    getMyStudyData(process.env.REACT_APP_API_URL + "/study/user").then(
+      (res) => {
+        setMyStudyList(res.data.data.studies);
+      }
+    );
   }, []);
 
   return (
