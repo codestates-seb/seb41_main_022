@@ -7,13 +7,23 @@ interface TagsProps {
   onChange: any;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  initTags: string[];
 }
 
-const EditPageTags = ({ tag, onChange, isOpen, setIsOpen }: TagsProps) => {
+const EditPageTags = ({
+  tag,
+  onChange,
+  isOpen,
+  setIsOpen,
+  initTags,
+}: TagsProps) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   useEffect(() => {
     onChange(selectedTags);
   }, [selectedTags]);
+  useEffect(() => {
+    setSelectedTags(initTags);
+  }, []);
   const addTag = (tagName: string) => {
     if (selectedTags) {
       if (selectedTags.includes(tagName)) {

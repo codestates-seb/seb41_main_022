@@ -40,7 +40,7 @@ const RecruitmentList = () => {
     const { scrollTop } = document.documentElement;
     // 현재 스크롤바의 위치
 
-    if (Math.round(scrollTop + innerHeight + 300) >= scrollHeight) {
+    if (Math.round(scrollTop + innerHeight + 280) >= scrollHeight) {
       // scrollTop과 innerHeight를 더한 값이 scrollHeight보다 크다면, 가장 아래에 도달했다는 의미이다.
 
       // setPosts(posts.concat(getPostList(page + 1)));
