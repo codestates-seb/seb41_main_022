@@ -36,7 +36,9 @@ const Setting = () => {
       )
       .then((res) => setApplicationData(res.data.data));
   };
-  const handleClickEditStudy = () => {};
+  const handleClickEditStudy = () => {
+    navigate(`/edit/${studyId}`);
+  };
   const handleClickDeleteStudy = () => {
     axios
       .delete(
