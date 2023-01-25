@@ -1,34 +1,40 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 interface BoxProps {
+  studyId: number;
   teamName: string;
   imgUrl: string;
 }
 
-const MyStudy = ({ imgUrl, teamName }: BoxProps) => {
-  console.log(imgUrl, teamName);
+const MyStudy = ({ studyId, imgUrl, teamName }: BoxProps) => {
+  const navigate = useNavigate();
   return (
     <Main>
-      <Container>
-        <Box>
-          <img src={imgUrl} />
-          <div className="study-name">{teamName}</div>
-        </Box>
-      </Container>
+      <Box onClick={() => navigate(`/study-hall/main/${studyId}`)}>
+        <img src={imgUrl} />
+        <div className="study-name">{teamName.toString()}</div>
+      </Box>
     </Main>
   );
 };
 
 export default MyStudy;
 
-const Box = styled.div`
+const Main = styled.div`
+  background-color: var(--beige-00);
+  height: 100%;
+`;
+
+const Box = styled.button`
   display: flex;
-  width: 273px;
+  width: 254px;
   height: 100px;
   background-color: var(--mopo-00);
   border-radius: 10px;
   margin: 10px;
+  border-style: none;
   > .study-name {
     margin-left: 20px;
     margin-top: 20px;
@@ -41,12 +47,7 @@ const Box = styled.div`
     margin: auto 0px;
     margin-left: 15px;
   }
-`;
-
-const Container = styled.div`
-  background-color: var(--beige-00);
-`;
-
-const Main = styled.div`
-  background-color: var(--beige-00);
+  :hover {
+    background-color: var(--mopo-10);
+  }
 `;
