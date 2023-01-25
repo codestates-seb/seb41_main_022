@@ -55,7 +55,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}") // (postman 디버깅용) 특정 스터디 조회 (기본 CRUD) --> 해당 부분도 사용함
+    @GetMapping("/{study-id}") // #44 - (postman 디버깅용) 특정 스터디 조회 (기본 CRUD) --> 해당 부분도 사용함
     public ResponseEntity getStudy(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
         StudyDto.Response response = studyMapper.studyToStudyResponseDto(findStudy);
