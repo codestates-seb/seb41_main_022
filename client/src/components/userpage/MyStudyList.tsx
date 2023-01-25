@@ -8,8 +8,8 @@ import MyStudy from "./MyStudy";
 interface MyStudyList {
   studyId: number;
   teamName: string;
-  imgUrl: string;
-  studies: [];
+  image: string;
+  summary: string;
 }
 
 interface Data {
@@ -43,7 +43,8 @@ const MyStudyList = () => {
             key={el.studyId}
             studyId={el.studyId}
             teamName={el.teamName}
-            imgUrl={el.imgUrl}
+            summary={el.summary}
+            imgUrl={el.image}
           />
         ))}
     </MyStudyWrapper>
@@ -54,7 +55,7 @@ const MyStudyWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin: 0 100px;
+  margin: 0 150px;
 `;
 
 export default MyStudyList;
