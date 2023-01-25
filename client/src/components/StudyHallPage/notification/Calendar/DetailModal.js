@@ -6,8 +6,6 @@ import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import AuthStore from "../../../../util/zustandAuth";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 const DetailModal = ({
   showDetailModal,
   setShowDetailModal,
@@ -32,7 +30,7 @@ const DetailModal = ({
     setEditData(todoThatDay[0]);
   };
   const clickDelete = () => {
-    calendarDelete(URL, todoThatDay[0].calendarId);
+    calendarDelete(todoThatDay[0].calendarId);
     setShowDetailModal(false);
   };
   return (

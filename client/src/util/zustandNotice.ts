@@ -8,8 +8,8 @@ interface Notice {
   saveNotice: boolean;
   setSaveNotice: () => void;
   zustandStudyId: string;
-  fetchRightNav: (url: string, id: string | undefined) => void;
-  patchNotice: (url: string, id: string | undefined, data: object) => void;
+  fetchRightNav: (id: string | undefined) => void;
+  patchNotice: (id: string | undefined, data: object) => void;
 }
 
 const NoticeStore = create<Notice>()((set) => ({
@@ -19,9 +19,11 @@ const NoticeStore = create<Notice>()((set) => ({
   saveNotice: false,
   setSaveNotice: () => set((state) => ({ saveNotice: !state.saveNotice })),
   zustandStudyId: "",
-  fetchRightNav: async (url, id) => {
+  fetchRightNav: async (id) => {
     try {
-      const res = await axios.get(url + `/study/${id}/notice`);
+      const res = await axios.get(
+        process.env.REACT_APP_API_URL + `/study/${id}/notice`
+      );
       set({ notice: res.data.data.notice });
       set({ zustandStudyId: id });
       set({ dayOfWeek: res.data.data.dayOfWeek });
@@ -29,10 +31,13 @@ const NoticeStore = create<Notice>()((set) => ({
       console.log(e);
     }
   },
-  patchNotice: async (url, id, data) => {
+  patchNotice: async (id, data) => {
     try {
       await axios
-        .patch(url + `/study/${id}/notification`, data)
+        .patch(
+          process.env.REACT_APP_API_URL + `/study/${id}/notification`,
+          data
+        )
         .then((res) => console.log(res));
     } catch (e) {
       console.log(e);
