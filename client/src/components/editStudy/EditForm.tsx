@@ -28,22 +28,31 @@ interface MyFormProps {
   content: string;
   image: string;
 }
+interface InitData {
+  teamName: string;
+  summary: string;
+  dayOfWeek: string[];
+  want: number;
+  startDate: string;
+  procedure: boolean;
+  openClose: boolean;
+  content: string;
+  image: string;
+}
 
 const EditForm = () => {
   const fetch = (url: string): Promise<AxiosResponse<any>> => {
     return axios.get(url);
   };
-  useEffect(() => {
-    const url = URL + "/tag";
-    fetch(url).then((res) => setTag(res.data.data.tags));
-  }, []);
+
   const { studyId } = useParams();
   const [cookies] = useCookies(["token"]);
-  const fetchCreateStudy = createStudyStore((state) => state.fetchCreateStudy);
+  const { fetchEditStudy } = createStudyStore();
   const navigate = useNavigate();
-  const [initData, setInitData] = useState({});
+  const [initData, setInitData] = useState<InitData | undefined>(undefined);
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[] | undefined>();
+  const [initTags, setInitTags] = useState<string[] | undefined>();
   const [startDate, setStartDate] = useState();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
@@ -61,213 +70,209 @@ const EditForm = () => {
     formState: { errors },
   } = useForm<MyFormProps>();
   const onSubmitHandler: SubmitHandler<MyFormProps> = (data) => {
-    // const form = {
-    //   ...data,
-    //   image: "https://avatars.dicebear.com/api/bottts/222.svg",
-    // };
-    // fetchCreateStudy(URL, form, {
-    //   "access-Token": cookies.token.accessToken,
-    //   "refresh-Token": cookies.token.refreshToken,
-    // });
-    // alert("스터디가 생성되었습니다");
-    // navigate("/");
-    console.log(initData);
+    const form = {
+      ...data,
+    };
+    fetchEditStudy(
+      form,
+      {
+        "access-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.refreshToken,
+      },
+      studyId
+    );
+    alert("스터디가 내용이 수정 되었습니다.");
+    navigate(`/study-hall/main/${studyId}`);
   };
+  // 스터디 수정 초기 데이터 가져오기
+  useEffect(() => {
+    const url = URL + "/tag";
+    fetch(url).then((res) => setTag(res.data.data.tags));
+    axios.get(`${URL}/study/${studyId}`).then((res) => {
+      setInitData(res.data.data);
+    });
+  }, []);
+  useEffect(() => {
+    axios
+      .get(`${URL}/tag/study/${studyId}`)
+      .then((res) => setInitTags(res.data.data.tags));
+  }, []);
   return (
     <Main>
       <ContentDiv>
         Edit My Study
-        <Form onSubmit={handleSubmit(onSubmitHandler)}>
-          <input
-            id="teamName"
-            type="text"
-            placeholder="Team Name"
-            maxLength={10}
-            className={
-              errors.teamName && errors.teamName.type === "required"
-                ? "errorBorder"
-                : "ㅤ"
-            }
-            {...register("teamName", { required: true })}
-          />
-          <ErrorText>
-            {errors.teamName && errors.teamName.type === "required"
-              ? "* 팀이름을 입력해 주세요!"
-              : " "}
-          </ErrorText>
+        {initData && initTags && (
+          <Form onSubmit={handleSubmit(onSubmitHandler)}>
+            <input
+              defaultValue={initData.teamName}
+              id="teamName"
+              type="text"
+              placeholder="Team Name"
+              maxLength={10}
+              className={
+                errors.teamName && errors.teamName.type === "required"
+                  ? "errorBorder"
+                  : "ㅤ"
+              }
+              {...register("teamName", { required: true })}
+            />
+            <ErrorText>
+              {errors.teamName && errors.teamName.type === "required"
+                ? "* 팀이름을 입력해 주세요!"
+                : " "}
+            </ErrorText>
 
-          <input
-            id="summary"
-            type="text"
-            placeholder="한 줄 설명"
-            className={
-              errors.summary && errors.summary.type === "required"
-                ? "errorBorder"
-                : "ㅤ"
-            }
-            {...register("summary", { required: true })}
-          />
-          <ErrorText>
-            {errors.summary && errors.summary.type === "required"
-              ? "* 한 줄 설명을 입력해 주세요!"
-              : " "}
-          </ErrorText>
-          <div className="tagAddButton">
-            <div className="AddButton">
-              Tags&nbsp;
-              <AiOutlinePlusCircle
-                onClick={() => setIsOpen(!isOpen)}
-                className={
-                  errors.tags && errors.tags.type === "required"
-                    ? "errorIcon"
-                    : ""
-                }
-              />
-            </div>
-          </div>
-          <Controller
-            name="tags"
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange } }) => (
-              <div className="tagSection">
-                <EditPageTags
-                  tag={tag}
-                  onChange={onChange}
-                  isOpen={isOpen}
-                  setIsOpen={setIsOpen}
+            <input
+              defaultValue={initData.summary}
+              id="summary"
+              type="text"
+              placeholder="한 줄 설명"
+              className={
+                errors.summary && errors.summary.type === "required"
+                  ? "errorBorder"
+                  : "ㅤ"
+              }
+              {...register("summary", { required: true })}
+            />
+            <ErrorText>
+              {errors.summary && errors.summary.type === "required"
+                ? "* 한 줄 설명을 입력해 주세요!"
+                : " "}
+            </ErrorText>
+            <div className="tagAddButton">
+              <div className="AddButton">
+                Tags&nbsp;
+                <AiOutlinePlusCircle
+                  onClick={() => setIsOpen(!isOpen)}
+                  className={
+                    errors.tags && errors.tags.type === "required"
+                      ? "errorIcon"
+                      : ""
+                  }
                 />
               </div>
-            )}
-          />
-          <ErrorText>
-            {errors.tags && errors.tags.type === "required"
-              ? "* 태그를 하나 이상 선택해 주세요!"
-              : " "}
-          </ErrorText>
-          <div className="weekbarWrapper">
-            <span>진행요일</span>
+            </div>
             <Controller
-              name="dayOfWeek"
+              name="tags"
               control={control}
               rules={{ required: true }}
               render={({ field: { onChange } }) => (
-                <EditWeekBar
-                  onChange={onChange}
-                  error={
-                    errors.dayOfWeek && errors.dayOfWeek.type === "required"
-                      ? true
-                      : false
-                  }
-                />
-              )}
-            />
-            <ErrorText>
-              {errors.dayOfWeek && errors.dayOfWeek.type === "required"
-                ? "* 요일을 하나 이상 선택해 주세요!"
-                : " "}
-            </ErrorText>
-          </div>
-          <div>
-            인원 :{" "}
-            <input
-              id="want"
-              type="number"
-              min="1"
-              placeholder="0"
-              className={
-                errors.want && errors.want.type === "required"
-                  ? "errorBorder person"
-                  : "person"
-              }
-              {...register("want", { required: true })}
-            />
-            명
-          </div>
-          <ErrorText>
-            {errors.want && errors.want.type === "required"
-              ? "* 인원을 선택해 주세요!"
-              : " "}
-          </ErrorText>
-          <div>
-            <Controller
-              name="procedure"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <ToggleOnline onChange={onChange} />
-              )}
-            />
-            <Controller
-              name="openClose"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <TogglePublic onChange={onChange} />
-              )}
-            />
-          </div>
-          <div className="dateWrapper">
-            <span>시작날짜</span>
-            <Controller
-              name="startDate"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange } }) => (
-                <DatePickerDiv
-                  className={
-                    errors.startDate && errors.startDate.type === "required"
-                      ? "errorBorder"
-                      : "ㅤ"
-                  }
-                >
-                  <DatePicker
-                    className="datepicker"
-                    placeholderText="click and select the date"
-                    dateFormat="yyyy/MM/dd"
-                    selected={startDate}
-                    onChange={(date: any) => {
-                      setStartDate(date);
-                      onChange(date.toISOString().split("T")[0]);
-                    }}
+                <div className="tagSection">
+                  <EditPageTags
+                    tag={tag}
+                    onChange={onChange}
+                    isOpen={isOpen}
+                    setIsOpen={setIsOpen}
+                    initTags={initTags}
                   />
-                </DatePickerDiv>
+                </div>
               )}
             />
             <ErrorText>
-              {errors.startDate && errors.startDate.type === "required"
-                ? "* 날짜를 선택해 주세요!"
+              {errors.tags && errors.tags.type === "required"
+                ? "* 태그를 하나 이상 선택해 주세요!"
                 : " "}
             </ErrorText>
-          </div>
-          <label htmlFor="content">내용</label>
-          <div>
-            <Controller
-              name="content"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange } }) => (
-                <textarea
-                  id="content"
-                  className={
-                    errors.startDate && errors.startDate.type === "required"
-                      ? "errorBorder textArea"
-                      : "textArea"
-                  }
-                  onChange={onChange}
-                  ref={textRef}
-                  onInput={handleResizeHeight}
-                />
-              )}
-            />
-          </div>
-          <ErrorText>
-            {errors.content && errors.content.type === "required"
-              ? "* 내용을 입력해 주세요!"
-              : " "}
-          </ErrorText>
-          <div>
-            <RedButton type="submit">Edit Study</RedButton>
-          </div>
-        </Form>
+            <div className="weekbarWrapper">
+              <span>진행요일</span>
+              <Controller
+                name="dayOfWeek"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange } }) => (
+                  <EditWeekBar
+                    onChange={onChange}
+                    error={
+                      errors.dayOfWeek && errors.dayOfWeek.type === "required"
+                        ? true
+                        : false
+                    }
+                    initDate={initData.dayOfWeek}
+                  />
+                )}
+              />
+              <ErrorText>
+                {errors.dayOfWeek && errors.dayOfWeek.type === "required"
+                  ? "* 요일을 하나 이상 선택해 주세요!"
+                  : " "}
+              </ErrorText>
+            </div>
+            <div>
+              인원 :{" "}
+              <input
+                defaultValue={initData.want}
+                id="want"
+                type="number"
+                min="1"
+                placeholder="0"
+                className={
+                  errors.want && errors.want.type === "required"
+                    ? "errorBorder person"
+                    : "person"
+                }
+                {...register("want", { required: true })}
+              />
+              명
+            </div>
+            <ErrorText>
+              {errors.want && errors.want.type === "required"
+                ? "* 인원을 선택해 주세요!"
+                : " "}
+            </ErrorText>
+            <div>
+              <Controller
+                name="procedure"
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <ToggleOnline
+                    onChange={onChange}
+                    initValue={initData.procedure}
+                  />
+                )}
+              />
+              <Controller
+                name="openClose"
+                control={control}
+                render={({ field: { onChange } }) => (
+                  <TogglePublic
+                    onChange={onChange}
+                    initValue={initData.openClose}
+                  />
+                )}
+              />
+            </div>
+            <label htmlFor="content">내용</label>
+            <div>
+              <Controller
+                name="content"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange } }) => (
+                  <textarea
+                    defaultValue={initData.content}
+                    id="content"
+                    className={
+                      errors.startDate && errors.startDate.type === "required"
+                        ? "errorBorder textArea"
+                        : "textArea"
+                    }
+                    onChange={onChange}
+                    ref={textRef}
+                    onInput={handleResizeHeight}
+                  />
+                )}
+              />
+            </div>
+            <ErrorText>
+              {errors.content && errors.content.type === "required"
+                ? "* 내용을 입력해 주세요!"
+                : " "}
+            </ErrorText>
+            <div>
+              <RedButton type="submit">Edit Study</RedButton>
+            </div>
+          </Form>
+        )}
       </ContentDiv>
     </Main>
   );

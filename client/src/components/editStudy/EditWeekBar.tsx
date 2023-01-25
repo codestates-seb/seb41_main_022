@@ -3,11 +3,12 @@ import { useEffect, useState } from "react";
 interface PropsType {
   onChange: (...event: any[]) => void;
   error: boolean;
+  initDate: string[];
 }
 interface dayType {
   [key: string]: boolean;
 }
-const EditWeekbar = ({ onChange, error }: PropsType) => {
+const EditWeekbar = ({ onChange, error, initDate }: PropsType) => {
   const [dayOfWeek, setDayOfWeek] = useState([]);
   const [week, setWeek] = useState<dayType>({
     MON: false,
@@ -21,6 +22,13 @@ const EditWeekbar = ({ onChange, error }: PropsType) => {
   useEffect(() => {
     onChange(dayOfWeek);
   }, [dayOfWeek]);
+
+  useEffect(() => {
+    initDate.map((day) => {
+      week[day] = !week[day];
+      setWeek(week);
+    });
+  }, []);
 
   const weekFunc = (day: string) => {
     week[day] = !week[day];

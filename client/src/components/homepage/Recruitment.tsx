@@ -59,6 +59,9 @@ const RecruitmentBackground = styled.div`
   border-radius: var(--radius-10);
   background-color: #ffffff;
   margin: 16px 20px 16px 20px;
+  background-size: 311px 236px;
+  background-position: center;
+  background-repeat: no-repeat;
   :hover {
     cursor: pointer;
   }

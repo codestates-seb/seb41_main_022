@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
 
-const TogglePublic = ({ onChange }: any) => {
+const TogglePublic = ({ onChange, initValue }: any) => {
   const [isTrue, setIsTrue] = useState(false);
   useEffect(() => {
     onChange(isTrue);
   }, [isTrue]);
+  useEffect(() => {
+    setIsTrue(initValue);
+  }, []);
   return (
     <div className="toggleBox">
       {isTrue ? "Public" : ""}
