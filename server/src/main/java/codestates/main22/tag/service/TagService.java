@@ -29,6 +29,11 @@ public class TagService {
     private final StudyRepository studyRepository;
     private final Token token;
 
+    public static List<String> tagList = List.of(
+            "IT", "수학", "영어", "과학", "토익", "일본어", "프랑스어"
+    );
+
+
     public TagService(TagRepository tagRepository,
                       TagStudyRepository tagStudyRepository,
                       StudyRepository studyRepository,
@@ -219,13 +224,8 @@ public class TagService {
         return tag;
     }
 
-
     // 태그 초기 저장 함수
     public void saveTags() {
-        List<String> tagList = List.of(
-                "IT", "수학", "영어", "과학", "토익", "일본어", "프랑스어"
-        );
-
         for(String name : tagList) {
             Tag tag = new Tag();
             tag.setName(name);

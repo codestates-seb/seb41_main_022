@@ -34,7 +34,8 @@ public interface StudyMapper {
         return response;
     }
     StudyMainDto.MainResponse studyToStudyMainResponseDto(Study study, List<String> tags); // main - 본문
-    Study studyMainPatchDtoToStudyMain(StudyMainDto.MainResponse patch); // main - 본문 수정
+    StudyMainDto.MainPatch studyToStudyMainPatchResponseDto(Study study, List<String> tags); // main - 본문 수정
+    Study studyMainPatchDtoToStudyMain(StudyMainDto.MainPatch patch); // main - 본문 수정
 
     List<StudyUserDto.Studys> studiesToStudyUserDto(List<Study> studies); // user
 }

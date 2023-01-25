@@ -250,9 +250,17 @@ public class StudyService {
 
     public Study updateMainBody(long studyId, Study changedStudy) {
         Study study = VerifiedStudy(studyId);
-        study.setTeamName(changedStudy.getTeamName());
-        study.setSummary(changedStudy.getSummary());
-        study.setContent(changedStudy.getContent());
+
+        Optional.ofNullable(changedStudy.getTeamName()).ifPresent(study::setTeamName);
+        Optional.ofNullable(changedStudy.getSummary()).ifPresent(study::setSummary);
+        Optional.ofNullable(changedStudy.getDayOfWeek()).ifPresent(study::setDayOfWeek);
+        Optional.ofNullable(changedStudy.getWant()).ifPresent(study::setWant);
+        Optional.ofNullable(changedStudy.getStartDate()).ifPresent(study::setStartDate);
+        Optional.ofNullable(changedStudy.isProcedure()).ifPresent(study::setProcedure);
+        Optional.ofNullable(changedStudy.isOpenClose()).ifPresent(study::setOpenClose);
+        Optional.ofNullable(changedStudy.getContent()).ifPresent(study::setContent);
+        Optional.ofNullable(changedStudy.getImage()).ifPresent(study::setImage);
+
         return studyRepository.save(study);
     }
 

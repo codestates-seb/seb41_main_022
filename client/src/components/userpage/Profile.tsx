@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 
 import { useCookies } from "react-cookie";
+import TotalClass from "./TotalClass";
 
 interface User {
   userId: number;
@@ -22,7 +23,7 @@ const Profile = () => {
     return axios.get(url, {
       headers: {
         "access-Token": cookies.token.accessToken,
-        "refresh-Token": cookies.token.refeshToken,
+        "refresh-Token": cookies.token.refreshToken,
       },
     });
   };
@@ -31,15 +32,9 @@ const Profile = () => {
       "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user"
     ).then((res) => {
       setUserData(res.data.data);
-      setCookie("userData", {
-        userId: res.data.data.userId,
-        userName: res.data.data.username,
-        imgUrl: res.data.data.imgUrl,
-      });
+      console.log(res.data.data);
     });
   }, []);
-
-  console.log({ userData });
 
   return (
     <Main>
@@ -48,7 +43,7 @@ const Profile = () => {
           <img src={userData && userData.imgUrl} />
           <div className="info">
             <UserName>{userData && userData.username}</UserName>
-            <div className="class-num">{} studies</div>
+            <TotalClass />
           </div>
         </Banner>
       </Container>
@@ -67,7 +62,7 @@ const Main = styled.div`
 const UserName = styled.div``;
 
 const Container = styled.div`
-  height: 100vh;
+  height: 100%;
   display: flex;
   background-color: var(--beige-00);
 `;
@@ -91,12 +86,5 @@ const Banner = styled.div`
     color: var(--beige-00);
     margin-left: 10px;
     margin-top: 190px;
-    > .class-num {
-      color: var(#aaaaaa);
-      font-size: 12px;
-      display: flex;
-      flex-wrap: wrap;
-      height: auto;
-    }
   }
 `;
