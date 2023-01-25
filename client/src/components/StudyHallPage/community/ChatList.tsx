@@ -76,6 +76,7 @@ const ChatList = () => {
         {chatData.map((el, idx) =>
           el.messageUserId === userId ? (
             <div key={idx} className="myChatWrapper">
+              <div className="time">{el.dateTime.replace("T", " / ")}</div>
               <div className="myChat">{el.content}</div>
             </div>
           ) : (
@@ -172,6 +173,19 @@ const ChatWrapper = styled.div`
   flex-direction: column;
   overflow: auto;
   > .myChatWrapper {
+    .time {
+      position: absolute;
+      font-size: 8px;
+      margin-top: -25px;
+      margin-left: 145px;
+      display: none;
+    }
+    :hover {
+      .time {
+        color: var(--gray-20);
+        display: block;
+      }
+    }
     .myChat {
       font-family: "mainL";
     }
@@ -183,7 +197,7 @@ const ChatWrapper = styled.div`
     color: var(--beige-00);
     padding: 8px 8px 8px 16px;
     line-height: 16px;
-    margin-top: 8px;
+    margin-top: 18px;
     margin-left: calc(420px - 270px);
   }
 `;

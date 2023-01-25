@@ -10,6 +10,7 @@ interface chatProps {
 const Chat = ({ username, content, dateTime, imgUrl }: chatProps) => {
   return (
     <Chatwrapper>
+      <div className="time">{dateTime.replace("T", " / ")}</div>
       <img src={imgUrl} />
       <TextWrapper>
         <div className="name">{username}</div>
@@ -30,8 +31,20 @@ const Chatwrapper = styled.div`
   color: var(--beige-00);
   padding: 8px;
   line-height: 16px;
-  margin-top: 8px;
-
+  margin-top: 18px;
+  .time {
+    position: absolute;
+    font-size: 8px;
+    margin-top: -25px;
+    margin-left: 10px;
+    display: none;
+  }
+  :hover {
+    .time {
+      color: var(--gray-20);
+      display: block;
+    }
+  }
   > img {
     border-radius: var(--radius-30);
     width: 20px;
