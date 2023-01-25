@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
-import { MemberData } from "../../../util/dummyData";
 import StudyHallCommunityMember from "./StudyHallCommunityMember";
 import { useEffect, useState } from "react";
 

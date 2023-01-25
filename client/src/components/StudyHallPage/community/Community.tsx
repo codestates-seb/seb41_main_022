@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-import { ChatData } from "../../../util/dummyData";
 import ChatList from "./ChatList";
 import StudyHallCommunityMemberList from "./StudyHallCommunityMemberList";
 

@@ -26,7 +26,7 @@ const ChatStore = create<Community>()((set) => ({
   getChatData: async (studyId) => {
     try {
       const res = await axios.get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/message?studyId=${studyId}`
+        process.env.REACT_APP_API_URL + `/message?studyId=${studyId}`
       );
       set({ chatData: await res.data.data });
     } catch (e) {
@@ -36,7 +36,7 @@ const ChatStore = create<Community>()((set) => ({
   submitChat: async (studyId, content, dateTime, accessToken, refreshToken) => {
     try {
       const res = await axios.post(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/message?studyId=${studyId}`,
+        process.env.REACT_APP_API_URL + `/message?studyId=${studyId}`,
         {
           content: content,
           dateTime: dateTime,

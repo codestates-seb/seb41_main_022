@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { CommentsData } from "../../../util/dummyDataStudyHall";
 import { FiTrash2 } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
@@ -33,7 +32,7 @@ interface Data {
   data: any;
 }
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+const URL = process.env.REACT_APP_API_URL;
 
 const Comments = ({
   username,
@@ -68,7 +67,6 @@ const Comments = ({
   const handleSubmit = () => {
     if (chatId) {
       postAnswer(
-        URL,
         chatId,
         { content: answer },
         {
@@ -155,7 +153,7 @@ const Wrapper = styled.div`
 
 const CommentBox = styled.div`
   width: 450px;
-  height: 0px auto;
+  height: auto;
   border: 1px solid var(--beige-00);
   border-radius: 10px;
   display: flex;
