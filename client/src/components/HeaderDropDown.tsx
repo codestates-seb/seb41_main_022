@@ -35,9 +35,9 @@ const HeaderDropDown = () => {
           <div className="dropdown-menu">
             {myStudyArr &&
               myStudyArr.map((el: { studyId: string; teamName: string }) => (
-                <div>
-                  <a href={`/study-hall/main/${el.studyId}`}>{el.teamName}</a>
-                </div>
+                <a href={`/study-hall/main/${el.studyId}`}>
+                  <div className="hoverDiv">{el.teamName}</div>
+                </a>
               ))}
           </div>
         )}
@@ -83,7 +83,7 @@ const Wrapper = styled.div`
       color: var(--green-00);
       font-size: 12px;
     }
-    > div {
+    .hoverDiv {
       padding: 2px 7px;
       :hover {
         background-color: #bfbfbf;
