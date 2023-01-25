@@ -12,10 +12,6 @@ const TokenPage = () => {
     setCookie("token", { accessToken, refreshToken });
     navigate("/");
   }, []);
-  return (
-    <>
-      <h2>Hello</h2>
-    </>
-  );
+  return <></>;
 };
 export default TokenPage;
