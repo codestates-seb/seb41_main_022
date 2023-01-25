@@ -64,10 +64,15 @@ const EditForm = () => {
     const form = {
       ...data,
     };
-    fetchEditStudy(URL, form, {
-      "access-Token": cookies.token.accessToken,
-      "refresh-Token": cookies.token.refreshToken,
-    });
+    fetchEditStudy(
+      URL,
+      form,
+      {
+        "access-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.refreshToken,
+      },
+      studyId
+    );
     alert("스터디가 내용이 수정 되었습니다.");
     navigate(`/study-hall/main/${studyId}`);
   };
