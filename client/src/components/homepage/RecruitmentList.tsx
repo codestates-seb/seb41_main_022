@@ -30,6 +30,10 @@ const RecruitmentList = () => {
     fetch(tags, filter, search, page);
   }, [tags, filter, search, page]);
 
+  useEffect(() => {
+    console.log(recruitmentData);
+  }, [recruitmentData]);
+
   const handleScroll = useCallback((): void => {
     const { innerHeight } = window;
     // 브라우저창 내용의 크기 (스크롤을 포함하지 않음)
