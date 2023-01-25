@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useCookies } from "react-cookie";
 
 import MyStudy from "./MyStudy";
-import UserSkeleton from "./UserSkeleton";
 import UserStudySkeleton from "./UserStudySkeleton";
 
 interface MyStudyList {
