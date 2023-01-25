@@ -39,7 +39,7 @@ const EditForm = () => {
   }, []);
   const { studyId } = useParams();
   const [cookies] = useCookies(["token"]);
-  const fetchCreateStudy = createStudyStore((state) => state.fetchCreateStudy);
+  const { fetchEditStudy } = createStudyStore();
   const navigate = useNavigate();
   const [initData, setInitData] = useState({});
   const [isOpen, setIsOpen] = useState(false);
@@ -61,17 +61,15 @@ const EditForm = () => {
     formState: { errors },
   } = useForm<MyFormProps>();
   const onSubmitHandler: SubmitHandler<MyFormProps> = (data) => {
-    // const form = {
-    //   ...data,
-    //   image: "https://avatars.dicebear.com/api/bottts/222.svg",
-    // };
-    // fetchCreateStudy(URL, form, {
-    //   "access-Token": cookies.token.accessToken,
-    //   "refresh-Token": cookies.token.refreshToken,
-    // });
-    // alert("스터디가 생성되었습니다");
-    // navigate("/");
-    console.log(initData);
+    const form = {
+      ...data,
+    };
+    fetchEditStudy(URL, form, {
+      "access-Token": cookies.token.accessToken,
+      "refresh-Token": cookies.token.refreshToken,
+    });
+    alert("스터디가 내용이 수정 되었습니다.");
+    navigate(`/study-hall/main/${studyId}`);
   };
   return (
     <Main>

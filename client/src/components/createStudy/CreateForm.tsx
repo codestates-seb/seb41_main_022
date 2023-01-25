@@ -61,7 +61,6 @@ const CreateForm = () => {
   const onSubmitHandler: SubmitHandler<MyFormProps> = (data) => {
     const form = {
       ...data,
-      image: "https://avatars.dicebear.com/api/bottts/222.svg",
     };
     fetchCreateStudy(URL, form, {
       "access-Token": cookies.token.accessToken,
