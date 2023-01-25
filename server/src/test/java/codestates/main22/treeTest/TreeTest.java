@@ -10,48 +10,34 @@ import codestates.main22.tree.dto.TreeDto;
 import codestates.main22.tree.entity.Tree;
 import codestates.main22.tree.mapper.TreeMapper;
 import codestates.main22.tree.service.TreeService;
-import codestates.main22.user.controller.UserController;
-import codestates.main22.user.dto.UserDto;
-import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.mapper.UserMapper;
 import codestates.main22.user.service.UserService;
 import codestates.main22.utils.Token;
 import com.google.gson.Gson;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static codestates.main22.util.ApiDocumentUtils.getDocumentRequest;
 import static codestates.main22.util.ApiDocumentUtils.getDocumentResponse;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TreeController.class)
@@ -91,8 +77,9 @@ public class TreeTest {
     @Autowired
     private Gson gson;
 
-    @Test // API 11번 유저의 개인 트리 조회 - 리스트가 아니고 맵으로 확인됨. JsonFieldType에서 맵은 어떻게...?
+    @Test // API 11번 유저의 개인 트리 조회 - 문서화 완료 but 확인 필요
     @WithMockUser
+    @DisplayName("#11 - user의 Tree 조회")
     public void getUserTreeTest() throws Exception{
         //given
         Tree tree1 = new Tree();
@@ -135,27 +122,29 @@ public class TreeTest {
 
         //then
         actions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isMap()) //리스트로 통과안됨, 맵으로 통과됨 아래 문서화는 리스트일 때 양식...
+                .andExpect(jsonPath("$.data").isMap()) //리스트로 통과안됨, 맵으로 통과됨 일단 문서화는 됨
                 .andDo(document(
                         "tree/#11",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
-                                        fieldWithPath("data[].treeId").type(JsonFieldType.NUMBER).description("트리 식별자"),
-                                        fieldWithPath("data[].treePoint").type(JsonFieldType.NUMBER).description("트리 점수"),
-                                        fieldWithPath("data[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
-                                        fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("생성 날짜"),
-                                        fieldWithPath("data[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리"),
-                                        fieldWithPath("data[].treeName").type(JsonFieldType.STRING).description("트리 이름")
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.trees").type(JsonFieldType.ARRAY).description("트리 리스트"),
+                                        fieldWithPath("data.trees[].treeId").type(JsonFieldType.NUMBER).description("트리 식별자"),
+                                        fieldWithPath("data.trees[].treePoint").type(JsonFieldType.NUMBER).description("트리 점수"),
+                                        fieldWithPath("data.trees[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
+                                        fieldWithPath("data.trees[].createdAt").type(JsonFieldType.STRING).description("생성 날짜"),
+                                        fieldWithPath("data.trees[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리"),
+                                        fieldWithPath("data.trees[].teamName").type(JsonFieldType.STRING).description("스터디 이름")
                                 )
                         )
                 ));
     }
 
-    @Test // API 38번 스터디의 트리 조회 - 리스트가 아니고 맵으로 확인됨. JsonFieldType에서 맵은 어떻게...?
+    @Test // API 38번 스터디의 트리 조회 - 문서화 완료 but 확인 필요
     @WithMockUser
+    @DisplayName("#38 - studyHall/main의 Tree 조회")
     public void getStudyTreeTest() throws Exception {
         //given
         long studyId = 1;
@@ -201,19 +190,20 @@ public class TreeTest {
 
         //then
         actions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isMap()) //리스트로 통과안됨, 맵으로 통과됨 아래 문서화는 리스트일 때 양식...
+                .andExpect(jsonPath("$.data").isMap()) //리스트로 통과안됨, 맵으로 통과됨 일단 문서화는 됨
         .andDo(document(
                 "tree/#38",
                 getDocumentRequest(),
                 getDocumentResponse(),
                 responseFields(
                         List.of(
-                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
-                                fieldWithPath("data[].treeId").type(JsonFieldType.NUMBER).description("트리 식별자"),
-                                fieldWithPath("data[].treePoint").type(JsonFieldType.NUMBER).description("트리 점수"),
-                                fieldWithPath("data[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
-                                fieldWithPath("data[].createdDate").type(JsonFieldType.STRING).description("생성 날짜"),
-                                fieldWithPath("data[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리")
+                                fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                fieldWithPath("data.trees").type(JsonFieldType.ARRAY).description("트리 리스트"),
+                                fieldWithPath("data.trees[].treeId").type(JsonFieldType.NUMBER).description("트리 식별자"),
+                                fieldWithPath("data.trees[].treePoint").type(JsonFieldType.NUMBER).description("트리 점수"),
+                                fieldWithPath("data.trees[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
+                                fieldWithPath("data.trees[].createdAt").type(JsonFieldType.STRING).description("생성 날짜"),
+                                fieldWithPath("data.trees[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리")
                         )
                 )
         ));
