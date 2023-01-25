@@ -5,8 +5,6 @@ import { calendarStore } from "../../../../util/zustandCalendar";
 import { useCookies } from "react-cookie";
 import AuthStore from "../../../../util/zustandAuth";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   const [title, setTitle] = useState("");
   const [hour, setHour] = useState("00");
@@ -23,7 +21,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   }, [showEditModal]);
   const handleSubmitHost = (e) => {
     e.preventDefault();
-    calendarPatch(URL, editData.calendarId, {
+    calendarPatch(editData.calendarId, {
       ...editData,
       title,
       date: `${editData.date.slice(0, 10)}T${hour}:${minute}:00`,

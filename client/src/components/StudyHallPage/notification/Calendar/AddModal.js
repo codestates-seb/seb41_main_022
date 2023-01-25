@@ -6,8 +6,6 @@ import DatePicker from "react-datepicker";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useParams } from "react-router-dom";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 const AddModal = ({ showAddModal, setShowAddModal, event }) => {
   const calendarPost = calendarStore((state) => state.calendarPost);
   const { studyId } = useParams();
@@ -16,7 +14,7 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
   const [minute, setMinute] = useState("00");
   const handleSubmit = (e) => {
     e.preventDefault();
-    calendarPost(URL, studyId, {
+    calendarPost(studyId, {
       title,
       date: `${event.dateStr.slice(0, 19)}T${hour}:${minute}:00`,
     });

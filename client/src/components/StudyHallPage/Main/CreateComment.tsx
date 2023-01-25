@@ -6,7 +6,7 @@ import { useCookies } from "react-cookie";
 
 import { commentStore } from "../../../util/zustandComment";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+const URL = process.env.REACT_APP_API_URL;
 
 const CreateComment = () => {
   const [content, setContent] = useState(""); //댓글작성 상태변화
@@ -18,7 +18,6 @@ const CreateComment = () => {
   const handleSubmit = () => {
     if (studyId) {
       postComment(
-        URL,
         studyId,
         { content, isClosedChat },
         {

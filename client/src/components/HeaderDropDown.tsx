@@ -6,20 +6,20 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+const URL = process.env.REACT_APP_API_URL;
 
 const HeaderDropDown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [myStudyArr, setMyStudyArr] = useState([]);
-  const getMyStudy = (url: string, token: object) => {
-    return axios.get(url + "/study/user", {
+  const getMyStudy = (token: object) => {
+    return axios.get(URL + "/study/user", {
       headers: token,
     });
   };
   useEffect(() => {
     if (cookies.token) {
-      getMyStudy(URL, {
+      getMyStudy({
         "access-Token": cookies.token.accessToken,
         "refresh-Token": cookies.token.refreshToken,
       }).then((res) => setMyStudyArr(res.data.data.studies));
