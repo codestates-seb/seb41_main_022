@@ -8,7 +8,6 @@ import StudyHallNotification from "../components/StudyHallPage/notification/Stud
 import Community from "../components/StudyHallPage/community/Community";
 import StudyHallMain from "../components/StudyHallPage/Main/StudyHallMain";
 import { useCookies } from "react-cookie";
-import axios from "axios";
 import AuthStore from "../util/zustandAuth";
 
 interface AuthData {
@@ -20,22 +19,18 @@ interface AuthData {
 const StudyHallPage = () => {
   const { page, studyId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["userData", "token"]);
-  const [callTimes, setCallTimes] = useState(0);
-  const { checkAuth, authData } = AuthStore();
+  const { authData, checkAuth } = AuthStore();
 
   useEffect(() => {
-    if (callTimes === 0) {
-      if (studyId && !authData?.request) {
-        setTimeout(() => {
-          checkAuth(
-            studyId,
-            cookies.userData.userId,
-            cookies.token.accessToken,
-            cookies.token.refreshToken
-          );
-        }, 500);
-        setCallTimes(callTimes + 1);
-      }
+    if (studyId && !authData?.request) {
+      setTimeout(() => {
+        checkAuth(
+          studyId,
+          cookies.userData.userId,
+          cookies.token.accessToken,
+          cookies.token.refreshToken
+        );
+      }, 500);
     }
   }, [authData]);
 

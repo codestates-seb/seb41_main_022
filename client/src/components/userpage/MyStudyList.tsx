@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import styled from "styled-components";
 import { useCookies } from "react-cookie";
 
 import MyStudy from "./MyStudy";
+import UserStudySkeleton from "./UserStudySkeleton";
 
 interface MyStudyList {
   studyId: number;
@@ -28,11 +29,13 @@ const MyStudyList = () => {
     });
   };
   useEffect(() => {
-    getMyStudyData(process.env.REACT_APP_API_URL + "/study/user").then(
-      (res) => {
-        setMyStudyList(res.data.data.studies);
-      }
-    );
+    setTimeout(() => {
+      getMyStudyData(process.env.REACT_APP_API_URL + "/study/user").then(
+        (res) => {
+          setMyStudyList(res.data.data.studies);
+        }
+      );
+    }, 1500);
   }, []);
 
   return (
@@ -47,6 +50,7 @@ const MyStudyList = () => {
             imgUrl={el.image}
           />
         ))}
+      {!myStudyList && <UserStudySkeleton />}
     </MyStudyWrapper>
   );
 };
