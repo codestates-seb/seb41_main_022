@@ -71,10 +71,9 @@ const Tag = styled.div`
   }
 `;
 const TagsWrapper = styled.div`
-  margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
-  padding: 8px;
+  padding: 2px 8px;
 
   align-items: center;
 `;
