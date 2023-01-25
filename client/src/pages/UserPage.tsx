@@ -42,20 +42,10 @@ const UserPage = () => {
       <Container>
         <Profile />
         <h3 className="title">My Study</h3>
-        <MyStudyList />
-        <h3 className="title">Tags</h3>
-        <h3 className="title">나무나무</h3>
-        <button
-          onClick={handleOpenWithdraw}
-          className={isOpenAgreePage ? "button buttonActive" : "button"}
-          type="submit"
-        >
-          회원탈퇴 열기
-        </button>
         {isOpenAgreePage ? (
           <WithdrawAgree>
             <div className="textZone">
-              <p>회원탈퇴 안내사항</p>
+              <h2>회원탈퇴 안내사항</h2>
               <ul>
                 <li>
                   • 회원탈퇴가 진행된 후에는 다시 되돌릴 수 없습니다. 아래
@@ -90,6 +80,16 @@ const UserPage = () => {
             </div>
           </WithdrawAgree>
         ) : null}
+        <MyStudyList />
+        {/* <h3 className="title">Tags</h3> */}
+        {/* <h3 className="title">나무나무</h3> */}
+        <button
+          onClick={handleOpenWithdraw}
+          className={isOpenAgreePage ? "button buttonActive" : "button"}
+          type="submit"
+        >
+          회원탈퇴 열기
+        </button>
       </Container>
     </Main>
   );
@@ -109,8 +109,16 @@ const Main = styled.div`
 const Container = styled.div`
   background-color: var(--beige-00);
   width: 1024px;
-  height: 1100px;
   margin: 0px auto;
+  height: 100vh;
+
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  * {
+  }
 
   //My study, Tag 등 각 title
   > .title {
@@ -143,18 +151,18 @@ const Container = styled.div`
 `;
 
 const WithdrawAgree = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
-  padding: 16px;
-  width: 65%;
-  height: 340px;
+  padding: 20px;
+  width: 784px;
   margin-left: 120px;
   margin-top: 20px;
   margin-bottom: 20px;
   background-color: white;
   border: 1px orange solid;
+  border-radius: 3px;
   > .buttonWrapper {
-    margin-top: 24px;
     display: flex;
     justify-content: end;
     > .active {
@@ -165,8 +173,21 @@ const WithdrawAgree = styled.div`
       }
     }
   }
-
+  .textZone {
+    * {
+      font-family: "mainM";
+      margin: 8px 0;
+    }
+    h2 {
+      font-family: "mainB";
+      font-size: 24px;
+      margin: 14px 0;
+    }
+  }
   .checkboxWrapper {
+    margin-top: 24px;
+    text-align: right;
+    margin-right: 40px;
     p {
       display: inline;
     }
