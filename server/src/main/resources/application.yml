@@ -42,5 +42,5 @@ mail:
     admin: utest3912@gmail.com # admin mail address
 jwt:
   key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 1     # 30분 (0.5시간)
+  access-token-expiration-minutes: 30     # 30분 (0.5시간)
   refresh-token-expiration-minutes: 420   # 420분  (7시간)
