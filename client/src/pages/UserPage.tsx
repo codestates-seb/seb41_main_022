@@ -1,14 +1,27 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useCookies } from "react-cookie";
 //구분선
 import Profile from "../components/userpage/Profile";
 import MyStudy from "../components/userpage/MyStudy";
 import MyStudyList from "../components/userpage/MyStudyList";
-import { useCookies } from "react-cookie";
 import LoginStore from "../util/zustandLogin";
+import Tree from "../components/userpage/Tree";
+
+interface TreeProps {
+  treeId: number;
+  treePoint: number;
+  treeImage: string;
+  createdAt: string;
+  makeMonth: number;
+  teamName: string;
+}
+interface Data {
+  trees: TreeProps[];
+}
 
 const UserPage = () => {
   const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
@@ -17,6 +30,8 @@ const UserPage = () => {
   const [totalStudyCount, setTotalStudyCount] = useState<number | undefined>(
     undefined
   );
+  const [treeData, setTreeData] = useState<Data | undefined>();
+
   const { setIsLogin } = LoginStore();
   const navigate = useNavigate();
 
@@ -60,10 +75,29 @@ const UserPage = () => {
       })
       .then((res) => setTotalStudyCount(res.data.data.studyCount));
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API_URL + "/tree/user", {
+        headers: {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        },
+      })
+      .then((res) => {
+        setTreeData(res.data.data);
+        console.log(res.data);
+      });
+  }, []);
+
   return (
     <Main>
       <Container>
         <Profile />
+        {treeData &&
+          treeData.trees.map((el) => (
+            <Tree treeId={el.treeId} treeImage={el.treeImage} />
+          ))}
         <h3 className="title">My Study</h3>
         {isOpenAgreePage ? (
           <WithdrawAgree>
