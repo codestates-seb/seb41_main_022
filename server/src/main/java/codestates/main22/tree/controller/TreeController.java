@@ -44,6 +44,14 @@ public class TreeController {
         return new ResponseEntity<>(new SingleResponseDto<>(new TreeDto.ListResonse<>(response)), HttpStatus.OK);
     }
 
+    // #49 (토큰 없이)user의 Tree 조회
+    @GetMapping("/{user-id}")
+    public ResponseEntity getTreeByUserIdNoToken(@PathVariable("user-id") @Positive long userId) {
+        List<Object> treesAndTeamNames = treeService.findTreeByUserIdNoToken(userId);
+        List<TreeDto.UserResponse> response = treeMapper.treesToTreeUserResponseDto(treesAndTeamNames);
+        return new ResponseEntity<>(new SingleResponseDto<>(new TreeDto.ListResonse<>(response)), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity postTree(@Valid @RequestBody TreeDto.Post requestBody) {
         Tree tree = treeMapper.treePostDtoToTree(requestBody);

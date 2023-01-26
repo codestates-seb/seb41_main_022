@@ -1059,4 +1059,57 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         )
                 ));
     }
+
+    @DisplayName("#48 - user의 study 조회")
+    @Test
+    @WithMockUser
+    // TODO #9 - user의 study 조회 - 통과됨
+    public void getStudiesByUserNoTokenTest() throws Exception {
+        // given
+        long studyId = 1L;
+        List<StudyUserDto.Studys> response = new ArrayList<>();
+        response.add(new StudyUserDto.Studys(
+                response1.getStudyId(),
+                response1.getTeamName(),
+                response1.getSummary(),
+                response1.getImage()
+        ));
+        response.add(new StudyUserDto.Studys(
+                response2.getStudyId(),
+                response2.getTeamName(),
+                response2.getSummary(),
+                response2.getImage()
+        ));
+
+        given(studyService.findStudiesByUserNoToken(Mockito.anyLong())).willReturn(new ArrayList<>());
+        given(studyMapper.studiesToStudyUserDto(Mockito.anyList())).willReturn(response);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get(startWithUrl + "/user")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8"));
+
+        // then
+        actions
+                .andExpect(status().isOk())
+//                .andExpect(content().json(gson.toJson(new SingleResponseDto<>(response))))
+                .andDo(document(
+                        "study/#48",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.studyCount").type(JsonFieldType.NUMBER).description("스터디 갯수"),
+                                        fieldWithPath("data.studies").type(JsonFieldType.ARRAY).description("스터디 리스트"),
+                                        fieldWithPath("data.studies[].studyId").type(JsonFieldType.NUMBER).description("스터디 식별자"),
+                                        fieldWithPath("data.studies[].teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("data.studies[].summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("data.studies[].image").type(JsonFieldType.STRING).description("대표사진")
+                                )
+                        )
+                ));
+    }
 }

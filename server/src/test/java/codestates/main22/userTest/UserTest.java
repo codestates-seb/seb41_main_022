@@ -395,4 +395,52 @@ public class UserTest {
                 ));
     }
 
+    @Test // API 47번 유저 정보 일부 조회 - 완료
+    @WithMockUser
+    @DisplayName("#47 - (토큰 없이)user의 user 조회")
+    public void getUserNoTokenTest() throws Exception{
+        String Token = "abc";
+        long userId = 1L;
+
+        UserEntity user = new UserEntity();
+        user.setCreatedAt(LocalDateTime.now());
+        user.setModifiedAt(LocalDateTime.now());
+        user.setEmail("hello@gmail.com");
+        user.setInfo("자기소개");
+        user.setUsername("test-name");
+        user.setUserId(1);
+        user.setToken(Token);
+        user.setImgUrl("https://avatars.dicebear.com/api/bottts/222.svg");
+        user.setRole(new ArrayList<>());
+        user.setUserStudies(new ArrayList<>());
+
+        UserDto.SearchUserResponse response = new UserDto.SearchUserResponse(1, "이름", "https://avatars.dicebear.com/api/bottts/222.svg");
+
+        given(userService.verifiedUser(Mockito.anyLong())).willReturn(user);
+        given(userMapper.userEntityToSearchUserResponse(Mockito.any(UserEntity.class))).willReturn(response);
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/user/{user-id}", userId)
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+
+        //then
+        actions.andExpect(status().isOk())
+                .andDo(document(
+                        "user/#47",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.userId").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                        fieldWithPath("data.username").type(JsonFieldType.STRING).description("유저 이름"),
+                                        fieldWithPath("data.imgUrl").type(JsonFieldType.STRING).description("이미지 주소")
+                                )
+                        )
+                ));
+    }
+
 }

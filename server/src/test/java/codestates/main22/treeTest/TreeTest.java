@@ -223,4 +223,69 @@ public class TreeTest {
                         )
                 ));
     }
+
+    @Test // API 49번 (토큰 없이) 유저의 개인 트리 조회 - 완료
+    @WithMockUser
+    @DisplayName("#49 - (토큰 없이)user의 Tree 조회")
+    public void getUserTreeNoTokenTest() throws Exception{
+        //given
+        Tree tree1 = new Tree();
+        Study study1 = new Study();
+        study1.setTeamName("studyName");
+        tree1.setTreeId(1);
+        tree1.setTreePoint(0);
+        tree1.setTreeImage("나무 이미지");
+        tree1.setMakeMonth(1);
+        tree1.setCreatedAt(LocalDateTime.now());
+        tree1.setModifiedAt(LocalDateTime.now());
+        tree1.setStudy(study1);
+
+        Tree tree2 = new Tree();
+        Study study2 = new Study();
+        study2.setTeamName("스터디 이름");
+        tree2.setTreeId(2);
+        tree2.setTreePoint(0);
+        tree2.setTreeImage("트리 이미지");
+        tree2.setMakeMonth(1);
+        tree2.setCreatedAt(LocalDateTime.now());
+        tree2.setModifiedAt(LocalDateTime.now());
+        tree2.setStudy(study2);
+
+
+        TreeDto.UserResponse response1 = new TreeDto.UserResponse(1, 0, "나무 이미지", LocalDateTime.now(), 1, "studyName" );
+        TreeDto.UserResponse response2 = new TreeDto.UserResponse(2, 0, "트리 이미지", LocalDateTime.now(), 1, "스터디 이름");
+
+        List<Object> treesAndTeamNames = List.of(tree1, tree2);
+        List<TreeDto.UserResponse> responses = List.of(response1, response2);
+        given(treeService.findTreeByUserIdNoToken(Mockito.anyLong())).willReturn(treesAndTeamNames);
+        given(treeMapper.treesToTreeUserResponseDto(Mockito.anyList())).willReturn(responses);
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/tree/user")
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+
+        //then
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").isMap()) //리스트로 통과안됨, 맵으로 통과됨 일단 문서화는 됨
+                .andDo(document(
+                        "tree/#49",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.trees").type(JsonFieldType.ARRAY).description("트리 리스트"),
+                                        fieldWithPath("data.trees[].treeId").type(JsonFieldType.NUMBER).description("트리 식별자"),
+                                        fieldWithPath("data.trees[].treePoint").type(JsonFieldType.NUMBER).description("트리 점수"),
+                                        fieldWithPath("data.trees[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
+                                        fieldWithPath("data.trees[].createdAt").type(JsonFieldType.STRING).description("생성 날짜"),
+                                        fieldWithPath("data.trees[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리"),
+                                        fieldWithPath("data.trees[].teamName").type(JsonFieldType.STRING).description("스터디 이름")
+                                )
+                        )
+                ));
+    }
 }
