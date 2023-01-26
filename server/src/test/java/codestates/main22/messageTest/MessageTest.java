@@ -64,7 +64,7 @@ public class MessageTest extends JwtMockBean {
 
         given(messageService.findUserByToken(Mockito.any(HttpServletRequest.class))).willReturn(new UserEntity());
         given(messageMapper.messageReqPostDtoToMessage(Mockito.any(MessageRequestDto.Post.class))).willReturn(new Message());
-        given(messageService.createMessage(Mockito.anyLong(), Mockito.any(Message.class), Mockito.any(HttpServletRequest.class))).willReturn(new Message());
+        given(messageService.createMessage(Mockito.anyLong(), Mockito.any(Message.class), Mockito.any(UserEntity.class))).willReturn(new Message());
         given(messageMapper.messageToMessageUserResponseDto(Mockito.any(Message.class), Mockito.any(UserEntity.class))).willReturn(response);
 
         // when
@@ -132,8 +132,6 @@ public class MessageTest extends JwtMockBean {
                         get("/message?studyId={study-id}", studyId)
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .header("access-Token", "abc")
-                                .header("refresh-Token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWRla3FsczkzQGdtYWlsLmNvbSIsImlhdCI6MTY3NDYxMjQwNSwiZXhwIjoxNjc0NjM3NjA1fQ.5T5FoYLpN7Gb0gE6ne7umx3qPvZ8hx5agN1JoG8YusghzqR5FLyjfltoMAg_SW73mieN2zaF6qJpQ9v8c6wBTg")
                 );
         // then
         actions.andExpect(status().isOk())
@@ -143,12 +141,6 @@ public class MessageTest extends JwtMockBean {
                         getDocumentResponse(),
                         requestParameters(
                                 parameterWithName("studyId").description("스터디 식별자")
-                        ),
-                        requestHeaders(
-                                List.of(
-                                        headerWithName("access-Token").description("access 토큰"),
-                                        headerWithName("refresh-Token").description("refresh 토큰")
-                                )
                         ),
                         responseFields(
                                 List.of(

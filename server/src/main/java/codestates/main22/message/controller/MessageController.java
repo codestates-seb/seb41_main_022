@@ -35,7 +35,7 @@ public class MessageController {
                                       @Positive @RequestParam long studyId,
                                       HttpServletRequest request) {
         UserEntity user = messageService.findUserByToken(request);
-        Message message = messageService.createMessage(studyId, messageMapper.messageReqPostDtoToMessage(post), request);
+        Message message = messageService.createMessage(studyId, messageMapper.messageReqPostDtoToMessage(post), user);
         MessageResponseDto.UserResponse response = messageMapper.messageToMessageUserResponseDto(message, user);
 
         return new ResponseEntity<>(
@@ -44,8 +44,7 @@ public class MessageController {
     }
 
     @GetMapping // 해당 스터디 메세지 모아서 보기
-    public ResponseEntity getMessages(@Positive @RequestParam long studyId,
-                                      HttpServletRequest request) {
+    public ResponseEntity getMessages(@Positive @RequestParam long studyId) {
         List<Message> messages = messageService.findByStudyMessage(studyId);
         Map<Long, UserEntity> users = messageService.findUsers(messages);
         return new ResponseEntity<>(new ListResponseDto<>(messageMapper.messagesToMessageUserResponse(messages, users)), HttpStatus.OK);
