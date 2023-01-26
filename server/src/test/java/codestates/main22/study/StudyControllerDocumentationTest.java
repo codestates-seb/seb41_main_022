@@ -37,6 +37,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +68,8 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     private static UserEntity user2 = new UserEntity();
     private static StudyDto.ResponseTag response1;
     private static StudyDto.ResponseTag response2;
+    private static StudyDto.Response responseA;
+    private static StudyDto.Response responseB;
     @MockBean
     private StudyService studyService;
 
@@ -118,6 +122,38 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 "팀이름22",
                 "한줄 요약22",
                 Arrays.asList("과학","수학"),
+                Arrays.asList("월","수","금"),
+                5,
+                LocalDate.now(),
+                true,
+                false,
+                "스터디에 관한 내용입니다22",
+                null,
+                "https://avatars.dicebear.com/api/bottts/222.svg",
+                2L,
+                Arrays.asList(1L)
+        );
+
+        responseA = new StudyDto.Response(
+                1L,
+                "팀이름",
+                "한줄 요약",
+                Arrays.asList("월","수","금"),
+                5,
+                LocalDate.now(),
+                true,
+                true,
+                "스터디에 관한 내용입니다.",
+                null,
+                "https://avatars.dicebear.com/api/bottts/222.svg",
+                1L,
+                Arrays.asList(2L)
+        );
+
+        responseB = new StudyDto.Response(
+                2L,
+                "팀이름22",
+                "한줄 요약22",
                 Arrays.asList("월","수","금"),
                 5,
                 LocalDate.now(),
@@ -207,20 +243,91 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우")
     @Test
     @WithMockUser
-    // TODO #6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우
+    // TODO #6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우 - 잠시 보류
     public void getStudiesByOpenCloseTest() throws Exception {
         // given
+        String page = "1";
+        String size = "10";
+
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("page", page);
+        queryParams.add("size", size);
+
         Study study1 = new Study();
         Study study2 = new Study();
 
-        Page<Study> studies = new PageImpl<>(List.of(study1, study2),PageRequest.of(0, 10),2);
+        study1.setStudyId(response1.getStudyId());
+        study1.setTeamName(response1.getTeamName());
+        study1.setSummary(response1.getSummary());
+        study1.setDayOfWeek(response1.getDayOfWeek());
+        study1.setWant(response1.getWant());
+        study1.setStartDate(response1.getStartDate());
+        study1.setProcedure(response1.isProcedure());
+        study1.setOpenClose(response1.isOpenClose());
+        study1.setContent(response1.getContent());
+        study1.setNotice(response1.getNotice());
+        study1.setImage(response1.getImage());
+        study1.setLeaderId(response1.getLeaderId());
+        study1.setRequester(response1.getRequester());
+
+        study2.setStudyId(response2.getStudyId());
+        study2.setTeamName(response2.getTeamName());
+        study2.setSummary(response2.getSummary());
+        study2.setDayOfWeek(response2.getDayOfWeek());
+        study2.setWant(response2.getWant());
+        study2.setStartDate(response2.getStartDate());
+        study2.setProcedure(response2.isProcedure());
+        study2.setOpenClose(response2.isOpenClose());
+        study2.setContent(response2.getContent());
+        study2.setNotice(response2.getNotice());
+        study2.setImage(response2.getImage());
+        study2.setLeaderId(response2.getLeaderId());
+        study2.setRequester(response2.getRequester());
+
+        List<Study> studyList = Arrays.asList(study1, study2);
+        Page<Study> studies = new PageImpl<>(studyList, PageRequest.of(0, 10), 2);
+
+        StudyDto.Response studyResponse1 = new StudyDto.Response(
+                response1.getStudyId(),
+                response1.getTeamName(),
+                response1.getSummary(),
+                response1.getDayOfWeek(),
+                response1.getWant(),
+                response1.getStartDate(),
+                response1.isProcedure(),
+                response1.isOpenClose(),
+                response1.getContent(),
+                response1.getNotice(),
+                response1.getImage(),
+                response1.getLeaderId(),
+                response1.getRequester()
+        );
+
+        StudyDto.Response studyResponse2 = new StudyDto.Response(
+                response2.getStudyId(),
+                response2.getTeamName(),
+                response2.getSummary(),
+                response2.getDayOfWeek(),
+                response2.getWant(),
+                response2.getStartDate(),
+                response2.isProcedure(),
+                response2.isOpenClose(),
+                response2.getContent(),
+                response2.getNotice(),
+                response2.getImage(),
+                response2.getLeaderId(),
+                response2.getRequester()
+        );
+
+        List<StudyDto.Response> responses = List.of(studyResponse1, studyResponse2);
 
         given(studyService.findStudiesByFilters(Mockito.anyInt(), Mockito.anyInt())).willReturn(studies);
-        given(studyMapper.studiesToStudyResponseDto(Mockito.anyList())).willReturn(new ArrayList<>());
+        given(studyMapper.studiesToStudyResponseDto(Mockito.anyList())).willReturn(responses);
 
         // when
         ResultActions actions = mockMvc.perform(
                 get(startWithUrl + "/first-cards")
+                        .params(queryParams)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8"));
@@ -232,18 +339,34 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#6",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        requestParameters(
+                                List.of(
+                                        parameterWithName("page").description("페이지 번호"),
+                                        parameterWithName("size").description("페이지 사이즈")
+                                )
+                        ),
                         responseFields(
                                 List.of(
-//                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
-//                                        fieldWithPath("data[].studyId").type(JsonFieldType.NUMBER).description("스터디 식별자"),
-//                                        fieldWithPath("data[].teamName").type(JsonFieldType.).description(""),
-//                                        fieldWithPath("data[].").type(JsonFieldType.).description(""),
-//                                        fieldWithPath("data[].").type(JsonFieldType.).description(""),
-//                                        fieldWithPath("data[].").type(JsonFieldType.).description(""),
-//                                        fieldWithPath("data[].").type(JsonFieldType.).description(""),
-//
-//                                        fieldWithPath("pageInfo.").type(JsonFieldType.OBJECT).description(""),
-//                                        fieldWithPath("pageInfo.").type(JsonFieldType.).description(""),
+                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                        fieldWithPath("data[].studyId").type(JsonFieldType.NUMBER).description("스터디 식별자"),
+                                        fieldWithPath("data[].teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("data[].summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("data[].dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
+                                        fieldWithPath("data[].want").type(JsonFieldType.NUMBER).description("모집인원"),
+                                        fieldWithPath("data[].startDate").type(JsonFieldType.STRING).description("시작날짜"),
+                                        fieldWithPath("data[].procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data[].openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
+                                        fieldWithPath("data[].content").type(JsonFieldType.STRING).description("본문"),
+                                        fieldWithPath("data[].notice").type(JsonFieldType.NULL).description("공지"),
+                                        fieldWithPath("data[].image").type(JsonFieldType.STRING).description("대표사진"),
+                                        fieldWithPath("data[].leaderId").type(JsonFieldType.NUMBER).description("스터디장 식별자"),
+                                        fieldWithPath("data[].requester").type(JsonFieldType.ARRAY).description("가입희망 식별자"),
+
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("몇 페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("사이즈"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 갯수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지 갯수")
                                 )
                         )
                 ));
@@ -366,9 +489,45 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#18 - studyHall/Notification 에서 공지만 수정")
     @Test
     @WithMockUser
-    // TODO #18 - studyHall/Notification 에서 공지만 수정
+    // TODO #18 - studyHall/Notification 에서 공지만 수정 - 통과됨
     public void patchNotificationTest() throws Exception {
+        // given
+        long studyId = 1L;
 
+        StudyNotificationDto.Patch patch = new StudyNotificationDto.Patch(
+                Arrays.asList("FRI"),
+                "공지22"
+        );
+
+        StudyNotificationDto.Response response = new StudyNotificationDto.Response("공지22");
+
+        given(studyMapper.studyNotificationPatchDtoToStudyNotification(Mockito.any(StudyNotificationDto.Patch.class))).willReturn(new Study());
+        given(studyService.updateStudyNotice(Mockito.anyLong(),Mockito.any(Study.class))).willReturn(new Study());
+        given(studyMapper.studyToStudyNotificationResponseDto(Mockito.any(Study.class))).willReturn(response);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                patch(startWithUrl + "/{study-id}/notification", studyId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(patch))
+                        .characterEncoding("utf-8"));
+
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(content().json(gson.toJson(new SingleResponseDto<>(response))))
+                .andDo(document(
+                        "study/#18",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.notice").type(JsonFieldType.STRING).description("공지")
+                                )
+                        )
+                ));
     }
 
     @DisplayName("#30 - studyHall/main 에서 공지사항 확인")
@@ -522,14 +681,22 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         // given
         long studyId = 1L;
 
-        given(studyService.findStudy(Mockito.anyLong())).willReturn(new Study());
-        given(token.findByToken(Mockito.any(HttpServletRequest.class))).willReturn(new UserEntity());
+        Study study = new Study();
+        study.setLeaderId(1L);
+        study.setRequester(List.of(2L));
+
+        UserEntity user = new UserEntity();
+        user.setUserId(2L);
+
+        given(studyService.findStudy(Mockito.anyLong())).willReturn(study);
+        given(token.findByToken(Mockito.any(HttpServletRequest.class))).willReturn(user);
         given(studyService.isMember(Mockito.anyLong(),Mockito.anyLong())).willReturn(false);
         given(studyMapper.studyToStudyAuthResponseDto(
                 Mockito.any(Study.class),
                 Mockito.anyBoolean(),
                 Mockito.anyBoolean(),
-                Mockito.anyBoolean())).willReturn(new StudyMainDto.AuthResponse(false, false, true));
+                Mockito.anyBoolean())
+        ).willReturn(new StudyMainDto.AuthResponse(false, false, true));
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -569,7 +736,59 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @WithMockUser
     // TODO #28 - 각종 true false 변수들 넘겨주기 (token 값 사용 X)
     public void getAuthWithUserIdTest() throws Exception {
+        // 현재 테스트 내용 : 1번 스터디에 2번 유저가 가입 신청만 한 상태이다. 멤버는 아님.
+        // given
+        long studyId = 1L;
+        long userId = 2L;
 
+        Study study = new Study();
+        study.setLeaderId(1L);
+        study.setRequester(List.of(2L));
+
+        UserEntity user = new UserEntity();
+        user.setUserId(2L);
+
+        given(studyService.findStudy(Mockito.anyLong())).willReturn(study);
+//        given(token.findByToken(Mockito.any(HttpServletRequest.class))).willReturn(user);
+        given(studyService.isMember(Mockito.anyLong(),Mockito.anyLong())).willReturn(false);
+        given(studyMapper.studyToStudyAuthResponseDto(
+                Mockito.any(Study.class),
+                Mockito.anyBoolean(),
+                Mockito.anyBoolean(),
+                Mockito.anyBoolean())
+        ).willReturn(new StudyMainDto.AuthResponse(false, false, true));
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get(startWithUrl + "/{study-id}/user/{user-id}/auth", studyId, userId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("access-Token", "123")
+                        .header("refresh-Token","123")
+        );
+
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "study/#28",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("access-Token").description("access 토큰"),
+                                        headerWithName("refresh-Token").description("refresh 토큰")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.member").type(JsonFieldType.BOOLEAN).description("멤버 여부"),
+                                        fieldWithPath("data.host").type(JsonFieldType.BOOLEAN).description("방장 여부"),
+                                        fieldWithPath("data.request").type(JsonFieldType.BOOLEAN).description("신청 여부")
+                                )
+                        )
+                ));
     }
 
     @DisplayName("#29 - studyHall/main 윗부분 header")
@@ -655,9 +874,74 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#33 - studyHall/main 본문 수정")
     @Test
     @WithMockUser
-    // TODO #33 - studyHall/main 본문 수정
+    // TODO #33 - studyHall/main 본문 수정 - 통과됨
     public void patchMainBodyTest() throws Exception {
+        // given
+        long studyId = 1L;
 
+        StudyMainDto.MainPatch patch = new StudyMainDto.MainPatch(
+                "Your Study",
+                "집주변 카페에 모여 토론하는 스터디입니다",
+                Arrays.asList("IT","수학","일본어"),
+                Arrays.asList("TUE","WED","FRI"),
+                3,
+                LocalDate.now(),
+                false,
+                false,
+                "Our study is an 80-year old coding study...",
+                "https://seb41-main-022.s3.ap-northeast-2.amazonaws.com/main22.png"
+        );
+
+        StudyMainDto.MainPatch response = new StudyMainDto.MainPatch(
+                "Your Study",
+                "집주변 카페에 모여 토론하는 스터디입니다",
+                Arrays.asList("IT","수학","일본어"),
+                Arrays.asList("TUE","WED","FRI"),
+                3,
+                LocalDate.now(),
+                false,
+                false,
+                "Our study is an 80-year old coding study...",
+                "https://seb41-main-022.s3.ap-northeast-2.amazonaws.com/main22.png"
+        );
+
+        given(studyMapper.studyMainPatchDtoToStudyMain(Mockito.any(StudyMainDto.MainPatch.class))).willReturn(new Study());
+        given(studyService.updateMainBody(Mockito.anyLong(),Mockito.any(Study.class))).willReturn(new Study());
+        given(studyService.updateTag(Mockito.any(Study.class),Mockito.anyList())).willReturn(new ArrayList<>());
+        given(studyMapper.studyToStudyMainPatchResponseDto(Mockito.any(Study.class),Mockito.anyList())).willReturn(response);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                patch(startWithUrl + "/{study-id}/main", studyId)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(patch))
+                        .characterEncoding("utf-8"));
+
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(content().json(gson.toJson(new SingleResponseDto<>(response))))
+                .andDo(document(
+                        "study/#33",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("data.summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("data.tags").type(JsonFieldType.ARRAY).description("태그"),
+                                        fieldWithPath("data.dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
+                                        fieldWithPath("data.want").type(JsonFieldType.NUMBER).description("모집인원"),
+                                        fieldWithPath("data.startDate").type(JsonFieldType.STRING).description("시작날짜"),
+                                        fieldWithPath("data.procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data.openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
+                                        fieldWithPath("data.content").type(JsonFieldType.STRING).description("본문"),
+                                        fieldWithPath("data.image").type(JsonFieldType.STRING).description("대표사진")
+                                )
+                        )
+                ));
     }
 
     @DisplayName("#9 - user의 study 조회")
