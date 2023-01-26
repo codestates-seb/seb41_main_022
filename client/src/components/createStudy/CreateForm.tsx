@@ -13,6 +13,7 @@ import CreatePageTags from "./CreatePageTags";
 import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
 import { AiOutlinePlusCircle } from "react-icons/ai";
+import Congratulation from "../../util/Congratulation";
 
 const URL = process.env.REACT_APP_API_URL;
 
@@ -43,6 +44,7 @@ const CreateForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[] | undefined>();
   const [startDate, setStartDate] = useState();
+  const [showCongrate, setShowCongrate] = useState(false);
   const textRef = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
@@ -66,206 +68,216 @@ const CreateForm = () => {
       "access-Token": cookies.token.accessToken,
       "refresh-Token": cookies.token.refreshToken,
     });
-    alert("스터디가 생성되었습니다");
-    navigate("/");
+    setShowCongrate(true);
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+      setShowCongrate(false);
+      navigate("/");
+    }, 4000);
   };
   return (
-    <Main>
-      <ContentDiv>
-        Create New Study
-        <Form onSubmit={handleSubmit(onSubmitHandler)}>
-          <input
-            id="teamName"
-            type="text"
-            placeholder="Team Name"
-            maxLength={10}
-            className={
-              errors.teamName && errors.teamName.type === "required"
-                ? "errorBorder"
-                : "ㅤ"
-            }
-            {...register("teamName", { required: true })}
-          />
-          <ErrorText>
-            {errors.teamName && errors.teamName.type === "required"
-              ? "* 팀이름을 입력해 주세요!"
-              : " "}
-          </ErrorText>
-
-          <input
-            id="summary"
-            type="text"
-            placeholder="한 줄 설명"
-            className={
-              errors.summary && errors.summary.type === "required"
-                ? "errorBorder"
-                : "ㅤ"
-            }
-            {...register("summary", { required: true })}
-          />
-          <ErrorText>
-            {errors.summary && errors.summary.type === "required"
-              ? "* 한 줄 설명을 입력해 주세요!"
-              : " "}
-          </ErrorText>
-          <div className="tagAddButton">
-            <div className="AddButton">
-              Tags&nbsp;
-              <AiOutlinePlusCircle
-                onClick={() => setIsOpen(!isOpen)}
+    <>
+      {showCongrate ? (
+        <Congratulation />
+      ) : (
+        <Main>
+          <ContentDiv>
+            Create New Study
+            <Form onSubmit={handleSubmit(onSubmitHandler)}>
+              <input
+                id="teamName"
+                type="text"
+                placeholder="Team Name"
+                maxLength={10}
                 className={
-                  errors.tags && errors.tags.type === "required"
-                    ? "errorIcon"
-                    : ""
+                  errors.teamName && errors.teamName.type === "required"
+                    ? "errorBorder"
+                    : "ㅤ"
                 }
+                {...register("teamName", { required: true })}
               />
-            </div>
-          </div>
-          <Controller
-            name="tags"
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange } }) => (
-              <div className="tagSection">
-                <CreatePageTags
-                  tag={tag}
-                  onChange={onChange}
-                  isOpen={isOpen}
-                  setIsOpen={setIsOpen}
+              <ErrorText>
+                {errors.teamName && errors.teamName.type === "required"
+                  ? "* 팀이름을 입력해 주세요!"
+                  : " "}
+              </ErrorText>
+
+              <input
+                id="summary"
+                type="text"
+                placeholder="한 줄 설명"
+                className={
+                  errors.summary && errors.summary.type === "required"
+                    ? "errorBorder"
+                    : "ㅤ"
+                }
+                {...register("summary", { required: true })}
+              />
+              <ErrorText>
+                {errors.summary && errors.summary.type === "required"
+                  ? "* 한 줄 설명을 입력해 주세요!"
+                  : " "}
+              </ErrorText>
+              <div className="tagAddButton">
+                <div className="AddButton">
+                  Tags&nbsp;
+                  <AiOutlinePlusCircle
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={
+                      errors.tags && errors.tags.type === "required"
+                        ? "errorIcon"
+                        : ""
+                    }
+                  />
+                </div>
+              </div>
+              <Controller
+                name="tags"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange } }) => (
+                  <div className="tagSection">
+                    <CreatePageTags
+                      tag={tag}
+                      onChange={onChange}
+                      isOpen={isOpen}
+                      setIsOpen={setIsOpen}
+                    />
+                  </div>
+                )}
+              />
+              <ErrorText>
+                {errors.tags && errors.tags.type === "required"
+                  ? "* 태그를 하나 이상 선택해 주세요!"
+                  : " "}
+              </ErrorText>
+              <div className="weekbarWrapper">
+                <span>진행요일</span>
+                <Controller
+                  name="dayOfWeek"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange } }) => (
+                    <CreateWeekBar
+                      onChange={onChange}
+                      error={
+                        errors.dayOfWeek && errors.dayOfWeek.type === "required"
+                          ? true
+                          : false
+                      }
+                    />
+                  )}
+                />
+                <ErrorText>
+                  {errors.dayOfWeek && errors.dayOfWeek.type === "required"
+                    ? "* 요일을 하나 이상 선택해 주세요!"
+                    : " "}
+                </ErrorText>
+              </div>
+              <div>
+                인원 :{" "}
+                <input
+                  id="want"
+                  type="number"
+                  min="1"
+                  placeholder="0"
+                  className={
+                    errors.want && errors.want.type === "required"
+                      ? "errorBorder person"
+                      : "person"
+                  }
+                  {...register("want", { required: true })}
+                />
+                명
+              </div>
+              <ErrorText>
+                {errors.want && errors.want.type === "required"
+                  ? "* 인원을 선택해 주세요!"
+                  : " "}
+              </ErrorText>
+              <div>
+                <Controller
+                  name="procedure"
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <ToggleOnline onChange={onChange} />
+                  )}
+                />
+                <Controller
+                  name="openClose"
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <TogglePublic onChange={onChange} />
+                  )}
                 />
               </div>
-            )}
-          />
-          <ErrorText>
-            {errors.tags && errors.tags.type === "required"
-              ? "* 태그를 하나 이상 선택해 주세요!"
-              : " "}
-          </ErrorText>
-          <div className="weekbarWrapper">
-            <span>진행요일</span>
-            <Controller
-              name="dayOfWeek"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange } }) => (
-                <CreateWeekBar
-                  onChange={onChange}
-                  error={
-                    errors.dayOfWeek && errors.dayOfWeek.type === "required"
-                      ? true
-                      : false
-                  }
+              <div className="dateWrapper">
+                <span>시작날짜</span>
+                <Controller
+                  name="startDate"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange } }) => (
+                    <DatePickerDiv
+                      className={
+                        errors.startDate && errors.startDate.type === "required"
+                          ? "errorBorder"
+                          : "ㅤ"
+                      }
+                    >
+                      <DatePicker
+                        className="datepicker"
+                        placeholderText="click and select the date"
+                        dateFormat="yyyy/MM/dd"
+                        selected={startDate}
+                        onChange={(date: any) => {
+                          setStartDate(date);
+                          onChange(date.toISOString().split("T")[0]);
+                        }}
+                      />
+                    </DatePickerDiv>
+                  )}
                 />
-              )}
-            />
-            <ErrorText>
-              {errors.dayOfWeek && errors.dayOfWeek.type === "required"
-                ? "* 요일을 하나 이상 선택해 주세요!"
-                : " "}
-            </ErrorText>
-          </div>
-          <div>
-            인원 :{" "}
-            <input
-              id="want"
-              type="number"
-              min="1"
-              placeholder="0"
-              className={
-                errors.want && errors.want.type === "required"
-                  ? "errorBorder person"
-                  : "person"
-              }
-              {...register("want", { required: true })}
-            />
-            명
-          </div>
-          <ErrorText>
-            {errors.want && errors.want.type === "required"
-              ? "* 인원을 선택해 주세요!"
-              : " "}
-          </ErrorText>
-          <div>
-            <Controller
-              name="procedure"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <ToggleOnline onChange={onChange} />
-              )}
-            />
-            <Controller
-              name="openClose"
-              control={control}
-              render={({ field: { onChange } }) => (
-                <TogglePublic onChange={onChange} />
-              )}
-            />
-          </div>
-          <div className="dateWrapper">
-            <span>시작날짜</span>
-            <Controller
-              name="startDate"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange } }) => (
-                <DatePickerDiv
-                  className={
-                    errors.startDate && errors.startDate.type === "required"
-                      ? "errorBorder"
-                      : "ㅤ"
-                  }
-                >
-                  <DatePicker
-                    className="datepicker"
-                    placeholderText="click and select the date"
-                    dateFormat="yyyy/MM/dd"
-                    selected={startDate}
-                    onChange={(date: any) => {
-                      setStartDate(date);
-                      onChange(date.toISOString().split("T")[0]);
-                    }}
-                  />
-                </DatePickerDiv>
-              )}
-            />
-            <ErrorText>
-              {errors.startDate && errors.startDate.type === "required"
-                ? "* 날짜를 선택해 주세요!"
-                : " "}
-            </ErrorText>
-          </div>
-          <label htmlFor="content">내용</label>
-          <div>
-            <Controller
-              name="content"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange } }) => (
-                <textarea
-                  id="content"
-                  className={
-                    errors.startDate && errors.startDate.type === "required"
-                      ? "errorBorder textArea"
-                      : "textArea"
-                  }
-                  onChange={onChange}
-                  ref={textRef}
-                  onInput={handleResizeHeight}
+                <ErrorText>
+                  {errors.startDate && errors.startDate.type === "required"
+                    ? "* 날짜를 선택해 주세요!"
+                    : " "}
+                </ErrorText>
+              </div>
+              <label htmlFor="content">내용</label>
+              <div>
+                <Controller
+                  name="content"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange } }) => (
+                    <textarea
+                      id="content"
+                      className={
+                        errors.startDate && errors.startDate.type === "required"
+                          ? "errorBorder textArea"
+                          : "textArea"
+                      }
+                      onChange={onChange}
+                      ref={textRef}
+                      onInput={handleResizeHeight}
+                    />
+                  )}
                 />
-              )}
-            />
-          </div>
-          <ErrorText>
-            {errors.content && errors.content.type === "required"
-              ? "* 내용을 입력해 주세요!"
-              : " "}
-          </ErrorText>
-          <div>
-            <RedButton type="submit">Create Study</RedButton>
-          </div>
-        </Form>
-      </ContentDiv>
-    </Main>
+              </div>
+              <ErrorText>
+                {errors.content && errors.content.type === "required"
+                  ? "* 내용을 입력해 주세요!"
+                  : " "}
+              </ErrorText>
+              <div>
+                <RedButton type="submit">Create Study</RedButton>
+              </div>
+            </Form>
+          </ContentDiv>
+        </Main>
+      )}
+    </>
   );
 };
 export default CreateForm;
