@@ -44,6 +44,17 @@ public class StudyDto {
 
     @Getter
     @AllArgsConstructor
+    public static class CardResponse {
+        private Long studyId;
+        private String teamName;
+        private String summary;
+        private List<String> dayOfWeek;
+        private boolean procedure;
+        private String image;
+    }
+
+    @Getter
+    @AllArgsConstructor
     public static class Response {
         private Long studyId;
         private String teamName;

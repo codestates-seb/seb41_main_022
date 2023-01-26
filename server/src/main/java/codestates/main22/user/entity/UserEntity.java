@@ -44,14 +44,6 @@ public class UserEntity extends Auditable {
     @Column(length = 300)
     private String refresh;
 
-
-    @Column(nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    @Column(nullable = false)
-    private LocalDateTime modifiedAt = LocalDateTime.now();
-
-
     // 연관관계 매핑 - 한 user 에 여러개의 userStudy
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<UserStudyEntity> userStudies = new ArrayList<>();

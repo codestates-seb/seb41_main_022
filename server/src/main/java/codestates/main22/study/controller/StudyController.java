@@ -55,7 +55,7 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}") // (postman 디버깅용) 특정 스터디 조회 (기본 CRUD) --> 해당 부분도 사용함
+    @GetMapping("/{study-id}") // #44 - (postman 디버깅용) 특정 스터디 조회 (기본 CRUD) --> 해당 부분도 사용함
     public ResponseEntity getStudy(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
         StudyDto.Response response = studyMapper.studyToStudyResponseDto(findStudy);
@@ -79,7 +79,7 @@ public class StudyController {
         List<Study> studies = pageStudies.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
+                new MultiResponseDto<>(studyMapper.studiesToStudyCardResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
     @GetMapping("/cards") // #7 - 스터디 전체 조회 (tag 기준 필터링)
@@ -93,7 +93,7 @@ public class StudyController {
         List<Study> studies = pageStudies.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
+                new MultiResponseDto<>(studyMapper.studiesToStudyCardResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
     @DeleteMapping("/{study-id}") // #23 - 스터디 삭제 (방장 권한으로)

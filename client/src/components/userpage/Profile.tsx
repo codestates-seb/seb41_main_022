@@ -44,7 +44,7 @@ const Profile = () => {
             setStudyCount(res2.data.data);
           })
         );
-    }, 1500);
+    }, 500);
   }, []);
 
   return (

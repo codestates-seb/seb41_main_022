@@ -88,7 +88,7 @@ const CreateForm = () => {
                 id="teamName"
                 type="text"
                 placeholder="Team Name"
-                maxLength={10}
+                maxLength={15}
                 className={
                   errors.teamName && errors.teamName.type === "required"
                     ? "errorBorder"
@@ -101,7 +101,6 @@ const CreateForm = () => {
                   ? "* 팀이름을 입력해 주세요!"
                   : " "}
               </ErrorText>
-
               <input
                 id="summary"
                 type="text"

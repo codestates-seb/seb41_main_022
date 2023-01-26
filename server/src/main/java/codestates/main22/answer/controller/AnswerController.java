@@ -4,9 +4,13 @@ import codestates.main22.answer.dto.AnswerDto;
 import codestates.main22.answer.entity.Answer;
 import codestates.main22.answer.mapper.AnswerMapper;
 import codestates.main22.answer.service.AnswerService;
+import codestates.main22.chat.entity.Chat;
 import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
+import codestates.main22.exception.BusinessLogicException;
+import codestates.main22.exception.ExceptionCode;
 import codestates.main22.user.entity.UserEntity;
+import codestates.main22.utils.Token;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,7 @@ import java.util.List;
 public class AnswerController {
     private final AnswerService answerService;
     private final AnswerMapper answerMapper;
+    private final Token token;
 
     //CRUD 순서에 맞춰서
 
@@ -42,6 +47,7 @@ public class AnswerController {
 
         return new ResponseEntity<>(new SingleResponseDto(response), HttpStatus.CREATED);
     }
+
 
     //READ - 하나 조회
 //    @GetMapping("/{answer-id}")
@@ -65,6 +71,24 @@ public class AnswerController {
                         answerMapper.answersToResponse(answers),pageAnswers),HttpStatus.OK);
     }
 
+
+    //DELETE
+    @DeleteMapping("/{answer-id}")
+    public ResponseEntity deleteChat(@PathVariable("answer-id") @Positive long answerId,
+                                     HttpServletRequest request) {
+        UserEntity loginUser = token.findByToken(request);
+        long userId = loginUser.getUserId();
+
+        Answer answer = answerService.findAnswer(answerId);
+        long answerUserId = answer.getAnswerUserId();
+        if(userId != answerUserId) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHOR);
+        }
+        answerService.deleteAnswer(answerId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     //UPDATE
 //    @PatchMapping("/{answer-id}")
 //    public ResponseEntity patchAnswer(@Positive @PathVariable("answer-id") long answerId,
@@ -76,11 +100,4 @@ public class AnswerController {
 //                        answerMapper.answerToResponseCheck(answer)),HttpStatus.OK);
 //    }
 
-    //DELETE
-    @DeleteMapping("/{answer-id}")
-    public ResponseEntity deleteAnswer(@PathVariable("answer-id") @Positive long answerId) {
-        answerService.deleteAnswer(answerId);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }

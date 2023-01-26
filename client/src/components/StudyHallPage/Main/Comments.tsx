@@ -47,17 +47,6 @@ const Comments = ({
 
   console.log(content);
 
-  //answer data 받아오기
-  const [answersData, setAnswersData] = useState<CommentsProps | undefined>();
-  const getAnswersData = (url: string): Promise<AxiosResponse<Data>> => {
-    return axios.get(url, {
-      headers: {
-        "access-Token": cookies.token.accessToken,
-        "refresh-Token": cookies.token.refreshToken,
-      },
-    });
-  };
-
   const [showAnswer, setShowAnswer] = useState(false);
 
   const postAnswer = answerStore((state) => state.postAnswer);
@@ -86,21 +75,23 @@ const Comments = ({
             <UserName>{username}</UserName>
             <Content>{content}</Content>
             <span className="answerNumIcon">
-              <div className="answerNum">
-                <AddButton
-                  type="button"
-                  className="numAnswers"
-                  onClick={() => {
-                    setShowAnswer(!showAnswer);
-                  }}
-                >
-                  답글
-                </AddButton>
-                <div className="totalElements">{answers.length}</div>
-              </div>
+              {username === "Secret" ? null : (
+                <div className="answerNum">
+                  <AddButton
+                    type="button"
+                    className="numAnswers"
+                    onClick={() => {
+                      setShowAnswer(!showAnswer);
+                    }}
+                  >
+                    답글
+                  </AddButton>
+                  <div className="totalElements">{answers.length}</div>
+                </div>
+              )}
               <div className="icons">
                 {isClosedChat === false ? null : <MdOutlineLock />}
-                <FiTrash2 />
+                <FiTrash2 type="button" />
               </div>
             </span>
             {showAnswer && (
@@ -114,7 +105,6 @@ const Comments = ({
                   }}
                 />
                 <AnswerButton type="submit">Add</AnswerButton>
-
                 {answers.map((el) => (
                   <Answers
                     key={el.answerId}
@@ -162,7 +152,7 @@ const CommentBox = styled.div`
 const Img = styled.img`
   width: 30px;
   height: 30px;
-
+  background-color: var(--mopo-00);
   border-radius: 70%;
 `;
 const AddButton = styled.button`

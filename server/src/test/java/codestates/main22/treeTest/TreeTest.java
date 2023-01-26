@@ -35,9 +35,13 @@ import java.util.List;
 import static codestates.main22.util.ApiDocumentUtils.getDocumentRequest;
 import static codestates.main22.util.ApiDocumentUtils.getDocumentResponse;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TreeController.class)
@@ -77,7 +81,7 @@ public class TreeTest {
     @Autowired
     private Gson gson;
 
-    @Test // API 11번 유저의 개인 트리 조회 - 문서화 완료 but 확인 필요
+    @Test // API 11번 유저의 개인 트리 조회 - 완료
     @WithMockUser
     @DisplayName("#11 - user의 Tree 조회")
     public void getUserTreeTest() throws Exception{
@@ -118,6 +122,8 @@ public class TreeTest {
                 mockMvc.perform(
                         get("/tree/user")
                                 .accept(MediaType.APPLICATION_JSON)
+                                .header("access-Token", "abc")
+                                .header("refresh-Token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWRla3FsczkzQGdtYWlsLmNvbSIsImlhdCI6MTY3NDYxMjQwNSwiZXhwIjoxNjc0NjM3NjA1fQ.5T5FoYLpN7Gb0gE6ne7umx3qPvZ8hx5agN1JoG8YusghzqR5FLyjfltoMAg_SW73mieN2zaF6qJpQ9v8c6wBTg")
                 );
 
         //then
@@ -127,6 +133,12 @@ public class TreeTest {
                         "tree/#11",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("access-Token").description("access 토큰"),
+                                        headerWithName("refresh-Token").description("refresh 토큰")
+                                )
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -142,7 +154,7 @@ public class TreeTest {
                 ));
     }
 
-    @Test // API 38번 스터디의 트리 조회 - 문서화 완료 but 확인 필요
+    @Test // API 38번 스터디의 트리 조회 - 완료
     @WithMockUser
     @DisplayName("#38 - studyHall/main의 Tree 조회")
     public void getStudyTreeTest() throws Exception {
@@ -191,21 +203,24 @@ public class TreeTest {
         //then
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").isMap()) //리스트로 통과안됨, 맵으로 통과됨 일단 문서화는 됨
-        .andDo(document(
-                "tree/#38",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                responseFields(
-                        List.of(
-                                fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
-                                fieldWithPath("data.trees").type(JsonFieldType.ARRAY).description("트리 리스트"),
-                                fieldWithPath("data.trees[].treeId").type(JsonFieldType.NUMBER).description("트리 식별자"),
-                                fieldWithPath("data.trees[].treePoint").type(JsonFieldType.NUMBER).description("트리 점수"),
-                                fieldWithPath("data.trees[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
-                                fieldWithPath("data.trees[].createdAt").type(JsonFieldType.STRING).description("생성 날짜"),
-                                fieldWithPath("data.trees[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리")
+                .andDo(document(
+                        "tree/#38",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParameters(
+                                parameterWithName("studyId").description("스터디 식별자")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.trees").type(JsonFieldType.ARRAY).description("트리 리스트"),
+                                        fieldWithPath("data.trees[].treeId").type(JsonFieldType.NUMBER).description("트리 식별자"),
+                                        fieldWithPath("data.trees[].treePoint").type(JsonFieldType.NUMBER).description("트리 점수"),
+                                        fieldWithPath("data.trees[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
+                                        fieldWithPath("data.trees[].createdAt").type(JsonFieldType.STRING).description("생성 날짜"),
+                                        fieldWithPath("data.trees[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리")
+                                )
                         )
-                )
-        ));
+                ));
     }
 }

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 
 import Recruitment from "./Recruitment";
 import HomeStore from "../../util/zustandHome";
+import RecruitmentListSkeleton from "./RecruitmentListSkeleton";
 
 interface Data {
   data: any;
@@ -11,6 +12,7 @@ interface Data {
 
 const RecruitmentList = () => {
   const {
+    isLoading,
     tags,
     page,
     filter,
@@ -21,7 +23,6 @@ const RecruitmentList = () => {
     setRecruitment,
     setPage,
   } = HomeStore();
-
   useEffect(() => {
     setRecruitment([]);
   }, []);
@@ -30,9 +31,9 @@ const RecruitmentList = () => {
     fetch(tags, filter, search, page);
   }, [tags, filter, search, page]);
 
-  useEffect(() => {
-    console.log(recruitmentData);
-  }, [recruitmentData]);
+  // useEffect(() => {
+  //   console.log(recruitmentData);
+  // }, [recruitmentData]);
 
   const handleScroll = useCallback((): void => {
     const { innerHeight } = window;
@@ -82,6 +83,7 @@ const RecruitmentList = () => {
             imgUrl={el.image}
           />
         ))}
+      {isLoading && <RecruitmentListSkeleton />}
     </RecruitmentWrapper>
   );
 };

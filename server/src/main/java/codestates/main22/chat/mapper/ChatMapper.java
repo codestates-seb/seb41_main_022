@@ -24,6 +24,7 @@ public interface ChatMapper {
             chat.getAnswers().stream().forEach(answer -> {
                 AnswerDto.Response answerResponse = new AnswerDto.Response(
                         answer.getAnswerId(),
+                        answer.getAnswerUserId(),
                         users.get(answer.getAnswerUserId()).getUsername(),
                         users.get(answer.getAnswerUserId()).getImgUrl(),
                         answer.getContent(),
@@ -35,6 +36,7 @@ public interface ChatMapper {
             UserEntity user = users.get(chat.getChatUserId());
             ChatDto.Response response = new ChatDto.Response(
                     chat.getChatId(),
+                    chat.getChatUserId(),
                     user.getUsername(),
                     user.getImgUrl(),
                     chat.getContent(),
