@@ -20,17 +20,21 @@ const StudyHallPage = () => {
   const { page, studyId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["userData", "token"]);
   const { authData, checkAuth } = AuthStore();
+  const [callTimes, setCallTimes] = useState(0);
 
   useEffect(() => {
-    if (studyId && !authData?.request) {
-      setTimeout(() => {
-        checkAuth(
-          studyId,
-          cookies.userData.userId,
-          cookies.token.accessToken,
-          cookies.token.refreshToken
-        );
-      }, 500);
+    if (callTimes === 0) {
+      if (studyId && !authData?.request) {
+        setTimeout(() => {
+          checkAuth(
+            studyId,
+            cookies.userData.userId,
+            cookies.token.accessToken,
+            cookies.token.refreshToken
+          );
+        }, 500);
+        setCallTimes(callTimes + 1);
+      }
     }
   }, [authData]);
 
