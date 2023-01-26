@@ -6,6 +6,7 @@ import codestates.main22.tag.dto.TagResponseDto;
 import codestates.main22.tag.mapper.TagMapper;
 import codestates.main22.tag.service.TagService;
 import codestates.main22.util.JwtMockBean;
+import codestates.main22.utils.Init;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ public class TagControllerRestDocsTest extends JwtMockBean {
 
     @BeforeAll
     public static void initAll() {
-        allTagList = TagService.tagList
+        allTagList = Init.tagList
                 .stream()
                 .collect(Collectors.toCollection(ArrayList::new));
 

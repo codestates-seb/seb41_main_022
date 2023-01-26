@@ -10,6 +10,7 @@ import codestates.main22.tag.repository.TagRepository;
 import codestates.main22.tag.repository.TagStudyRepository;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
+import codestates.main22.utils.Init;
 import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,11 +29,6 @@ public class TagService {
     private final TagStudyRepository tagStudyRepository;
     private final StudyRepository studyRepository;
     private final Token token;
-
-    public static List<String> tagList = List.of(
-            "IT", "수학", "영어", "과학", "토익", "일본어", "프랑스어"
-    );
-
 
     public TagService(TagRepository tagRepository,
                       TagStudyRepository tagStudyRepository,
@@ -226,7 +222,7 @@ public class TagService {
 
     // 태그 초기 저장 함수
     public void saveTags() {
-        for(String name : tagList) {
+        for(String name : Init.tagList) {
             Tag tag = new Tag();
             tag.setName(name);
             tagRepository.save(tag);
