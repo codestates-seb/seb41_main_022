@@ -27,10 +27,10 @@ const StudyHallPage = () => {
       if (studyId && !authData?.request) {
         setTimeout(() => {
           checkAuth(
-            studyId,
-            cookies.userData.userId,
-            cookies.token.accessToken,
-            cookies.token.refreshToken
+              studyId,
+              cookies.userData.userId,
+              cookies.token.accessToken,
+              cookies.token.refreshToken
           );
         }, 500);
         setCallTimes(callTimes + 1);
