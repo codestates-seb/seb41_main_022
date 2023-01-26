@@ -6,8 +6,6 @@ import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import AuthStore from "../../../../util/zustandAuth";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 const DetailModal = ({
   showDetailModal,
   setShowDetailModal,
@@ -32,7 +30,7 @@ const DetailModal = ({
     setEditData(todoThatDay[0]);
   };
   const clickDelete = () => {
-    calendarDelete(URL, todoThatDay[0].calendarId);
+    calendarDelete(todoThatDay[0].calendarId);
     setShowDetailModal(false);
   };
   return (
@@ -46,17 +44,15 @@ const DetailModal = ({
           <div>
             {todoThatDay && (
               <div>
-                <ul>
-                  <li> 날짜 : {todoThatDay[0].date.slice(0, 10)} </li>
-                  <li> 시간 : {todoThatDay[0].date.slice(11, 16)} </li>
-                  <li> 일정 : {todoThatDay[0].title} </li>
-                  <hr />
-                  {todoThatDay[0].participants.map((el) => (
-                    <div key={el.userId}>
-                      {el.username}:{el.joinState}
-                    </div>
-                  ))}
-                </ul>
+                <div> 날짜 : {todoThatDay[0].date.slice(0, 10)} </div>
+                <div> 시간 : {todoThatDay[0].date.slice(11, 16)} </div>
+                <div> 일정 : {todoThatDay[0].title} </div>
+                <hr />
+                {todoThatDay[0].participants.map((el) => (
+                  <div key={el.userId}>
+                    {el.username}:{el.joinState}
+                  </div>
+                ))}
               </div>
             )}
             <IconDiv>
@@ -77,12 +73,7 @@ const DetailModal = ({
 };
 
 export default DetailModal;
-const Back = styled.div`
-  position: absolute;
-  background-color: black;
-  width: 1000px;
-  height: 1000px;
-`;
+
 const ModalDiv = styled.main`
   margin-left: 150px;
   margin-top: -100px;
@@ -96,6 +87,12 @@ const ModalDiv = styled.main`
   border-radius: var(--radius-10);
   background-color: var(--green);
   padding: 2px;
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    color: var(--beige-00) !important;
+  }
   * {
     font-family: "mainB", Arial;
     color: var(--beige-00);
@@ -104,7 +101,7 @@ const ModalDiv = styled.main`
 const ContentsDiv = styled.article`
   width: 256px;
   border: 2px solid var(--beige-00);
-  padding: 20px;
+  padding: 5px 20px;
   border-radius: var(--radius-10);
   .flexDiv {
     display: flex;
@@ -112,6 +109,9 @@ const ContentsDiv = styled.article`
     * {
       font-size: 24px;
     }
+  }
+  div {
+    margin: 20px 10px;
   }
 `;
 const IconDiv = styled.div`

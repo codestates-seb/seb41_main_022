@@ -8,8 +8,6 @@ import { useEffect, useState } from "react";
 
 import NoticeStore from "../../../util/zustandNotice";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 const StudyHallNotification = () => {
   const { notice, patchNotice, fetchRightNav } = NoticeStore();
   const { studyId } = useParams();
@@ -21,9 +19,10 @@ const StudyHallNotification = () => {
   }, [notice]);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    patchNotice(URL, studyId, { notice: tempNotice });
-    fetchRightNav(URL, studyId);
+    patchNotice(studyId, { notice: tempNotice });
+    fetchRightNav(studyId);
     alert("공지가 수정되었습니다");
+    window.location.reload();
   };
   const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempNotice(e.target.value);

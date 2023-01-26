@@ -4,17 +4,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 const StudyHallNotificationSidebarList = ({ data }: any) => {
   const { studyId } = useParams();
   const [todayData, setTodayData] = useState([]);
-  const fetch = (url: string) => {
-    return axios.get(url + "/calendar?studyId=" + studyId);
+  const fetch = () => {
+    return axios.get(
+      process.env.REACT_APP_API_URL + "/calendar?studyId=" + studyId
+    );
   };
   const date: string = new Date().toISOString().split("T")[0];
   useEffect(() => {
-    fetch(URL).then((res) => {
+    fetch().then((res) => {
       setTodayData(
         res.data.data.filter(
           (el: { date: string }) => el.date.split("T")[0] === date

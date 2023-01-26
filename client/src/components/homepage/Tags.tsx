@@ -28,8 +28,7 @@ const Tags = () => {
   }, [selectedTagList]);
 
   useEffect(() => {
-    const url =
-      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/tag";
+    const url = process.env.REACT_APP_API_URL + "/tag";
     getTags(url).then((res) => setTagList(res.data.data.tags));
   }, []);
   return (

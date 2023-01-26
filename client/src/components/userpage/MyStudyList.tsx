@@ -1,15 +1,16 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import styled from "styled-components";
 import { useCookies } from "react-cookie";
 
 import MyStudy from "./MyStudy";
+import UserStudySkeleton from "./UserStudySkeleton";
 
 interface MyStudyList {
   studyId: number;
   teamName: string;
-  imgUrl: string;
-  studies: [];
+  image: string;
+  summary: string;
 }
 
 interface Data {
@@ -28,11 +29,13 @@ const MyStudyList = () => {
     });
   };
   useEffect(() => {
-    getMyStudyData(
-      "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/user"
-    ).then((res) => {
-      setMyStudyList(res.data.data.studies);
-    });
+    setTimeout(() => {
+      getMyStudyData(process.env.REACT_APP_API_URL + "/study/user").then(
+        (res) => {
+          setMyStudyList(res.data.data.studies);
+        }
+      );
+    }, 1500);
   }, []);
 
   return (
@@ -43,9 +46,11 @@ const MyStudyList = () => {
             key={el.studyId}
             studyId={el.studyId}
             teamName={el.teamName}
-            imgUrl={el.imgUrl}
+            summary={el.summary}
+            imgUrl={el.image}
           />
         ))}
+      {!myStudyList && <UserStudySkeleton />}
     </MyStudyWrapper>
   );
 };
@@ -54,7 +59,7 @@ const MyStudyWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin: 0 100px;
+  margin: 0 150px;
 `;
 
 export default MyStudyList;

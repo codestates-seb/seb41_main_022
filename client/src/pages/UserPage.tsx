@@ -1,32 +1,44 @@
 import axios from "axios";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineCloseCircle } from "react-icons/ai";
 //구분선
 import Profile from "../components/userpage/Profile";
 import MyStudy from "../components/userpage/MyStudy";
 import MyStudyList from "../components/userpage/MyStudyList";
 import { useCookies } from "react-cookie";
+import LoginStore from "../util/zustandLogin";
 
 const UserPage = () => {
-  const [cookies] = useCookies(["token", "userData"]);
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
   const [isOpenAgreePage, setIsOpenAgreePage] = useState(false);
   const [agreeWithdraw, setAgreeWithdraw] = useState(false);
+  const [totalStudyCount, setTotalStudyCount] = useState<number | undefined>(
+    undefined
+  );
+  const { setIsLogin } = LoginStore();
   const navigate = useNavigate();
 
   const withdraw = () => {
     if (agreeWithdraw) {
-      axios
-        .delete(
-          "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user",
-          {
-            headers: {
-              "access-Token": cookies.token.accessToken,
-              "refresh-Token": cookies.token.refreshToken,
-            },
-          }
-        )
-        .then(() => navigate("/"));
+      totalStudyCount === 0
+        ? axios
+            .delete(process.env.REACT_APP_API_URL + "/user", {
+              headers: {
+                "access-Token": cookies.token.accessToken,
+                "refresh-Token": cookies.token.refreshToken,
+              },
+            })
+            .then(() => {
+              navigate("/");
+              removeCookie("token");
+              removeCookie("userData");
+              setIsLogin(false);
+            })
+        : alert("가입되어 있는 모든 스터디에서 탈퇴 후 진행해주세요");
+      setAgreeWithdraw(false);
+      setIsOpenAgreePage(false);
     }
   };
 
@@ -37,6 +49,17 @@ const UserPage = () => {
   const handleActiveWithdrawButton = () => {
     setAgreeWithdraw(!agreeWithdraw);
   };
+
+  useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_API_URL + "/study/user", {
+        headers: {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        },
+      })
+      .then((res) => setTotalStudyCount(res.data.data.studyCount));
+  }, []);
   return (
     <Main>
       <Container>
@@ -45,7 +68,16 @@ const UserPage = () => {
         {isOpenAgreePage ? (
           <WithdrawAgree>
             <div className="textZone">
-              <h2>회원탈퇴 안내사항</h2>
+              <div className="closeButtonWrapper">
+                <h2>회원탈퇴 안내사항</h2>
+                <AiOutlineCloseCircle
+                  className="closeButton"
+                  onClick={() => {
+                    setIsOpenAgreePage(!isOpenAgreePage);
+                    setAgreeWithdraw(false);
+                  }}
+                />
+              </div>
               <ul>
                 <li>
                   • 회원탈퇴가 진행된 후에는 다시 되돌릴 수 없습니다. 아래
@@ -111,6 +143,8 @@ const Container = styled.div`
   width: 1024px;
   margin: 0px auto;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 
   ul,
   li {
@@ -130,7 +164,7 @@ const Container = styled.div`
   > .button {
     width: 105px;
     height: 10px;
-    margin-left: 700px;
+    margin-left: 750px;
     font-size: 12px;
     color: #c0c0c0;
     background-color: var(--gray-10);
@@ -178,7 +212,19 @@ const WithdrawAgree = styled.div`
       font-family: "mainM";
       margin: 8px 0;
     }
+    .closeButtonWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 16px;
+      > .closeButton {
+        fill: var(--red-00);
+        font-size: 25px;
+        cursor: pointer;
+      }
+    }
     h2 {
+      display: inline;
       font-family: "mainB";
       font-size: 24px;
       margin: 14px 0;

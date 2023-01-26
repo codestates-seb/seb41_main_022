@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import EditModal from "./EditModal";
 import StudyHallNotificationSidebar from "../StudyHallNotificationSidebar";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+const URL = process.env.REACT_APP_API_URL;
 
 const CalendarApp = () => {
   const [showAddModal, setShowAddModal] = useState(false);

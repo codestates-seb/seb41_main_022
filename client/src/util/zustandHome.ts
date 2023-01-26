@@ -48,7 +48,8 @@ const HomeStore = create<Home>()((set) => ({
   fetch: async (tags, filter, search, page) => {
     try {
       const res = await axios.get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/cards?page=${page}&size=12&search=${search}&filter=${filter}&tags=${tags}`
+        process.env.REACT_APP_API_URL +
+          `/study/cards?page=${page}&size=12&search=${search}&filter=${filter}&tags=${tags}`
       );
       set((state) => ({
         recruitmentData: [...state.recruitmentData, ...res.data.data],

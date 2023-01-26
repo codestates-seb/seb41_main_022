@@ -25,18 +25,17 @@ const Setting = () => {
   const { authData } = AuthStore();
   const fetchApplicationList = () => {
     axios
-      .get(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/user/${studyId}/requester`,
-        {
-          headers: {
-            "access-Token": cookies.token.accessToken,
-            "refresh-Token": cookies.token.refreshToken,
-          },
-        }
-      )
+      .get(process.env.REACT_APP_API_URL + `/user/${studyId}/requester`, {
+        headers: {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        },
+      })
       .then((res) => setApplicationData(res.data.data));
   };
-  const handleClickEditStudy = () => {};
+  const handleClickEditStudy = () => {
+    navigate(`/edit/${studyId}`);
+  };
   const handleClickDeleteStudy = () => {
     axios
       .delete(

@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 import NoticeStore from "../../util/zustandNotice";
 import Ticker from "react-ticker";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 const StudyHallRightNav = () => {
   const { dayOfWeek, notice, zustandStudyId, resetNotice, fetchRightNav } =
     NoticeStore();
@@ -18,7 +16,7 @@ const StudyHallRightNav = () => {
     if (zustandStudyId !== studyId) {
       resetNotice();
     }
-    fetchRightNav(URL, studyId);
+    fetchRightNav(studyId);
     setNoticeR(notice);
   }, [notice]);
   return (
@@ -72,7 +70,7 @@ const Notice = styled.div`
       }
       .noticeFont {
         font-family: "mainM", Arial;
-        font-size: 12px;
+        font-size: 10px;
       }
     }
   }

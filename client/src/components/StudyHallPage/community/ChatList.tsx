@@ -48,6 +48,13 @@ const ChatList = () => {
 
     setChatContent("");
   };
+  const EnterKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.shiftKey && e.key === "Enter") {
+      return;
+    } else if (e.key === "Enter") {
+      handleSendClick();
+    }
+  };
   useEffect(() => {
     if (studyId) {
       getChatData(studyId);
@@ -62,11 +69,14 @@ const ChatList = () => {
         <WriteChat>
           <textarea
             value={chatContent}
-            onChange={(e) => setChatContent(e.target.value)}
+            onChange={(e) => {
+              setChatContent(e.target.value);
+            }}
             className="textArea"
             ref={textRef}
             onInput={handleResizeHeight}
             placeholder="Write Message here..."
+            onKeyPress={EnterKey}
           ></textarea>
           <button onClick={handleSendClick}>Send</button>
         </WriteChat>
@@ -76,7 +86,15 @@ const ChatList = () => {
         {chatData.map((el, idx) =>
           el.messageUserId === userId ? (
             <div key={idx} className="myChatWrapper">
-              <div className="myChat">{el.content}</div>
+              <div className="time">{el.dateTime.replace("T", " / ")}</div>
+              <div className="myChat">
+                {el.content.split("\n").map((el, idx) => (
+                  <span key={idx}>
+                    {el}
+                    <br />
+                  </span>
+                ))}
+              </div>
             </div>
           ) : (
             <Chat
@@ -172,8 +190,25 @@ const ChatWrapper = styled.div`
   flex-direction: column;
   overflow: auto;
   > .myChatWrapper {
+    .time {
+      position: relative;
+      font-size: 8px;
+      margin-top: -25px;
+      margin-left: 120px;
+      display: none;
+    }
+    :hover {
+      .time {
+        color: var(--gray-20);
+        display: block;
+      }
+      .myChat {
+        margin-top: 9px;
+      }
+    }
     .myChat {
       font-family: "mainL";
+      margin-top: 0;
     }
     border: 1px solid var(--beige-00);
     border-radius: var(--radius-20);
@@ -183,7 +218,7 @@ const ChatWrapper = styled.div`
     color: var(--beige-00);
     padding: 8px 8px 8px 16px;
     line-height: 16px;
-    margin-top: 8px;
+    margin-top: 18px;
     margin-left: calc(420px - 270px);
   }
 `;

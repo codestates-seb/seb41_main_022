@@ -7,8 +7,6 @@ import { useCookies } from "react-cookie";
 import { joinStudyStore } from "../../util/zustandJoinStudy";
 import AuthStore from "../../util/zustandAuth";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
-
 interface StudyHeader {
   teamName: string;
   openClose: boolean;
@@ -17,19 +15,20 @@ interface StudyHeader {
 const StudyHallHead = () => {
   const [studyData, setStudyData] = useState<StudyHeader>();
   const { studyId } = useParams();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const { authData } = AuthStore();
+  const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
+  const { authData, checkAuth } = AuthStore();
 
   const fetchJoinStudy = joinStudyStore((state) => state.fetchJoinStudy);
   useEffect(() => {
-    axios.get(URL + `/study/${studyId}/header`).then((res) => {
-      setStudyData(res.data.data);
-    });
+    axios
+      .get(process.env.REACT_APP_API_URL + `/study/${studyId}/header`)
+      .then((res) => {
+        setStudyData(res.data.data);
+      });
   }, []);
 
   const clickJoin = () => {
     fetchJoinStudy(
-      URL,
       studyId,
       {},
       {
@@ -37,6 +36,15 @@ const StudyHallHead = () => {
         "refresh-Token": cookies.token.refreshToken,
       }
     );
+
+    if (studyId !== undefined) {
+      checkAuth(
+        studyId,
+        cookies.userData.userId,
+        cookies.token.accessToken,
+        cookies.token.refreshToken
+      );
+    }
   };
   return (
     <HeaderWrapper>

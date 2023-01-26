@@ -10,10 +10,18 @@ interface chatProps {
 const Chat = ({ username, content, dateTime, imgUrl }: chatProps) => {
   return (
     <Chatwrapper>
+      <div className="time">{dateTime.replace("T", " / ")}</div>
       <img src={imgUrl} />
       <TextWrapper>
         <div className="name">{username}</div>
-        <div className="content">{content}</div>
+        <div className="content">
+          {content.split("\n").map((el, idx) => (
+            <span key={idx}>
+              {el}
+              <br />
+            </span>
+          ))}
+        </div>
       </TextWrapper>
     </Chatwrapper>
   );
@@ -30,8 +38,27 @@ const Chatwrapper = styled.div`
   color: var(--beige-00);
   padding: 8px;
   line-height: 16px;
-  margin-top: 8px;
-
+  margin-top: 18px;
+  .time {
+    position: absolute;
+    font-size: 8px;
+    margin-top: -25px;
+    margin-left: 10px;
+    display: none;
+  }
+  :hover {
+    .time {
+      color: var(--gray-20);
+      display: block;
+    }
+    .myChat {
+      margin-top: 9px;
+    }
+  }
+  .myChat {
+    font-family: "mainL";
+    margin-top: 0;
+  }
   > img {
     border-radius: var(--radius-30);
     width: 20px;
@@ -43,6 +70,7 @@ const Chatwrapper = styled.div`
 const TextWrapper = styled.div`
   .content {
     font-family: "mainL";
+    white-space: pre;
   }
   display: flex;
   flex-direction: column;

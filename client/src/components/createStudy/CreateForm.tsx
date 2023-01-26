@@ -14,7 +14,7 @@ import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
-const URL = "http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080";
+const URL = process.env.REACT_APP_API_URL;
 
 interface MyFormProps {
   teamName: string;
@@ -61,9 +61,8 @@ const CreateForm = () => {
   const onSubmitHandler: SubmitHandler<MyFormProps> = (data) => {
     const form = {
       ...data,
-      image: "https://avatars.dicebear.com/api/bottts/222.svg",
     };
-    fetchCreateStudy(URL, form, {
+    fetchCreateStudy(form, {
       "access-Token": cookies.token.accessToken,
       "refresh-Token": cookies.token.refreshToken,
     });

@@ -7,13 +7,23 @@ interface TagsProps {
   onChange: any;
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
+  initTags: string[];
 }
 
-const CreatePageTags = ({ tag, onChange, isOpen, setIsOpen }: TagsProps) => {
+const EditPageTags = ({
+  tag,
+  onChange,
+  isOpen,
+  setIsOpen,
+  initTags,
+}: TagsProps) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   useEffect(() => {
     onChange(selectedTags);
   }, [selectedTags]);
+  useEffect(() => {
+    setSelectedTags(initTags);
+  }, []);
   const addTag = (tagName: string) => {
     if (selectedTags) {
       if (selectedTags.includes(tagName)) {
@@ -71,10 +81,11 @@ const Tag = styled.div`
   }
 `;
 const TagsWrapper = styled.div`
+  margin-top: 5px;
   display: flex;
   flex-wrap: wrap;
-  padding: 2px 8px;
+  padding: 8px;
 
   align-items: center;
 `;
-export default CreatePageTags;
+export default EditPageTags;
