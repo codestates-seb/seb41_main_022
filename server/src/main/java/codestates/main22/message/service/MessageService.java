@@ -8,6 +8,7 @@ import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.study.service.StudyService;
+import codestates.main22.tree.service.TreeService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.utils.Token;
@@ -27,30 +28,40 @@ public class MessageService {
     private StudyService studyService;
     private final UserRepository userRepository;
     private final Token token;
+    private final TreeService treeService;
 
     public MessageService(MessageRepository messageRepository,
                           StudyService studyService,
                           UserRepository userRepository,
-                          Token token) {
+                          Token token,
+                          TreeService treeService) {
         this.messageRepository = messageRepository;
         this.studyService = studyService;
         this.userRepository = userRepository;
         this.token = token;
+        this.treeService = treeService;
     }
 
     // 메세지 생성
     @Transactional
-    public Message createMessage(long studyId, Message message, HttpServletRequest request) {
+    public Message createMessage(long studyId, Message message, UserEntity user) {
         // 유저가 스터디에 USER 권한이 있는지 찾고 없으면 exception 발생
-        UserEntity user = token.findByToken(request); // 토큰으로 유저 찾기
+        Study study = studyService.VerifiedStudy(studyId);
         message.setMessageUserId(user.getUserId());
-        message.setUserName(user.getUsername()); // 유저 이름 set
+
         String admin = "STUDY" + studyId + "_ADMIN"; // 관리자인지 확인
         String user1 = "STUDY" + studyId + "_USER"; // 가입된 유저인지 확인
-        if(!(user.getRole().contains(admin) || user.getRole().contains(user1))) {new BusinessLogicException(ExceptionCode.UNREGISTERED_USER);} //스터디원만 허용
-        Study findStudy = studyService.findStudy(studyId);
-        message.setStudy(findStudy);
+
+        //스터디원만 message 작성 허용
+        if(!(user.getRole().contains(admin) || user.getRole().contains(user1)))
+            new BusinessLogicException(ExceptionCode.UNREGISTERED_USER);
+
+        message.setStudy(study);
         messageRepository.save(message);
+
+        // 스터디원의 첫번째 message 작성이면 트리 포인트 추가
+        if(messageRepository.findByStudyAndMessageUserId(study, user.getUserId()).size() == 1)
+            treeService.updateTreePoint(study, 10);
 
         return message;
     }
@@ -96,21 +107,17 @@ public class MessageService {
         return message;
     }
 
-    // 스터디 아이디 찾기 (스터디별 채팅 보기 기능에 사용)
-    public List<Message> findByStudy(long studyId) {
-        Study findStudy = studyService.VerifiedStudy(studyId);
-        return messageRepository.findByStudy(findStudy);
-    }
-
     public UserEntity findUserByToken(HttpServletRequest request) {
         return token.findByToken(request);}
 
 
+    // 스터디 아이디 찾기 (스터디별 채팅 보기 기능에 사용)
     public List<Message> findByStudyMessage(long studyId) {
-        Study study = studyService.findStudy(studyId);
+        Study study = studyService.VerifiedStudy(studyId);
         List<Message> studyMessage = messageRepository.findByStudy(study);
         return studyMessage;
     }
+
     public Map<Long, UserEntity> findUsers(List<Message> messages) {
         Map<Long, UserEntity> users = new HashMap<>();
 
