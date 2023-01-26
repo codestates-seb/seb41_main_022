@@ -79,7 +79,7 @@ public class StudyController {
         List<Study> studies = pageStudies.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
+                new MultiResponseDto<>(studyMapper.studiesToStudyCardResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
     @GetMapping("/cards") // #7 - 스터디 전체 조회 (tag 기준 필터링)
@@ -93,7 +93,7 @@ public class StudyController {
         List<Study> studies = pageStudies.getContent();
 
         return new ResponseEntity<>(
-                new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
+                new MultiResponseDto<>(studyMapper.studiesToStudyCardResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
     @DeleteMapping("/{study-id}") // #23 - 스터디 삭제 (방장 권한으로)

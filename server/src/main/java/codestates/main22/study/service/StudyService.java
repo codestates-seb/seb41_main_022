@@ -7,11 +7,12 @@ import codestates.main22.study.entity.Study;
 import codestates.main22.study.repository.StudyRepository;
 import codestates.main22.tag.entity.Tag;
 import codestates.main22.tag.service.TagService;
-import codestates.main22.tree.entity.Tree;
+import codestates.main22.tree.service.TreeService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.entity.UserStudyEntity;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.repository.UserStudyRepository;
+import codestates.main22.utils.Init;
 import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
 import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +33,7 @@ public class StudyService {
     private final UserRepository userRepository;
     private final TagService tagService;
     private final UserStudyRepository userStudyRepository;
+    private final TreeService treeService;
     private final CustomAuthorityUtils customAuthorityUtils;
     private final Token token;
 
@@ -39,13 +41,15 @@ public class StudyService {
     public StudyService(StudyRepository studyRepository,
                         UserRepository userRepository,
                         TagService tagService,
-                        CustomAuthorityUtils customAuthorityUtils,
                         UserStudyRepository userStudyRepository,
+                        TreeService treeService,
+                        CustomAuthorityUtils customAuthorityUtils,
                         Token token) {
         this.studyRepository = studyRepository;
         this.userRepository = userRepository;
         this.tagService = tagService;
         this.userStudyRepository = userStudyRepository;
+        this.treeService = treeService;
         this.customAuthorityUtils = customAuthorityUtils;
         this.token = token;
     }
@@ -66,19 +70,16 @@ public class StudyService {
         userStudyEntity.setStudy(study);
 
         // tree 생성하기
-        Tree tree = new Tree();
-        tree.setTreeImage("https://seb41-main-022.s3.ap-northeast-2.amazonaws.com/favicon.ico");
-        tree.setMakeMonth(LocalDate.now().getMonthValue());
-        tree.setStudy(study);
+        treeService.createTree(study);
 
         // image 자동 세팅
         int randImage = randBetween(1,30);
-        if(study.getImage() == null) {study.setImage("https://seb41-main-022.s3.ap-northeast-2.amazonaws.com/main" + randImage + ".png");}
+        if(study.getImage() == null) {study.setImage(Init.S3Url + "main" + randImage + ".png");}
 
         return study;
     }
 
-    public Study joinStudy(Study study, UserEntity user) {  // 방장이 가입 수락 버튼을 눌렀을 때
+    public Study joinStudy(Study study, UserEntity user) {
         // user 와 연관관계 생성
         UserStudyEntity userStudyEntity = new UserStudyEntity();
         userStudyEntity.setUser(user);
@@ -105,6 +106,7 @@ public class StudyService {
         return studyRepository.save(study);
     }
 
+    // 방장이 가입 수락 버튼을 눌렀을 때
     public Study giveUserAuth(Study study, long userId) {
         UserEntity user = userRepository.findById(userId).get();
 
@@ -115,6 +117,10 @@ public class StudyService {
         user.getRole().add(customAuthorityUtils.createStudyRoles(study.getStudyId(), false));
 
         userStudyRepository.save(userStudyEntity);
+
+        // 새로운 스터디원 가입 시 트리 점수 추가
+        treeService.updateTreePoint(study, 30);
+
         return study;
     }
 
@@ -126,13 +132,22 @@ public class StudyService {
 //        return study;
 //    }
 
+    // 스터디원의 스터디 탈퇴
     @Transactional
     public void removeUserAuth(Study study, long userId) {
         UserEntity user = userRepository.findByUserId(userId);
+
+        // 스터디와 유저의 연관관계 제거
         UserStudyEntity userStudyEntity = userStudyRepository.findByUserAndStudy(user, study);
         study.getUserStudies().remove(userStudyEntity);
         user.getUserStudies().remove(userStudyEntity);
         userStudyRepository.delete(userStudyEntity);
+
+        // user의 스터디원 권한 삭제
+        user.getRole().remove(customAuthorityUtils.createStudyRoles(study.getStudyId(), false));
+
+        // 스터디 탈퇴 시 트리 포인트 감소
+        treeService.updateTreePoint(study, -30);
     }
 
     public Study findStudy(long studyId) {
@@ -144,11 +159,23 @@ public class StudyService {
         return studyRepository.findAll(PageRequest.of(page, size, Sort.by("studyId").descending()));
     }
 
+    // 달이 바뀌었을 때, 모든 스터디에 새로운 트리 추가하기
+    public void createTreesAllStudies() {
+        studyRepository.findAll().stream()
+                .forEach(study -> {
+                    // 트리가 생성된 달과 현재 달이 다른 경우에 새로운 트리 추가
+                    if(treeService.findfinalCreatedTree(study).getMakeMonth() != LocalDate.now().getMonthValue())
+                        treeService.createTree(study);
+                });
+    }
+
     // 스터디 필터링 - 처음 조회
     public Page<Study> findStudiesByFilters(
             int page,
             int size
     ) {
+        createTreesAllStudies(); // 달이 바뀌었을 때, 새로운 트리 추가하기
+
         List<Study> studies = studyRepository.findAll().stream()
                 .filter(study -> study.isOpenClose()) // 공개된 스터디 필터링
                 .sorted(Comparator.comparing(Study::getCreatedAt).reversed()) // new(최신) 순으로 정렬(default)

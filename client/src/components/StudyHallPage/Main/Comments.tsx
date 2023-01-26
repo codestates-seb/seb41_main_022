@@ -91,7 +91,7 @@ const Comments = ({
               )}
               <div className="icons">
                 {isClosedChat === false ? null : <MdOutlineLock />}
-                <FiTrash2 />
+                <FiTrash2 type="button" />
               </div>
             </span>
             {showAnswer && (
@@ -152,7 +152,7 @@ const CommentBox = styled.div`
 const Img = styled.img`
   width: 30px;
   height: 30px;
-
+  background-color: var(--mopo-00);
   border-radius: 70%;
 `;
 const AddButton = styled.button`

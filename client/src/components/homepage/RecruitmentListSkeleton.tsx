@@ -5,12 +5,54 @@ import "react-loading-skeleton/dist/skeleton.css";
 const RecruitmentListSkeleton = () => {
   return (
     <RecruitmentWrapper>
-      <Skeleton className="recruitmentSkeleton" />
-      <Skeleton className="recruitmentSkeleton" />
-      <Skeleton className="recruitmentSkeleton" />
-      <Skeleton className="recruitmentSkeleton" />
-      <Skeleton className="recruitmentSkeleton" />
-      <Skeleton className="recruitmentSkeleton" />
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
+      <div className="wrapperSkeleton">
+        <Skeleton className="titleSkeleton" />
+        <Skeleton className="weekSkeleton" />
+      </div>
     </RecruitmentWrapper>
   );
 };
@@ -19,11 +61,24 @@ const RecruitmentWrapper = styled.section`
   display: flex;
   flex-wrap: wrap;
   height: auto;
-  .recruitmentSkeleton {
+  .wrapperSkeleton {
     width: 321px;
     height: 246px;
     border-radius: var(--radius-10);
     margin: 16px 20px 16px 20px;
+    background-color: var(--gray-10);
+  }
+  .titleSkeleton {
+    margin: 45px 43px 0 43px;
+    width: 180px;
+    height: 38px;
+    border-radius: var(--radius-10);
+  }
+  .weekSkeleton {
+    margin: 95px 43px 0 43px;
+    width: 200px;
+    height: 22px;
+    border-radius: var(--radius-30);
   }
 
   //모바일

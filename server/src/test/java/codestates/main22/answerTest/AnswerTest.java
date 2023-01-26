@@ -40,6 +40,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AnswerController.class)
@@ -86,7 +87,7 @@ public class AnswerTest {
         AnswerDto.Post post = new AnswerDto.Post("내용");
         String content = gson.toJson(post);
 
-        AnswerDto.Response response = new AnswerDto.Response(1, "유저 이름", "유저 이미지", "내용", LocalDateTime.now());
+        AnswerDto.Response response = new AnswerDto.Response(1, 1, "유저 이름", "유저 이미지", "내용", LocalDateTime.now());
 
         Answer answer = new Answer();
         answer.setCreatedAt(LocalDateTime.now().withNano(0));
@@ -130,6 +131,7 @@ public class AnswerTest {
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
                                         fieldWithPath("data.answerId").type(JsonFieldType.NUMBER).description("답변 식별자"),
+                                        fieldWithPath("data.answerUserId").type(JsonFieldType.NUMBER).description("답변 작성자 식별자"),
                                         fieldWithPath("data.username").type(JsonFieldType.STRING).description("유저 이름"),
                                         fieldWithPath("data.imgUrl").type(JsonFieldType.STRING).description("유저 이미지 주소"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("내용"),
@@ -137,5 +139,30 @@ public class AnswerTest {
                                 )
                         )
                 ));
+    }
+
+    @Test //API 46번 답변 삭제 - 완료
+    @WithMockUser
+    @DisplayName("#46 - studyHall/main 댓글 삭제(아래)")
+    public void deleteAnswerTest() throws Exception {
+        long answerId = 1L;
+
+        given(token.findByToken(Mockito.any(HttpServletRequest.class))).willReturn(new UserEntity());
+        given(answerService.findAnswer(Mockito.anyLong())).willReturn(new Answer());
+
+        ResultActions actions = mockMvc.perform(delete("/answer/{answr-id}", answerId).with(csrf()).accept(MediaType.APPLICATION_JSON)
+                .header("access-Token", "abc")
+                .header("refresh-Token", "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJkaWRla3FsczkzQGdtYWlsLmNvbSIsImlhdCI6MTY3NDYxMjQwNSwiZXhwIjoxNjc0NjM3NjA1fQ.5T5FoYLpN7Gb0gE6ne7umx3qPvZ8hx5agN1JoG8YusghzqR5FLyjfltoMAg_SW73mieN2zaF6qJpQ9v8c6wBTg")
+        );
+
+        actions.andExpect(status().isNoContent())
+                .andDo(document("answer/#46",
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("access-Token").description("access 토큰"),
+                                        headerWithName("refresh-Token").description("refresh 토큰")
+                                )
+                        ))
+                );
     }
 }

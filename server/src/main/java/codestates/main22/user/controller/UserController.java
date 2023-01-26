@@ -133,4 +133,12 @@ public class UserController {
         List<UserEntity> requesterList = userService.findRequester(userList);
         return new ResponseEntity<>(new SingleResponseDto<>(userMapper.userEntityToSearchUsersResponse(requesterList)), HttpStatus.OK);
     }
+
+    @GetMapping("/{user-id}") //토큰 없이 유저 검색하기
+    public ResponseEntity getUserNoToken(@PathVariable("user-id") @Positive long userId) {
+        UserEntity user = userService.verifiedUser(userId);
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(
+                        userMapper.userEntityToSearchUserResponse(user)),HttpStatus.OK);
+    }
 }

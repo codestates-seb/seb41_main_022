@@ -84,28 +84,32 @@ const StudyHallMain = () => {
                   size={el.size}
                 />
               ))}
-            <Pagination>
-              <div className="button-wrapper">
-                <button
-                  onClick={() => {
-                    if (page > 1) {
-                      setPage(page - 1);
-                    }
-                  }}
-                >
-                  이전
-                </button>
-                <button
-                  onClick={() => {
-                    if (page < totalPages) {
-                      setPage(page + 1);
-                    }
-                  }}
-                >
-                  다음
-                </button>
-              </div>
-            </Pagination>
+            {commentsData &&
+            commentsData.data.length < 10 &&
+            page === 1 ? null : (
+              <Pagination>
+                <div className="button-wrapper">
+                  <button
+                    onClick={() => {
+                      if (page > 1) {
+                        setPage(page - 1);
+                      }
+                    }}
+                  >
+                    이전
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (page < totalPages) {
+                        setPage(page + 1);
+                      }
+                    }}
+                  >
+                    다음
+                  </button>
+                </div>
+              </Pagination>
+            )}
           </CommentsWrap>
         </div>
       </div>

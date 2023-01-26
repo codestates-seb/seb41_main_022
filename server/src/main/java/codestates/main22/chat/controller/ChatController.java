@@ -6,7 +6,10 @@ import codestates.main22.chat.mapper.ChatMapper;
 import codestates.main22.chat.service.ChatService;
 import codestates.main22.dto.MultiResponseDto;
 import codestates.main22.dto.SingleResponseDto;
+import codestates.main22.exception.BusinessLogicException;
+import codestates.main22.exception.ExceptionCode;
 import codestates.main22.user.entity.UserEntity;
+import codestates.main22.utils.Token;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,7 @@ import java.util.Map;
 public class ChatController {
     private final ChatService chatService;
     private final ChatMapper chatMapper;
+    private final Token token;
 
     //CRUD 순서에 맞춰서
 
@@ -61,6 +65,23 @@ public class ChatController {
     }
 
 
+    //DELETE 추가
+    @DeleteMapping("/{chat-id}")
+    public ResponseEntity deleteChat(@PathVariable("chat-id") @Positive long chatId,
+                                     HttpServletRequest request) {
+        UserEntity loginUser = token.findByToken(request);
+        long userId = loginUser.getUserId();
+
+        Chat chat = chatService.findChat(chatId);
+        long chatUserId = chat.getChatUserId();
+        if(userId != chatUserId) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHOR);
+        }
+        chatService.deleteChat(chatId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     //READ - 하나 조회 // 일단 사용 안하고 있고, 해당 URL 사용을 위해 주석 처리
 //    @GetMapping("/{chat-id}")
 //    public ResponseEntity getChat(@Positive @PathVariable("chat-id") long chatId) {
@@ -94,13 +115,5 @@ public class ChatController {
 
         return new ResponseEntity<>(new SingleResponseDto<>(response),HttpStatus.OK);
 
-    }
-
-    //DELETE
-    @DeleteMapping("/{chat-id}")
-    public ResponseEntity deleteChat(@PathVariable("chat-id") @Positive long chatId) {
-        chatService.deleteChat(chatId);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
