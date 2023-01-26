@@ -28,7 +28,7 @@ public class TreeController {
         this.treeMapper = treeMapper;
     }
 
-    // UserID의 Tree 조회
+    // #11 UserID의 Tree 조회
     @GetMapping("/user")
     public ResponseEntity getTreeByUserId(HttpServletRequest request) {
         List<Object> treesAndTeamNames = treeService.findTreeByUserId(request);
@@ -36,7 +36,7 @@ public class TreeController {
         return new ResponseEntity<>(new SingleResponseDto<>(new TreeDto.ListResonse<>(response)), HttpStatus.OK);
     }
 
-    // StudyID의 Tree 조회
+    // #38 StudyID의 Tree 조회
     @GetMapping
     public ResponseEntity getTreeByStudyId(@Positive @RequestParam long studyId) {
         List<Tree> trees = treeService.findTreeByStudyId(studyId);
