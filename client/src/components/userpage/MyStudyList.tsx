@@ -35,7 +35,7 @@ const MyStudyList = () => {
           setMyStudyList(res.data.data.studies);
         }
       );
-    }, 1500);
+    }, 500);
   }, []);
 
   return (
