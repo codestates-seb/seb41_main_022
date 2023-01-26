@@ -71,7 +71,7 @@ const RecruitmentList = () => {
 
   return (
     <RecruitmentWrapper>
-      {recruitmentData &&
+      {recruitmentData.length &&
         recruitmentData.map((el, idx) => (
           <Recruitment
             key={idx}
@@ -83,7 +83,7 @@ const RecruitmentList = () => {
             imgUrl={el.image}
           />
         ))}
-      {recruitmentData! && <RecruitmentListSkeleton />}
+      {!recruitmentData.length && <RecruitmentListSkeleton />}
     </RecruitmentWrapper>
   );
 };
