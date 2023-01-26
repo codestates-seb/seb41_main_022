@@ -8,6 +8,7 @@ import codestates.main22.study.entity.Study;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.repository.UserRepository;
+import codestates.main22.utils.Init;
 import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +28,7 @@ public class ChatService {
     private final UserRepository userRepository;
     private final Token token;
 
-    String secretChatUserImgUrl = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F0Pfd6%2FbtrVZWBVjpY%2FBkJIKgG8Fbj1hqEnjqK1r1%2Fimg.png";
+    String secretChatUserImgUrl = Init.S3Url + "icons8-lock-50.png";
     String SecretChatUserName = "Secret";
 
     public ChatService(ChatRepository chatRepository,
