@@ -18,16 +18,20 @@ function App() {
   return (
     <>
       <Header />
-      <MainWrapper></MainWrapper>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/*" element={<NotFound />} />
-        <Route path="/create" element={<CreatePage />} />
-        <Route path="/edit/:studyId" element={<EditPage />} />
-        <Route path="/study-hall/:page/:studyId" element={<StudyHallPage />} />
-        <Route path="/user" element={<UserPage />} />
-        <Route path="/Token.html" element={<TokenPage />} />
-      </Routes>
+      <MainWrapper>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/*" element={<NotFound />} />
+          <Route path="/create" element={<CreatePage />} />
+          <Route path="/edit/:studyId" element={<EditPage />} />
+          <Route
+            path="/study-hall/:page/:studyId"
+            element={<StudyHallPage />}
+          />
+          <Route path="/user" element={<UserPage />} />
+          <Route path="/Token.html" element={<TokenPage />} />
+        </Routes>
+      </MainWrapper>
       <Footer />
     </>
   );

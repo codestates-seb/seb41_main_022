@@ -50,7 +50,7 @@ const Footer = () => {
 const FooterWrapper = styled.footer`
   background-color: var(--green);
   height: 320px;
-  padding-top: 50px;
+  padding: 50px 0;
   display: flex;
   justify-content: center;
 `;
