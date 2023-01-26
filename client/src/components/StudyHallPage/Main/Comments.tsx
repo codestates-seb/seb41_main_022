@@ -45,8 +45,6 @@ const Comments = ({
 }: CommentsProps) => {
   const [cookies] = useCookies(["token"]);
 
-  console.log(content);
-
   //answer data 받아오기
   const [answersData, setAnswersData] = useState<CommentsProps | undefined>();
   const getAnswersData = (url: string): Promise<AxiosResponse<Data>> => {
@@ -102,7 +100,7 @@ const Comments = ({
               )}
               <div className="icons">
                 {isClosedChat === false ? null : <MdOutlineLock />}
-                <FiTrash2 />
+                <FiTrash2 type="button" />
               </div>
             </span>
             {showAnswer && (
@@ -164,7 +162,7 @@ const CommentBox = styled.div`
 const Img = styled.img`
   width: 30px;
   height: 30px;
-
+  background-color: var(--mopo-00);
   border-radius: 70%;
 `;
 const AddButton = styled.button`
