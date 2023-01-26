@@ -12,6 +12,7 @@ interface Data {
 
 const RecruitmentList = () => {
   const {
+    isLoading,
     tags,
     page,
     filter,
@@ -22,13 +23,12 @@ const RecruitmentList = () => {
     setRecruitment,
     setPage,
   } = HomeStore();
-
   useEffect(() => {
     setRecruitment([]);
   }, []);
   // 필터링 api요청
   useEffect(() => {
-    setTimeout(() => fetch(tags, filter, search, page), 1000);
+    fetch(tags, filter, search, page);
   }, [tags, filter, search, page]);
 
   // useEffect(() => {
@@ -71,7 +71,7 @@ const RecruitmentList = () => {
 
   return (
     <RecruitmentWrapper>
-      {recruitmentData.length &&
+      {recruitmentData &&
         recruitmentData.map((el, idx) => (
           <Recruitment
             key={idx}
@@ -83,7 +83,7 @@ const RecruitmentList = () => {
             imgUrl={el.image}
           />
         ))}
-      {!recruitmentData.length && <RecruitmentListSkeleton />}
+      {isLoading && <RecruitmentListSkeleton />}
     </RecruitmentWrapper>
   );
 };
