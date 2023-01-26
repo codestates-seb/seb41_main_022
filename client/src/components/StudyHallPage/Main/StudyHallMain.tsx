@@ -35,7 +35,7 @@ interface GroupType {
 }
 
 const StudyHallMain = () => {
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies] = useCookies(["token"]);
 
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(10);
