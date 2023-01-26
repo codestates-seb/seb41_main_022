@@ -86,18 +86,20 @@ const Comments = ({
             <UserName>{username}</UserName>
             <Content>{content}</Content>
             <span className="answerNumIcon">
-              <div className="answerNum">
-                <AddButton
-                  type="button"
-                  className="numAnswers"
-                  onClick={() => {
-                    setShowAnswer(!showAnswer);
-                  }}
-                >
-                  답글
-                </AddButton>
-                <div className="totalElements">{answers.length}</div>
-              </div>
+              {username === "Secret" ? null : (
+                <div className="answerNum">
+                  <AddButton
+                    type="button"
+                    className="numAnswers"
+                    onClick={() => {
+                      setShowAnswer(!showAnswer);
+                    }}
+                  >
+                    답글
+                  </AddButton>
+                  <div className="totalElements">{answers.length}</div>
+                </div>
+              )}
               <div className="icons">
                 {isClosedChat === false ? null : <MdOutlineLock />}
                 <FiTrash2 />
