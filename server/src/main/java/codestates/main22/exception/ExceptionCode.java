@@ -16,7 +16,8 @@ public enum ExceptionCode {
     UNAUTHORIZED_MEMBER(404.5, "Unauthorized member"),
     NO_AUTHORITY(404.5, "No Authority. Only Access Study leader"),
     NOT_JOIN_STUDY(404.5, "Not join study"),
-    NOT_SAME(404, "UserId and UserName are not same");
+    NOT_SAME(404, "UserId and UserName are not same"),
+    NO_AUTHOR(404, "you're not the author");
 
     @Getter
     private double status;
