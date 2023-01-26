@@ -2,6 +2,7 @@ import create from "zustand";
 import axios from "axios";
 
 interface Home {
+  isLoading: boolean;
   page: number;
   tags: string;
   filter: string;
@@ -33,6 +34,7 @@ interface Recruitment {
 }
 
 const HomeStore = create<Home>()((set) => ({
+  isLoading: false,
   tags: "",
   filter: "",
   search: "",
@@ -46,15 +48,24 @@ const HomeStore = create<Home>()((set) => ({
     set(() => ({ page: data }));
   },
   fetch: async (tags, filter, search, page) => {
+    set(() => ({
+      isLoading: true,
+    }));
     try {
       const res = await axios.get(
         process.env.REACT_APP_API_URL +
           `/study/cards?page=${page}&size=12&search=${search}&filter=${filter}&tags=${tags}`
       );
-      set((state) => ({
-        recruitmentData: [...state.recruitmentData, ...res.data.data],
-        totalPage: res.data.pageInfo.totalPages,
-      }));
+
+      setTimeout(() => {
+        set((state) => ({
+          recruitmentData: [...state.recruitmentData, ...res.data.data],
+          totalPage: res.data.pageInfo.totalPages,
+        }));
+        set(() => ({
+          isLoading: false,
+        }));
+      }, 2500);
       console.log(res.data);
     } catch (err) {
       console.log(err);
