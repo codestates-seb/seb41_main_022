@@ -130,7 +130,7 @@ const UserPage = () => {
 //전체
 const Main = styled.div`
   background-color: var(--green);
-  height: 100vh;
+  height: auto;
   * {
     font-family: "mainM";
     color: var(--green);
@@ -142,7 +142,7 @@ const Container = styled.div`
   background-color: var(--beige-00);
   width: 1024px;
   margin: 0px auto;
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
 
@@ -164,12 +164,11 @@ const Container = styled.div`
   > .button {
     width: 105px;
     height: 10px;
-    margin-left: 750px;
+    margin: 0 8px 16px 750px;
     font-size: 12px;
     color: #c0c0c0;
     background-color: var(--gray-10);
     border-radius: var(--radius-20);
-    margin-right: 8px;
     height: 28px;
     border: none;
     cursor: pointer;

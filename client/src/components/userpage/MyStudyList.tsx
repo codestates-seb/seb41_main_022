@@ -59,7 +59,8 @@ const MyStudyWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  margin: 0 150px;
+  margin: 0 150px 16px 150px;
+  height: 100%;
 `;
 
 export default MyStudyList;
