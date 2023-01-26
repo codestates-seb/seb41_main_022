@@ -38,10 +38,8 @@ const Header = () => {
     window.location.reload();
   };
   const handleScroll = () => {
-    console.log(window.scrollY);
     if (window.scrollY >= 100) {
       setScroll(true);
-      console.log(scroll);
     } else {
       setScroll(false);
     }
