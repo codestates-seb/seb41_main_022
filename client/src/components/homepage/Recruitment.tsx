@@ -98,17 +98,17 @@ const BodyWrapper = styled.div`
   // 마이스터디
   > .body-myStudy {
     width: 227px;
+    height: 64px;
     color: #ffffff;
     font-weight: 800;
     font-size: 32px;
-    margin-bottom: 22px;
     font-family: "mainEB";
   }
   // 한줄소개
   > .body-content--wrapper {
     width: 227px;
     height: 51px;
-    margin-bottom: 25px;
+    margin-bottom: 18px;
     display: flex;
     align-items: center;
     > .body-content {

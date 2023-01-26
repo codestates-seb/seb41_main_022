@@ -78,7 +78,7 @@ const CreateForm = () => {
             id="teamName"
             type="text"
             placeholder="Team Name"
-            maxLength={10}
+            maxLength={15}
             className={
               errors.teamName && errors.teamName.type === "required"
                 ? "errorBorder"
