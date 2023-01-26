@@ -20,7 +20,9 @@ const Header = () => {
   const [isReady, setIsReady] = useState<string | undefined>(undefined);
   const { isLogin, setIsLogin } = LoginStore();
   const [userData, setUserData] = useState<UserData | undefined>();
+  const [scroll, setScroll] = useState(false);
   const navigate = useNavigate();
+
   const googleserverURL =
     process.env.REACT_APP_API_URL + "/oauth2/authorization/google";
   const handleLogin = () => {
@@ -35,7 +37,21 @@ const Header = () => {
     navigate("/");
     window.location.reload();
   };
-
+  const handleScroll = () => {
+    console.log(window.scrollY);
+    if (window.scrollY >= 100) {
+      setScroll(true);
+      console.log(scroll);
+    } else {
+      setScroll(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll); //clean up
+    };
+  }, []);
   useEffect(() => {
     if (cookies.token) {
       setIsReady("ready");
@@ -66,7 +82,7 @@ const Header = () => {
   }, [isReady]);
   return (
     <>
-      <HeaderWrapper>
+      <HeaderWrapper className={scroll ? "opacityTrue" : ""}>
         <div
           className="header-logo"
           onClick={() => {
@@ -98,13 +114,22 @@ const Header = () => {
 export default Header;
 
 const HeaderWrapper = styled.header`
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 64px;
   background-color: var(--green);
-  padding: 0 30px 0 30px;
-
+  z-index: 1000;
+  padding: 0 30px;
+  transition: 0.3s all;
+  &.opacityTrue {
+    transition: 0.3s all;
+    background-color: rgba(29, 47, 39, 0.8);
+  }
   > .header-logo {
     font-family: "logo";
     color: var(--logo);

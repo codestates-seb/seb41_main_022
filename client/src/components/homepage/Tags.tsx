@@ -50,7 +50,7 @@ const Tags = () => {
 const TagWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-content: flex-start;
   width: 320px;
 
@@ -65,12 +65,12 @@ const TagWrapper = styled.div`
 `;
 const Tag = styled.span`
   height: 16px;
+  margin: 0 2px 7px 2px;
   background-color: var(--mopo-00);
   border-radius: var(--radius-30);
   min-width: 40px;
   padding: 4px;
   text-align: center;
-  margin-bottom: 7px;
   :hover {
     transition-duration: 0.2s;
     background-color: var(--mopo-10);

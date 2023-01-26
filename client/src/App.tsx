@@ -12,11 +12,13 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
 import TokenPage from "./pages/TokenPage";
+import styled from "styled-components";
 
 function App() {
   return (
     <>
       <Header />
+      <MainWrapper></MainWrapper>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/*" element={<NotFound />} />
@@ -32,3 +34,7 @@ function App() {
 }
 
 export default App;
+
+const MainWrapper = styled.article`
+  margin-top: 64px;
+`;
