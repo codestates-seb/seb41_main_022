@@ -45,16 +45,7 @@ const Comments = ({
 }: CommentsProps) => {
   const [cookies] = useCookies(["token"]);
 
-  //answer data 받아오기
-  const [answersData, setAnswersData] = useState<CommentsProps | undefined>();
-  const getAnswersData = (url: string): Promise<AxiosResponse<Data>> => {
-    return axios.get(url, {
-      headers: {
-        "access-Token": cookies.token.accessToken,
-        "refresh-Token": cookies.token.refreshToken,
-      },
-    });
-  };
+  console.log(content);
 
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -114,7 +105,6 @@ const Comments = ({
                   }}
                 />
                 <AnswerButton type="submit">Add</AnswerButton>
-
                 {answers.map((el) => (
                   <Answers
                     key={el.answerId}
