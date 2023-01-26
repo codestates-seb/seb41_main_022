@@ -65,7 +65,7 @@ const HomeStore = create<Home>()((set) => ({
         set(() => ({
           isLoading: false,
         }));
-      }, 2500);
+      }, 500);
       console.log(res.data);
     } catch (err) {
       console.log(err);
