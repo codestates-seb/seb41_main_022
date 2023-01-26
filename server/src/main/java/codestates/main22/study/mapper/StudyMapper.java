@@ -13,6 +13,7 @@ public interface StudyMapper {
     StudyDto.Response studyToStudyResponseDto(Study study);
     StudyDto.ResponseTag studyToStudyResponseDto(Study study, List<String> tags);
     List<StudyDto.Response> studiesToStudyResponseDto(List<Study> studies);
+    List<StudyDto.CardResponse> studiesToStudyCardResponseDto(List<Study> studies);
     Study studyNotificationPatchDtoToStudyNotification(StudyNotificationDto.Patch patch); // 공지만 수정
     StudyNotificationDto.Response studyToStudyNotificationResponseDto(Study study); // 공지만 호출
     StudyNotificationDto.NoticeResponse studyToStudyNoticeResponseDto(Study study); // 공지사항 호출
