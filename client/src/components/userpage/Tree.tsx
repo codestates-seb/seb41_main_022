@@ -13,7 +13,7 @@ const Tree = ({
 }: TreeProps) => {
   return (
     <>
-      <div>{treeImage}</div>
+      <img src={treeImage} />
     </>
   );
 };
