@@ -18,6 +18,8 @@ interface TreeProps {
   createdAt: string;
   makeMonth: number;
   teamName: string;
+
+  key: number;
 }
 interface Data {
   trees: TreeProps[];
@@ -94,10 +96,20 @@ const UserPage = () => {
     <Main>
       <Container>
         <Profile />
-        {treeData &&
-          treeData.trees.map((el) => (
-            <Tree treeId={el.treeId} treeImage={el.treeImage} />
-          ))}
+        <TreeWrap>
+          {treeData &&
+            treeData.trees.map((el, idx) => (
+              <Tree
+                key={idx}
+                treeId={el.treeId}
+                treeImage={el.treeImage}
+                treePoint={el.treePoint}
+                createdAt={el.createdAt}
+                makeMonth={el.makeMonth}
+                teamName={el.teamName}
+              />
+            ))}
+        </TreeWrap>
         <h3 className="title">My Study</h3>
         {isOpenAgreePage ? (
           <WithdrawAgree>
@@ -147,8 +159,6 @@ const UserPage = () => {
           </WithdrawAgree>
         ) : null}
         <MyStudyList />
-        {/* <h3 className="title">Tags</h3> */}
-        {/* <h3 className="title">나무나무</h3> */}
         <button
           onClick={handleOpenWithdraw}
           className={isOpenAgreePage ? "button buttonActive" : "button"}
@@ -215,6 +225,12 @@ const Container = styled.div`
   > .buttonActive {
     background-color: var(--gray-20);
   }
+`;
+const TreeWrap = styled.div`
+  width: 100%;
+  display: flex;
+  height: 100%;
+  margin-left: 170px;
 `;
 
 const WithdrawAgree = styled.div`
