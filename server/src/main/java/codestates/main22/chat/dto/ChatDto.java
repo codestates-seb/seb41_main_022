@@ -37,6 +37,7 @@ public class ChatDto {
     @AllArgsConstructor
     public static class Response {
         private long chatId;
+        private long chatUserId;
         private String username;
         private String imgUrl;
         private String content;

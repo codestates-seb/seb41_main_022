@@ -97,20 +97,6 @@ public class UserService {
         Study findStudy = studyService.VerifiedStudy(studyId);
         List<UserEntity> userList =  userStudyRepository.findByStudy(findStudy).stream().map(userStudyEntity -> userStudyEntity.getUser())
                 .collect(Collectors.toList());
-
-//        List<UserEntity> studyUserList = new ArrayList<>(); //권한이 수정된 회원을 담을 리스트
-//        int member = userList.size(); //회원 수만큼 탐색
-//        for(int i=0; i<member; i++) {
-//            UserEntity user = userList.get(i); //유저를 가져오고
-//            List<String> roles = user.getRole(); //그 유저의 모든 권한을 가져오고
-//            int role = roles.size();
-//            for(int j=role-1; j>=0; j--) { //해당 스터디에 권한인지 체크하고 나머지 권한 삭제
-//                if("STUDY" + studyId + "_ADMIN" != roles.get(j) && "STUDY" + studyId + "_USER" !=roles.get(j)) {
-//                    roles.remove(j);
-//                }
-//            }
-//            studyUserList.add(user); //권한이 수정된 회원을 다시 담습니다.
-//        }
         return userList;
     }
 

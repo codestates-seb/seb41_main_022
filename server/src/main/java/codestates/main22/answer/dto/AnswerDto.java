@@ -31,6 +31,7 @@ public class AnswerDto {
     @AllArgsConstructor
     public static class Response {
         private long answerId;
+        private long answerUserId;
         private String username;
         private String imgUrl;
         private String content;
