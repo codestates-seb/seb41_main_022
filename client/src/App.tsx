@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
 import TokenPage from "./pages/TokenPage";
 import styled from "styled-components";
+import UserStudy from "./components/userpage/UsreStudyDetail/UserStudy";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             element={<StudyHallPage />}
           />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/user/:studyId" element={<UserStudy />} />
           <Route path="/Token.html" element={<TokenPage />} />
         </Routes>
       </MainWrapper>
