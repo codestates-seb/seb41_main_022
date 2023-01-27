@@ -25,14 +25,12 @@ const StudyHallPage = () => {
   useEffect(() => {
     if (callTimes === 0) {
       if (studyId && !authData?.request) {
-        setTimeout(() => {
-          checkAuth(
-              studyId,
-              cookies.userData.userId,
-              cookies.token.accessToken,
-              cookies.token.refreshToken
-          );
-        }, 500);
+        checkAuth(
+          studyId,
+          cookies.userData.userId,
+          cookies.token.accessToken,
+          cookies.token.refreshToken
+        );
         setCallTimes(callTimes + 1);
       }
     }
