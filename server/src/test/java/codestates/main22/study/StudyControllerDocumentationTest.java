@@ -170,6 +170,20 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         headerWithName("refresh-Token").description("refresh 토큰")
                                 )
                         ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그"),
+                                        fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
+                                        fieldWithPath("want").type(JsonFieldType.NUMBER).description("모집인원"),
+                                        fieldWithPath("startDate").type(JsonFieldType.STRING).description("시작날짜"),
+                                        fieldWithPath("procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("본문"),
+                                        fieldWithPath("image").type(JsonFieldType.STRING).description("대표사진")
+                                )
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -520,6 +534,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#17",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -564,6 +581,15 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#18",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("notice").type(JsonFieldType.STRING).description("공지"),
+                                        fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일")
+                                )
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -602,6 +628,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#30",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -643,6 +672,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#39",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),
@@ -680,7 +712,11 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 .andDo(document(
                         "study/#26",
                         getDocumentRequest(),
-                        getDocumentResponse()
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자"),
+                                parameterWithName("user-id").description("유저 식별자")
+                        )
                 ));
     }
 
@@ -711,7 +747,11 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 .andDo(document(
                         "study/#27",
                         getDocumentRequest(),
-                        getDocumentResponse()
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자"),
+                                parameterWithName("user-id").description("유저 식별자")
+                        )
                 ));
     }
 
@@ -757,6 +797,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#28/token",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),
@@ -816,6 +859,10 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#28/noToken",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자"),
+                                parameterWithName("user-id").description("유저 식별자")
+                        ),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),
@@ -859,6 +906,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#29",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -901,6 +951,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#31",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -968,6 +1021,23 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#33",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그"),
+                                        fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
+                                        fieldWithPath("want").type(JsonFieldType.NUMBER).description("모집인원"),
+                                        fieldWithPath("startDate").type(JsonFieldType.STRING).description("시작날짜"),
+                                        fieldWithPath("procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("본문"),
+                                        fieldWithPath("image").type(JsonFieldType.STRING).description("대표사진")
+                                )
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -1087,6 +1157,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#44",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("study-id").description("스터디 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -1115,6 +1188,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     public void getStudiesByUserNoTokenTest() throws Exception {
         // given
         // long studyId = 1L;
+        long userId = 1L;
         List<StudyUserDto.Studys> response = new ArrayList<>();
         response.add(new StudyUserDto.Studys(
                 response1.getStudyId(),
@@ -1134,7 +1208,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
 
         // when
         ResultActions actions = mockMvc.perform(
-                get(startWithUrl + "/user")
+                get(startWithUrl + "/user/{user-id}", userId)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8"));
@@ -1146,6 +1220,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "study/#48",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("user-id").description("유저 식별자")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),

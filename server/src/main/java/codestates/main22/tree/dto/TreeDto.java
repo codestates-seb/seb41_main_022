@@ -44,6 +44,7 @@ public class TreeDto {
         private LocalDateTime createdAt;
         private int makeMonth;
         private String teamName;
+        private long studyId;
     }
 
     @Getter

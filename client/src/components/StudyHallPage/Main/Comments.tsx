@@ -10,6 +10,7 @@ import Answers from "./Answers";
 import { answerStore } from "../../../util/zustandCreatAnswer";
 import moment from "moment/moment";
 import TrashButton from "./TrashButton";
+import { commentStore } from "../../../util/zustandComment";
 //타입지정
 export interface CommentsProps {
   username: string;
@@ -21,6 +22,8 @@ export interface CommentsProps {
   chatId: number;
   isClosedChat: boolean;
   chatCreatedAt: string;
+  page: number;
+  requestSize: number;
 }
 
 interface AnswerProps {
@@ -46,16 +49,20 @@ const Comments = ({
   isClosedChat,
   chatCreatedAt,
   totalElements,
+  page,
+  requestSize,
 }: CommentsProps) => {
   const [cookies] = useCookies(["token"]);
   const { studyId } = useParams();
   const [showAnswer, setShowAnswer] = useState(false);
   const navigate = useNavigate();
-  const postAnswer = answerStore((state) => state.postAnswer);
+  const { postAnswer, postedAnswer } = answerStore();
   const [answer, setAnswer] = useState("");
+  const { fetchCommentData } = commentStore();
 
   //대댓글 작성
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (chatId) {
       postAnswer(
         chatId,
@@ -65,19 +72,38 @@ const Comments = ({
           "refresh-Token": cookies.token.refreshToken,
         }
       );
+      if (studyId) {
+        fetchCommentData(
+          cookies.token.accessToken,
+          cookies.token.refreshToken,
+          studyId,
+          page,
+          requestSize
+        );
+      }
+      setAnswer("");
     }
   };
 
   const handleClickDeleteComment = () => {
-    axios.delete(
-      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${chatId}`,
-      {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/chat/${chatId}`, {
         headers: {
           "access-Token": cookies.token.accessToken,
           "refresh-Token": cookies.token.refreshToken,
         },
-      }
-    );
+      })
+      .then(() => {
+        if (studyId) {
+          fetchCommentData(
+            cookies.token.accessToken,
+            cookies.token.refreshToken,
+            studyId,
+            page,
+            requestSize
+          );
+        }
+      });
   };
 
   const getDayMinuteCounter = (date?: object): number | string => {
@@ -143,6 +169,7 @@ const Comments = ({
                   onChange={(e: any) => {
                     setAnswer(e.target.value);
                   }}
+                  value={answer}
                 />
                 <AnswerButton type="submit">Add</AnswerButton>
                 {answers.map((el) => (

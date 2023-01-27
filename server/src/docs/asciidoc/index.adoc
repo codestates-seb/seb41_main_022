@@ -1,0 +1,685 @@
+= STUDY TREE
+:sectnums:
+:toc: left
+:toclevels: 4
+:toc-title: Table of Contents
+:source-highlighter: prettify
+
+율곡22 || 55눈룡
+
+2023.01.27
+
+base URL : http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080
+
+***
+== AnswerController
+=== 답변 작성
+URL : /answer/{chat-Id} +
+HTTP Methods : POST
+
+.path-parameters
+include::{snippets}/answer/#37/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/answer/#37/request-headers.adoc[]
+
+.request-body
+include::{snippets}/answer/#37/request-body.adoc[]
+
+.request-fields
+include::{snippets}/answer/#37/request-fields.adoc[]
+
+.response-body
+include::{snippets}/answer/#37/response-body.adoc[]
+
+.response-fields
+include::{snippets}/answer/#37/response-fields.adoc[]
+
+=== 답변 삭제
+URL : /answer/{answr-id} +
+HTTP Methods : DELETE
+
+.path-parameters
+include::{snippets}/answer/#46/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/answer/#46/request-headers.adoc[]
+
+.request-body
+include::{snippets}/answer/#46/request-body.adoc[]
+
+.response-body
+include::{snippets}/answer/#46/response-body.adoc[]
+
+
+***
+== CalendarController
+=== 캘린더 생성
+URL : /calendar?studyId={study-id} +
+HTTP Methods : POST
+
+.request-parameters.adoc
+include::{snippets}/calendar/#19/request-parameters.adoc[]
+
+.request-body
+include::{snippets}/calendar/#19/request-body.adoc[]
+
+.request-fields
+include::{snippets}/calendar/#19/request-fields.adoc[]
+
+.response-body
+include::{snippets}/calendar/#19/response-body.adoc[]
+
+.response-fields
+include::{snippets}/calendar/#19/response-fields.adoc[]
+
+=== 캘린더 호출
+URL : /calendar?studyId={study-id} +
+HTTP Methods : GET
+
+.request-parameters.adoc
+include::{snippets}/calendar/#20/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/calendar/#20/response-body.adoc[]
+
+.response-fields
+include::{snippets}/calendar/#20/response-fields.adoc[]
+
+=== 캘린더 수정
+URL : /calendar/{calendar-id} +
+HTTP Methods : PATCH
+
+.path-parameters
+include::{snippets}/calendar/#21/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/calendar/#21/request-body.adoc[]
+
+.request-fields
+include::{snippets}/calendar/#21/request-fields.adoc[]
+
+.response-body
+include::{snippets}/calendar/#21/response-body.adoc[]
+
+.response-fields
+include::{snippets}/calendar/#21/response-fields.adoc[]
+
+=== 캘린더 삭제
+URL : /calendar/{calendar-id} +
+HTTP Methods : DELETE
+
+.path-parameters
+include::{snippets}/calendar/#22/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/calendar/#22/response-body.adoc[]
+
+
+***
+== ChatController
+=== 채팅 호출
+URL : /chat/{study-id}?page={page-number}&size={size-number} +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/chat/#35/path-parameters.adoc[]
+
+.request-parameters.adoc
+include::{snippets}/chat/#35/request-parameters.adoc[]
+
+.request-headers
+include::{snippets}/chat/#35/request-headers.adoc[]
+
+.response-body
+include::{snippets}/chat/#35/response-body.adoc[]
+
+.response-fields
+include::{snippets}/chat/#35/response-fields.adoc[]
+
+=== 채팅 작성
+URL : /chat?studyId={study-Id} +
+HTTP Methods : POST
+
+.request-parameters.adoc
+include::{snippets}/chat/#36/request-parameters.adoc[]
+
+.request-headers
+include::{snippets}/chat/#36/request-headers.adoc[]
+
+.request-body
+include::{snippets}/chat/#36/request-body.adoc[]
+
+.request-fields
+include::{snippets}/chat/#36/request-fields.adoc[]
+
+.response-body
+include::{snippets}/chat/#36/response-body.adoc[]
+
+.response-fields
+include::{snippets}/chat/#36/response-fields.adoc[]
+
+=== 채팅 삭제
+URL : /chat/{chat-id} +
+HTTP Methods : DELETE
+
+.path-parameters
+include::{snippets}/chat/#45/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/chat/#45/request-headers.adoc[]
+
+.response-body
+include::{snippets}/calendar/#22/response-body.adoc[]
+
+
+***
+== MessageController
+=== 커뮤니티 작성
+URL : /message?studyId={study-id} +
+HTTP Methods : POST
+
+.request-parameters.adoc
+include::{snippets}/message/#14/request-parameters.adoc[]
+
+.request-headers
+include::{snippets}/message/#14/request-headers.adoc[]
+
+.request-body
+include::{snippets}/message/#14/request-body.adoc[]
+
+.request-fields
+include::{snippets}/message/#14/request-fields.adoc[]
+
+.response-body
+include::{snippets}/message/#14/response-body.adoc[]
+
+.response-fields
+include::{snippets}/message/#14/response-fields.adoc[]
+
+=== 커뮤니티 호출
+URL : /message?studyId={study-id} +
+HTTP Methods : GET
+
+.request-parameters.adoc
+include::{snippets}/message/#15/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/message/#15/response-body.adoc[]
+
+.response-fields
+include::{snippets}/message/#15/response-fields.adoc[]
+
+
+***
+== TagController
+=== home 화면 태그 리스트 호출
+URL : /tag +
+HTTP Methods : GET
+
+.response-body
+include::{snippets}/tag/#5/response-body.adoc[]
+
+.response-fields
+include::{snippets}/tag/#5/response-fields.adoc[]
+
+=== user의 태그 호출
+URL : /tag/user +
+HTTP Methods : GET
+
+.response-body
+include::{snippets}/tag/#10/response-body.adoc[]
+
+.response-fields
+include::{snippets}/tag/#10/response-fields.adoc[]
+
+=== study hall 태그 호출
+URL : /tag/study/{study-id} +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/tag/#32/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/tag/#32/response-body.adoc[]
+
+.response-fields
+include::{snippets}/tag/#32/response-fields.adoc[]
+
+=== 스터디의 태그만 수정
+URL : /tag/study/{study-id} +
+HTTP Methods : PATCH
+
+.request-body
+include::{snippets}/tag/#34/request-body.adoc[]
+
+.request-fields
+include::{snippets}/tag/#34/request-fields.adoc[]
+
+.response-body
+include::{snippets}/tag/#34/response-body.adoc[]
+
+.response-fields
+include::{snippets}/tag/#34/response-fields.adoc[]
+
+
+***
+== TreeController
+=== user 트리 호출
+URL : /tree/user +
+HTTP Methods : GET
+
+.request-headers
+include::{snippets}/tree/#11/request-headers.adoc[]
+
+.response-body
+include::{snippets}/tree/#11/response-body.adoc[]
+
+.response-fields
+include::{snippets}/tree/#11/response-fields.adoc[]
+
+=== study 트리 호출
+URL : /tree?studyId={study-id} +
+HTTP Methods : GET
+
+.request-parameters
+include::{snippets}/tree/#38/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/tree/#38/response-body.adoc[]
+
+.response-fields
+include::{snippets}/tree/#38/response-fields.adoc[]
+
+=== (토큰 없이) user 트리 호출
+URL : /tree/{user-id} +
+HTTP Methods : GET
+
+.response-body
+include::{snippets}/tree/#49/response-body.adoc[]
+
+.response-fields
+include::{snippets}/tree/#49/response-fields.adoc[]
+
+
+***
+== UserController
+=== 헤더 유저 이미지
+URL : /user/image +
+HTTP Methods : GET
+
+.request-headers
+include::{snippets}/user/#2/request-headers.adoc[]
+
+.response-body
+include::{snippets}/user/#2/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#2/response-fields.adoc[]
+
+=== 유저 호출
+URL : /user +
+HTTP Methods : GET
+
+.request-headers
+include::{snippets}/user/#8/request-headers.adoc[]
+
+.response-body
+include::{snippets}/user/#8/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#8/response-fields.adoc[]
+
+=== 유저 이름 수정
+URL : /user +
+HTTP Methods : PATCH
+
+.request-headers
+include::{snippets}/user/#12/request-headers.adoc[]
+
+.request-body
+include::{snippets}/user/#12/request-body.adoc[]
+
+.request-fields
+include::{snippets}/user/#12/request-fields.adoc[]
+
+.response-body
+include::{snippets}/user/#12/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#12/response-fields.adoc[]
+
+=== 유저 탈퇴
+URL : /user +
+HTTP Methods : DELETE
+
+.request-headers
+include::{snippets}/user/#13/request-headers.adoc[]
+
+.request-body
+include::{snippets}/user/#13/request-body.adoc[]
+
+.response-body
+include::{snippets}/user/#13/response-body.adoc[]
+
+=== 스터디 유저 호출
+URL : /user/study?studyId={study-id} +
+HTTP Methods : GET
+
+.request-parameters
+include::{snippets}/user/#16/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/user/#16/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#16/response-fields.adoc[]
+
+=== 스터디 신청자 호출
+URL : /user/{study-id}/requester +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/user/#25/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/user/#25/request-headers.adoc[]
+
+.response-body
+include::{snippets}/user/#25/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#25/response-fields.adoc[]
+
+=== (토큰없이) 유저 호출
+URL : /user/{user-id} +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/user/#47/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/user/#47/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#47/response-fields.adoc[]
+
+
+***
+== StudyController
+=== home 모집 공고 (기본 화면)
+URL : /study/first-cards?page={page-number}&size={size-number} +
+HTTP Methods : GET
+
+.request-parameters
+include::{snippets}/study/#6/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#6/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#6/response-fields.adoc[]
+
+=== home 모집 공고 (검색, 필터 변경, 태그 선택)
+URL : /study/cards?page={page-number}&size={size-number}&search={Loud}&filter={random}&tags={tag-name} +
+HTTP Methods : GET
+
+.request-parameters
+include::{snippets}/study/#7/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#7/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#7/response-fields.adoc[]
+
+=== 유저의 스터디 조회
+URL : /study/user +
+HTTP Methods : GET
+
+.request-headers
+include::{snippets}/study/#9/request-headers.adoc[]
+
+.response-body
+include::{snippets}/study/#9/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#9/response-fields.adoc[]
+
+=== 공지 확인
+URL : /study/{study-id}/notification +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/study/#17/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#17/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#17/response-fields.adoc[]
+
+=== 공지 작성
+URL : /study/{study-id}/notification +
+HTTP Methods : PATCH
+
+.path-parameters
+include::{snippets}/study/#18/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/study/#18/request-body.adoc[]
+
+.request-fields
+include::{snippets}/study/#18/request-fields.adoc[]
+
+.response-body
+include::{snippets}/study/#18/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#18/response-fields.adoc[]
+
+=== 스터디 삭제
+URL : /study/{study-id} +
+HTTP Methods : DELETE
+
+.path-parameters
+include::{snippets}/study/#23/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/study/#23/request-headers.adoc[]
+
+.request-body
+include::{snippets}/study/#23/request-body.adoc[]
+
+.response-body
+include::{snippets}/study/#23/response-body.adoc[]
+
+=== 스터디 탈퇴
+URL : /study/{study-id}/{user-id} +
+HTTP Methods : DELETE
+
+.path-parameters
+include::{snippets}/study/#24/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/study/#24/request-body.adoc[]
+
+.response-body
+include::{snippets}/study/#24/response-body.adoc[]
+
+=== 스터디 신청 수락
+URL : /study/{study-id}/{user-id} +
+HTTP Methods : POST
+
+.path-parameters
+include::{snippets}/study/#26/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/study/#26/request-body.adoc[]
+
+.response-body
+include::{snippets}/study/#26/response-body.adoc[]
+
+=== 스터디 신청 거절
+URL : /study/{study-id}/requester/{user-id}/reject +
+HTTP Methods : POST
+
+.path-parameters
+include::{snippets}/study/#27/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/study/#27/request-body.adoc[]
+
+.response-body
+include::{snippets}/study/#27/response-body.adoc[]
+
+=== 권한 확인 (토큰)
+URL : /study/{study-id}/auth +
+HTTP Methods : POST
+
+.path-parameters
+include::{snippets}/study/#28/Token/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/study/#28/Token/request-headers.adoc[]
+
+.response-body
+include::{snippets}/study/#28/Token/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#28/Token/response-fields.adoc[]
+
+=== 권한 확인 (no토큰)
+URL : /study/{study-id}/user/{user-id}/auth +
+HTTP Methods : POST
+
+.path-parameters
+include::{snippets}/study/#28/noToken/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/study/#28/noToken/request-headers.adoc[]
+
+.response-body
+include::{snippets}/study/#28/noToken/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#28/noToken/response-fields.adoc[]
+
+=== studyHall/main 윗부분
+URL : /study/{study-id}/header +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/study/#29/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#29/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#29/response-fields.adoc[]
+
+=== studyHall/main 공지사항(오른쪽)
+URL : /study/{study-id}/notice +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/study/#30/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#30/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#30/response-fields.adoc[]
+
+=== studyHall/main 본문
+URL : /study/{study-id}/main +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/study/#31/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#31/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#31/response-fields.adoc[]
+
+=== studyHall/main 본문 수정
+URL : /study/{study-id}/main +
+HTTP Methods : PATCH
+
+.path-parameters
+include::{snippets}/study/#33/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/study/#33/request-body.adoc[]
+
+.request-fields
+include::{snippets}/study/#33/request-fields.adoc[]
+
+.response-body
+include::{snippets}/study/#33/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#33/response-fields.adoc[]
+
+=== 스터디 신청
+URL : /study/{study-id}/requester +
+HTTP Methods : POST
+
+.path-parameters
+include::{snippets}/study/#39/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/study/#39/request-headers.adoc[]
+
+.request-body
+include::{snippets}/study/#39/request-body.adoc[]
+
+.response-body
+include::{snippets}/study/#39/response-body.adoc[]
+
+=== 스터디 생성
+URL : /study +
+HTTP Methods : POST
+
+.request-headers
+include::{snippets}/study/#40/request-headers.adoc[]
+
+.request-body
+include::{snippets}/study/#40/request-body.adoc[]
+
+.request-fields
+include::{snippets}/study/#40/request-fields.adoc[]
+
+.response-body
+include::{snippets}/study/#40/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#40/response-fields.adoc[]
+
+=== 스터디 호출
+URL : /study/{study-id} +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/study/#44/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#44/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#44/response-fields.adoc[]
+
+=== (토큰 없이)user의 Study 호출
+URL : /study/user/{user-id} +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/study/#48/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/study/#48/response-body.adoc[]
+
+.response-fields
+include::{snippets}/study/#48/response-fields.adoc[]

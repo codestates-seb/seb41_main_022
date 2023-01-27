@@ -9,6 +9,7 @@ const TokenPage = () => {
   const refreshToken = searchParams.get("refresh-Token");
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   useEffect(() => {
+    removeCookie("token");
     setCookie("token", { accessToken, refreshToken }, { path: "/" });
     navigate("/");
   }, []);
