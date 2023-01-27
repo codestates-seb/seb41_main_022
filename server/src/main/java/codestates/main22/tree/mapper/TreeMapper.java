@@ -16,9 +16,10 @@ public interface TreeMapper {
     default List<TreeDto.UserResponse> treesToTreeUserResponseDto(List<Object> treesAndTeamNames) {
         List<TreeDto.UserResponse> responses = new ArrayList<>();
 
-        for(int i=0; i<treesAndTeamNames.size(); i=i+2) {
+        for(int i=0; i<treesAndTeamNames.size(); i=i+3) {
             Tree tree = (Tree) treesAndTeamNames.get(i);
             String teamName = (String) treesAndTeamNames.get(i+1);
+            long studyId = (long) treesAndTeamNames.get(i+2);
 
             TreeDto.UserResponse response = new TreeDto.UserResponse(
                     tree.getTreeId(),
@@ -26,7 +27,8 @@ public interface TreeMapper {
                     tree.getTreeImage(),
                     tree.getCreatedAt(),
                     tree.getMakeMonth(),
-                    teamName
+                    teamName,
+                    studyId
             );
             responses.add(response);
         }
