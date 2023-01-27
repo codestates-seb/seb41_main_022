@@ -243,6 +243,9 @@ public class ChatTest {
 
         actions.andExpect(status().isNoContent())
                 .andDo(document("chat/#45",
+                        pathParameters(
+                                parameterWithName("chat-id").description("채팅 식별자")
+                        ),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),

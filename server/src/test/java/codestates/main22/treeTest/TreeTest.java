@@ -40,8 +40,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TreeController.class)
@@ -109,8 +108,8 @@ public class TreeTest {
         tree2.setStudy(study2);
 
 
-        TreeDto.UserResponse response1 = new TreeDto.UserResponse(1, 0, "나무 이미지", LocalDateTime.now(), 1, "studyName" );
-        TreeDto.UserResponse response2 = new TreeDto.UserResponse(2, 0, "트리 이미지", LocalDateTime.now(), 1, "스터디 이름");
+        TreeDto.UserResponse response1 = new TreeDto.UserResponse(1, 0, "나무 이미지", LocalDateTime.now(), 1, "studyName" , 1);
+        TreeDto.UserResponse response2 = new TreeDto.UserResponse(2, 0, "트리 이미지", LocalDateTime.now(), 1, "스터디 이름", 2);
 
         List<Object> treesAndTeamNames = List.of(tree1, tree2);
         List<TreeDto.UserResponse> responses = List.of(response1, response2);
@@ -148,7 +147,8 @@ public class TreeTest {
                                         fieldWithPath("data.trees[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
                                         fieldWithPath("data.trees[].createdAt").type(JsonFieldType.STRING).description("생성 날짜"),
                                         fieldWithPath("data.trees[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리"),
-                                        fieldWithPath("data.trees[].teamName").type(JsonFieldType.STRING).description("스터디 이름")
+                                        fieldWithPath("data.trees[].teamName").type(JsonFieldType.STRING).description("스터디 이름"),
+                                        fieldWithPath("data.trees[].studyId").type(JsonFieldType.NUMBER).description("스터디 식별자")
                                 )
                         )
                 ));
@@ -252,8 +252,8 @@ public class TreeTest {
         tree2.setStudy(study2);
 
 
-        TreeDto.UserResponse response1 = new TreeDto.UserResponse(1, 0, "나무 이미지", LocalDateTime.now(), 1, "studyName" );
-        TreeDto.UserResponse response2 = new TreeDto.UserResponse(2, 0, "트리 이미지", LocalDateTime.now(), 1, "스터디 이름");
+        TreeDto.UserResponse response1 = new TreeDto.UserResponse(1, 0, "나무 이미지", LocalDateTime.now(), 1, "studyName", 1);
+        TreeDto.UserResponse response2 = new TreeDto.UserResponse(2, 0, "트리 이미지", LocalDateTime.now(), 1, "스터디 이름", 2);
 
         List<Object> treesAndTeamNames = List.of(tree1, tree2);
         List<TreeDto.UserResponse> responses = List.of(response1, response2);
@@ -283,7 +283,8 @@ public class TreeTest {
                                         fieldWithPath("data.trees[].treeImage").type(JsonFieldType.STRING).description("트리 이미지 주소"),
                                         fieldWithPath("data.trees[].createdAt").type(JsonFieldType.STRING).description("생성 날짜"),
                                         fieldWithPath("data.trees[].makeMonth").type(JsonFieldType.NUMBER).description("월별 트리"),
-                                        fieldWithPath("data.trees[].teamName").type(JsonFieldType.STRING).description("스터디 이름")
+                                        fieldWithPath("data.trees[].teamName").type(JsonFieldType.STRING).description("스터디 이름"),
+                                        fieldWithPath("data.trees[].studyId").type(JsonFieldType.NUMBER).description("스터디 식별자")
                                 )
                         )
                 ));
