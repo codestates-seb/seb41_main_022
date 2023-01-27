@@ -276,7 +276,7 @@ public class StudyController {
         );
     }
 
-    @GetMapping("/user/{user-id}") // 토큰 없이 스터디 검색하기
+    @GetMapping("/user/{user-id}") // #48 - 토큰 없이 스터디 검색하기
     public ResponseEntity getStudiesByUserNoToken(@PathVariable("user-id") @Positive long userId) {
         List<Study> studyList = studyService.findStudiesByUserNoToken(userId);
         List<StudyUserDto.Studys> response = studyMapper.studiesToStudyUserDto(studyList);
