@@ -19,7 +19,6 @@ export const joinStudyStore = create<joinStudyState>((set) => ({
         }
       );
       set({ studyId: await response.data.data.studyId });
-      alert("가입신청 되었습니다");
     } catch (error) {
       console.log(error);
       alert("에러");

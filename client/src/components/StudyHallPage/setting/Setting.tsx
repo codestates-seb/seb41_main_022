@@ -18,7 +18,7 @@ interface Application {
 const Setting = () => {
   const { studyId } = useParams();
   const navigate = useNavigate();
-  const [cookies] = useCookies(["token", "userData", "authData"]);
+  const [cookies] = useCookies(["token", "userData"]);
   const [applicationData, setApplicationData] = useState<
     Application[] | undefined
   >();

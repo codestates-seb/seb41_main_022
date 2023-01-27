@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useCookies } from "react-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 //구분선
 import Profile from "../components/userpage/Profile";
 import MyStudy from "../components/userpage/MyStudy";
@@ -33,6 +35,8 @@ const UserPage = () => {
     undefined
   );
   const [treeData, setTreeData] = useState<Data | undefined>();
+  const error = () =>
+    toast.error("가입되어 있는 모든 스터디에서 탈퇴 후 진행해주세요");
 
   const { setIsLogin } = LoginStore();
   const navigate = useNavigate();
@@ -53,7 +57,7 @@ const UserPage = () => {
               removeCookie("userData");
               setIsLogin(false);
             })
-        : alert("가입되어 있는 모든 스터디에서 탈퇴 후 진행해주세요");
+        : error();
       setAgreeWithdraw(false);
       setIsOpenAgreePage(false);
     }
@@ -158,6 +162,7 @@ const UserPage = () => {
             </div>
           </WithdrawAgree>
         ) : null}
+        <ToastContainer autoClose={2000} position="top-right" />
         <MyStudyList />
         <button
           onClick={handleOpenWithdraw}

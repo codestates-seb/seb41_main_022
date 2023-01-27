@@ -85,7 +85,9 @@ const EditForm = () => {
       studyId
     );
     notify();
-    navigate(`/study-hall/main/${studyId}`);
+    setTimeout(() => {
+      navigate(`/study-hall/main/${studyId}`);
+    }, 1500);
   };
   // 스터디 수정 초기 데이터 가져오기
   useEffect(() => {
@@ -273,7 +275,9 @@ const EditForm = () => {
             </ErrorText>
             <div>
               <RedButton type="submit">Edit Study</RedButton>
-              <ToastContainer />
+              <div className="toastFontsize">
+                <ToastContainer position="top-right" autoClose={1500} />
+              </div>
             </div>
           </Form>
         )}
@@ -425,6 +429,10 @@ const Form = styled.form`
   }
   .errorIcon {
     color: var(--red-00);
+  }
+  .toastFontsize {
+    font-family: "mainM";
+    font-size: 16px;
   }
 `;
 
