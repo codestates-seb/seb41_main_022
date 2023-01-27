@@ -1,14 +1,25 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-
+interface TreeProps {
+  treeId: number;
+  treePoint: number;
+  treeImage: string;
+  createdAt: string;
+  makeMonth: number;
+  teamName: string;
+}
+interface treeType {
+  tree: object | undefined;
+}
 interface CardProps {
   teamName: string;
   summary: string;
   studyId: number;
   imgUrl: string;
+  tree: any;
 }
 
-const MyStudy = ({ teamName, summary, studyId, imgUrl }: CardProps) => {
+const MyStudy = ({ teamName, summary, studyId, imgUrl, tree }: CardProps) => {
   const navigate = useNavigate();
 
   return (
@@ -19,6 +30,7 @@ const MyStudy = ({ teamName, summary, studyId, imgUrl }: CardProps) => {
       <div className="recruitmentBody">
         <div className="border">
           <BodyWrapper>
+            <Img src={tree.treeImage} />
             <div className="body-myStudy">{teamName}</div>
             <div className="body-content--wrapper">
               <div className="body-content">{summary}</div>
@@ -39,8 +51,12 @@ const RecruitmentBackground = styled.div`
   background-size: 311px 236px;
   background-position: center;
   background-repeat: no-repeat;
+  transform: scale(1);
+  transition: all 200ms ease;
   :hover {
     cursor: pointer;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
   }
 
   > .recruitmentBody {
@@ -52,7 +68,7 @@ const RecruitmentBackground = styled.div`
     justify-content: center;
     align-items: center;
     :hover {
-      transition-duration: 0.5s;
+      transition-duration: 200ms;
       background-color: rgba(0, 0, 0, 0.75);
       .body-content {
         transition-duration: 0.5s;
@@ -94,5 +110,11 @@ const BodyWrapper = styled.div`
       line-height: 17px;
     }
   }
+`;
+const Img = styled.img`
+  position: absolute;
+  width: 80px;
+  margin-left: 190px;
+  margin-top: 100px;
 `;
 export default MyStudy;
