@@ -18,6 +18,7 @@ interface Studies {
   size: number;
   imgUrl: string;
   isClosedChat: boolean;
+  chatCreatedAt: string;
 }
 interface PageInfo {
   page: number;
@@ -64,7 +65,7 @@ const StudyHallMain = () => {
   }, [page, size]);
 
   return (
-    <MainWrapper>
+    <div>
       <div className="padding">
         <div>
           <CommentsWrap>
@@ -79,6 +80,7 @@ const StudyHallMain = () => {
                   imgUrl={el.imgUrl}
                   content={el.content}
                   isClosedChat={el.isClosedChat}
+                  chatCreatedAt={el.chatCreatedAt}
                   answers={el.answers}
                   totalElements={commentsData.pageInfo.totalElements}
                   size={el.size}
@@ -111,12 +113,11 @@ const StudyHallMain = () => {
           </CommentsWrap>
         </div>
       </div>
-    </MainWrapper>
+    </div>
   );
 };
 export default StudyHallMain;
 
-const MainWrapper = styled.div``;
 const CommentsWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -126,11 +127,9 @@ const Pagination = styled.div`
   display: flex;
   justify-content: center;
   font-size: 2px;
-
   .button-wrapper {
     margin-top: 1px;
     button {
-      display: center;
       width: 50px;
       height: 30px;
       color: var(--beige-00);

@@ -35,6 +35,7 @@ const CreateAnswer = ({
             username={el.username}
             content={el.content}
             imgUrl={el.imgUrl}
+            answerCreatedAt={el.answerCreatedAt}
           />
         ))}
       </span>

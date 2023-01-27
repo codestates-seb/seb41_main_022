@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import moment from "moment";
 
 interface chatProps {
   username: string;
@@ -6,11 +7,32 @@ interface chatProps {
   dateTime: string;
   imgUrl: string;
 }
-
+const getDayMinuteCounter = (date?: object): number | string => {
+  if (!date) {
+    return "";
+  }
+  const today = moment();
+  const postingDate = moment(date);
+  const dayDiff = postingDate.diff(today, "days");
+  const hourDiff = postingDate.diff(today, "hours");
+  const minutesDiff = postingDate.diff(today, "minutes");
+  if (minutesDiff === 0) {
+    return "방금 전";
+  }
+  if (dayDiff === 0 && hourDiff === 0) {
+    const minutes = Math.ceil(-minutesDiff);
+    return minutes + "분 전";
+  }
+  if (dayDiff === 0 && hourDiff <= 24) {
+    const hour = Math.ceil(-hourDiff);
+    return hour + "시간 전";
+  }
+  return -dayDiff + "일 전";
+};
 const Chat = ({ username, content, dateTime, imgUrl }: chatProps) => {
   return (
     <Chatwrapper>
-      <div className="time">{dateTime.replace("T", " / ")}</div>
+      <div className="time">{getDayMinuteCounter(moment(dateTime))}</div>
       <img src={imgUrl} />
       <TextWrapper>
         <div className="name">{username}</div>
