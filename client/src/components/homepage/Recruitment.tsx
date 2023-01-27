@@ -64,8 +64,12 @@ const RecruitmentBackground = styled.div`
   background-size: 311px 236px;
   background-position: center;
   background-repeat: no-repeat;
+  transform: scale(1);
+  transition: all 0.3s ease;
   :hover {
     cursor: pointer;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
   }
 
   > .recruitmentBody {

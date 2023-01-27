@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
@@ -55,6 +55,7 @@ const UserStudy = () => {
   const [treeData, setTreeData] = useState<treeType[] | undefined>();
   const [myUserData, setMyUserData] = useState<User | undefined>();
   const [memberData, setMemberData] = useState<Member[] | undefined>();
+  const [scroll, setScroll] = useState(0);
   const { studyId } = useParams();
 
   useEffect(() => {
@@ -106,11 +107,40 @@ const UserStudy = () => {
     const data = memberData?.find((el) => el.username === myUserData?.username);
     return data?.role.includes("ADMIN");
   };
+  const handleScroll = () => {
+    setScroll(window.scrollY);
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll); //clean up
+    };
+  }, []);
+  const observer = new IntersectionObserver((e) => {
+    e.forEach((el: any) => {
+      if (scroll > 120) {
+        el.target.style.opacity = 0.2;
+        el.target.style.marginTop = "-400px";
+      } else if (scroll > 60) {
+        el.target.style.opacity = 0.5;
+        el.target.style.marginTop = "-200px";
+      } else {
+        el.target.style.opacity = 0.8;
+        el.target.style.marginTop = 0;
+      }
+    });
+  });
+  const backImg = document.querySelector("#backImg");
+
+  if (backImg) {
+    observer.observe(backImg);
+  }
+  const navigate = useNavigate();
   return (
     <Main>
       <BeigeDiv>
         <BackGround>
-          <img src={myStudy?.image} />
+          <img src={myStudy?.image} id="backImg" />
         </BackGround>
         <Container>
           {myUserData && (
@@ -124,7 +154,12 @@ const UserStudy = () => {
           )}
           {!myUserData && <UserSkeleton2 />}
           <UserStudyDetail>
-            <h2 className="teamName">{myStudy?.teamName}</h2>
+            <h2
+              className="teamName"
+              onClick={() => navigate("/study-hall/main/" + studyId)}
+            >
+              {myStudy?.teamName}
+            </h2>
             <UserStudyTree treeData={treeData} />
             <div className="divide">
               <div>
@@ -206,7 +241,9 @@ const BackGround = styled.div`
   overflow: hidden;
   img {
     width: 100%;
-    opacity: 1;
+    opacity: 0.8;
+    transition: all 0.5s;
+    margin-top: 0px;
   }
 `;
 
@@ -242,7 +279,12 @@ const UserStudyDetail = styled.div`
     font-family: "mainEB";
   }
   .teamName {
+    width: fit-content;
     font-size: 24px;
+    cursor: pointer;
+    :hover {
+      color: var(--green-00);
+    }
   }
   .divide {
     display: flex;
