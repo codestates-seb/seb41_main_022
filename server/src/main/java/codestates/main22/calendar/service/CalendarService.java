@@ -8,6 +8,7 @@ import codestates.main22.exception.ExceptionCode;
 import codestates.main22.participant.service.ParticipantService;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.service.StudyService;
+import codestates.main22.tree.service.TreeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,13 +23,16 @@ public class CalendarService {
     private final CalendarRepository calendarRepository;
     private final ParticipantService participantService;
     private final StudyService studyService;
+    private final TreeService treeService;
 
     public CalendarService(CalendarRepository calendarRepository,
                            ParticipantService participantService,
-                           StudyService studyService) {
+                           StudyService studyService,
+                           TreeService treeService) {
         this.calendarRepository = calendarRepository;
         this.participantService = participantService;
         this.studyService = studyService;
+        this.treeService = treeService;
     }
 
     // 캘린더 생성
@@ -45,10 +49,31 @@ public class CalendarService {
         return calendarRepository.save(calendar);
     }
 
+    // 참가자의 참가 여부에 따른 트리 포인트 업데이트
+    public void updateTreePoint(Calendar beforeCalendar, Calendar afterCalendar) {
+        int beforePoint = beforeCalendar.getParticipants().stream()
+                .mapToInt(participant -> {
+                    if(participant.getJoinState() == Participant.Attendance.YES) return 10;
+                    else if(participant.getJoinState() == Participant.Attendance.NO) return -10;
+                    return 0;
+                }).sum();
+        int afterPoint = afterCalendar.getParticipants().stream()
+                .mapToInt(participant -> {
+                    if(participant.getJoinState() == Participant.Attendance.YES) return 10;
+                    else if(participant.getJoinState() == Participant.Attendance.NO) return -10;
+                    return 0;
+                }).sum();
+
+        treeService.updateTreePoint(beforeCalendar.getStudy(), afterPoint-beforePoint);
+    }
+
+
     // 캘린더 수정
     public Calendar updateCalendar(Calendar calendar) {
         Calendar findCalendar = verifiedCalendar(calendar.getCalendarId());
-        List<Participant> participants = participantService.updateParticipants(findCalendar, calendar);
+
+        updateTreePoint(findCalendar, calendar); // 참가자의 참가 여부에 따른 트리 포인트 업데이트
+        List<Participant> participants = participantService.updateParticipants(findCalendar, calendar); // 참여 여부 업데이트
 
         Optional.ofNullable(calendar.getDate())
                 .ifPresent(date -> findCalendar.setDate(date));
