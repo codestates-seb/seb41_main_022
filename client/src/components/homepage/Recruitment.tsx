@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import LoginStore from "../../util/zustandLogin";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import WeekBar from "../WeekBar";
 
@@ -23,16 +25,16 @@ const Recruitment = ({
 }: CardProps) => {
   const navigate = useNavigate();
   const { isLogin } = LoginStore();
+  const error = () => toast.error("로그인 후 이용해주세요!");
 
   return (
     <RecruitmentBackground
       style={{ backgroundImage: `url(${imgUrl})` }}
       onClick={
-        isLogin
-          ? () => navigate(`/study-hall/main/${studyId}`)
-          : () => alert("로그인 후 이용해주세요!")
+        isLogin ? () => navigate(`/study-hall/main/${studyId}`) : () => error()
       }
     >
+      <ToastContainer position="top-right" autoClose={1500} />
       <div className="recruitmentBody">
         <div className="border">
           <BodyWrapper>
