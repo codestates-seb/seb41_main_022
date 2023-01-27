@@ -493,6 +493,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_유저_호출">7.2. 유저 호출</a></li>
 <li><a href="#_유저_이름_수정">7.3. 유저 이름 수정</a></li>
 <li><a href="#_유저_탈퇴">7.4. 유저 탈퇴</a></li>
+<li><a href="#_스터디_유저_호출">7.5. 스터디 유저 호출</a></li>
+<li><a href="#_스터디_신청자_호출">7.6. 스터디 신청자 호출</a></li>
+<li><a href="#_토큰없이_유저_호출">7.7. (토큰없이) 유저 호출</a></li>
+</ul>
+</li>
+<li><a href="#_studycontroller">8. StudyController</a>
+<ul class="sectlevel2">
+<li><a href="#_home_모집_공고_기본_화면">8.1. home 모집 공고 (기본 화면)</a></li>
 </ul>
 </li>
 </ul>
@@ -604,7 +612,7 @@ HTTP Methods : POST</p>
     "username" : "유저 이름",
     "imgUrl" : "유저 이미지",
     "content" : "내용",
-    "answerCreatedAt" : "2023-01-27T15:31:59"
+    "answerCreatedAt" : "2023-01-27T16:28:10"
   }
 }</code></pre>
 </div>
@@ -759,7 +767,7 @@ HTTP Methods : POST</p>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code>{
   "title" : "스터디 모임!!",
-  "date" : "2023-01-27T15:31:59"
+  "date" : "2023-01-27T16:28:11"
 }</code></pre>
 </div>
 </div>
@@ -797,7 +805,7 @@ HTTP Methods : POST</p>
   "data" : {
     "calendarId" : 1,
     "title" : "스터디 모임!!",
-    "date" : "2023-01-27T15:31:59",
+    "date" : "2023-01-27T16:28:11",
     "participants" : [ {
       "userId" : 1,
       "username" : "사용자1",
@@ -901,7 +909,7 @@ HTTP Methods : GET</p>
   "data" : [ {
     "calendarId" : 1,
     "title" : "스터디 모임!!",
-    "date" : "2023-01-27T15:31:59",
+    "date" : "2023-01-27T16:28:11",
     "participants" : [ {
       "userId" : 1,
       "username" : "사용자1",
@@ -914,7 +922,7 @@ HTTP Methods : GET</p>
   }, {
     "calendarId" : 1,
     "title" : "스터디 모임!!",
-    "date" : "2023-01-27T15:31:59",
+    "date" : "2023-01-27T16:28:11",
     "participants" : [ {
       "userId" : 1,
       "username" : "사용자1",
@@ -1017,7 +1025,7 @@ HTTP Methods : PATCH</p>
 <pre class="prettyprint highlight nowrap"><code>{
   "calendarId" : 1,
   "title" : "스터디 모임!!",
-  "date" : "2023-01-27T15:31:59",
+  "date" : "2023-01-27T16:28:11",
   "participants" : [ {
     "userId" : 1,
     "username" : "사용자1",
@@ -1089,7 +1097,7 @@ HTTP Methods : PATCH</p>
   "data" : {
     "calendarId" : 1,
     "title" : "스터디 모임!!",
-    "date" : "2023-01-27T15:31:59",
+    "date" : "2023-01-27T16:28:11",
     "participants" : [ {
       "userId" : 1,
       "username" : "사용자1",
@@ -1281,7 +1289,7 @@ HTTP Methods : GET</p>
     "imgUrl" : "유저 이미지 주소",
     "content" : "내용",
     "isClosedChat" : false,
-    "chatCreatedAt" : "2023-01-27T15:32:02.695444",
+    "chatCreatedAt" : "2023-01-27T16:28:14.5924878",
     "answers" : [ ]
   }, {
     "chatId" : 2,
@@ -1290,7 +1298,7 @@ HTTP Methods : GET</p>
     "imgUrl" : "유저 이미지 주소",
     "content" : "내용",
     "isClosedChat" : false,
-    "chatCreatedAt" : "2023-01-27T15:32:02.695444",
+    "chatCreatedAt" : "2023-01-27T16:28:14.5924878",
     "answers" : [ ]
   } ],
   "pageInfo" : {
@@ -1485,7 +1493,7 @@ HTTP Methods : POST</p>
     "imgUrl" : "유저 이미지",
     "content" : "내용",
     "isClosedChat" : false,
-    "chatCreatedAt" : "2023-01-27T15:32:02.7894418",
+    "chatCreatedAt" : "2023-01-27T16:28:14.6904902",
     "answers" : [ ]
   }
 }</code></pre>
@@ -1668,7 +1676,7 @@ HTTP Methods : POST</p>
 <div class="content">
 <pre class="prettyprint highlight nowrap"><code>{
   "content" : "내용",
-  "dateTime" : "2023-01-27T15:32:04"
+  "dateTime" : "2023-01-27T16:28:16"
 }</code></pre>
 </div>
 </div>
@@ -1705,7 +1713,7 @@ HTTP Methods : POST</p>
 <pre class="prettyprint highlight nowrap"><code>{
   "data" : {
     "content" : "내용",
-    "dateTime" : "2023-01-27T15:32:04.2584427",
+    "dateTime" : "2023-01-27T16:28:16.1854896",
     "messageUserId" : 1,
     "username" : "유저 이름",
     "imgUrl" : "https://avatars.dicebear.com/api/bottts/222.svg"
@@ -1792,13 +1800,13 @@ HTTP Methods : GET</p>
 <pre class="prettyprint highlight nowrap"><code>{
   "data" : [ {
     "content" : "내용",
-    "dateTime" : "2023-01-27T15:32:04.2194439",
+    "dateTime" : "2023-01-27T16:28:16.1444868",
     "messageUserId" : 1,
     "username" : "유저 이름",
     "imgUrl" : "유저 이미지 주소"
   }, {
     "content" : "내용",
-    "dateTime" : "2023-01-27T15:32:04.2194439",
+    "dateTime" : "2023-01-27T16:28:16.1444868",
     "messageUserId" : 2,
     "username" : "유저 이름",
     "imgUrl" : "유저 이미지 주소"
@@ -2129,16 +2137,18 @@ HTTP Methods : GET</p>
       "treeId" : 1,
       "treePoint" : 0,
       "treeImage" : "나무 이미지",
-      "createdAt" : "2023-01-27T15:32:09.0756699",
+      "createdAt" : "2023-01-27T16:28:20.8294887",
       "makeMonth" : 1,
-      "teamName" : "studyName"
+      "teamName" : "studyName",
+      "studyId" : 1
     }, {
       "treeId" : 2,
       "treePoint" : 0,
       "treeImage" : "트리 이미지",
-      "createdAt" : "2023-01-27T15:32:09.0756699",
+      "createdAt" : "2023-01-27T16:28:20.8294887",
       "makeMonth" : 1,
-      "teamName" : "스터디 이름"
+      "teamName" : "스터디 이름",
+      "studyId" : 2
     } ]
   }
 }</code></pre>
@@ -2199,6 +2209,11 @@ HTTP Methods : GET</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">스터디 이름</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.trees[].studyId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 식별자</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -2236,13 +2251,13 @@ HTTP Methods : GET</p>
       "treeId" : 1,
       "treePoint" : 0,
       "treeImage" : "나무 이미지",
-      "createdAt" : "2023-01-27T15:32:09.1656711",
+      "createdAt" : "2023-01-27T16:28:20.9324877",
       "makeMonth" : 1
     }, {
       "treeId" : 2,
       "treePoint" : 0,
       "treeImage" : "트리 이미지",
-      "createdAt" : "2023-01-27T15:32:09.1656711",
+      "createdAt" : "2023-01-27T16:28:20.9324877",
       "makeMonth" : 2
     } ]
   }
@@ -2317,16 +2332,18 @@ HTTP Methods : GET</p>
       "treeId" : 1,
       "treePoint" : 0,
       "treeImage" : "나무 이미지",
-      "createdAt" : "2023-01-27T15:32:09.1386717",
+      "createdAt" : "2023-01-27T16:28:20.8964906",
       "makeMonth" : 1,
-      "teamName" : "studyName"
+      "teamName" : "studyName",
+      "studyId" : 1
     }, {
       "treeId" : 2,
       "treePoint" : 0,
       "treeImage" : "트리 이미지",
-      "createdAt" : "2023-01-27T15:32:09.1386717",
+      "createdAt" : "2023-01-27T16:28:20.8964906",
       "makeMonth" : 1,
-      "teamName" : "스터디 이름"
+      "teamName" : "스터디 이름",
+      "studyId" : 2
     } ]
   }
 }</code></pre>
@@ -2386,6 +2403,11 @@ HTTP Methods : GET</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.trees[].teamName</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">스터디 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.trees[].studyId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 식별자</p></td>
 </tr>
 </tbody>
 </table>
@@ -2651,6 +2673,307 @@ HTTP Methods : PATCH</p>
 <p>URL : /user<br>
 HTTP Methods : DELETE</p>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 50. request-headers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>access-Token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">access 토큰</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>refresh-Token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">refresh 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">request-body</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code></code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">response-body</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_스터디_유저_호출">7.5. 스터디 유저 호출</h3>
+<div class="paragraph">
+<p>URL : /user/study?studyId={study-id}<br>
+HTTP Methods : GET</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 51. request-parameters</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>studyId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">response-body</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "data" : [ {
+    "username" : "이름A",
+    "imgUrl" : "https://avatars.dicebear.com/api/bottts/221.svg",
+    "role" : "STUDY1_ADMIN"
+  }, {
+    "username" : "이름B",
+    "imgUrl" : "https://avatars.dicebear.com/api/bottts/222.svg",
+    "role" : "STUDY1_USER"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 52. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].imgUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 주소</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].role</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 권한</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_스터디_신청자_호출">7.6. 스터디 신청자 호출</h3>
+<div class="paragraph">
+<p>URL : /user/{study-id}/requester<br>
+HTTP Methods : GET</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 53. /user/{study-id}/requester</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>study-id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">스터디 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 54. request-headers</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>access-Token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">access 토큰</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>refresh-Token</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">refresh 토큰</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">response-body</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "data" : [ {
+    "userId" : 1,
+    "username" : "유저A",
+    "imgUrl" : "이미지A"
+  }, {
+    "userId" : 2,
+    "username" : "유저B",
+    "imgUrl" : "이미지B"
+  } ]
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 55. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data[].imgUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 주소</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_토큰없이_유저_호출">7.7. (토큰없이) 유저 호출</h3>
+<div class="paragraph">
+<p>URL : /user/{user-id}<br>
+HTTP Methods : GET</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 56. /user/{user-id}</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>user-id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 식별자</p></td>
+</tr>
+</tbody>
+</table>
+<div class="listingblock">
+<div class="title">response-body</div>
+<div class="content">
+<pre class="prettyprint highlight nowrap"><code>{
+  "data" : {
+    "userId" : 1,
+    "username" : "이름",
+    "imgUrl" : "https://avatars.dicebear.com/api/bottts/222.svg"
+  }
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 57. response-fields</caption>
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Object</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">결과 데이터</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.userId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 식별자</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">유저 이름</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.imgUrl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이미지 주소</p></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_studycontroller">8. StudyController</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_home_모집_공고_기본_화면">8.1. home 모집 공고 (기본 화면)</h3>
+
 </div>
 </div>
 </div>
@@ -2658,7 +2981,7 @@ HTTP Methods : DELETE</p>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-01-27 15:29:45 +0900
+Last updated 2023-01-27 16:12:17 +0900
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.min.css">
