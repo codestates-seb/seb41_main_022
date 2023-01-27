@@ -45,6 +45,9 @@ const Header = () => {
     }
   };
   useEffect(() => {
+    if (cookies.token) {
+      setIsLogin(true);
+    }
     window.addEventListener("scroll", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll); //clean up
@@ -67,6 +70,7 @@ const Header = () => {
         })
         .then((res) => {
           setUserData(res.data.data);
+
           setCookie(
             "userData",
             {
