@@ -57,20 +57,14 @@ const Comments = ({
   const [showAnswer, setShowAnswer] = useState(false);
   const navigate = useNavigate();
   const { postAnswer, postedAnswer } = answerStore();
-  console.log(postedAnswer);
   const [answer, setAnswer] = useState("");
-  const [answersData, setAnswersData] = useState<any[] | undefined>(undefined);
   const { fetchCommentData } = commentStore();
 
-  useEffect(() => {
-    setAnswersData(answers);
-  }, []);
-
   //대댓글 작성
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (chatId) {
-      await postAnswer(
+      postAnswer(
         chatId,
         { content: answer },
         {
@@ -78,24 +72,27 @@ const Comments = ({
           "refresh-Token": cookies.token.refreshToken,
         }
       );
-      // if (answersData) {
-      //   answersData.push(postedAnswer);
-      // }
+      if (studyId) {
+        fetchCommentData(
+          cookies.token.accessToken,
+          cookies.token.refreshToken,
+          studyId,
+          page,
+          requestSize
+        );
+      }
       setAnswer("");
     }
   };
 
   const handleClickDeleteComment = () => {
     axios
-      .delete(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${chatId}`,
-        {
-          headers: {
-            "access-Token": cookies.token.accessToken,
-            "refresh-Token": cookies.token.refreshToken,
-          },
-        }
-      )
+      .delete(`${process.env.REACT_APP_API_URL}/chat/${chatId}`, {
+        headers: {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        },
+      })
       .then(() => {
         if (studyId) {
           fetchCommentData(
@@ -175,16 +172,15 @@ const Comments = ({
                   value={answer}
                 />
                 <AnswerButton type="submit">Add</AnswerButton>
-                {answersData &&
-                  answersData.map((el) => (
-                    <Answers
-                      key={el.answerId}
-                      username={el.username}
-                      content={el.content}
-                      imgUrl={el.imgUrl}
-                      answerCreatedAt={el.answerCreatedAt}
-                    />
-                  ))}
+                {answers.map((el) => (
+                  <Answers
+                    key={el.answerId}
+                    username={el.username}
+                    content={el.content}
+                    imgUrl={el.imgUrl}
+                    answerCreatedAt={el.answerCreatedAt}
+                  />
+                ))}
               </span>
             )}
           </Texts>
