@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useCookies } from "react-cookie";
 import AuthStore from "../../../../util/zustandAuth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   const [title, setTitle] = useState("");
@@ -14,6 +16,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   const [cookies, setCookie, removeCookie] = useCookies(["userData"]);
   const calendarPatch = calendarStore((state) => state.calendarPatch);
   const { authData } = AuthStore();
+  const notify = () => toast.success("수정되었습니다.");
   useEffect(() => {
     setMyUserId(cookies.userData.userId);
     setParticipants(editData.participants);
@@ -27,6 +30,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
       date: `${editData.date.slice(0, 10)}T${hour}:${minute}:00`,
       participants,
     });
+    notify();
     setShowEditModal(false);
   };
   const handleSubmitMember = (e) => {
@@ -35,6 +39,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
       ...editData,
       participants,
     });
+    notify();
     setShowEditModal(false);
   };
   return (
@@ -162,6 +167,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
                 </RedButton>
               </div>
             </Form>
+            <ToastContainer />
           </div>
         </ContentsDiv>
       </ModalDiv>

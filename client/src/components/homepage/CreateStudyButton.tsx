@@ -1,29 +1,31 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import LoginStore from "../../util/zustandLogin";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CreateStudyButton = () => {
   const navigate = useNavigate();
   const { isLogin } = LoginStore();
+  const error = () => toast.error("로그인 후 이용해주세요!");
   return (
-    <CreateStudyWrapper>
-      <div className="flexWrapper">
-        <div className="assign">
-          아직 스터디에 가입하지 않았나요?
-          <br />
-          새로 만들어보세요!
+    <>
+      <CreateStudyWrapper>
+        <div className="flexWrapper">
+          <div className="assign">
+            아직 스터디에 가입하지 않았나요?
+            <br />
+            새로 만들어보세요!
+          </div>
+          <RedButton
+            onClick={isLogin ? () => navigate("/create") : () => error()}
+          >
+            Create Study
+          </RedButton>
         </div>
-        <RedButton
-          onClick={
-            isLogin
-              ? () => navigate("/create")
-              : () => alert("로그인 후 이용해주세요!")
-          }
-        >
-          Create Study
-        </RedButton>
-      </div>
-    </CreateStudyWrapper>
+      </CreateStudyWrapper>
+      <ToastContainer position="top-right" autoClose={1500} />
+    </>
   );
 };
 
