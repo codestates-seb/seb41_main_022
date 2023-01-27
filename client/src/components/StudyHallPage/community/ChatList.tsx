@@ -5,6 +5,7 @@ import { useCookies } from "react-cookie";
 
 import ChatStore from "../../../util/zustandCommunity";
 import Chat from "./Chat";
+import moment from "moment/moment";
 
 const ChatList = () => {
   const [cookies] = useCookies(["token", "userData"]);
@@ -63,6 +64,28 @@ const ChatList = () => {
   useEffect(() => {
     scrollToBottom();
   }, [chatData]);
+  const getDayMinuteCounter = (date?: object): number | string => {
+    if (!date) {
+      return "";
+    }
+    const today = moment();
+    const postingDate = moment(date);
+    const dayDiff = postingDate.diff(today, "days");
+    const hourDiff = postingDate.diff(today, "hours");
+    const minutesDiff = postingDate.diff(today, "minutes");
+    if (minutesDiff === 0) {
+      return "방금 전";
+    }
+    if (dayDiff === 0 && hourDiff === 0) {
+      const minutes = Math.ceil(-minutesDiff);
+      return minutes + "분 전";
+    }
+    if (dayDiff === 0 && hourDiff <= 24) {
+      const hour = Math.ceil(-hourDiff);
+      return hour + "시간 전";
+    }
+    return -dayDiff + "일 전";
+  };
   return (
     <ChatListWrapper>
       <div className="flex">
@@ -86,7 +109,9 @@ const ChatList = () => {
         {chatData.map((el, idx) =>
           el.messageUserId === userId ? (
             <div key={idx} className="myChatWrapper">
-              <div className="time">{el.dateTime.replace("T", " / ")}</div>
+              <div className="time">
+                {getDayMinuteCounter(moment(el.dateTime))}
+              </div>
               <div className="myChat">
                 {el.content.split("\n").map((el, idx) => (
                   <span key={idx}>
@@ -191,10 +216,11 @@ const ChatWrapper = styled.div`
   overflow: auto;
   > .myChatWrapper {
     .time {
+      width: 240px;
+      text-align: right;
       position: relative;
       font-size: 8px;
       margin-top: -25px;
-      margin-left: 120px;
       display: none;
     }
     :hover {
