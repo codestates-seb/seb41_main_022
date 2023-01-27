@@ -40,8 +40,7 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TreeController.class)
@@ -133,6 +132,7 @@ public class TreeTest {
                         "tree/#11",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),
@@ -207,6 +207,7 @@ public class TreeTest {
                         "tree/#38",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(),
                         requestParameters(
                                 parameterWithName("studyId").description("스터디 식별자")
                         ),
@@ -274,6 +275,7 @@ public class TreeTest {
                         "tree/#49",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),

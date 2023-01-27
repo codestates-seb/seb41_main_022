@@ -119,6 +119,7 @@ public class CalendarControllerRestDocsTest extends JwtMockBean {
                         requestParameters(
                                 parameterWithName("studyId").description("스터디 식별자")
                         ),
+                        pathParameters(),
                         requestFields(
                                 List.of(
                                         fieldWithPath("title").type(JsonFieldType.STRING).description("본문"),
@@ -172,6 +173,7 @@ public class CalendarControllerRestDocsTest extends JwtMockBean {
                         requestParameters(
                                 parameterWithName("studyId").description("스터디 식별자")
                         ),
+                        pathParameters(),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),

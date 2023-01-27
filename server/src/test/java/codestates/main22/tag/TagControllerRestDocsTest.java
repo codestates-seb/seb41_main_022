@@ -90,6 +90,7 @@ public class TagControllerRestDocsTest extends JwtMockBean {
                 .andDo(document("tag/#5",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -125,6 +126,7 @@ public class TagControllerRestDocsTest extends JwtMockBean {
                 .andDo(document("tag/#10",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        pathParameters(),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),

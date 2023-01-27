@@ -157,6 +157,9 @@ public class AnswerTest {
 
         actions.andExpect(status().isNoContent())
                 .andDo(document("answer/#46",
+                        pathParameters(
+                                parameterWithName("answr-id").description("답변 식별자")
+                        ),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),
