@@ -1,13 +1,12 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
-      settings:
-        web-allow-others: true # AWS에서 H2 콘솔 연결
   datasource:
-    url: jdbc:h2:mem:test
+    url: jdbc:mysql://database-1.cfdmibvojvgm.ap-northeast-2.rds.amazonaws.com:3306/test?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: main22
+    password: main22!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    database : mysql
+#    database-platform : hibernate.dialect.MySQl5InnoDBDialect
     hibernate:
       ddl-auto: create
     show-sql: true
@@ -27,6 +26,8 @@ spring:
             scope:
               - email
               - profile
+config:
+  domain: http://seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/
 logging:
   level:
     org:
