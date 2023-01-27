@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import axios, { AxiosResponse } from "axios";
 import { MdOutlineLock } from "react-icons/md";
-
+import { useNavigate, useParams } from "react-router-dom";
 //내부컴포넌트 임포트
 import Answers from "./Answers";
 import { answerStore } from "../../../util/zustandCreatAnswer";
 import moment from "moment/moment";
-
+import TrashButton from "./TrashButton";
 //타입지정
 export interface CommentsProps {
   username: string;
@@ -48,9 +48,9 @@ const Comments = ({
   totalElements,
 }: CommentsProps) => {
   const [cookies] = useCookies(["token"]);
-
+  const { studyId } = useParams();
   const [showAnswer, setShowAnswer] = useState(false);
-
+  const navigate = useNavigate();
   const postAnswer = answerStore((state) => state.postAnswer);
   const [answer, setAnswer] = useState("");
 
@@ -67,6 +67,19 @@ const Comments = ({
       );
     }
   };
+
+  const handleClickDeleteComment = () => {
+    axios.delete(
+      `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/chat/${chatId}`,
+      {
+        headers: {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        },
+      }
+    );
+  };
+
   const getDayMinuteCounter = (date?: object): number | string => {
     if (!date) {
       return "";
@@ -118,7 +131,7 @@ const Comments = ({
                   {getDayMinuteCounter(moment(chatCreatedAt))}
                 </div>
                 {isClosedChat === false ? null : <MdOutlineLock />}
-                <FiTrash2 type="button" />
+                <TrashButton handleClick={handleClickDeleteComment} />
               </div>
             </span>
             {showAnswer && (

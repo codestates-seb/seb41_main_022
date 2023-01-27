@@ -68,6 +68,7 @@ public class ChatService {
     // study별 chat에서 공개여부에 따른 필터링
     public List<Chat> filterByIsClosedChat(List<Chat> chats, HttpServletRequest request) {
         UserEntity user = token.findByToken(request);
+        if(chats.size() == 0) return new ArrayList<>();
         long studyId = Optional.ofNullable(chats.get(0)).get().getStudy().getStudyId();
 
         // 1. isClosedChat = false 인 경우 : 있던 chat 출력
