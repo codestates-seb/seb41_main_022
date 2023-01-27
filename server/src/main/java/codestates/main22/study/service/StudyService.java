@@ -12,6 +12,7 @@ import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.entity.UserStudyEntity;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.repository.UserStudyRepository;
+import codestates.main22.user.service.UserService;
 import codestates.main22.utils.Init;
 import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
@@ -345,5 +346,17 @@ public class StudyService {
     //랜덤 이미지를 넣기 위한 로직
     private static final Random rng = new Random();
     public static int randBetween(int min, int max) {return min+rng.nextInt(max-min+1);}
+
+    public List<Study> findStudiesByUserNoToken(long userId) {
+        UserEntity user = verifiedUser(userId);
+        List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
+        List<Study> studies = userStudies.stream().map(UserStudyEntity::getStudy).collect(Collectors.toList());
+        return studies;
+    }
+
+    public UserEntity verifiedUser(long userId) {
+        Optional<UserEntity> user = userRepository.findById(userId);
+        return user.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+    }
 
 }
