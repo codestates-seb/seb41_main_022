@@ -269,14 +269,11 @@ include::{snippets}/tag/#34/response-fields.adoc[]
 ***
 == TreeController
 === user 트리 호출
-.path-parameters
-include::{snippets}/tree/#11/path-parameters.adoc[]
+URL : /tree/user +
+HTTP Methods : GET
 
 .request-headers
 include::{snippets}/tree/#11/request-headers.adoc[]
-
-.request-body
-include::{snippets}/tree/#11/request-body.adoc[]
 
 .response-body
 include::{snippets}/tree/#11/response-body.adoc[]
@@ -285,14 +282,11 @@ include::{snippets}/tree/#11/response-body.adoc[]
 include::{snippets}/tree/#11/response-fields.adoc[]
 
 === study 트리 호출
-.path-parameters
-include::{snippets}/tree/#38/path-parameters.adoc[]
+URL : /tree?studyId={study-id} +
+HTTP Methods : GET
 
-.path-parameters
-include::{snippets}/tree/#38/path-parameters.adoc[]
-
-.request-body
-include::{snippets}/tree/#38/request-body.adoc[]
+.request-parameters
+include::{snippets}/tree/#38/request-parameters.adoc[]
 
 .response-body
 include::{snippets}/tree/#38/response-body.adoc[]
@@ -301,11 +295,8 @@ include::{snippets}/tree/#38/response-body.adoc[]
 include::{snippets}/tree/#38/response-fields.adoc[]
 
 === (토큰 없이) user 트리 호출
-.path-parameters
-include::{snippets}/tree/#49/path-parameters.adoc[]
-
-.request-body
-include::{snippets}/tree/#49/request-body.adoc[]
+URL : /tree/{user-id} +
+HTTP Methods : GET
 
 .response-body
 include::{snippets}/tree/#49/response-body.adoc[]
@@ -313,3 +304,7 @@ include::{snippets}/tree/#49/response-body.adoc[]
 .response-fields
 include::{snippets}/tree/#49/response-fields.adoc[]
 
+
+***
+== UserController
+=== 헤더 유저 이미지
