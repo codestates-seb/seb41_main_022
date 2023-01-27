@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import StudyHallRightNav from "./StudyHallRightNav";
 import AuthStore from "../../util/zustandAuth";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StudyHallTopNav = () => {
   const { authData } = AuthStore();
@@ -11,6 +13,7 @@ const StudyHallTopNav = () => {
   const navigateStudyHall = (whichPage: string, studyId: number) => {
     navigate(`/study-hall/${whichPage}/${studyId}`);
   };
+  const error = () => toast.error("해당 스터디 가입자만 이용할 수 있습니다.");
   return (
     <TopNavWrapper>
       <Nav>
@@ -29,7 +32,7 @@ const StudyHallTopNav = () => {
                   navigateStudyHall("community", sId);
                 }
               : () => {
-                  alert("해당 스터디 가입자만 이용할 수 있습니다.");
+                  error();
                 }
           }
           className={page === "community" ? `selected` : undefined}
@@ -43,7 +46,7 @@ const StudyHallTopNav = () => {
                   navigateStudyHall("calendar", sId);
                 }
               : () => {
-                  alert("해당 스터디 가입자만 이용할 수 있습니다.");
+                  error();
                 }
           }
           className={page === "calendar" ? `selected` : undefined}
@@ -57,7 +60,7 @@ const StudyHallTopNav = () => {
                   navigateStudyHall("setting", sId);
                 }
               : () => {
-                  alert("해당 스터디 가입자만 이용할 수 있습니다.");
+                  error();
                 }
           }
           className={page === "setting" ? `selected` : undefined}
@@ -65,6 +68,7 @@ const StudyHallTopNav = () => {
           Setting
         </div>
       </Nav>
+      <ToastContainer position="top-right" autoClose={1500} />
       <StudyHallRightNav />
     </TopNavWrapper>
   );

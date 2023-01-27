@@ -243,7 +243,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우")
     @Test
     @WithMockUser
-    // TODO #6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우 - 잠시 보류
+    // TODO #6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우 - 통과됨
     public void getStudiesByOpenCloseTest() throws Exception {
         // given
         String page = "1";
@@ -287,42 +287,28 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         List<Study> studyList = Arrays.asList(study1, study2);
         Page<Study> studies = new PageImpl<>(studyList, PageRequest.of(0, 10), 2);
 
-        StudyDto.Response studyResponse1 = new StudyDto.Response(
+        StudyDto.CardResponse studyResponse1 = new StudyDto.CardResponse(
                 response1.getStudyId(),
                 response1.getTeamName(),
                 response1.getSummary(),
                 response1.getDayOfWeek(),
-                response1.getWant(),
-                response1.getStartDate(),
                 response1.isProcedure(),
-                response1.isOpenClose(),
-                response1.getContent(),
-                response1.getNotice(),
-                response1.getImage(),
-                response1.getLeaderId(),
-                response1.getRequester()
+                response1.getImage()
         );
 
-        StudyDto.Response studyResponse2 = new StudyDto.Response(
+        StudyDto.CardResponse studyResponse2 = new StudyDto.CardResponse(
                 response2.getStudyId(),
                 response2.getTeamName(),
                 response2.getSummary(),
                 response2.getDayOfWeek(),
-                response2.getWant(),
-                response2.getStartDate(),
                 response2.isProcedure(),
-                response2.isOpenClose(),
-                response2.getContent(),
-                response2.getNotice(),
-                response2.getImage(),
-                response2.getLeaderId(),
-                response2.getRequester()
+                response2.getImage()
         );
 
-        List<StudyDto.Response> responses = List.of(studyResponse1, studyResponse2);
+        List<StudyDto.CardResponse> responses = List.of(studyResponse1, studyResponse2);
 
         given(studyService.findStudiesByFilters(Mockito.anyInt(), Mockito.anyInt())).willReturn(studies);
-        given(studyMapper.studiesToStudyResponseDto(Mockito.anyList())).willReturn(responses);
+        given(studyMapper.studiesToStudyCardResponseDto(Mockito.anyList())).willReturn(responses);
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -352,15 +338,8 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("data[].teamName").type(JsonFieldType.STRING).description("팀이름"),
                                         fieldWithPath("data[].summary").type(JsonFieldType.STRING).description("한줄설명"),
                                         fieldWithPath("data[].dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
-                                        fieldWithPath("data[].want").type(JsonFieldType.NUMBER).description("모집인원"),
-                                        fieldWithPath("data[].startDate").type(JsonFieldType.STRING).description("시작날짜"),
                                         fieldWithPath("data[].procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
-                                        fieldWithPath("data[].openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
-                                        fieldWithPath("data[].content").type(JsonFieldType.STRING).description("본문"),
-                                        fieldWithPath("data[].notice").type(JsonFieldType.NULL).description("공지"),
                                         fieldWithPath("data[].image").type(JsonFieldType.STRING).description("대표사진"),
-                                        fieldWithPath("data[].leaderId").type(JsonFieldType.NUMBER).description("스터디장 식별자"),
-                                        fieldWithPath("data[].requester").type(JsonFieldType.ARRAY).description("가입희망 식별자"),
 
                                         fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
                                         fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("몇 페이지"),
@@ -375,9 +354,121 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#7 - 스터디 전체 조회 (tag 기준 필터링)")
     @Test
     @WithMockUser
-    // TODO #7 - 스터디 전체 조회 (tag 기준 필터링)
+    // TODO #7 - 스터디 전체 조회 (tag 기준 필터링) - 통과됨
     public void getStudiesByTagsTest() throws Exception {
+        // given
+        String page = "1";
+        String size = "10";
+        String search = "Loud";
+        String filter = "random";
+        String tags = "IT,수학,과학,토익";
 
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("page", page);
+        queryParams.add("size", size);
+        queryParams.add("search", search);
+        queryParams.add("filter", filter);
+        queryParams.add("tags", tags);
+
+        Study study1 = new Study();
+        Study study2 = new Study();
+
+        study1.setStudyId(response1.getStudyId());
+        study1.setTeamName(response1.getTeamName());
+        study1.setSummary(response1.getSummary());
+        study1.setDayOfWeek(response1.getDayOfWeek());
+        study1.setWant(response1.getWant());
+        study1.setStartDate(response1.getStartDate());
+        study1.setProcedure(response1.isProcedure());
+        study1.setOpenClose(response1.isOpenClose());
+        study1.setContent(response1.getContent());
+        study1.setNotice(response1.getNotice());
+        study1.setImage(response1.getImage());
+        study1.setLeaderId(response1.getLeaderId());
+        study1.setRequester(response1.getRequester());
+
+        study2.setStudyId(response2.getStudyId());
+        study2.setTeamName(response2.getTeamName());
+        study2.setSummary(response2.getSummary());
+        study2.setDayOfWeek(response2.getDayOfWeek());
+        study2.setWant(response2.getWant());
+        study2.setStartDate(response2.getStartDate());
+        study2.setProcedure(response2.isProcedure());
+        study2.setOpenClose(response2.isOpenClose());
+        study2.setContent(response2.getContent());
+        study2.setNotice(response2.getNotice());
+        study2.setImage(response2.getImage());
+        study2.setLeaderId(response2.getLeaderId());
+        study2.setRequester(response2.getRequester());
+
+        List<Study> studyList = Arrays.asList(study1, study2);
+        Page<Study> studies = new PageImpl<>(studyList, PageRequest.of(0, 10), 2);
+
+        StudyDto.CardResponse studyResponse1 = new StudyDto.CardResponse(
+                response1.getStudyId(),
+                response1.getTeamName(),
+                response1.getSummary(),
+                response1.getDayOfWeek(),
+                response1.isProcedure(),
+                response1.getImage()
+        );
+
+        StudyDto.CardResponse studyResponse2 = new StudyDto.CardResponse(
+                response2.getStudyId(),
+                response2.getTeamName(),
+                response2.getSummary(),
+                response2.getDayOfWeek(),
+                response2.isProcedure(),
+                response2.getImage()
+        );
+
+        List<StudyDto.CardResponse> responses = List.of(studyResponse1, studyResponse2);
+
+        given(studyService.findStudiesByFilters(Mockito.anyInt(), Mockito.anyInt())).willReturn(studies);
+        given(studyMapper.studiesToStudyCardResponseDto(Mockito.anyList())).willReturn(responses);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get(startWithUrl + "/first-cards")
+                        .params(queryParams)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8"));
+
+        // then
+        actions
+                .andExpect(status().isOk())
+                .andDo(document(
+                        "study/#7",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestParameters(
+                                List.of(
+                                        parameterWithName("page").description("페이지 번호"),
+                                        parameterWithName("size").description("페이지 사이즈"),
+                                        parameterWithName("search").description("검색어"),
+                                        parameterWithName("filter").description("필터"),
+                                        parameterWithName("tags").description("태그")
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                        fieldWithPath("data[].studyId").type(JsonFieldType.NUMBER).description("스터디 식별자"),
+                                        fieldWithPath("data[].teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("data[].summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("data[].dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
+                                        fieldWithPath("data[].procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data[].image").type(JsonFieldType.STRING).description("대표사진"),
+
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER).description("몇 페이지"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER).description("사이즈"),
+                                        fieldWithPath("pageInfo.totalElements").type(JsonFieldType.NUMBER).description("전체 갯수"),
+                                        fieldWithPath("pageInfo.totalPages").type(JsonFieldType.NUMBER).description("페이지 갯수")
+                                )
+                        )
+                ));
     }
 
     @DisplayName("#23 - 스터디 삭제 (방장 권한으로)")
@@ -675,7 +766,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#28 - 각종 true false 변수들 넘겨주기 (token 값을 사용)")
     @Test
     @WithMockUser
-    // TODO #28 - 각종 true false 변수들 넘겨주기 (token 값을 사용) - 잠시 보류
+    // TODO #28 - 각종 true false 변수들 넘겨주기 (token 값을 사용) - 통과됨
     public void getAuthTest() throws Exception {
         // 현재 테스트 내용 : 1번 스터디에 2번 유저가 가입 신청만 한 상태이다. 멤버는 아님.
         // given
@@ -734,7 +825,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#28 - 각종 true false 변수들 넘겨주기 (token 값 사용 X)")
     @Test
     @WithMockUser
-    // TODO #28 - 각종 true false 변수들 넘겨주기 (token 값 사용 X)
+    // TODO #28 - 각종 true false 변수들 넘겨주기 (token 값 사용 X) - 통과됨
     public void getAuthWithUserIdTest() throws Exception {
         // 현재 테스트 내용 : 1번 스터디에 2번 유저가 가입 신청만 한 상태이다. 멤버는 아님.
         // given
@@ -1055,6 +1146,59 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("data.image").type(JsonFieldType.STRING).description("대표사진"),
                                         fieldWithPath("data.leaderId").type(JsonFieldType.NUMBER).description("스터디장 식별자"),
                                         fieldWithPath("data.requester").type(JsonFieldType.ARRAY).description("가입희망 식별자")
+                                )
+                        )
+                ));
+    }
+
+    @DisplayName("#48 - user의 study 조회")
+    @Test
+    @WithMockUser
+    // TODO #9 - user의 study 조회 - 통과됨
+    public void getStudiesByUserNoTokenTest() throws Exception {
+        // given
+        long studyId = 1L;
+        List<StudyUserDto.Studys> response = new ArrayList<>();
+        response.add(new StudyUserDto.Studys(
+                response1.getStudyId(),
+                response1.getTeamName(),
+                response1.getSummary(),
+                response1.getImage()
+        ));
+        response.add(new StudyUserDto.Studys(
+                response2.getStudyId(),
+                response2.getTeamName(),
+                response2.getSummary(),
+                response2.getImage()
+        ));
+
+        given(studyService.findStudiesByUserNoToken(Mockito.anyLong())).willReturn(new ArrayList<>());
+        given(studyMapper.studiesToStudyUserDto(Mockito.anyList())).willReturn(response);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get(startWithUrl + "/user")
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8"));
+
+        // then
+        actions
+                .andExpect(status().isOk())
+//                .andExpect(content().json(gson.toJson(new SingleResponseDto<>(response))))
+                .andDo(document(
+                        "study/#48",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
+                                        fieldWithPath("data.studyCount").type(JsonFieldType.NUMBER).description("스터디 갯수"),
+                                        fieldWithPath("data.studies").type(JsonFieldType.ARRAY).description("스터디 리스트"),
+                                        fieldWithPath("data.studies[].studyId").type(JsonFieldType.NUMBER).description("스터디 식별자"),
+                                        fieldWithPath("data.studies[].teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("data.studies[].summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("data.studies[].image").type(JsonFieldType.STRING).description("대표사진")
                                 )
                         )
                 ));

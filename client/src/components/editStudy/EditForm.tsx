@@ -6,6 +6,8 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import EditWeekBar from "./EditWeekBar";
 import ToggleOnline from "./ToggleOnline";
@@ -55,6 +57,7 @@ const EditForm = () => {
   const [initTags, setInitTags] = useState<string[] | undefined>();
   const [startDate, setStartDate] = useState();
   const textRef = useRef<HTMLTextAreaElement>(null);
+  const notify = () => toast.success("스터디 내용이 수정 되었습니다.");
   const handleResizeHeight = useCallback(() => {
     if (textRef.current) {
       textRef.current.style.height = "16px";
@@ -81,7 +84,7 @@ const EditForm = () => {
       },
       studyId
     );
-    alert("스터디가 내용이 수정 되었습니다.");
+    notify();
     navigate(`/study-hall/main/${studyId}`);
   };
   // 스터디 수정 초기 데이터 가져오기
@@ -270,6 +273,7 @@ const EditForm = () => {
             </ErrorText>
             <div>
               <RedButton type="submit">Edit Study</RedButton>
+              <ToastContainer />
             </div>
           </Form>
         )}

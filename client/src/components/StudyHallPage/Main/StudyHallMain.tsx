@@ -84,9 +84,7 @@ const StudyHallMain = () => {
                   size={el.size}
                 />
               ))}
-            {commentsData &&
-            commentsData.data.length < 10 &&
-            page === 1 ? null : (
+            {(commentsData && commentsData.data.length > 9) || page > 1 ? (
               <Pagination>
                 <div className="button-wrapper">
                   <button
@@ -109,7 +107,7 @@ const StudyHallMain = () => {
                   </button>
                 </div>
               </Pagination>
-            )}
+            ) : null}
           </CommentsWrap>
         </div>
       </div>

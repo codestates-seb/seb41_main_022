@@ -47,15 +47,15 @@
   --toastify-color-light: #fff;
   --toastify-color-dark: #121212;
   --toastify-color-info: #3498db;
-  --toastify-color-success: #07bc0c;
+  --toastify-color-success: #1D2F27;
   --toastify-color-warning: #f1c40f;
-  --toastify-color-error: #e74c3c;
+  --toastify-color-error: #94120A;
   --toastify-color-transparent: rgba(255, 255, 255, 0.7);
   /* 테마별 아이콘 색상 바꾸기 */
   --toastify-icon-color-info: var(--toastify-color-info);
-  --toastify-icon-color-success: var(--toastify-color-success);
+  --toastify-icon-color-success: var(--green);
   --toastify-icon-color-warning: var(--toastify-color-warning);
-  --toastify-icon-color-error: var(--toastify-color-error);
+  --toastify-icon-color-error: var(--red-00);
     /* 기본 적용 스타일 바꾸기 */
     --toastify-toast-width: 320px;
     --toastify-toast-background: #fff;

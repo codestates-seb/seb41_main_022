@@ -99,9 +99,26 @@ public class TreeService {
         return tree;
     }
 
-    // userId를 기준으로 tree 조회
+    // user token을 기준으로 tree 조회
     public List<Object> findTreeByUserId(HttpServletRequest request) {
         UserEntity user = token.findByToken(request);
+        List<Study> studies = studyRepository.findByUserStudiesUser(user);
+
+        List<Object> treesAndTeamNames = new ArrayList<>();
+        studies.stream().forEach(study ->
+                study.getTrees().stream().forEach(tree -> {
+                            treesAndTeamNames.add(tree);
+                            treesAndTeamNames.add(study.getTeamName());
+                        }
+                )
+        );
+
+        return treesAndTeamNames;
+    }
+
+    // userId를 기준으로 tree 조회
+    public List<Object> findTreeByUserIdNoToken(long userId) {
+        UserEntity user = verifiedUser(userId);
         List<Study> studies = studyRepository.findByUserStudiesUser(user);
 
         List<Object> treesAndTeamNames = new ArrayList<>();
@@ -138,5 +155,10 @@ public class TreeService {
         Optional<Tree> optionalTree = treeRepository.findById(treeId);
         Tree findTree = optionalTree.orElseThrow(() -> new BusinessLogicException(ExceptionCode.TREE_NOT_FOUND));
         return findTree;
+    }
+
+    public UserEntity verifiedUser(long userId) {
+        Optional<UserEntity> user = userRepository.findById(userId);
+        return user.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 }
