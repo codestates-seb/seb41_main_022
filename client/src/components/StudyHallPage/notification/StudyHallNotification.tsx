@@ -5,6 +5,8 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import CalendarApp from "./Calendar/CalendarApp";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import NoticeStore from "../../../util/zustandNotice";
 
@@ -12,6 +14,8 @@ const StudyHallNotification = () => {
   const { notice, patchNotice, fetchRightNav } = NoticeStore();
   const { studyId } = useParams();
   const [tempNotice, setTempNotice] = useState("");
+  const success = () => toast.success("공지가 수정 되었습니다.");
+
   useEffect(() => {
     setTimeout(() => {
       setTempNotice(notice);
@@ -21,8 +25,9 @@ const StudyHallNotification = () => {
     e.preventDefault();
     patchNotice(studyId, { notice: tempNotice });
     fetchRightNav(studyId);
-    alert("공지가 수정되었습니다");
-    window.location.reload();
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
   };
   const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempNotice(e.target.value);
@@ -44,12 +49,13 @@ const StudyHallNotification = () => {
                 value={tempNotice}
                 maxLength={35}
               />
-              <SubmitButton type="submit">
+              <SubmitButton type="submit" onClick={success}>
                 <IoIosCheckmarkCircleOutline className="outline" />
                 <IoIosCheckmarkCircle className="inline" />
               </SubmitButton>
             </InputBorderForm>
           </NotificationCreate>
+          <ToastContainer position="top-right" autoClose={1500} />
         </div>
         <CalendarApp />
       </NotificationWrapper>

@@ -8,6 +8,7 @@ import { MdOutlineLock } from "react-icons/md";
 //내부컴포넌트 임포트
 import Answers from "./Answers";
 import { answerStore } from "../../../util/zustandCreatAnswer";
+import moment from "moment/moment";
 
 //타입지정
 export interface CommentsProps {
@@ -19,6 +20,7 @@ export interface CommentsProps {
   imgUrl: string;
   chatId: number;
   isClosedChat: boolean;
+  chatCreatedAt: string;
 }
 
 interface AnswerProps {
@@ -27,6 +29,7 @@ interface AnswerProps {
   imgUrl: string;
   content: string;
   answerCreatedAt: string;
+  chatCreatedAt: string;
 }
 interface Data {
   data: any;
@@ -41,11 +44,10 @@ const Comments = ({
   imgUrl,
   chatId,
   isClosedChat,
+  chatCreatedAt,
   totalElements,
 }: CommentsProps) => {
   const [cookies] = useCookies(["token"]);
-
-  console.log(content);
 
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -64,6 +66,28 @@ const Comments = ({
         }
       );
     }
+  };
+  const getDayMinuteCounter = (date?: object): number | string => {
+    if (!date) {
+      return "";
+    }
+    const today = moment();
+    const postingDate = moment(date).add(9, "hours");
+    const dayDiff = postingDate.diff(today, "days");
+    const hourDiff = postingDate.diff(today, "hours");
+    const minutesDiff = postingDate.diff(today, "minutes");
+    if (minutesDiff === 0) {
+      return "방금 전";
+    }
+    if (dayDiff === 0 && hourDiff === 0) {
+      const minutes = Math.ceil(-minutesDiff);
+      return minutes + "분 전";
+    }
+    if (dayDiff === 0 && hourDiff <= 24) {
+      const hour = Math.ceil(-hourDiff);
+      return hour + "시간 전";
+    }
+    return -dayDiff + "일 전";
   };
 
   return (
@@ -90,6 +114,9 @@ const Comments = ({
                 </div>
               )}
               <div className="icons">
+                <div className="date">
+                  {getDayMinuteCounter(moment(chatCreatedAt))}
+                </div>
                 {isClosedChat === false ? null : <MdOutlineLock />}
                 <FiTrash2 type="button" />
               </div>
@@ -111,6 +138,7 @@ const Comments = ({
                     username={el.username}
                     content={el.content}
                     imgUrl={el.imgUrl}
+                    answerCreatedAt={el.answerCreatedAt}
                   />
                 ))}
               </span>
@@ -184,7 +212,15 @@ const Texts = styled.div`
       display: flex;
     }
     .icons {
+      display: flex;
       justify-content: flex-end;
+      > .date {
+        display: flex;
+        align-items: center;
+        font-size: 8px;
+        color: var(--beige-00);
+        margin-right: 5px;
+      }
     }
   }
 `;

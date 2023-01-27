@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddModal = ({ showAddModal, setShowAddModal, event }) => {
   const calendarPost = calendarStore((state) => state.calendarPost);
@@ -12,12 +14,14 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
   const [title, setTitle] = useState("");
   const [hour, setHour] = useState("00");
   const [minute, setMinute] = useState("00");
+  const notify = () => toast.success("일정이 추가 되었습니다.");
   const handleSubmit = (e) => {
     e.preventDefault();
     calendarPost(studyId, {
       title,
       date: `${event.dateStr.slice(0, 19)}T${hour}:${minute}:00`,
     });
+    notify();
     setShowAddModal(false);
   };
   return (
@@ -82,6 +86,7 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
                 />
               </div>
               <RedButton type="submit">생성</RedButton>
+              <ToastContainer />
             </Form>
           </div>
         </ContentsDiv>
