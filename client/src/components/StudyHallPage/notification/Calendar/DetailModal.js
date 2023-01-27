@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { calendarStore } from "../../../../util/zustandCalendar";
 import AuthStore from "../../../../util/zustandAuth";
@@ -17,6 +19,8 @@ const DetailModal = ({
   const [todoThatDay, setTodoThatDay] = useState();
   const { authData } = AuthStore();
   const calendarDelete = calendarStore((state) => state.calendarDelete);
+  const notify = () => toast.success("삭제 되었습니다.");
+
   useEffect(() => {
     if (data) {
       setTodoThatDay(
@@ -31,6 +35,7 @@ const DetailModal = ({
   };
   const clickDelete = () => {
     calendarDelete(todoThatDay[0].calendarId);
+    notify();
     setShowDetailModal(false);
   };
   return (
@@ -65,6 +70,7 @@ const DetailModal = ({
                 </div>
               )}
             </IconDiv>
+            <ToastContainer />
           </div>
         </ContentsDiv>
       </ModalDiv>

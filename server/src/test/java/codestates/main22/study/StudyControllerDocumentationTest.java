@@ -1,25 +1,17 @@
 package codestates.main22.study;
 
 import codestates.main22.dto.SingleResponseDto;
-import codestates.main22.oauth2.jwt.JwtTokenizer;
-import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.controller.StudyController;
 import codestates.main22.study.dto.*;
 import codestates.main22.study.entity.Study;
 import codestates.main22.study.mapper.StudyMapper;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
-import codestates.main22.user.mapper.UserMapper;
-import codestates.main22.user.service.UserService;
 import codestates.main22.util.JwtMockBean;
-import codestates.main22.utils.Token;
-import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,15 +19,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -50,7 +37,6 @@ import java.util.List;
 
 import static codestates.main22.util.ApiDocumentUtils.getDocumentRequest;
 import static codestates.main22.util.ApiDocumentUtils.getDocumentResponse;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -68,8 +54,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     private static UserEntity user2 = new UserEntity();
     private static StudyDto.ResponseTag response1;
     private static StudyDto.ResponseTag response2;
-    private static StudyDto.Response responseA;
-    private static StudyDto.Response responseB;
+
     @MockBean
     private StudyService studyService;
 
@@ -134,38 +119,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 Arrays.asList(1L)
         );
 
-        responseA = new StudyDto.Response(
-                1L,
-                "팀이름",
-                "한줄 요약",
-                Arrays.asList("월","수","금"),
-                5,
-                LocalDate.now(),
-                true,
-                true,
-                "스터디에 관한 내용입니다.",
-                null,
-                "https://avatars.dicebear.com/api/bottts/222.svg",
-                1L,
-                Arrays.asList(2L)
-        );
-
-        responseB = new StudyDto.Response(
-                2L,
-                "팀이름22",
-                "한줄 요약22",
-                Arrays.asList("월","수","금"),
-                5,
-                LocalDate.now(),
-                true,
-                false,
-                "스터디에 관한 내용입니다22",
-                null,
-                "https://avatars.dicebear.com/api/bottts/222.svg",
-                2L,
-                Arrays.asList(1L)
-        );
-
         startWithUrl = "/study";
     }
 
@@ -207,7 +160,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         // then
         actions
                 .andExpect(status().isCreated())
-//                .andExpect(content().json(gson.toJson(new SingleResponseDto<>(response1))))
                 .andDo(document(
                         "study/#40",
                         getDocumentRequest(),
@@ -802,7 +754,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         actions
                 .andExpect(status().isOk())
                 .andDo(document(
-                        "study/#28",
+                        "study/#28/token",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(
@@ -840,7 +792,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         user.setUserId(2L);
 
         given(studyService.findStudy(Mockito.anyLong())).willReturn(study);
-//        given(token.findByToken(Mockito.any(HttpServletRequest.class))).willReturn(user);
         given(studyService.isMember(Mockito.anyLong(),Mockito.anyLong())).willReturn(false);
         given(studyMapper.studyToStudyAuthResponseDto(
                 Mockito.any(Study.class),
@@ -862,7 +813,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         actions
                 .andExpect(status().isOk())
                 .andDo(document(
-                        "study/#28",
+                        "study/#28/noToken",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(
@@ -1041,7 +992,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     // TODO #9 - user의 study 조회 - 통과됨
     public void getStudiesByUserTest() throws Exception {
         // given
-        long studyId = 1L;
+        // long studyId = 1L;
         List<StudyUserDto.Studys> response = new ArrayList<>();
         response.add(new StudyUserDto.Studys(
                 response1.getStudyId(),
@@ -1064,16 +1015,23 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 get(startWithUrl + "/user")
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("access-Token", "abc")
+                        .header("refresh-Token","abc")
                         .characterEncoding("utf-8"));
 
         // then
         actions
                 .andExpect(status().isOk())
-//                .andExpect(content().json(gson.toJson(new SingleResponseDto<>(response))))
                 .andDo(document(
                         "study/#9",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        requestHeaders(
+                                List.of(
+                                        headerWithName("access-Token").description("access 토큰"),
+                                        headerWithName("refresh-Token").description("refresh 토큰")
+                                )
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -1092,7 +1050,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @Test
     @WithMockUser
     // TODO #44 - 스터디 내용 조회 (추가된 테스트) (기본 CRUD) - 통과됨
-    //  에러 발생
     public void getStudyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -1151,13 +1108,13 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 ));
     }
 
-    @DisplayName("#48 - user의 study 조회")
+    @DisplayName("#48 - 토큰 없이 스터디 검색하기")
     @Test
     @WithMockUser
-    // TODO #9 - user의 study 조회 - 통과됨
+    // TODO #48 - 토큰 없이 스터디 검색하기 - 통과됨
     public void getStudiesByUserNoTokenTest() throws Exception {
         // given
-        long studyId = 1L;
+        // long studyId = 1L;
         List<StudyUserDto.Studys> response = new ArrayList<>();
         response.add(new StudyUserDto.Studys(
                 response1.getStudyId(),
@@ -1185,7 +1142,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         // then
         actions
                 .andExpect(status().isOk())
-//                .andExpect(content().json(gson.toJson(new SingleResponseDto<>(response))))
                 .andDo(document(
                         "study/#48",
                         getDocumentRequest(),

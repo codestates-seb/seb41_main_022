@@ -1,22 +1,60 @@
 import styled from "styled-components";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-import StudyTree from "../.././assets/StudyTree.svg";
 import StudyTreeBackground from "../.././assets/StudyTreeBackground.svg";
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 1000,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+  autoplaySpeed: 10000,
+  pauseOnHover: true,
+  arrows: false,
+};
 const Banner = () => {
   return (
-    <BannerWrapper>
-      <div className="title">
-        Stu<span>d</span>y Tree
-      </div>
-      <img src={StudyTreeBackground} />
-    </BannerWrapper>
+    <SlideWrapper>
+      <Slider {...settings}>
+        <BannerWrapper className="bannerWrapper">
+          <div className="title">
+            Stu<span>d</span>y Tree
+          </div>
+          <img src={StudyTreeBackground} />
+        </BannerWrapper>
+        <BannerWrapper>
+          <div className="title">
+            Stu<span>d</span>y Tree
+          </div>
+          <img src={StudyTreeBackground} />
+        </BannerWrapper>
+        <BannerWrapper>
+          <div className="title">
+            Stu<span>d</span>y Tree
+          </div>
+          <img src={StudyTreeBackground} />
+        </BannerWrapper>
+      </Slider>
+    </SlideWrapper>
   );
 };
-
+export default Banner;
+const SlideWrapper = styled.main`
+  width: 100%;
+  .bannerWrapper {
+    display: flex;
+    justify-content: center;
+  }
+`;
 const BannerWrapper = styled.div`
-  width: 1000;
-  height: 702px;
+  width: 100%;
   position: relative;
+  img {
+    margin: 0 auto;
+  }
   > .title {
     display: flex;
     font-family: "logo";
@@ -34,4 +72,3 @@ const BannerWrapper = styled.div`
     }
   }
 `;
-export default Banner;
