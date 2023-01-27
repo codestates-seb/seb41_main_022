@@ -170,6 +170,20 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         headerWithName("refresh-Token").description("refresh 토큰")
                                 )
                         ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그"),
+                                        fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
+                                        fieldWithPath("want").type(JsonFieldType.NUMBER).description("모집인원"),
+                                        fieldWithPath("startDate").type(JsonFieldType.STRING).description("시작날짜"),
+                                        fieldWithPath("procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("본문"),
+                                        fieldWithPath("image").type(JsonFieldType.STRING).description("대표사진")
+                                )
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
@@ -569,6 +583,12 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별자")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("notice").type(JsonFieldType.STRING).description("공지"),
+                                        fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일")
+                                )
                         ),
                         responseFields(
                                 List.of(
@@ -1003,6 +1023,20 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("study-id").description("스터디 식별자")
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("teamName").type(JsonFieldType.STRING).description("팀이름"),
+                                        fieldWithPath("summary").type(JsonFieldType.STRING).description("한줄설명"),
+                                        fieldWithPath("tags").type(JsonFieldType.ARRAY).description("태그"),
+                                        fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
+                                        fieldWithPath("want").type(JsonFieldType.NUMBER).description("모집인원"),
+                                        fieldWithPath("startDate").type(JsonFieldType.STRING).description("시작날짜"),
+                                        fieldWithPath("procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
+                                        fieldWithPath("content").type(JsonFieldType.STRING).description("본문"),
+                                        fieldWithPath("image").type(JsonFieldType.STRING).description("대표사진")
+                                )
                         ),
                         responseFields(
                                 List.of(
