@@ -469,6 +469,9 @@ include::{snippets}/study/#18/path-parameters.adoc[]
 .request-body
 include::{snippets}/study/#18/request-body.adoc[]
 
+.request-fields
+include::{snippets}/study/#18/request-fields.adoc[]
+
 .response-body
 include::{snippets}/study/#18/response-body.adoc[]
 
@@ -611,6 +614,9 @@ include::{snippets}/study/#33/path-parameters.adoc[]
 .request-body
 include::{snippets}/study/#33/request-body.adoc[]
 
+.request-fields
+include::{snippets}/study/#33/request-fields.adoc[]
+
 .response-body
 include::{snippets}/study/#33/response-body.adoc[]
 
@@ -642,6 +648,9 @@ include::{snippets}/study/#40/request-headers.adoc[]
 
 .request-body
 include::{snippets}/study/#40/request-body.adoc[]
+
+.request-fields
+include::{snippets}/study/#40/request-fields.adoc[]
 
 .response-body
 include::{snippets}/study/#40/response-body.adoc[]
