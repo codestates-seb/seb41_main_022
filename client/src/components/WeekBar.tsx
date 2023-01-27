@@ -37,13 +37,13 @@ const WeekBar = ({ dayOfWeek }: WeekbarProps) => {
 export default WeekBar;
 
 const WeekWrapper = styled.main`
-  max-width: 198px;
+  width: 198px;
   background-color: var(--green);
   border-radius: var(--radius-30);
   padding: 1px;
   * {
-    font-size: 12px;
-    color: var(--beige-00);
+    font-size: 12px !important ;
+    color: var(--beige-00) !important ;
   }
   > .border {
     border: 1px solid var(--beige-00);
@@ -54,7 +54,7 @@ const WeekWrapper = styled.main`
     padding: 0 2px;
     .active {
       background-color: var(--beige-00);
-      color: var(--green);
+      color: var(--green) !important ;
     }
   }
 `;
@@ -63,12 +63,12 @@ const WeekBlock = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "mainB";
+  font-family: "mainB" !important;
   width: 18px;
   height: 18px;
   margin: 1px;
   background-color: var(--green);
   border-radius: var(--radius-30);
   color: var(--gray-00);
-  text-align: center;
+  text-align: center !important;
 `;

@@ -24,6 +24,7 @@ interface treeType {
   createdAt: string;
   makeMonth: number;
   teamName: string;
+  studyId: number;
 }
 
 const MyStudyList = () => {
@@ -59,9 +60,9 @@ const MyStudyList = () => {
         setTreeData(res.data.data.trees);
       });
   }, []);
-  const getTree = (propsTeamName: string) => {
+  const getTree = (stId: number) => {
     if (treeData) {
-      return treeData.find((el) => el.teamName === propsTeamName);
+      return treeData.find((el) => el.studyId === stId);
     } else {
       return [];
     }
@@ -76,7 +77,7 @@ const MyStudyList = () => {
             teamName={el.teamName}
             summary={el.summary}
             imgUrl={el.image}
-            tree={getTree(el.teamName)}
+            tree={getTree(el.studyId)}
           />
         ))}
       {!myStudyList && <UserStudySkeleton />}

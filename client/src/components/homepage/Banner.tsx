@@ -4,18 +4,18 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import StudyTreeBackground from "../.././assets/StudyTreeBackground.svg";
-const settings = {
-  dots: true,
-  infinite: true,
-  speed: 1000,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-  autoplay: true,
-  autoplaySpeed: 10000,
-  pauseOnHover: true,
-  arrows: false,
-};
 const Banner = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 10000,
+    pauseOnHover: true,
+    arrows: false,
+  };
   return (
     <SlideWrapper>
       <Slider {...settings}>
