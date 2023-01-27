@@ -199,7 +199,6 @@ public class ChatTest {
                         requestParameters(
                                 parameterWithName("studyId").description("스터디 식별자")
                         ),
-                        pathParameters(),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),

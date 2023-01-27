@@ -14,6 +14,9 @@ base url : http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080
 ***
 == AnswerController
 === 답변 작성
+URL : /answer/{chat-Id} +
+HTTP Methods : POST
+
 .path-parameters
 include::{snippets}/answer/#37/path-parameters.adoc[]
 
@@ -33,6 +36,9 @@ include::{snippets}/answer/#37/response-body.adoc[]
 include::{snippets}/answer/#37/response-fields.adoc[]
 
 === 답변 삭제
+URL : /answer/{answr-id} +
+HTTP Methods : DELETE
+
 .path-parameters
 include::{snippets}/answer/#46/path-parameters.adoc[]
 
@@ -49,8 +55,8 @@ include::{snippets}/answer/#46/response-body.adoc[]
 ***
 == CalendarController
 === 캘린더 생성
-.path-parameters
-include::{snippets}/calendar/#19/path-parameters.adoc[]
+URL : /calendar?studyId={study-id} +
+HTTP Methods : POST
 
 .request-parameters.adoc
 include::{snippets}/calendar/#19/request-parameters.adoc[]
@@ -68,14 +74,11 @@ include::{snippets}/calendar/#19/response-body.adoc[]
 include::{snippets}/calendar/#19/response-fields.adoc[]
 
 === 캘린더 호출
-.path-parameters
-include::{snippets}/calendar/#20/path-parameters.adoc[]
+URL : /calendar?studyId={study-id} +
+HTTP Methods : GET
 
 .request-parameters.adoc
 include::{snippets}/calendar/#20/request-parameters.adoc[]
-
-.request-body
-include::{snippets}/calendar/#20/request-body.adoc[]
 
 .response-body
 include::{snippets}/calendar/#20/response-body.adoc[]
@@ -84,6 +87,9 @@ include::{snippets}/calendar/#20/response-body.adoc[]
 include::{snippets}/calendar/#20/response-fields.adoc[]
 
 === 캘린더 수정
+URL : /calendar/{calendar-id} +
+HTTP Methods : PATCH
+
 .path-parameters
 include::{snippets}/calendar/#21/path-parameters.adoc[]
 
@@ -100,11 +106,11 @@ include::{snippets}/calendar/#21/response-body.adoc[]
 include::{snippets}/calendar/#21/response-fields.adoc[]
 
 === 캘린더 삭제
+URL : /calendar/{calendar-id} +
+HTTP Methods : DELETE
+
 .path-parameters
 include::{snippets}/calendar/#22/path-parameters.adoc[]
-
-.request-body
-include::{snippets}/calendar/#22/request-body.adoc[]
 
 .response-body
 include::{snippets}/calendar/#22/response-body.adoc[]
@@ -113,6 +119,9 @@ include::{snippets}/calendar/#22/response-body.adoc[]
 ***
 == ChatController
 === 채팅 호출
+URL : /chat/{study-id}?page={page-number}&size={size-number} +
+HTTP Methods : GET
+
 .path-parameters
 include::{snippets}/chat/#35/path-parameters.adoc[]
 
@@ -122,9 +131,6 @@ include::{snippets}/chat/#35/request-parameters.adoc[]
 .request-headers
 include::{snippets}/chat/#35/request-headers.adoc[]
 
-.request-body
-include::{snippets}/chat/#35/request-body.adoc[]
-
 .response-body
 include::{snippets}/chat/#35/response-body.adoc[]
 
@@ -132,8 +138,8 @@ include::{snippets}/chat/#35/response-body.adoc[]
 include::{snippets}/chat/#35/response-fields.adoc[]
 
 === 채팅 작성
-.path-parameters
-include::{snippets}/chat/#36/path-parameters.adoc[]
+URL : /chat?studyId={study-Id} +
+HTTP Methods : POST
 
 .request-parameters.adoc
 include::{snippets}/chat/#36/request-parameters.adoc[]
@@ -154,24 +160,24 @@ include::{snippets}/chat/#36/response-body.adoc[]
 include::{snippets}/chat/#36/response-fields.adoc[]
 
 === 채팅 삭제
+URL : /chat/{chat-id} +
+HTTP Methods : DELETE
+
 .path-parameters
 include::{snippets}/chat/#45/path-parameters.adoc[]
 
 .request-headers
 include::{snippets}/chat/#45/request-headers.adoc[]
 
-.request-body
-include::{snippets}/chat/#45/request-body.adoc[]
-
 .response-body
-include::{snippets}/chat/#45/response-body.adoc[]
+include::{snippets}/calendar/#22/response-body.adoc[]
 
 
 ***
 == MessageController
 === 커뮤니티 작성
-.path-parameters
-include::{snippets}/message/#14/path-parameters.adoc[]
+URL : /message?studyId={study-id} +
+HTTP Methods : POST
 
 .request-parameters.adoc
 include::{snippets}/message/#14/request-parameters.adoc[]
@@ -192,14 +198,11 @@ include::{snippets}/message/#14/response-body.adoc[]
 include::{snippets}/message/#14/response-fields.adoc[]
 
 === 커뮤니티 호출
-.path-parameters
-include::{snippets}/message/#15/path-parameters.adoc[]
+URL : /message?studyId={study-id} +
+HTTP Methods : GET
 
 .request-parameters.adoc
 include::{snippets}/message/#15/request-parameters.adoc[]
-
-.request-body
-include::{snippets}/message/#15/request-body.adoc[]
 
 .response-body
 include::{snippets}/message/#15/response-body.adoc[]
@@ -211,11 +214,8 @@ include::{snippets}/message/#15/response-fields.adoc[]
 ***
 == TagController
 === home 화면 태그 리스트 호출
-.path-parameters
-include::{snippets}/tag/#5/path-parameters.adoc[]
-
-.request-body
-include::{snippets}/tag/#5/request-body.adoc[]
+URL : /tag +
+HTTP Methods : GET
 
 .response-body
 include::{snippets}/tag/#5/response-body.adoc[]
@@ -224,11 +224,8 @@ include::{snippets}/tag/#5/response-body.adoc[]
 include::{snippets}/tag/#5/response-fields.adoc[]
 
 === user의 태그 호출
-.path-parameters
-include::{snippets}/tag/#10/path-parameters.adoc[]
-
-.request-body
-include::{snippets}/tag/#10/request-body.adoc[]
+URL : /tag/user +
+HTTP Methods : GET
 
 .response-body
 include::{snippets}/tag/#10/response-body.adoc[]
@@ -237,11 +234,11 @@ include::{snippets}/tag/#10/response-body.adoc[]
 include::{snippets}/tag/#10/response-fields.adoc[]
 
 === study hall 태그 호출
+URL : /tag/study/{study-id} +
+HTTP Methods : GET
+
 .path-parameters
 include::{snippets}/tag/#32/path-parameters.adoc[]
-
-.request-body
-include::{snippets}/tag/#32/request-body.adoc[]
 
 .response-body
 include::{snippets}/tag/#32/response-body.adoc[]
@@ -250,8 +247,8 @@ include::{snippets}/tag/#32/response-body.adoc[]
 include::{snippets}/tag/#32/response-fields.adoc[]
 
 === 스터디의 태그만 수정
-.path-parameters
-include::{snippets}/tag/#34/path-parameters.adoc[]
+URL : /tag/study/{study-id} +
+HTTP Methods : PATCH
 
 .request-body
 include::{snippets}/tag/#34/request-body.adoc[]
@@ -308,3 +305,106 @@ include::{snippets}/tree/#49/response-fields.adoc[]
 ***
 == UserController
 === 헤더 유저 이미지
+URL : /user/image +
+HTTP Methods : GET
+
+.request-headers
+include::{snippets}/user/#2/request-headers.adoc[]
+
+.response-body
+include::{snippets}/user/#2/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#2/response-fields.adoc[]
+
+=== 유저 호출
+URL : /user +
+HTTP Methods : GET
+
+.request-headers
+include::{snippets}/user/#8/request-headers.adoc[]
+
+.response-body
+include::{snippets}/user/#8/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#8/response-fields.adoc[]
+
+=== 유저 이름 수정
+URL : /user +
+HTTP Methods : PATCH
+
+.request-headers
+include::{snippets}/user/#12/request-headers.adoc[]
+
+.request-body
+include::{snippets}/user/#12/request-body.adoc[]
+
+.request-fields
+include::{snippets}/user/#12/request-fields.adoc[]
+
+.response-body
+include::{snippets}/user/#12/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#12/response-fields.adoc[]
+
+=== 유저 탈퇴
+URL : /user +
+HTTP Methods : DELETE
+
+.request-headers
+include::{snippets}/user/#13/request-headers.adoc[]
+
+.request-body
+include::{snippets}/user/#13/request-body.adoc[]
+
+.response-body
+include::{snippets}/user/#13/response-body.adoc[]
+
+=== 스터디 유저 호출
+URL : /user/study?studyId={study-id} +
+HTTP Methods : GET
+
+.request-parameters
+include::{snippets}/user/#16/request-parameters.adoc[]
+
+.response-body
+include::{snippets}/user/#16/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#16/response-fields.adoc[]
+
+=== 스터디 신청자 호출
+URL : /user/{study-id}/requester +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/user/#25/path-parameters.adoc[]
+
+.request-headers
+include::{snippets}/user/#25/request-headers.adoc[]
+
+.response-body
+include::{snippets}/user/#25/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#25/response-fields.adoc[]
+
+=== (토큰없이) 유저 호출
+URL : /user/{user-id} +
+HTTP Methods : GET
+
+.path-parameters
+include::{snippets}/user/#47/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/user/#47/response-body.adoc[]
+
+.response-fields
+include::{snippets}/user/#47/response-fields.adoc[]
+
+
+***
+== StudyController
+=== home 모집 공고 (기본 화면)

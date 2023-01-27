@@ -86,7 +86,6 @@ public class MessageTest extends JwtMockBean {
                         requestParameters(
                                 parameterWithName("studyId").description("스터디 식별자")
                         ),
-                        pathParameters(),
                         requestHeaders(
                                 List.of(
                                         headerWithName("access-Token").description("access 토큰"),
@@ -143,7 +142,6 @@ public class MessageTest extends JwtMockBean {
                         requestParameters(
                                 parameterWithName("studyId").description("스터디 식별자")
                         ),
-                        pathParameters(),
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
