@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 import { commentStore } from "../../../util/zustandComment";
+import { preventDefault } from "@fullcalendar/core/internal";
 
 const URL = process.env.REACT_APP_API_URL;
 
@@ -13,11 +14,12 @@ const CreateComment = () => {
   const [isClosedChat, setIsClosedChat] = useState(false); //공개/비공개 상태변화
   const { studyId } = useParams(); //API에 보내지는 파람스와 동일
   const [cookies] = useCookies(["token"]); //쿠키 보내주기
-  const postComment = commentStore((state) => state.postComment);
+  const { postComment, fetchCommentData } = commentStore();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (studyId) {
-      postComment(
+      await postComment(
         studyId,
         { content, isClosedChat },
         {
@@ -25,6 +27,15 @@ const CreateComment = () => {
           "refresh-Token": cookies.token.refreshToken,
         }
       );
+
+      fetchCommentData(
+        cookies.token.accessToken,
+        cookies.token.refreshToken,
+        studyId,
+        1,
+        10
+      );
+      setContent("");
     }
   };
   return (
@@ -39,6 +50,7 @@ const CreateComment = () => {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               setContent(e.target.value);
             }}
+            value={content}
           />
           <AddButton type="submit">Add</AddButton>
         </Create>
