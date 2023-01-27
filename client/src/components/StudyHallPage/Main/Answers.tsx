@@ -1,14 +1,42 @@
 import styled from "styled-components";
 import { FiTrash2 } from "react-icons/fi";
+import moment from "moment";
 
 //타입지정
 export interface AnswerProps {
   username: string;
   content: string;
   imgUrl: string;
+  answerCreatedAt: string;
 }
+const getDayMinuteCounter = (date?: object): number | string => {
+  if (!date) {
+    return "";
+  }
 
-const Answers = ({ username, content, imgUrl }: AnswerProps) => {
+  const today = moment();
+  const postingDate = moment(date).add(9, "hours");
+  const dayDiff = postingDate.diff(today, "days");
+  const hourDiff = postingDate.diff(today, "hours");
+  const minutesDiff = postingDate.diff(today, "minutes");
+  if (dayDiff === 0 && hourDiff === 0) {
+    const minutes = Math.ceil(-minutesDiff);
+    return minutes + "분 전";
+  }
+
+  if (dayDiff === 0 && hourDiff <= 24) {
+    const hour = Math.ceil(-hourDiff);
+    return hour + "시간 전";
+  }
+
+  return -dayDiff + "일 전";
+};
+const Answers = ({
+  username,
+  content,
+  imgUrl,
+  answerCreatedAt,
+}: AnswerProps) => {
   return (
     <AnswerWrapper>
       <Answer>
@@ -19,9 +47,11 @@ const Answers = ({ username, content, imgUrl }: AnswerProps) => {
           </div>
           <EctWrap>
             <div className="trashIcon">
-              <FiTrash2></FiTrash2>
+              <FiTrash2 />
             </div>
-            <div className="date">{}전</div>
+            <div className="date">
+              {getDayMinuteCounter(moment(answerCreatedAt))}
+            </div>
           </EctWrap>
         </div>
       </Answer>

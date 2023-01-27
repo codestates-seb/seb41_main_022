@@ -19,6 +19,7 @@ export interface CommentsProps {
   imgUrl: string;
   chatId: number;
   isClosedChat: boolean;
+  chatCreatedAt: string;
 }
 
 interface AnswerProps {
@@ -27,6 +28,7 @@ interface AnswerProps {
   imgUrl: string;
   content: string;
   answerCreatedAt: string;
+  chatCreatedAt: string;
 }
 interface Data {
   data: any;
@@ -41,11 +43,10 @@ const Comments = ({
   imgUrl,
   chatId,
   isClosedChat,
+  chatCreatedAt,
   totalElements,
 }: CommentsProps) => {
   const [cookies] = useCookies(["token"]);
-
-  console.log(content);
 
   const [showAnswer, setShowAnswer] = useState(false);
 
@@ -111,6 +112,7 @@ const Comments = ({
                     username={el.username}
                     content={el.content}
                     imgUrl={el.imgUrl}
+                    answerCreatedAt={el.answerCreatedAt}
                   />
                 ))}
               </span>
