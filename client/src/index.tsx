@@ -11,10 +11,14 @@ axios.interceptors.response.use((res) => {
   if (res.headers["access-token"]) {
     let refreshToken = cookies.get("token").refreshToken;
     cookies.remove("token");
-    cookies.set("token", {
-      accessToken: res.headers["access-token"],
-      refreshToken,
-    });
+    cookies.set(
+      "token",
+      {
+        accessToken: res.headers["access-token"],
+        refreshToken,
+      },
+      { path: "/" }
+    );
     window.location.reload();
   }
   return res;

@@ -56,14 +56,21 @@ const Comments = ({
   const { studyId } = useParams();
   const [showAnswer, setShowAnswer] = useState(false);
   const navigate = useNavigate();
-  const postAnswer = answerStore((state) => state.postAnswer);
+  const { postAnswer, postedAnswer } = answerStore();
+  console.log(postedAnswer);
   const [answer, setAnswer] = useState("");
+  const [answersData, setAnswersData] = useState<any[] | undefined>(undefined);
   const { fetchCommentData } = commentStore();
 
+  useEffect(() => {
+    setAnswersData(answers);
+  }, []);
+
   //대댓글 작성
-  const handleSubmit = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (chatId) {
-      postAnswer(
+      await postAnswer(
         chatId,
         { content: answer },
         {
@@ -71,6 +78,10 @@ const Comments = ({
           "refresh-Token": cookies.token.refreshToken,
         }
       );
+      // if (answersData) {
+      //   answersData.push(postedAnswer);
+      // }
+      setAnswer("");
     }
   };
 
@@ -161,17 +172,19 @@ const Comments = ({
                   onChange={(e: any) => {
                     setAnswer(e.target.value);
                   }}
+                  value={answer}
                 />
                 <AnswerButton type="submit">Add</AnswerButton>
-                {answers.map((el) => (
-                  <Answers
-                    key={el.answerId}
-                    username={el.username}
-                    content={el.content}
-                    imgUrl={el.imgUrl}
-                    answerCreatedAt={el.answerCreatedAt}
-                  />
-                ))}
+                {answersData &&
+                  answersData.map((el) => (
+                    <Answers
+                      key={el.answerId}
+                      username={el.username}
+                      content={el.content}
+                      imgUrl={el.imgUrl}
+                      answerCreatedAt={el.answerCreatedAt}
+                    />
+                  ))}
               </span>
             )}
           </Texts>
