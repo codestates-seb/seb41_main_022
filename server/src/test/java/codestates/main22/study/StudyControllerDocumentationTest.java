@@ -135,7 +135,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 response1.getDayOfWeek(),
                 response1.getWant(),
                 response1.getStartDate(),
-                response1.isProcedure(),
+                response1.isOnOff(),
                 response1.isOpenClose(),
                 response1.getContent(),
                 response1.getImage()
@@ -178,7 +178,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
                                         fieldWithPath("want").type(JsonFieldType.NUMBER).description("모집인원"),
                                         fieldWithPath("startDate").type(JsonFieldType.STRING).description("시작날짜"),
-                                        fieldWithPath("procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("본문"),
                                         fieldWithPath("image").type(JsonFieldType.STRING).description("대표사진")
@@ -194,7 +194,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("data.dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
                                         fieldWithPath("data.want").type(JsonFieldType.NUMBER).description("모집인원"),
                                         fieldWithPath("data.startDate").type(JsonFieldType.STRING).description("시작날짜"),
-                                        fieldWithPath("data.procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data.onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("data.openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("본문"),
                                         fieldWithPath("data.notice").type(JsonFieldType.NULL).description("공지"),
@@ -228,7 +228,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         study1.setDayOfWeek(response1.getDayOfWeek());
         study1.setWant(response1.getWant());
         study1.setStartDate(response1.getStartDate());
-        study1.setProcedure(response1.isProcedure());
+        study1.setOnOff(response1.isOnOff());
         study1.setOpenClose(response1.isOpenClose());
         study1.setContent(response1.getContent());
         study1.setNotice(response1.getNotice());
@@ -242,7 +242,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         study2.setDayOfWeek(response2.getDayOfWeek());
         study2.setWant(response2.getWant());
         study2.setStartDate(response2.getStartDate());
-        study2.setProcedure(response2.isProcedure());
+        study2.setOnOff(response2.isOnOff());
         study2.setOpenClose(response2.isOpenClose());
         study2.setContent(response2.getContent());
         study2.setNotice(response2.getNotice());
@@ -258,7 +258,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 response1.getTeamName(),
                 response1.getSummary(),
                 response1.getDayOfWeek(),
-                response1.isProcedure(),
+                response1.isOnOff(),
                 response1.getImage()
         );
 
@@ -267,7 +267,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 response2.getTeamName(),
                 response2.getSummary(),
                 response2.getDayOfWeek(),
-                response2.isProcedure(),
+                response2.isOnOff(),
                 response2.getImage()
         );
 
@@ -304,7 +304,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("data[].teamName").type(JsonFieldType.STRING).description("팀이름"),
                                         fieldWithPath("data[].summary").type(JsonFieldType.STRING).description("한줄설명"),
                                         fieldWithPath("data[].dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
-                                        fieldWithPath("data[].procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data[].onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("data[].image").type(JsonFieldType.STRING).description("대표사진"),
 
                                         fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
@@ -345,7 +345,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         study1.setDayOfWeek(response1.getDayOfWeek());
         study1.setWant(response1.getWant());
         study1.setStartDate(response1.getStartDate());
-        study1.setProcedure(response1.isProcedure());
+        study1.setOnOff(response1.isOnOff());
         study1.setOpenClose(response1.isOpenClose());
         study1.setContent(response1.getContent());
         study1.setNotice(response1.getNotice());
@@ -359,7 +359,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         study2.setDayOfWeek(response2.getDayOfWeek());
         study2.setWant(response2.getWant());
         study2.setStartDate(response2.getStartDate());
-        study2.setProcedure(response2.isProcedure());
+        study2.setOnOff(response2.isOnOff());
         study2.setOpenClose(response2.isOpenClose());
         study2.setContent(response2.getContent());
         study2.setNotice(response2.getNotice());
@@ -375,7 +375,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 response1.getTeamName(),
                 response1.getSummary(),
                 response1.getDayOfWeek(),
-                response1.isProcedure(),
+                response1.isOnOff(),
                 response1.getImage()
         );
 
@@ -384,7 +384,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 response2.getTeamName(),
                 response2.getSummary(),
                 response2.getDayOfWeek(),
-                response2.isProcedure(),
+                response2.isOnOff(),
                 response2.getImage()
         );
 
@@ -424,7 +424,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("data[].teamName").type(JsonFieldType.STRING).description("팀이름"),
                                         fieldWithPath("data[].summary").type(JsonFieldType.STRING).description("한줄설명"),
                                         fieldWithPath("data[].dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
-                                        fieldWithPath("data[].procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data[].onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("data[].image").type(JsonFieldType.STRING).description("대표사진"),
 
                                         fieldWithPath("pageInfo").type(JsonFieldType.OBJECT).description("페이지 정보"),
@@ -913,7 +913,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.OBJECT).description("결과 데이터"),
                                         fieldWithPath("data.teamName").type(JsonFieldType.STRING).description("팀이름"),
-                                        fieldWithPath("data.procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data.onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("data.openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개")
                                 )
                         )
@@ -1032,7 +1032,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
                                         fieldWithPath("want").type(JsonFieldType.NUMBER).description("모집인원"),
                                         fieldWithPath("startDate").type(JsonFieldType.STRING).description("시작날짜"),
-                                        fieldWithPath("procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
                                         fieldWithPath("content").type(JsonFieldType.STRING).description("본문"),
                                         fieldWithPath("image").type(JsonFieldType.STRING).description("대표사진")
@@ -1047,7 +1047,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("data.dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
                                         fieldWithPath("data.want").type(JsonFieldType.NUMBER).description("모집인원"),
                                         fieldWithPath("data.startDate").type(JsonFieldType.STRING).description("시작날짜"),
-                                        fieldWithPath("data.procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data.onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("data.openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("본문"),
                                         fieldWithPath("data.image").type(JsonFieldType.STRING).description("대표사진")
@@ -1131,7 +1131,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         response1.getDayOfWeek(),
                         response1.getWant(),
                         response1.getStartDate(),
-                        response1.isProcedure(),
+                        response1.isOnOff(),
                         response1.isOpenClose(),
                         response1.getContent(),
                         "공지입니다",
@@ -1169,7 +1169,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                                         fieldWithPath("data.dayOfWeek").type(JsonFieldType.ARRAY).description("요일"),
                                         fieldWithPath("data.want").type(JsonFieldType.NUMBER).description("모집인원"),
                                         fieldWithPath("data.startDate").type(JsonFieldType.STRING).description("시작날짜"),
-                                        fieldWithPath("data.procedure").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
+                                        fieldWithPath("data.onOff").type(JsonFieldType.BOOLEAN).description("온라인/오프라인"),
                                         fieldWithPath("data.openClose").type(JsonFieldType.BOOLEAN).description("공개/비공개"),
                                         fieldWithPath("data.content").type(JsonFieldType.STRING).description("본문"),
                                         fieldWithPath("data.notice").type(JsonFieldType.STRING).description("공지"),
