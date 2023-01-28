@@ -111,7 +111,7 @@ public class UserService {
 
     // email로 user 정보 조회
     public UserEntity findByEmail(String email) {
-        Optional<UserEntity> optionalUser = userRepository.findTop1ByEmail(email);
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(email);
         UserEntity user = optionalUser.orElse(null);
 
         return user;
@@ -128,6 +128,6 @@ public class UserService {
     }
 
     public Optional<UserEntity> findByToken(String token) {
-        return userRepository.findTop1ByToken(token);
+        return userRepository.findByToken(token);
     }
 }

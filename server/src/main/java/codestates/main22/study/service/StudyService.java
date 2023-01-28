@@ -135,10 +135,10 @@ public class StudyService {
     // 스터디원의 스터디 탈퇴
     @Transactional
     public void removeUserAuth(Study study, long userId) {
-        UserEntity user = userRepository.findTop1ByUserId(userId);
+        UserEntity user = userRepository.findByUserId(userId);
 
         // 스터디와 유저의 연관관계 제거
-        UserStudyEntity userStudyEntity = userStudyRepository.findTop1ByUserAndStudy(user, study);
+        UserStudyEntity userStudyEntity = userStudyRepository.findByUserAndStudy(user, study);
         study.getUserStudies().remove(userStudyEntity);
         user.getUserStudies().remove(userStudyEntity);
         userStudyRepository.delete(userStudyEntity);

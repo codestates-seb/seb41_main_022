@@ -6,5 +6,5 @@ import codestates.main22.tag.entity.TagStudy;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TagStudyRepository extends JpaRepository<TagStudy, Long> {
-    TagStudy findTop1ByStudyAndTag(Study study, Tag tag);
+    TagStudy findByStudyAndTag(Study study, Tag tag);
 }

@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TagRepository extends JpaRepository<Tag, Long> {
-    Optional<Tag> findTop1ByName(String name);
+    Optional<Tag> findByName(String name);
     List<Tag> findByTagStudiesStudy(Study study);
 }
