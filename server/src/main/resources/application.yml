@@ -8,14 +8,15 @@ spring:
     database : mysql
 #    database-platform : hibernate.dialect.MySQl5InnoDBDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
         format_sql: true
   sql:
     init:
-      data-locations: classpath*:db/h2/data.sql
+#      data-locations: classpath*:/data.sql
+      schema-locations: classpath*:schema.sql
   security:
     oauth2:
       client:

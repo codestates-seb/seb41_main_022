@@ -26,7 +26,7 @@ public class TagController {
         this.tagService = tagService;
         this.tagMapper = tagMapper;
 
-        tagService.saveTags();
+//        tagService.saveTags();
     }
 
 //    // Create New Study
