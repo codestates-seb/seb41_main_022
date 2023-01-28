@@ -65,7 +65,7 @@ CREATE TABLE IF NOT NULL EXISTS STUDY (
        LEADER_ID bigint NOT NULL,
        NOTICE varchar(255),
        OPEN_CLOSE bit,
-       'procedure' bit,
+       ON_OFF bit,
        START_DATE date,
        SUMMARY varchar(255) NOT NULL,
        TEAM_NAME varchar(255) NOT NULL,

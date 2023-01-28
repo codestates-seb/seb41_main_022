@@ -9,7 +9,6 @@ import codestates.main22.tag.entity.TagStudy;
 import codestates.main22.tag.repository.TagRepository;
 import codestates.main22.tag.repository.TagStudyRepository;
 import codestates.main22.user.entity.UserEntity;
-import codestates.main22.user.repository.UserRepository;
 import codestates.main22.utils.Init;
 import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
@@ -75,7 +74,7 @@ public class TagService {
         for(Tag tag : before) {
             // 삭제될 태그
             if(!after.contains(tag)) {
-                TagStudy tagStudies = tagStudyRepository.findByStudyAndTag(study, tag);
+                TagStudy tagStudies = tagStudyRepository.findTop1ByStudyAndTag(study, tag);
                 study.deleteTagStudy(tagStudies);
                 tagStudyRepository.delete(tagStudies);
             }
@@ -104,7 +103,7 @@ public class TagService {
         for(Tag tag : before) {
             // 삭제될 태그
             if(!after.contains(tag)) {
-                TagStudy tagStudies = tagStudyRepository.findByStudyAndTag(study, tag);
+                TagStudy tagStudies = tagStudyRepository.findTop1ByStudyAndTag(study, tag);
                 study.deleteTagStudy(tagStudies);
                 tagStudyRepository.delete(tagStudies);
             }
@@ -212,7 +211,7 @@ public class TagService {
 
     // 태그 증명 by tagName
     public Tag verifiedTag(String name) {
-        Optional<Tag> optionalTag = tagRepository.findByName(name);
+        Optional<Tag> optionalTag = tagRepository.findTop1ByName(name);
         Tag tag =
                 optionalTag.orElseThrow(() ->
                         new BusinessLogicException((ExceptionCode.MESSAGE_NOT_FOUND)));

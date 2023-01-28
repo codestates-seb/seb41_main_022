@@ -20,14 +20,14 @@ public class Token {
     // refresh-Token을 이용해서 user 정보 조회하기
     public UserEntity findByToken(HttpServletRequest request) {
         String refresh = request.getHeader("refresh-token");
-        Optional<UserEntity> refreshUser = userRepository.findByRefresh(refresh);
+        Optional<UserEntity> refreshUser = userRepository.findTop1ByRefresh(refresh);
         return refreshUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
     // refresh-Token을 이용해서 user 여부 확인
     public boolean checkUserByToken(HttpServletRequest request) {
         String refresh = request.getHeader("refresh-token");
-        Optional<UserEntity> user = userRepository.findByRefresh(refresh);
+        Optional<UserEntity> user = userRepository.findTop1ByRefresh(refresh);
 
         if(user.orElse(new UserEntity()).getUsername() == null)
             return false;

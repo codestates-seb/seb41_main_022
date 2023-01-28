@@ -17,7 +17,7 @@ public class StudyDto {
         private List<String> dayOfWeek;
         private int want;
         private LocalDate startDate;
-        private boolean procedure;
+        private boolean onOff;
         private boolean openClose;
         private String content;
         private String image;
@@ -32,7 +32,7 @@ public class StudyDto {
         private List<String> dayOfWeek;
         private int want;
         private LocalDate startDate;
-        private boolean procedure;
+        private boolean onOff;
         private boolean openClose;
         private String content;
         private String notice;
@@ -49,7 +49,7 @@ public class StudyDto {
         private String teamName;
         private String summary;
         private List<String> dayOfWeek;
-        private boolean procedure;
+        private boolean onOff;
         private String image;
     }
 
@@ -62,7 +62,7 @@ public class StudyDto {
         private List<String> dayOfWeek;
         private int want;
         private LocalDate startDate;
-        private boolean procedure;
+        private boolean onOff;
         private boolean openClose;
         private String content;
         private String notice;
@@ -82,7 +82,7 @@ public class StudyDto {
         private List<String> dayOfWeek;
         private int want;
         private LocalDate startDate;
-        private boolean procedure;
+        private boolean onOff;
         private boolean openClose;
         private String content;
         private String notice;

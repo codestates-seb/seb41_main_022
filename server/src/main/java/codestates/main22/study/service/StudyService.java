@@ -12,7 +12,6 @@ import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.entity.UserStudyEntity;
 import codestates.main22.user.repository.UserRepository;
 import codestates.main22.user.repository.UserStudyRepository;
-import codestates.main22.user.service.UserService;
 import codestates.main22.utils.Init;
 import codestates.main22.utils.Token;
 import org.springframework.data.domain.Page;
@@ -97,7 +96,7 @@ public class StudyService {
         Optional.ofNullable(study.getDayOfWeek()).ifPresent(findStudy::setDayOfWeek);
         Optional.ofNullable(study.getWant()).ifPresent(findStudy::setWant);
         Optional.ofNullable(study.getStartDate()).ifPresent(findStudy::setStartDate);
-        Optional.ofNullable(study.isProcedure()).ifPresent(findStudy::setProcedure);
+        Optional.ofNullable(study.isOnOff()).ifPresent(findStudy::setOnOff);
         Optional.ofNullable(study.getContent()).ifPresent(findStudy::setContent);
         Optional.ofNullable(study.getNotice()).ifPresent(findStudy::setNotice);
         Optional.ofNullable(study.getImage()).ifPresent(findStudy::setImage);
@@ -136,10 +135,10 @@ public class StudyService {
     // 스터디원의 스터디 탈퇴
     @Transactional
     public void removeUserAuth(Study study, long userId) {
-        UserEntity user = userRepository.findByUserId(userId);
+        UserEntity user = userRepository.findTop1ByUserId(userId);
 
         // 스터디와 유저의 연관관계 제거
-        UserStudyEntity userStudyEntity = userStudyRepository.findByUserAndStudy(user, study);
+        UserStudyEntity userStudyEntity = userStudyRepository.findTop1ByUserAndStudy(user, study);
         study.getUserStudies().remove(userStudyEntity);
         user.getUserStudies().remove(userStudyEntity);
         userStudyRepository.delete(userStudyEntity);
@@ -284,7 +283,7 @@ public class StudyService {
         Optional.ofNullable(changedStudy.getDayOfWeek()).ifPresent(study::setDayOfWeek);
         Optional.ofNullable(changedStudy.getWant()).ifPresent(study::setWant);
         Optional.ofNullable(changedStudy.getStartDate()).ifPresent(study::setStartDate);
-        Optional.ofNullable(changedStudy.isProcedure()).ifPresent(study::setProcedure);
+        Optional.ofNullable(changedStudy.isOnOff()).ifPresent(study::setOnOff);
         Optional.ofNullable(changedStudy.isOpenClose()).ifPresent(study::setOpenClose);
         Optional.ofNullable(changedStudy.getContent()).ifPresent(study::setContent);
         Optional.ofNullable(changedStudy.getImage()).ifPresent(study::setImage);
