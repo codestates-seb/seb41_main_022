@@ -58,14 +58,14 @@ CREATE TABLE IF NOT NULL EXISTS participant (
 
 CREATE TABLE IF NOT NULL EXISTS STUDY (
        STUDY_ID bigint NOT NULL auto_increment,
-       CREATE_AT datetime(6),
+       CREATED_AT datetime(6),
        LAST_MODIFIED_AT datetime(6),
        CONTENT varchar(255) NOT NULL,
        IMAGE varchar(255),
        LEADER_ID bigint NOT NULL,
        NOTICE varchar(255),
        OPEN_CLOSE bit,
-       'PROCEDURE' bit,
+       'procedure' bit,
        START_DATE date,
        SUMMARY varchar(255) NOT NULL,
        TEAM_NAME varchar(255) NOT NULL,
