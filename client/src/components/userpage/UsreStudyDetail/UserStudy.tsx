@@ -167,6 +167,8 @@ const UserStudy = () => {
                 <StudyIntroduction>{myStudy?.summary}</StudyIntroduction>
               </div>
               <div className="marginTop41">
+                <p>Week</p>
+                {myStudy && <WeekBar dayOfWeek={myStudy.dayOfWeek} />}
                 <p>Notice</p>
                 <NoticeWrapper>
                   <div className="wrapper">
@@ -184,8 +186,6 @@ const UserStudy = () => {
                     )}
                   </div>
                 </NoticeWrapper>
-                <p>Week</p>
-                {myStudy && <WeekBar dayOfWeek={myStudy.dayOfWeek} />}
                 <p>Member</p>
                 {memberData &&
                   memberData.map((el, idx) => (
@@ -279,6 +279,7 @@ const UserStudyDetail = styled.div`
     font-family: "mainEB";
   }
   .teamName {
+    color: var(--green);
     width: fit-content;
     font-size: 24px;
     cursor: pointer;

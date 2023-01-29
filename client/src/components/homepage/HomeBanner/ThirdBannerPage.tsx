@@ -8,7 +8,7 @@ const ThirdBannerPage: React.FC<{ scrollToStudies: () => void }> = ({
     <ThirdBox>
       <ThirdWrap>
         <Title>
-          나와 <strong>같은</strong>
+          나와 <strong>같은</strong> <br />
           사람이 있을까<strong>?</strong>
         </Title>
         <button onClick={scrollToStudies}>

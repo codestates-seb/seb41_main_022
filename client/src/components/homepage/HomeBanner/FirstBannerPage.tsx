@@ -42,6 +42,22 @@ const Title = styled.div`
     color: var(--red-00);
     font-family: "logo";
   }
+  //모바일
+  @media screen and (max-width: 768px) {
+    font-size: 50px;
+    align-items: center;
+  }
+  //태블릿
+  @media screen and (min-width: 768px) and (max-width: 1000px) {
+    font-size: 80px;
+    font-family: "logo";
+    color: var(--logo);
+    letter-spacing: -3px;
+    margin-bottom: 50px;
+  }
+  // 웹
+  @media screen and (min-width: 1000px) {
+  }
 `;
 const Subtitle = styled.div`
   display: flex;
