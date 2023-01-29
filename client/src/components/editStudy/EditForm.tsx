@@ -25,7 +25,7 @@ interface MyFormProps {
   dayOfWeek: string[];
   want: number;
   startDate: string;
-  procedure: boolean;
+  onOff: boolean;
   openClose: boolean;
   content: string;
   image: string;
@@ -36,7 +36,7 @@ interface InitData {
   dayOfWeek: string[];
   want: number;
   startDate: string;
-  procedure: boolean;
+  onOff: boolean;
   openClose: boolean;
   content: string;
   image: string;
@@ -226,12 +226,12 @@ const EditForm = () => {
             </ErrorText>
             <div>
               <Controller
-                name="procedure"
+                name="onOff"
                 control={control}
                 render={({ field: { onChange } }) => (
                   <ToggleOnline
                     onChange={onChange}
-                    initValue={initData.procedure}
+                    initValue={initData.onOff}
                   />
                 )}
               />

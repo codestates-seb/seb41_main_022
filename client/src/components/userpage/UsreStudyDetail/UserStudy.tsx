@@ -17,7 +17,7 @@ interface studyType {
   dayOfWeek: string[];
   want: number;
   startDate: string;
-  procedure: boolean;
+  onOff: boolean;
   openClose: boolean;
   content: string;
   notice: null;

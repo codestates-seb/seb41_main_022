@@ -16,7 +16,6 @@ const StudyHallRightNav = () => {
     if (zustandStudyId !== studyId) {
       resetNotice();
     }
-    fetchRightNav(studyId);
     setNoticeR(notice);
   }, [notice]);
   return (
