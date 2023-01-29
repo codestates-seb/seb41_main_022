@@ -47,6 +47,7 @@ const MainWrapper = styled.article`
   .scroll::-webkit-scrollbar {
     display: none;
   }
+  overflow: auto;
   /* .scroll {
     overflow: hidden;
   } */
