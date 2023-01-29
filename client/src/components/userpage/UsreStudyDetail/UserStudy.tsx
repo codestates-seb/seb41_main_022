@@ -156,26 +156,28 @@ const UserStudy = () => {
           )}
           {!myUserData && <UserStudySkeleton />}
           {myStudy && memberData && (
-            <UserStudyDetail>
-              <h2
-                className="teamName"
-                onClick={() => navigate("/study-hall/main/" + studyId)}
-              >
-                {myStudy.teamName}
-              </h2>
-              <UserStudyTree treeData={treeData} />
-              <div className="divide">
-                <div>
-                  Study Introduction
-                  <StudyIntroduction>{myStudy.summary}</StudyIntroduction>
-                </div>
-                <div className="marginTop41">
-                  <p>Notice</p>
-                  <NoticeWrapper>
-                    <div className="wrapper">
-                      <div>
-                        <VscBellDot />
-                      </div>
+          <UserStudyDetail>
+            <h2
+              className="teamName"
+              onClick={() => navigate("/study-hall/main/" + studyId)}
+            >
+              {myStudy.teamName}
+            </h2>
+            <UserStudyTree treeData={treeData} />
+            <div className="divide">
+              <div>
+                Study Introduction
+                <StudyIntroduction>{myStudy.summary}</StudyIntroduction>
+              </div>
+              <div className="marginTop41">
+                <p>Week</p>
+                <WeekBar dayOfWeek={myStudy.dayOfWeek} />
+                <p>Notice</p>
+                <NoticeWrapper>
+                  <div className="wrapper">
+                    <div>
+                      <VscBellDot />
+                    </div>
                       <Ticker>
                         {() => (
                           <div className="noticeFont">
@@ -183,12 +185,11 @@ const UserStudy = () => {
                           </div>
                         )}
                       </Ticker>
-                    </div>
-                  </NoticeWrapper>
-                  <p>Week</p>
-                  <WeekBar dayOfWeek={myStudy.dayOfWeek} />
-                  <p>Member</p>
-                  {memberData.map((el, idx) => (
+                  </div>
+                </NoticeWrapper>
+                <p>Member</p>
+                {
+                  memberData.map((el, idx) => (
                     <StudyHallCommunityMember
                       key={idx}
                       username={el.username}
@@ -286,6 +287,7 @@ const UserStudyDetail = styled.div`
     font-family: "mainEB";
   }
   .teamName {
+    color: var(--green);
     width: fit-content;
     font-size: 24px;
     cursor: pointer;

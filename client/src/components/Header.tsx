@@ -98,7 +98,7 @@ const Header = () => {
             <div className="imgWrapper" onClick={() => navigate("/user")}>
               {userData && <img src={userData?.imgUrl} />}
             </div>
-            <img className="bell" src={Bell} />
+            {/* <img className="bell" src={Bell} /> */}
             <HeaderDropDown />
             <WhiteButton onClick={() => handleLogout()}>Log out</WhiteButton>
           </ItemWrapper>
@@ -149,14 +149,14 @@ const ItemWrapper = styled.div`
   align-items: center;
 
   > .imgWrapper {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: var(--radius-10);
     margin-right: 8px;
     background-color: white;
     > img {
-      width: 35px;
-      height: 35px;
+      width: 30px;
+      height: 30px;
       border-radius: var(--radius-10);
       cursor: pointer;
     }

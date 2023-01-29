@@ -42,6 +42,19 @@ const SecondWrap = styled.div`
   flex-direction: column;
   width: 1100px;
 
+  @media screen and (max-width: 768px) {
+    width: 550px;
+    align-items: center;
+    flex-direction: row;
+  }
+  //태블릿
+  @media screen and (min-width: 768px) and (max-width: 1000px) {
+    font-size: 75px;
+    width: 750px;
+  }
+  // 웹
+  @media screen and (min-width: 1000px) {
+  }
   > button {
     font-size: 20px;
     width: 150px;
@@ -68,5 +81,16 @@ const SecondTitle = styled.div`
   letter-spacing: -3px;
   > strong {
     color: var(--red-00);
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 35px;
+    align-items: center;
+  }
+  //태블릿
+  @media screen and (min-width: 768px) and (max-width: 1000px) {
+    font-size: 65px;
+  }
+  // 웹
+  @media screen and (min-width: 1000px) {
   }
 `;
