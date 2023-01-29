@@ -170,12 +170,13 @@ const JoinButton = styled.button<{ request?: boolean }>`
   margin-left: 10px;
   border-radius: var(--radius-30);
   background-color: ${(props) =>
-    props?.request ? `var(--mopo-10)` : `var(--mopo-00)`};
+    props?.request ? `var(--mopo-10)` : `var(--logo)`};
 
   color: var(--green);
-  border: none;
+  font-size: 12px;
+  border: solid 3px var(--green);
   min-width: 40px;
-  padding: 4px;
+  padding: 1px, 4px, 6px, 4px;
   height: 24px;
   :hover {
     transition-duration: 0.2s;

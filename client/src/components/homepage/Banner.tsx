@@ -23,7 +23,7 @@ const Banner = ({ scrollToCreate, scrollToStudies }: ClickProps) => {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: true,
+    autoplay: false, //true,
     autoplaySpeed: 10000,
     pauseOnHover: true,
     arrows: false,
@@ -53,8 +53,9 @@ const SlideWrapper = styled.main`
     font-family: "MainM";
   }
 `;
+
 const BannerWrapper = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 96vh;
   position: relative;
 `;
