@@ -23,9 +23,9 @@ const Banner = ({ scrollToCreate, scrollToStudies }: ClickProps) => {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false, //true,
+    autoplay: true,
     autoplaySpeed: 10000,
-    pauseOnHover: true,
+    pauseOnHover: false,
     arrows: false,
   };
 
@@ -47,15 +47,18 @@ const Banner = ({ scrollToCreate, scrollToStudies }: ClickProps) => {
 };
 export default Banner;
 const SlideWrapper = styled.main`
+  margin-top: 64px;
   width: 100vw;
-  height: 90%;
   * {
     font-family: "MainM";
+  }
+  .slick-dots {
+    //margin-top: -30px;
+    bottom: 20px;
   }
 `;
 
 const BannerWrapper = styled.div`
-  width: 100vw;
-  height: 96vh;
+  height: 95vh;
   position: relative;
 `;
