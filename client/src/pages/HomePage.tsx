@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import RecruitmentList from "../components/homepage/RecruitmentList";
 import Banner from "../components/homepage/Banner";
@@ -7,21 +7,40 @@ import CreateStudyButton from "../components/homepage/CreateStudyButton";
 import Search from "../components/homepage/Search";
 import TagFilter from "../components/homepage/TagFilter";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
+  const myRef = useRef<HTMLDivElement>(null);
+  const studiesRef = useRef<HTMLDivElement>(null);
+
+  const scrollToCreate = () => {
+    if (myRef.current) {
+      window.scrollTo(0, myRef.current.offsetTop);
+    }
+  };
+
+  const scrollToStudies = () => {
+    if (myRef.current) {
+      window.scrollTo(0, myRef.current.offsetTop);
+    }
+  };
+
   useEffect(() => {
     window.onbeforeunload = function pushRefresh() {
       window.scrollTo(0, 0);
     };
   }, []);
+
   return (
     <>
       <HomepageWrapper>
-        <Banner />
+        <Banner
+          scrollToCreate={scrollToCreate}
+          scrollToStudies={scrollToStudies}
+        />
         <ContentWrapper>
-          <CreateStudyButton />
+          <CreateStudyButton scrollRef={myRef} />
           <Search />
           <TagFilter />
-          <RecruitmentList />
+          <RecruitmentList scrollRef={studiesRef} />
         </ContentWrapper>
       </HomepageWrapper>
     </>

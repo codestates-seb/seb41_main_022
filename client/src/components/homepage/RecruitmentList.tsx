@@ -6,11 +6,11 @@ import Recruitment from "./Recruitment";
 import HomeStore from "../../util/zustandHome";
 import RecruitmentListSkeleton from "./RecruitmentListSkeleton";
 
-interface Data {
-  data: any;
+interface StudiesButtonProps {
+  scrollRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
-const RecruitmentList = () => {
+const RecruitmentList: React.FC<StudiesButtonProps> = ({ scrollRef }) => {
   const {
     isLoading,
     tags,
@@ -30,10 +30,6 @@ const RecruitmentList = () => {
   useEffect(() => {
     fetch(tags, filter, search, page);
   }, [tags, filter, search, page]);
-
-  // useEffect(() => {
-  //   console.log(recruitmentData);
-  // }, [recruitmentData]);
 
   const handleScroll = useCallback((): void => {
     const { innerHeight } = window;
@@ -70,7 +66,7 @@ const RecruitmentList = () => {
   }, [handleScroll]);
 
   return (
-    <RecruitmentWrapper>
+    <RecruitmentWrapper ref={scrollRef}>
       {recruitmentData &&
         recruitmentData.map((el, idx) => (
           <Recruitment
