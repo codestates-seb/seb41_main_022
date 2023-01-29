@@ -1,18 +1,24 @@
+import React, { useRef } from "preact/compat";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import LoginStore from "../../util/zustandLogin";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateStudyButton = () => {
+interface CreateStudyButtonProps {
+  scrollRef: React.MutableRefObject<HTMLDivElement | null>;
+}
+
+const CreateStudyButton: React.FC<CreateStudyButtonProps> = ({ scrollRef }) => {
   const navigate = useNavigate();
   const { isLogin } = LoginStore();
   const error = () => toast.error("로그인 후 이용해주세요!");
+
   return (
     <>
       <CreateStudyWrapper>
         <div className="flexWrapper">
-          <div className="assign">
+          <div className="assign" ref={scrollRef}>
             아직 스터디에 가입하지 않았나요?
             <br />
             새로 만들어보세요!

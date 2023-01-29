@@ -42,5 +42,12 @@ function App() {
 export default App;
 
 const MainWrapper = styled.article`
-  margin-top: 64px;
+  /* margin-top: 64px; */
+  // 크롬, 사파리, 파이어폭스
+  .scroll::-webkit-scrollbar {
+    display: none;
+  }
+  /* .scroll {
+    overflow: hidden;
+  } */
 `;

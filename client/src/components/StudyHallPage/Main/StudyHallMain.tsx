@@ -19,15 +19,6 @@ const StudyHallMain = () => {
   //데이터 요청
   const { fetchCommentData, commentsData } = commentStore();
 
-  // useEffect(() => {
-  //   getCommentsData(
-  //     process.env.REACT_APP_API_URL +
-  //       `/chat/${studyId}?page=${page}&size=${size}`
-  //   ).then((res) => {
-  //     setCommentsData(res.data);
-  //     setTotalPages(res.data.pageInfo.totalElements);
-  //   });
-  // }, [page, size]);
   useEffect(() => {
     if (studyId) {
       fetchCommentData(
