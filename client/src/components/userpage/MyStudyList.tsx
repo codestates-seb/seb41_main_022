@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import styled from "styled-components";
 import { useCookies } from "react-cookie";
+import { SpinnerCircular } from "spinners-react";
 
 import MyStudy from "./MyStudy";
 import UserStudySkeleton from "./UserStudySkeleton";
