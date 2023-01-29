@@ -47,6 +47,52 @@
     height: 24px;
 }
 .studyContentsFlexCenter{
+    width: 100px;
+    margin: 60px auto 68px auto;
+}
+.studyContentsTree{
+    height: 100px;
+}
+.studyContentsH4{
+    width : 150px;
+    height: 21px;
+}
+.studyContentsTextarea{
+    margin: 20px auto;
+    width: 270px;
+    padding: 10px;
+}
+.studyContentsP{
+    margin: 5px 0;
+    width: 50px;
+    height: 18px;
+}
+.divide{
     display: flex;
-
+    flex-direction: row;
+    margin-top: 50px;
+}
+.divide >div {
+    margin: 0 auto;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.studyContentsWeek{
+    width: 170px;
+    height: 28px;
+    border-radius: 40px;
+}
+.studyContentsNotice{
+    margin-top: 5px;
+    width: 200px;
+    height: 28px;
+    border-radius: var(--radius-30);
+}
+.studyContentsMember{
+    margin-top: 5px;
+    width: 200px;
+    height: 38px;
+    border-radius: 50px;
 }

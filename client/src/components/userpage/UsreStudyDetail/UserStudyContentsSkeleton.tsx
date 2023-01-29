@@ -8,7 +8,22 @@ const UserStudyContentsSkeleton = () => {
     <div className="studyContentsWrapper">
       <Skeleton className="studyContentsH2" />
       <div className="studyContentsFlexCenter">
-        <Skeleton className="studyContentsH2" />
+        <Skeleton className="studyContentsTree" />
+      </div>
+      <div className="divide">
+        <div>
+          <Skeleton className="studyContentsH4" />
+          <Skeleton className="studyContentsTextarea" />
+        </div>
+        <div>
+          <Skeleton className="studyContentsP" />
+          <Skeleton className="studyContentsWeek" />
+          <Skeleton className="studyContentsP" />
+          <Skeleton className="studyContentsNotice" />
+          <Skeleton className="studyContentsP" />
+          <Skeleton className="studyContentsMember" />
+          <Skeleton className="studyContentsMember" />
+        </div>
       </div>
     </div>
   );
