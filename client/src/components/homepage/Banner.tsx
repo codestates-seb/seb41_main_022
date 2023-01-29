@@ -23,7 +23,7 @@ const Banner = ({ scrollToCreate, scrollToStudies }: ClickProps) => {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false, // true
+    autoplay: true,
     autoplaySpeed: 10000,
     pauseOnHover: true,
     arrows: false,
