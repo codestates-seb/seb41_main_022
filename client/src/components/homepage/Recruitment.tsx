@@ -11,7 +11,7 @@ interface CardProps {
   summary: string;
   dayOfWeek: string[];
   studyId: number;
-  procedure: boolean;
+  onOff: boolean;
   imgUrl: string;
 }
 
@@ -20,7 +20,7 @@ const Recruitment = ({
   summary,
   dayOfWeek,
   studyId,
-  procedure,
+  onOff,
   imgUrl,
 }: CardProps) => {
   const navigate = useNavigate();
@@ -44,9 +44,9 @@ const Recruitment = ({
             </div>
             <WeekBar dayOfWeek={dayOfWeek} />
             <div className="body-online">
-              <span className={procedure ? "active" : undefined}>Online </span>
+              <span className={onOff ? "active" : undefined}>Online </span>
               <span>&nbsp;/&nbsp;</span>
-              <span className={procedure ? undefined : "active"}> Offline</span>
+              <span className={onOff ? undefined : "active"}> Offline</span>
             </div>
           </BodyWrapper>
         </div>

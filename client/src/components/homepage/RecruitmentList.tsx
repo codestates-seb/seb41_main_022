@@ -75,7 +75,7 @@ const RecruitmentList: React.FC<StudiesButtonProps> = ({ scrollRef }) => {
             teamName={el.teamName}
             summary={el.summary}
             dayOfWeek={el.dayOfWeek}
-            procedure={el.procedure}
+            onOff={el.onOff}
             imgUrl={el.image}
           />
         ))}

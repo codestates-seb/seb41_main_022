@@ -24,7 +24,7 @@ interface MyFormProps {
   dayOfWeek: string[];
   want: number;
   startDate: string;
-  procedure: boolean;
+  onOff: boolean;
   openClose: boolean;
   content: string;
   image: string;
@@ -196,7 +196,7 @@ const CreateForm = () => {
               </ErrorText>
               <div>
                 <Controller
-                  name="procedure"
+                  name="onOff"
                   control={control}
                   render={({ field: { onChange } }) => (
                     <ToggleOnline onChange={onChange} />

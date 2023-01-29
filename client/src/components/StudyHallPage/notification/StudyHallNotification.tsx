@@ -25,9 +25,6 @@ const StudyHallNotification = () => {
     e.preventDefault();
     patchNotice(studyId, { notice: tempNotice });
     fetchRightNav(studyId);
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
   };
   const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempNotice(e.target.value);

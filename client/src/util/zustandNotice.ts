@@ -38,7 +38,7 @@ const NoticeStore = create<Notice>()((set) => ({
           process.env.REACT_APP_API_URL + `/study/${id}/notification`,
           data
         )
-        .then((res) => console.log(res));
+        .then((res) => set({ notice: res.data.data.notice }));
     } catch (e) {
       console.log(e);
     }
