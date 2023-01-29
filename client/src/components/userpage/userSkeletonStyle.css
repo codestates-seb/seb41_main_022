@@ -38,3 +38,15 @@
     display: flex;
     flex-direction: row;
 }
+.studyContentsWrapper{
+    width: 600px;
+    margin: 60px auto 0 auto;
+}
+.studyContentsH2{
+    width: 200px;
+    height: 24px;
+}
+.studyContentsFlexCenter{
+    display: flex;
+
+}

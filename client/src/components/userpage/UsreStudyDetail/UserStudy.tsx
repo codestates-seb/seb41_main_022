@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import styled, { keyframes } from "styled-components";
-import UserSkeleton2 from "./UserSkeleton2";
+import UserStudySkeleton from "./UserStudySkeleton";
 import UserStudyTree from "./UserStudyTree";
 import WeekBar from "../../WeekBar";
 import { VscBellDot } from "react-icons/vsc";
 import Ticker from "react-ticker";
 import StudyHallCommunityMember from "../../StudyHallPage/community/StudyHallCommunityMember";
+import UserStudyContentsSkeleton from "./UserStudyContentsSkeleton";
 
 interface studyType {
   studyId: number;
@@ -101,7 +102,7 @@ const UserStudy = () => {
             setMemberData(res4.data.data);
           })
         );
-    }, 500);
+    }, 5000);
   }, []);
   const setData = () => {
     const data = memberData?.find((el) => el.username === myUserData?.username);
@@ -140,7 +141,8 @@ const UserStudy = () => {
     <Main>
       <BeigeDiv>
         <BackGround>
-          <img src={myStudy?.image} id="backImg" />
+          {myStudy && <img src={myStudy.image} id="backImg" />}
+          {!myStudy && <div />}
         </BackGround>
         <Container>
           {myUserData && (
@@ -152,43 +154,41 @@ const UserStudy = () => {
               </div>
             </UserInfo>
           )}
-          {!myUserData && <UserSkeleton2 />}
-          <UserStudyDetail>
-            <h2
-              className="teamName"
-              onClick={() => navigate("/study-hall/main/" + studyId)}
-            >
-              {myStudy?.teamName}
-            </h2>
-            <UserStudyTree treeData={treeData} />
-            <div className="divide">
-              <div>
-                Study Introduction
-                <StudyIntroduction>{myStudy?.summary}</StudyIntroduction>
-              </div>
-              <div className="marginTop41">
-                <p>Notice</p>
-                <NoticeWrapper>
-                  <div className="wrapper">
-                    <div>
-                      <VscBellDot />
-                    </div>
-                    {myStudy && (
+          {!myUserData && <UserStudySkeleton />}
+          {myStudy && memberData && (
+            <UserStudyDetail>
+              <h2
+                className="teamName"
+                onClick={() => navigate("/study-hall/main/" + studyId)}
+              >
+                {myStudy.teamName}
+              </h2>
+              <UserStudyTree treeData={treeData} />
+              <div className="divide">
+                <div>
+                  Study Introduction
+                  <StudyIntroduction>{myStudy.summary}</StudyIntroduction>
+                </div>
+                <div className="marginTop41">
+                  <p>Notice</p>
+                  <NoticeWrapper>
+                    <div className="wrapper">
+                      <div>
+                        <VscBellDot />
+                      </div>
                       <Ticker>
                         {() => (
                           <div className="noticeFont">
-                            {myStudy?.notice ? myStudy?.notice : ""}
+                            {myStudy.notice ? myStudy.notice : ""}
                           </div>
                         )}
                       </Ticker>
-                    )}
-                  </div>
-                </NoticeWrapper>
-                <p>Week</p>
-                {myStudy && <WeekBar dayOfWeek={myStudy.dayOfWeek} />}
-                <p>Member</p>
-                {memberData &&
-                  memberData.map((el, idx) => (
+                    </div>
+                  </NoticeWrapper>
+                  <p>Week</p>
+                  <WeekBar dayOfWeek={myStudy.dayOfWeek} />
+                  <p>Member</p>
+                  {memberData.map((el, idx) => (
                     <StudyHallCommunityMember
                       key={idx}
                       username={el.username}
@@ -196,9 +196,11 @@ const UserStudy = () => {
                       role={el.role}
                     />
                   ))}
+                </div>
               </div>
-            </div>
-          </UserStudyDetail>
+            </UserStudyDetail>
+          )}
+          {!(myStudy && memberData) && <UserStudyContentsSkeleton />}
         </Container>
       </BeigeDiv>
     </Main>
@@ -244,6 +246,11 @@ const BackGround = styled.div`
     opacity: 0.8;
     transition: all 0.5s;
     margin-top: 0px;
+  }
+  div {
+    width: 100%;
+    height: 100%;
+    background-color: #97a199;
   }
 `;
 

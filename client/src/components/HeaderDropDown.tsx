@@ -78,6 +78,7 @@ const Wrapper = styled.div`
     padding: 5px 0;
     z-index: 999;
     background-color: var(--gray-10);
+    box-shadow: 1px 2px 5px black;
     a {
       text-decoration: none;
       color: var(--green-00);
