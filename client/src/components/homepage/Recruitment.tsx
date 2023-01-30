@@ -28,30 +28,34 @@ const Recruitment = ({
   const error = () => toast.error("로그인 후 이용해주세요!");
 
   return (
-    <RecruitmentBackground
-      style={{ backgroundImage: `url(${imgUrl})` }}
-      onClick={
-        isLogin ? () => navigate(`/study-hall/main/${studyId}`) : () => error()
-      }
-    >
-      <ToastContainer position="top-right" autoClose={1500} />
-      <div className="recruitmentBody">
-        <div className="border">
-          <BodyWrapper>
-            <div className="body-myStudy">{teamName}</div>
-            <div className="body-content--wrapper">
-              <div className="body-content">{summary}</div>
-            </div>
-            <WeekBar dayOfWeek={dayOfWeek} />
-            <div className="body-online">
-              <span className={onOff ? "active" : undefined}>Online </span>
-              <span>&nbsp;/&nbsp;</span>
-              <span className={onOff ? undefined : "active"}> Offline</span>
-            </div>
-          </BodyWrapper>
+    <>
+      <RecruitmentBackground
+        style={{ backgroundImage: `url(${imgUrl})` }}
+        onClick={
+          isLogin
+            ? () => navigate(`/study-hall/main/${studyId}`)
+            : () => error()
+        }
+      >
+        <div className="recruitmentBody">
+          <div className="border">
+            <BodyWrapper>
+              <div className="body-myStudy">{teamName}</div>
+              <div className="body-content--wrapper">
+                <div className="body-content">{summary}</div>
+              </div>
+              <WeekBar dayOfWeek={dayOfWeek} />
+              <div className="body-online">
+                <span className={onOff ? "active" : undefined}>Online </span>
+                <span>&nbsp;/&nbsp;</span>
+                <span className={onOff ? undefined : "active"}> Offline</span>
+              </div>
+            </BodyWrapper>
+          </div>
         </div>
-      </div>
-    </RecruitmentBackground>
+      </RecruitmentBackground>
+      <ToastContainer position="top-right" autoClose={1500} />
+    </>
   );
 };
 
