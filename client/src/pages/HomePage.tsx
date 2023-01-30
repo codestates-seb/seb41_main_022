@@ -57,6 +57,7 @@ const HomepageWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   font-family: "mainM";
+  overflow-x: hidden;
 `;
 
 const ContentWrapper = styled.article`
