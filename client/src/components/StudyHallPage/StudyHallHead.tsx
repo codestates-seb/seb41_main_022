@@ -96,7 +96,7 @@ const StudyHallHead = () => {
                 onClick={clickJoin}
               >
                 가입 신청
-                <ToastContainer />
+                <ToastContainer autoClose={2000} />
               </JoinButton>
             ))}
         </div>
