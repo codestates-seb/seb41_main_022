@@ -4,9 +4,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import React, { useRef, useEffect } from "react";
 
-import firstPage from "../.././assets/firstPage.svg";
-import secondPage from "../.././assets/secondPage.svg";
-import thirdPage from "../.././assets/thirdPage.svg";
 import SecondBannerPage from "./HomeBanner/SecondBannerPage";
 import FirstBannerPage from "./HomeBanner/FirstBannerPage";
 import ThirdBannerPage from "./HomeBanner/ThirdBannerPage";
@@ -50,7 +47,7 @@ const SlideWrapper = styled.main`
   margin-top: 64px;
   width: 100vw;
   * {
-    font-family: "MainM";
+    font-family: "BannerM";
   }
   .slick-dots {
     //margin-top: -30px;
@@ -59,6 +56,7 @@ const SlideWrapper = styled.main`
 `;
 
 const BannerWrapper = styled.div`
+  width: 100vw;
   height: 95vh;
   position: relative;
 `;

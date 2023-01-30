@@ -1,75 +1,91 @@
-*{
-    --black : #000000;
-    --blue : #1979BF;
-    --green : #1D2F27;
-    --green-00 : #2B463A;
-    --mopo-10 : #69756B;
-    --red-10 : #7C1009;
-    --gray-20 : #8F8F8F;
-    --red-00 : #94120A;
-    --mopo-00 : #97A199;
-    --logo : #B0AC93;
-    --beige-10 : #D6D0C6;
-    --gray-10 : #D9D9D9;
-    --beige-00 : #E9E3D9;
-    --gray-00 : #F8F8F8;
+* {
+  --black: #000000;
+  --blue: #1979bf;
+  --green: #1d2f27;
+  --green-00: #2b463a;
+  --mopo-10: #69756b;
+  --red-10: #7c1009;
+  --gray-20: #8f8f8f;
+  --red-00: #94120a;
+  --mopo-00: #97a199;
+  --logo: #b0ac93;
+  --beige-10: #d6d0c6;
+  --gray-10: #d9d9d9;
+  --beige-00: #e9e3d9;
+  --gray-00: #f8f8f8;
 
-    --radius-10 : 10px;
-    --radius-20 : 20px;
-    --radius-30 : 30px;
+  --radius-10: 10px;
+  --radius-20: 20px;
+  --radius-30: 30px;
 }
 @font-face {
-    font-family: "logo";
-    src: url("./assets/fonts/AnyConv.com__NovaCut-Regular.woff");
+  font-family: "logo";
+  src: url("./assets/fonts/AnyConv.com__NovaCut-Regular.woff");
 }
 @font-face {
-    font-family: "mainB";
-    src: url("./assets/fonts/AppleSDGothicNeoB.ttf");
+  font-family: "mainB";
+  src: url("./assets/fonts/AppleSDGothicNeoB.ttf");
 }
 @font-face {
-    font-family: "mainEB";
-    src: url("./assets/fonts/AppleSDGothicNeoEB.ttf");
+  font-family: "mainEB";
+  src: url("./assets/fonts/AppleSDGothicNeoEB.ttf");
 }
 @font-face {
-    font-family: "mainH";
-    src: url("./assets/fonts/AppleSDGothicNeoH.ttf");
+  font-family: "mainH";
+  src: url("./assets/fonts/AppleSDGothicNeoH.ttf");
 }
 @font-face {
-    font-family: "mainL";
-    src: url("./assets/fonts/AppleSDGothicNeoL.ttf");
+  font-family: "mainL";
+  src: url("./assets/fonts/AppleSDGothicNeoL.ttf");
 }
 @font-face {
-    font-family: "mainM";
-    src: url("./assets/fonts/AppleSDGothicNeoM.ttf");
+  font-family: "mainM";
+  src: url("./assets/fonts/AppleSDGothicNeoM.ttf");
+}
+@font-face {
+  font-family: "bannerM";
+  src: url("./assets/fonts/esamanru Medium.ttf");
+}
+@font-face {
+  font-family: "bannerL";
+  src: url("./assets/fonts/esamanru Light.ttf");
+}
+@font-face {
+  font-family: "BannerL";
+  src: url("./assets/fonts/Korail_Round_Gothic_Light.ttf");
+}
+@font-face {
+  font-family: "BannerM";
+  src: url("./assets/fonts/Korail_Round_Gothic_Medium.ttf");
 }
 :root {
-      /* 테마별 색상 바꾸기 */
+  /* 테마별 색상 바꾸기 */
   --toastify-color-light: #fff;
   --toastify-color-dark: #121212;
   --toastify-color-info: #3498db;
-  --toastify-color-success: #1D2F27;
+  --toastify-color-success: #1d2f27;
   --toastify-color-warning: #f1c40f;
-  --toastify-color-error: #94120A;
+  --toastify-color-error: #94120a;
   --toastify-color-transparent: rgba(255, 255, 255, 0.7);
   /* 테마별 아이콘 색상 바꾸기 */
   --toastify-icon-color-info: var(--toastify-color-info);
   --toastify-icon-color-success: var(--green);
   --toastify-icon-color-warning: var(--toastify-color-warning);
   --toastify-icon-color-error: var(--red-00);
-    /* 기본 적용 스타일 바꾸기 */
-    --toastify-toast-width: 320px;
-    --toastify-toast-background: #fff;
-    --toastify-toast-min-height: 64px;
-    --toastify-toast-max-height: 800px;
-    --toastify-font-family: sans-serif;
-    --toastify-z-index: 9999;
-    --toastify-text-color-light: #757575;
-    --toastify-text-color-dark: #fff;
-    /* //Used only for colored theme */
-    --toastify-text-color-info: #fff;
-    --toastify-text-color-success: #fff;
-    --toastify-text-color-warning: #fff;
-    --toastify-text-color-error: #fff;
-    --toastify-spinner-color: #616161;
-    --toastify-spinner-color-empty-area: #e0e0e0;
+  /* 기본 적용 스타일 바꾸기 */
+  --toastify-toast-width: 320px;
+  --toastify-toast-background: #fff;
+  --toastify-toast-min-height: 64px;
+  --toastify-toast-max-height: 800px;
+  --toastify-font-family: sans-serif;
+  --toastify-z-index: 9999;
+  --toastify-text-color-light: #757575;
+  --toastify-text-color-dark: #fff;
+  /* //Used only for colored theme */
+  --toastify-text-color-info: #fff;
+  --toastify-text-color-success: #fff;
+  --toastify-text-color-warning: #fff;
+  --toastify-text-color-error: #fff;
+  --toastify-spinner-color: #616161;
+  --toastify-spinner-color-empty-area: #e0e0e0;
 }
