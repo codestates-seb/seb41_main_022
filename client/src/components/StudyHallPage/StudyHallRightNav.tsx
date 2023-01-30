@@ -7,16 +7,13 @@ import NoticeStore from "../../util/zustandNotice";
 import Ticker from "react-ticker";
 
 const StudyHallRightNav = () => {
-  const { dayOfWeek, notice, zustandStudyId, resetNotice, fetchRightNav } =
-    NoticeStore();
+  const { dayOfWeek, notice, zustandStudyId, resetNotice } = NoticeStore();
   const { studyId } = useParams();
-  const [noticeR, setNoticeR] = useState("");
   useEffect(() => {
     // if()
     if (zustandStudyId !== studyId) {
       resetNotice();
     }
-    setNoticeR(notice);
   }, [notice]);
   return (
     <Margin20>
@@ -26,9 +23,9 @@ const StudyHallRightNav = () => {
           <div>
             <VscBellDot />
           </div>
-          {noticeR && (
+          {notice && (
             <Ticker>
-              {() => <div className="noticeFont">{noticeR ? noticeR : ""}</div>}
+              {() => <div className="noticeFont">{notice ? notice : ""}</div>}
             </Ticker>
           )}
         </div>
