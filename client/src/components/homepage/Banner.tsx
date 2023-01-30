@@ -22,7 +22,7 @@ const Banner = ({ scrollToCreate, scrollToStudies }: ClickProps) => {
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 10000,
-    pauseOnHover: true,
+    pauseOnHover: false,
     arrows: false,
   };
 
@@ -44,15 +44,19 @@ const Banner = ({ scrollToCreate, scrollToStudies }: ClickProps) => {
 };
 export default Banner;
 const SlideWrapper = styled.main`
+  margin-top: 64px;
   width: 100vw;
-  height: 90%;
   * {
     font-family: "BannerM";
+  }
+  .slick-dots {
+    //margin-top: -30px;
+    bottom: 20px;
   }
 `;
 
 const BannerWrapper = styled.div`
   width: 100vw;
-  height: 96vh;
+  height: 95vh;
   position: relative;
 `;

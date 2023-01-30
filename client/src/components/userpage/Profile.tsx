@@ -85,7 +85,7 @@ const Container = styled.div`
 `;
 const Banner = styled.div`
   width: 1024px;
-  height: 185px;
+  height: 200px;
   margin: 0px auto;
   background-image: url(${userBanner});
   display: flex;

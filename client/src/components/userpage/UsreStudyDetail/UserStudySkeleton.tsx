@@ -3,7 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 import "../userSkeletonStyle.css";
 
-const UserSkeleton2 = () => {
+const UserStudySkeleton = () => {
   return (
     <div className="mainDiv2">
       <Skeleton className="userIconSkeleton" />
@@ -15,4 +15,4 @@ const UserSkeleton2 = () => {
   );
 };
 
-export default UserSkeleton2;
+export default UserStudySkeleton;
