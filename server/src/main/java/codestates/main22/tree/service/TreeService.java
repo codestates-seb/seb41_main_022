@@ -127,6 +127,7 @@ public class TreeService {
                 study.getTrees().stream().forEach(tree -> {
                             treesAndTeamNames.add(tree);
                             treesAndTeamNames.add(study.getTeamName());
+                            treesAndTeamNames.add(study.getStudyId());
                         }
                 )
         );

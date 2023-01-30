@@ -37,7 +37,7 @@ public class Study extends Auditable {
     @Column
     private LocalDate startDate;
     @Column
-    private boolean procedure;
+    private boolean onOff;
     @Column
     private boolean openClose;
     @Column(nullable = false)
