@@ -11,7 +11,6 @@ const StudyHallRightNav = () => {
     NoticeStore();
   const { studyId } = useParams();
   useEffect(() => {
-    // if()
     if (zustandStudyId !== studyId) {
       resetNotice();
       fetchRightNav(studyId);
