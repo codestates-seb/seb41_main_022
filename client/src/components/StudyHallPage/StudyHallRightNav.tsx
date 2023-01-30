@@ -7,12 +7,14 @@ import NoticeStore from "../../util/zustandNotice";
 import Ticker from "react-ticker";
 
 const StudyHallRightNav = () => {
-  const { dayOfWeek, notice, zustandStudyId, resetNotice } = NoticeStore();
+  const { dayOfWeek, notice, zustandStudyId, resetNotice, fetchRightNav } =
+    NoticeStore();
   const { studyId } = useParams();
   useEffect(() => {
     // if()
     if (zustandStudyId !== studyId) {
       resetNotice();
+      fetchRightNav(studyId);
     }
   }, [notice]);
   return (
