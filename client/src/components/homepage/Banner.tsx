@@ -4,9 +4,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import React, { useRef, useEffect } from "react";
 
-import firstPage from "../.././assets/firstPage.svg";
-import secondPage from "../.././assets/secondPage.svg";
-import thirdPage from "../.././assets/thirdPage.svg";
 import SecondBannerPage from "./HomeBanner/SecondBannerPage";
 import FirstBannerPage from "./HomeBanner/FirstBannerPage";
 import ThirdBannerPage from "./HomeBanner/ThirdBannerPage";
@@ -23,7 +20,7 @@ const Banner = ({ scrollToCreate, scrollToStudies }: ClickProps) => {
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false, //true,
+    autoplay: true,
     autoplaySpeed: 10000,
     pauseOnHover: true,
     arrows: false,
@@ -50,7 +47,7 @@ const SlideWrapper = styled.main`
   width: 100vw;
   height: 90%;
   * {
-    font-family: "MainM";
+    font-family: "BannerM";
   }
 `;
 

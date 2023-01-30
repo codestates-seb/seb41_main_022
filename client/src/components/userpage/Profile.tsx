@@ -5,6 +5,7 @@ import axios, { AxiosResponse } from "axios";
 
 import { useCookies } from "react-cookie";
 import UserSkeleton from "./UserSkeleton";
+import userBanner from "../.././assets/userBanner.svg";
 
 interface User {
   userId: number;
@@ -84,9 +85,9 @@ const Container = styled.div`
 `;
 const Banner = styled.div`
   width: 1024px;
-  height: 183px;
+  height: 185px;
   margin: 0px auto;
-  background-color: var(--mopo-00);
+  background-image: url(${userBanner});
   display: flex;
   position: absolute;
   > img {

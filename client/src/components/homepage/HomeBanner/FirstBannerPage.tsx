@@ -34,7 +34,7 @@ const TitleWrap = styled.div``;
 
 const Title = styled.div`
   font-size: 150px;
-  font-family: "logo";
+  font-family: "logo" !important;
   color: var(--logo);
   letter-spacing: -3px;
   margin-bottom: 50px;
