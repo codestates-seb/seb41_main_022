@@ -57,7 +57,7 @@ const SecondWrap = styled.div`
   }
   > button {
     font-size: 20px;
-    width: 150px;
+    width: 160px;
     height: 100px;
     background-color: transparent;
     border-color: transparent;
