@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { joinStudyStore } from "../../util/zustandJoinStudy";
@@ -101,7 +101,6 @@ const StudyHallHead = () => {
                 onClick={clickJoin}
               >
                 가입 신청
-                <ToastContainer autoClose={2000} />
               </JoinButton>
             ))}
         </div>

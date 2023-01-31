@@ -2,7 +2,7 @@ import React from "preact/compat";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import LoginStore from "../../util/zustandLogin";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface CreateStudyButtonProps {
@@ -30,7 +30,6 @@ const CreateStudyButton: React.FC<CreateStudyButtonProps> = ({ scrollRef }) => {
           </RedButton>
         </div>
       </CreateStudyWrapper>
-      <ToastContainer position="top-right" autoClose={1500} />
     </>
   );
 };

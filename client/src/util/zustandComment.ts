@@ -64,8 +64,6 @@ export const commentStore = create<CommentState>((set) => ({
           headers: token,
         }
       );
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
 }));

@@ -5,7 +5,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import EditWeekBar from "./EditWeekBar";
@@ -273,9 +273,7 @@ const EditForm = () => {
             </ErrorText>
             <div>
               <RedButton type="submit">Edit Study</RedButton>
-              <div className="toastFontsize">
-                <ToastContainer position="top-right" autoClose={1500} />
-              </div>
+              <div className="toastFontsize"></div>
             </div>
           </Form>
         )}

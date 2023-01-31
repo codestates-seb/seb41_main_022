@@ -24,9 +24,7 @@ export const createStudyStore = create<createStudyState>((set) => ({
         }
       );
       set({ studyId: await response.data.data.studyId });
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     set({ isLoading: false });
   },
   fetchEditStudy: async (form, token, studyId) => {
@@ -39,9 +37,7 @@ export const createStudyStore = create<createStudyState>((set) => ({
           headers: token,
         }
       );
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
     set({ isLoading: false });
   },
 }));
