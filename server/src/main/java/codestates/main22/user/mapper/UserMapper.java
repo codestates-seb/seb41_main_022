@@ -31,6 +31,7 @@ public interface UserMapper {
             ).collect(Collectors.toList()).get(0);
 
             UserDto.StudyUserResponse response = new UserDto.StudyUserResponse(
+                    user.getUserId(),
                     user.getUsername(),
                     user.getImgUrl(),
                     role

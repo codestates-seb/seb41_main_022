@@ -62,22 +62,6 @@ public class TreeService {
     }
 
     // 트리 포인트 업데이트
-    public Tree updateTreePoint(Tree tree, int point) {
-        point += tree.getTreePoint();
-        tree.setTreePoint(point);
-
-        // 특정 기준점 초과시 이미지 업데이트
-        if(point >= Init.treeFinalUpgradeScore)
-            tree.setTreeImage(Init.tree2023Image.get(LocalDate.now().getMonthValue()-1));
-        else if(point >= Init.treeSecondUpgradeScore)
-            tree.setTreeImage(Init.treeThirdImage);
-        else if(point >= Init.treeFirstUpgradeScore)
-            tree.setTreeImage(Init.treeSecondImage);
-
-        return treeRepository.save(tree);
-    }
-
-    // 트리 포인트 업데이트
     public Tree updateTreePoint(Study study, int point) {
         Tree tree = findfinalCreatedTree(study);
         point += tree.getTreePoint();
