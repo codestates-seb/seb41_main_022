@@ -29,9 +29,7 @@ const ChatStore = create<Community>()((set) => ({
         process.env.REACT_APP_API_URL + `/message?studyId=${studyId}`
       );
       set({ chatData: await res.data.data });
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
   submitChat: async (studyId, content, dateTime, accessToken, refreshToken) => {
     try {
@@ -49,9 +47,7 @@ const ChatStore = create<Community>()((set) => ({
         }
       );
       set((state) => ({ chatData: [...state.chatData, res.data.data] }));
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
 }));
 

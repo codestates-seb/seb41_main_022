@@ -27,9 +27,7 @@ const NoticeStore = create<Notice>()((set) => ({
       set({ notice: res.data.data.notice });
       set({ zustandStudyId: id });
       set({ dayOfWeek: res.data.data.dayOfWeek });
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
   patchNotice: async (id, data) => {
     try {
@@ -39,9 +37,7 @@ const NoticeStore = create<Notice>()((set) => ({
           data
         )
         .then((res) => set({ notice: res.data.data.notice }));
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
 }));
 export default NoticeStore;

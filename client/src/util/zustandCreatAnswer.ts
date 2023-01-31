@@ -17,8 +17,6 @@ export const answerStore = create<AnswerState>((set) => ({
         .then((res) => {
           set({ postedAnswer: res.data.data });
         });
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   },
 }));
