@@ -121,12 +121,13 @@ const Setting = () => {
                 ></RedButton>
               </>
             ) : (
-              <></>
+              <>
+                <RedButton
+                  handleClick={handleClickLeaveStudy}
+                  text="Leave Study"
+                ></RedButton>
+              </>
             )}
-            <RedButton
-              handleClick={handleClickLeaveStudy}
-              text="Leave Study"
-            ></RedButton>
           </div>
         </div>
       </SettingSection>

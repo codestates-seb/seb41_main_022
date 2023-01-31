@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import axios, { AxiosResponse } from "axios";
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 
 import Recruitment from "./Recruitment";
 import HomeStore from "../../util/zustandHome";

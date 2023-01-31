@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { FiTrash2 } from "react-icons/fi";
 
 interface RedButtonProps {

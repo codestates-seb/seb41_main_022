@@ -1,4 +1,4 @@
-import React, { useRef } from "preact/compat";
+import React from "preact/compat";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import LoginStore from "../../util/zustandLogin";

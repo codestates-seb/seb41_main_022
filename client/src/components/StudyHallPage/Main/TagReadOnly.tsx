@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
 
 interface TagProps {
   tags: string[] | undefined;

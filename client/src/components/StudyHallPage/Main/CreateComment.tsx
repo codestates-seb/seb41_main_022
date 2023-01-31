@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { FaBeer } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
