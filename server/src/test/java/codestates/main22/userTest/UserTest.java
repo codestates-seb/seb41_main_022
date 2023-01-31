@@ -271,8 +271,8 @@ public class UserTest {
         String role1 = "STUDY1_ADMIN";
         String role2 = "STUDY1_USER";
 
-        UserDto.StudyUserResponse response1 = new UserDto.StudyUserResponse("이름A", "https://avatars.dicebear.com/api/bottts/221.svg", role1);
-        UserDto.StudyUserResponse response2 = new UserDto.StudyUserResponse("이름B", "https://avatars.dicebear.com/api/bottts/222.svg", role2);
+        UserDto.StudyUserResponse response1 = new UserDto.StudyUserResponse(1L, "이름A", "https://avatars.dicebear.com/api/bottts/221.svg", role1);
+        UserDto.StudyUserResponse response2 = new UserDto.StudyUserResponse(2L, "이름B", "https://avatars.dicebear.com/api/bottts/222.svg", role2);
 
         long studyId = 1L;
         List<UserDto.StudyUserResponse> responses = List.of(response1, response2);
@@ -299,6 +299,7 @@ public class UserTest {
                         responseFields(
                                 List.of(
                                         fieldWithPath("data").type(JsonFieldType.ARRAY).description("결과 데이터"),
+                                        fieldWithPath("data[].userId").type(JsonFieldType.NUMBER).description("유저 식별자"),
                                         fieldWithPath("data[].username").type(JsonFieldType.STRING).description("유저 이름"),
                                         fieldWithPath("data[].imgUrl").type(JsonFieldType.STRING).description("이미지 주소"),
                                         fieldWithPath("data[].role").type(JsonFieldType.STRING).description("유저 권한")
