@@ -27,6 +27,11 @@ spring:
             scope:
               - email
               - profile
+          github:
+            clientId: ${GITHUB_OAUTH_ID}
+            clientSecret: ${GITHUB_OAUTH_PW}
+            scope:
+              - email
 logging:
   level:
     org:

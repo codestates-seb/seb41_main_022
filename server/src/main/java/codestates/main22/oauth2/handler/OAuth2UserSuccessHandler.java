@@ -39,14 +39,30 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
 
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
+        if(email.equals("null")) email = String.valueOf(oAuth2User.getAttributes().get("html_url"));
         UserEntity user = userService.findByEmail(email);
         List<String> authorities = authorityUtils.createRoles(email);
 
         // email로 가입된 사람이 없는 경우
         if(user == null) {
-            String name = String.valueOf(oAuth2User.getAttributes().get("name"));
-            String imgUrl = String.valueOf(oAuth2User.getAttributes().get("picture"));
-            user = saveUser(email, name, imgUrl);
+            if(request.getServletPath().contains("google")) {
+                String name = String.valueOf(oAuth2User.getAttributes().get("name"));
+                String imgUrl = String.valueOf(oAuth2User.getAttributes().get("picture"));
+                user = saveUser(email, name, imgUrl);
+
+                System.out.println("!! email : " + email);
+                System.out.println("!! name : " + name);
+                System.out.println("!! imgUrl : " + imgUrl);
+            }
+            else if(request.getServletPath().contains("github")) {
+                String name = String.valueOf(oAuth2User.getAttributes().get("login"));
+                String imgUrl = String.valueOf(oAuth2User.getAttributes().get("avatar_url"));
+                user = saveUser(email, name, imgUrl);
+
+                System.out.println("!! email : " + email);
+                System.out.println("!! name : " + name);
+                System.out.println("!! imgUrl : " + imgUrl);
+            }
         }
 
         // 콘솔 출력 코드
