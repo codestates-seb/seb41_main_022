@@ -70,7 +70,6 @@ const DetailModal = ({
                 </div>
               )}
             </IconDiv>
-            <ToastContainer />
           </div>
         </ContentsDiv>
       </ModalDiv>

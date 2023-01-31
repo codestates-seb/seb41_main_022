@@ -167,7 +167,6 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
                 </RedButton>
               </div>
             </Form>
-            <ToastContainer />
           </div>
         </ContentsDiv>
       </ModalDiv>
