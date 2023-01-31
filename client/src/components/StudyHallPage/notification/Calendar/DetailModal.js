@@ -37,7 +37,6 @@ const DetailModal = ({
     setEditData(todoThatDay[0]);
   };
   const clickDelete = () => {
-    console.log("hi");
     calendarDelete(todoThatDay[0].calendarId);
     notify();
     setShowDetailModal(false);

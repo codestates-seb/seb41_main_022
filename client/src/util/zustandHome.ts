@@ -66,10 +66,7 @@ const HomeStore = create<Home>()((set) => ({
           isLoading: false,
         }));
       }, 500);
-      console.log(res.data);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   },
   setTags: (tag: string) => {
     set(() => ({ page: 1, tags: tag, recruitmentData: [] }));

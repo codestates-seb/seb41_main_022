@@ -10,30 +10,20 @@ interface calendarState {
 export const calendarStore = create<calendarState>((set) => ({
   calendarPost: (id, data) => {
     try {
-      axios
-        .post(process.env.REACT_APP_API_URL + "/calendar?studyId=" + id, data)
-        .then((res) => console.log(res));
-    } catch (error) {
-      console.log("err", error);
-      alert("에러");
-    }
+      axios.post(
+        process.env.REACT_APP_API_URL + "/calendar?studyId=" + id,
+        data
+      );
+    } catch (error) {}
   },
   calendarDelete: (id) => {
     try {
       axios.delete(process.env.REACT_APP_API_URL + "/calendar/" + id);
-    } catch (error) {
-      console.log("err", error);
-      alert("에러");
-    }
+    } catch (error) {}
   },
   calendarPatch: (id, data) => {
     try {
-      axios
-        .patch(process.env.REACT_APP_API_URL + "/calendar/" + id, data)
-        .then((res) => console.log(res));
-    } catch (error) {
-      console.log("err", error);
-      alert("에러");
-    }
+      axios.patch(process.env.REACT_APP_API_URL + "/calendar/" + id, data);
+    } catch (error) {}
   },
 }));

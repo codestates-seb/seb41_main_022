@@ -19,10 +19,7 @@ export const joinStudyStore = create<joinStudyState>((set) => ({
         }
       );
       set({ studyId: await response.data.data.studyId });
-    } catch (error) {
-      console.log(error);
-      alert("에러");
-    }
+    } catch (error) {}
     set({ isLoading: false });
   },
 }));
