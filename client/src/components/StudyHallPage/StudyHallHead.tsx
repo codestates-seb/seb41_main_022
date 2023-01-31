@@ -60,7 +60,6 @@ const StudyHallHead = () => {
         "refresh-Token": cookies.token.refreshToken,
       }
     );
-    setButtonAuthData(authData);
 
     notify();
 
@@ -71,6 +70,8 @@ const StudyHallHead = () => {
         cookies.token.accessToken,
         cookies.token.refreshToken
       );
+
+    setButtonAuthData(authData);
   };
   return (
     <HeaderWrapper>
@@ -95,7 +96,7 @@ const StudyHallHead = () => {
                 onClick={clickJoin}
               >
                 가입 신청
-                <ToastContainer />
+                <ToastContainer autoClose={2000} />
               </JoinButton>
             ))}
         </div>

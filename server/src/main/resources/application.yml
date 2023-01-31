@@ -25,6 +25,11 @@ spring:
             scope:
               - email
               - profile
+          github:
+            clientId: ${GITHUB_OAUTH_ID}
+            clientSecret: ${GITHUB_OAUTH_PW}
+            scope:
+              - email
 config:
   domain: http://seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/
 logging:
