@@ -2,6 +2,7 @@ import React from "react";
 import "./global.css";
 import "./reset.css";
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import HomePage from "./pages/HomePage";
 import CreatePage from "./pages/CreatePage";
@@ -35,6 +36,9 @@ function App() {
         </Routes>
       </MainWrapper>
       <Footer />
+      <AlertWrapper>
+        <ToastContainer position="top-right" autoClose={1500} />
+      </AlertWrapper>
     </>
   );
 }
@@ -51,4 +55,9 @@ const MainWrapper = styled.article`
   /* .scroll {
     overflow: hidden;
   } */
+`;
+const AlertWrapper = styled.div`
+  font-family: "mainM";
+  font-weight: bold;
+  font-size: 14px;
 `;

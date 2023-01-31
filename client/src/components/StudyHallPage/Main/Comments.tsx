@@ -1,8 +1,7 @@
 import styled from "styled-components";
-import { FiTrash2 } from "react-icons/fi";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCookies } from "react-cookie";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { MdOutlineLock } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 //내부컴포넌트 임포트
@@ -175,10 +174,13 @@ const Comments = ({
                 {answers.map((el) => (
                   <Answers
                     key={el.answerId}
+                    answerId={el.answerId}
                     username={el.username}
                     content={el.content}
                     imgUrl={el.imgUrl}
                     answerCreatedAt={el.answerCreatedAt}
+                    page={page}
+                    requestSize={requestSize}
                   />
                 ))}
               </span>

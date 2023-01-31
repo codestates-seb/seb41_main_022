@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import StudyHallRightNav from "./StudyHallRightNav";
 import AuthStore from "../../util/zustandAuth";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const StudyHallTopNav = () => {
@@ -68,7 +68,6 @@ const StudyHallTopNav = () => {
           Setting
         </div>
       </Nav>
-      <ToastContainer position="top-right" autoClose={5000} />
       <StudyHallRightNav />
     </TopNavWrapper>
   );

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import RecruitmentList from "../components/homepage/RecruitmentList";
 import Banner from "../components/homepage/Banner";

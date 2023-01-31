@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import LoginStore from "../../util/zustandLogin";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import WeekBar from "../WeekBar";
@@ -54,7 +54,6 @@ const Recruitment = ({
           </div>
         </div>
       </RecruitmentBackground>
-      <ToastContainer position="top-right" autoClose={1500} />
     </>
   );
 };
