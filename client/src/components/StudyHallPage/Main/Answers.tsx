@@ -1,13 +1,21 @@
 import styled from "styled-components";
 import { FiTrash2 } from "react-icons/fi";
 import moment from "moment";
+import axios from "axios";
+import { useParams } from "react-router-dom";
+
+import { useCookies } from "react-cookie";
+import { commentStore } from "../../../util/zustandComment";
 
 //타입지정
 export interface AnswerProps {
+  answerId: number;
   username: string;
   content: string;
   imgUrl: string;
   answerCreatedAt: string;
+  page: number;
+  requestSize: number;
 }
 const getDayMinuteCounter = (date?: object): number | string => {
   if (!date) {
@@ -32,11 +40,37 @@ const getDayMinuteCounter = (date?: object): number | string => {
   return -dayDiff + "일 전";
 };
 const Answers = ({
+  answerId,
   username,
   content,
   imgUrl,
   answerCreatedAt,
+  page,
+  requestSize,
 }: AnswerProps) => {
+  const [cookies] = useCookies(["token"]);
+  const { fetchCommentData } = commentStore();
+  const { studyId } = useParams();
+
+  const deleteAnswer = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/answer/${answerId}`, {
+        headers: {
+          "access-Token": cookies.token.accessToken,
+          "refresh-Token": cookies.token.refreshToken,
+        },
+      })
+      .then(() => {
+        if (studyId)
+          fetchCommentData(
+            cookies.token.accessToken,
+            cookies.token.refreshToken,
+            studyId,
+            page,
+            requestSize
+          );
+      });
+  };
   return (
     <AnswerWrapper>
       <Answer>
@@ -50,7 +84,7 @@ const Answers = ({
               {getDayMinuteCounter(moment(answerCreatedAt))}
             </div>
             <div className="trashIcon">
-              <FiTrash2 />
+              <FiTrash2 onClick={() => deleteAnswer()} />
             </div>
           </EctWrap>
         </div>

@@ -175,10 +175,13 @@ const Comments = ({
                 {answers.map((el) => (
                   <Answers
                     key={el.answerId}
+                    answerId={el.answerId}
                     username={el.username}
                     content={el.content}
                     imgUrl={el.imgUrl}
                     answerCreatedAt={el.answerCreatedAt}
+                    page={page}
+                    requestSize={requestSize}
                   />
                 ))}
               </span>
