@@ -77,7 +77,7 @@ const Main = styled.div`
 `;
 
 const UserName = styled.div`
-  color: var(--beige-00);
+  color: var(--beige-00) !important;
 `;
 
 const Container = styled.div`
