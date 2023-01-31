@@ -35,7 +35,7 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
   };
   const handleSubmitMember = (e) => {
     e.preventDefault();
-    calendarPatch(URL, editData.calendarId, {
+    calendarPatch(editData.calendarId, {
       ...editData,
       participants,
     });
@@ -167,7 +167,6 @@ const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
                 </RedButton>
               </div>
             </Form>
-            <ToastContainer />
           </div>
         </ContentsDiv>
       </ModalDiv>

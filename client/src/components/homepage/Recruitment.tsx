@@ -11,7 +11,7 @@ interface CardProps {
   summary: string;
   dayOfWeek: string[];
   studyId: number;
-  procedure: boolean;
+  onOff: boolean;
   imgUrl: string;
 }
 
@@ -20,7 +20,7 @@ const Recruitment = ({
   summary,
   dayOfWeek,
   studyId,
-  procedure,
+  onOff,
   imgUrl,
 }: CardProps) => {
   const navigate = useNavigate();
@@ -28,30 +28,34 @@ const Recruitment = ({
   const error = () => toast.error("로그인 후 이용해주세요!");
 
   return (
-    <RecruitmentBackground
-      style={{ backgroundImage: `url(${imgUrl})` }}
-      onClick={
-        isLogin ? () => navigate(`/study-hall/main/${studyId}`) : () => error()
-      }
-    >
-      <ToastContainer position="top-right" autoClose={1500} />
-      <div className="recruitmentBody">
-        <div className="border">
-          <BodyWrapper>
-            <div className="body-myStudy">{teamName}</div>
-            <div className="body-content--wrapper">
-              <div className="body-content">{summary}</div>
-            </div>
-            <WeekBar dayOfWeek={dayOfWeek} />
-            <div className="body-online">
-              <span className={procedure ? "active" : undefined}>Online </span>
-              <span>&nbsp;/&nbsp;</span>
-              <span className={procedure ? undefined : "active"}> Offline</span>
-            </div>
-          </BodyWrapper>
+    <>
+      <RecruitmentBackground
+        style={{ backgroundImage: `url(${imgUrl})` }}
+        onClick={
+          isLogin
+            ? () => navigate(`/study-hall/main/${studyId}`)
+            : () => error()
+        }
+      >
+        <div className="recruitmentBody">
+          <div className="border">
+            <BodyWrapper>
+              <div className="body-myStudy">{teamName}</div>
+              <div className="body-content--wrapper">
+                <div className="body-content">{summary}</div>
+              </div>
+              <WeekBar dayOfWeek={dayOfWeek} />
+              <div className="body-online">
+                <span className={onOff ? "active" : undefined}>Online </span>
+                <span>&nbsp;/&nbsp;</span>
+                <span className={onOff ? undefined : "active"}> Offline</span>
+              </div>
+            </BodyWrapper>
+          </div>
         </div>
-      </div>
-    </RecruitmentBackground>
+      </RecruitmentBackground>
+      <ToastContainer position="top-right" autoClose={1500} />
+    </>
   );
 };
 
@@ -64,8 +68,12 @@ const RecruitmentBackground = styled.div`
   background-size: 311px 236px;
   background-position: center;
   background-repeat: no-repeat;
+  transform: scale(1);
+  transition: all 0.3s ease;
   :hover {
     cursor: pointer;
+    box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
   }
 
   > .recruitmentBody {

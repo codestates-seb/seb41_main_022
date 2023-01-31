@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 interface TreeProps {
   treeId: number;
   treePoint: number;
@@ -24,7 +26,7 @@ const MyStudy = ({ teamName, summary, studyId, imgUrl, tree }: CardProps) => {
 
   return (
     <RecruitmentBackground
-      onClick={() => navigate(`/study-hall/main/${studyId}`)}
+      onClick={() => navigate(`/user/${studyId}`)}
       style={{ backgroundImage: `url(${imgUrl})` }}
     >
       <div className="recruitmentBody">
@@ -52,7 +54,7 @@ const RecruitmentBackground = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   transform: scale(1);
-  transition: all 200ms ease;
+  transition: all 0.3s ease;
   :hover {
     cursor: pointer;
     box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);

@@ -24,7 +24,7 @@ interface MyFormProps {
   dayOfWeek: string[];
   want: number;
   startDate: string;
-  procedure: boolean;
+  onOff: boolean;
   openClose: boolean;
   content: string;
   image: string;
@@ -92,7 +92,7 @@ const CreateForm = () => {
                 className={
                   errors.teamName && errors.teamName.type === "required"
                     ? "errorBorder"
-                    : "ㅤ"
+                    : " "
                 }
                 {...register("teamName", { required: true })}
               />
@@ -106,16 +106,20 @@ const CreateForm = () => {
                 type="text"
                 placeholder="한 줄 설명"
                 className={
-                  errors.summary && errors.summary.type === "required"
+                  errors.summary?.type || errors.summary?.message === "required"
                     ? "errorBorder"
                     : "ㅤ"
                 }
-                {...register("summary", { required: true })}
+                {...register("summary", {
+                  required: "* 한 줄 설명을 입력해 주세요",
+                  minLength: {
+                    value: 5,
+                    message: "* 최소 5자 이상 입력 해주세요",
+                  },
+                })}
               />
               <ErrorText>
-                {errors.summary && errors.summary.type === "required"
-                  ? "* 한 줄 설명을 입력해 주세요!"
-                  : " "}
+                {errors.summary?.message && <p>{errors.summary?.message}</p>}
               </ErrorText>
               <div className="tagAddButton">
                 <div className="AddButton">
@@ -196,7 +200,7 @@ const CreateForm = () => {
               </ErrorText>
               <div>
                 <Controller
-                  name="procedure"
+                  name="onOff"
                   control={control}
                   render={({ field: { onChange } }) => (
                     <ToggleOnline onChange={onChange} />

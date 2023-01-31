@@ -25,9 +25,6 @@ const StudyHallNotification = () => {
     e.preventDefault();
     patchNotice(studyId, { notice: tempNotice });
     fetchRightNav(studyId);
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
   };
   const onPatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTempNotice(e.target.value);
@@ -55,7 +52,6 @@ const StudyHallNotification = () => {
               </SubmitButton>
             </InputBorderForm>
           </NotificationCreate>
-          <ToastContainer position="top-right" autoClose={1500} />
         </div>
         <CalendarApp />
       </NotificationWrapper>

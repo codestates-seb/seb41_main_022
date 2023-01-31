@@ -8,10 +8,8 @@ const UserStudySkeleton = () => {
     <div className="studyCardWrapper">
       <div>
         <Skeleton className="studyCard" />
-        <Skeleton className="studyCard" />
       </div>
       <div>
-        <Skeleton className="studyCard" />
         <Skeleton className="studyCard" />
       </div>
     </div>

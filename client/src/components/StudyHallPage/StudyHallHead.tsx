@@ -13,12 +13,20 @@ interface StudyHeader {
   teamName: string;
   openClose: boolean;
 }
+interface AuthData {
+  host: boolean;
+  member: boolean;
+  request: boolean;
+}
 
 const StudyHallHead = () => {
   const [studyData, setStudyData] = useState<StudyHeader>();
   const { studyId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
   const { authData, checkAuth } = AuthStore();
+  const [buttonAuthData, setButtonAuthData] = useState<AuthData | undefined>(
+    undefined
+  );
   const notify = () => toast.success("가입 신청 되었습니다.");
 
   const fetchJoinStudy = joinStudyStore((state) => state.fetchJoinStudy);
@@ -28,6 +36,19 @@ const StudyHallHead = () => {
       .then((res) => {
         setStudyData(res.data.data);
       });
+    studyId &&
+      axios
+        .get(
+          process.env.REACT_APP_API_URL +
+            `/study/${studyId}/user/${cookies.userData.userId}/auth`,
+          {
+            headers: {
+              "access-Token": cookies.token.accessToken,
+              "refresh-Token": cookies.token.refreshToken,
+            },
+          }
+        )
+        .then((res) => setButtonAuthData(res.data.data));
   }, []);
 
   const clickJoin = () => {
@@ -42,14 +63,15 @@ const StudyHallHead = () => {
 
     notify();
 
-    if (studyId !== undefined) {
+    studyId &&
       checkAuth(
         studyId,
         cookies.userData.userId,
         cookies.token.accessToken,
         cookies.token.refreshToken
       );
-    }
+
+    setButtonAuthData(authData);
   };
   return (
     <HeaderWrapper>
@@ -57,25 +79,26 @@ const StudyHallHead = () => {
       <TopDiv>
         <div className="studyName">
           {studyData && studyData.teamName}{" "}
-          {authData?.member || !authData ? (
-            <div></div>
-          ) : authData?.request ? (
-            <JoinButton
-              request={authData?.request}
-              disabled={authData?.request}
-            >
-              가입 대기
-            </JoinButton>
-          ) : (
-            <JoinButton
-              request={authData?.request}
-              disabled={authData?.request}
-              onClick={clickJoin}
-            >
-              가입 신청
-              <ToastContainer />
-            </JoinButton>
-          )}
+          {buttonAuthData &&
+            (buttonAuthData.member ? (
+              <div></div>
+            ) : buttonAuthData.request ? (
+              <JoinButton
+                request={buttonAuthData?.request}
+                disabled={buttonAuthData?.request}
+              >
+                가입 대기
+              </JoinButton>
+            ) : (
+              <JoinButton
+                request={buttonAuthData.request}
+                disabled={buttonAuthData.request}
+                onClick={clickJoin}
+              >
+                가입 신청
+                <ToastContainer autoClose={2000} />
+              </JoinButton>
+            ))}
         </div>
         <div className="studyHall">study Hall</div>
       </TopDiv>
@@ -148,12 +171,13 @@ const JoinButton = styled.button<{ request?: boolean }>`
   margin-left: 10px;
   border-radius: var(--radius-30);
   background-color: ${(props) =>
-    props?.request ? `var(--mopo-10)` : `var(--mopo-00)`};
+    props?.request ? `var(--mopo-10)` : `var(--logo)`};
 
   color: var(--green);
-  border: none;
+  font-size: 12px;
+  border: solid 3px var(--green);
   min-width: 40px;
-  padding: 4px;
+  padding: 1px, 4px, 6px, 4px;
   height: 24px;
   :hover {
     transition-duration: 0.2s;

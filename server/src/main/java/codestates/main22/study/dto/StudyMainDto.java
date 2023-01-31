@@ -19,7 +19,7 @@ public class StudyMainDto {
     @AllArgsConstructor
     public static class HeaderResponse {
         private String teamName;
-        private boolean procedure;
+        private boolean onOff;
         private boolean openClose;
     }
 
@@ -45,7 +45,7 @@ public class StudyMainDto {
         private List<String> dayOfWeek;
         private int want;
         private LocalDate startDate;
-        private boolean procedure;
+        private boolean onOff;
         private boolean openClose;
         private String content;
         private String image;

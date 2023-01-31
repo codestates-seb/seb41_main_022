@@ -24,7 +24,7 @@ interface Recruitment {
   leaderId: number;
   notice?: null;
   openClose: boolean;
-  procedure: boolean;
+  onOff: boolean;
   requester: [];
   startDate: string;
   studyId: number;

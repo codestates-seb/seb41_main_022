@@ -1,39 +1,12 @@
 import styled, { StyleSheetManager } from "styled-components";
 import { useState, useEffect } from "react";
-import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 import StudyInfo from "./StudyInfo";
 import CreateComment from "./CreateComment";
 import Comments from "./Comments";
-
-interface Studies {
-  chatId: any;
-  username: string;
-  content: string;
-  answers: [];
-  pageInfo: any;
-  totalElements: number;
-  size: number;
-  imgUrl: string;
-  isClosedChat: boolean;
-  chatCreatedAt: string;
-}
-interface PageInfo {
-  page: number;
-  size: number;
-  totalElements: number;
-  totalPages: number;
-}
-interface Data {
-  data: any;
-  pageInfo: any;
-}
-interface GroupType {
-  data: Studies[];
-  pageInfo: PageInfo;
-}
+import { commentStore } from "../../../util/zustandComment";
 
 const StudyHallMain = () => {
   const [cookies] = useCookies(["token"]);
@@ -44,24 +17,21 @@ const StudyHallMain = () => {
   const { studyId } = useParams();
 
   //데이터 요청
-  const [commentsData, setCommentsData] = useState<GroupType | undefined>();
-  const getCommentsData = (url: string): Promise<AxiosResponse<Data>> => {
-    return axios.get(url, {
-      headers: {
-        "access-Token": cookies.token.accessToken,
-        "refresh-Token": cookies.token.refreshToken,
-      },
-    });
-  };
+  const { fetchCommentData, commentsData } = commentStore();
 
   useEffect(() => {
-    getCommentsData(
-      process.env.REACT_APP_API_URL +
-        `/chat/${studyId}?page=${page}&size=${size}`
-    ).then((res) => {
-      setCommentsData(res.data);
-      setTotalPages(res.data.pageInfo.totalElements);
-    });
+    if (studyId) {
+      fetchCommentData(
+        cookies.token.accessToken,
+        cookies.token.refreshToken,
+        studyId,
+        page,
+        size
+      );
+      if (commentsData) {
+        setTotalPages(commentsData.pageInfo.totalElements);
+      }
+    }
   }, [page, size]);
 
   return (
@@ -84,6 +54,8 @@ const StudyHallMain = () => {
                   answers={el.answers}
                   totalElements={commentsData.pageInfo.totalElements}
                   size={el.size}
+                  page={page}
+                  requestSize={size}
                 />
               ))}
             {(commentsData && commentsData.data.length > 9) || page > 1 ? (

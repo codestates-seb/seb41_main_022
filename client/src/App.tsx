@@ -13,6 +13,7 @@ import Footer from "./components/Footer";
 import NotFound from "./pages/NotFound";
 import TokenPage from "./pages/TokenPage";
 import styled from "styled-components";
+import UserStudy from "./components/userpage/UsreStudyDetail/UserStudy";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             element={<StudyHallPage />}
           />
           <Route path="/user" element={<UserPage />} />
+          <Route path="/user/:studyId" element={<UserStudy />} />
           <Route path="/Token.html" element={<TokenPage />} />
         </Routes>
       </MainWrapper>
@@ -40,5 +42,13 @@ function App() {
 export default App;
 
 const MainWrapper = styled.article`
-  margin-top: 64px;
+  /* margin-top: 64px; */
+  // 크롬, 사파리, 파이어폭스
+  .scroll::-webkit-scrollbar {
+    display: none;
+  }
+  overflow: auto;
+  /* .scroll {
+    overflow: hidden;
+  } */
 `;

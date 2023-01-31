@@ -68,7 +68,7 @@ const StudyHallTopNav = () => {
           Setting
         </div>
       </Nav>
-      <ToastContainer position="top-right" autoClose={1500} />
+      <ToastContainer position="top-right" autoClose={5000} />
       <StudyHallRightNav />
     </TopNavWrapper>
   );
