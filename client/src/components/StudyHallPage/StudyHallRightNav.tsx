@@ -13,6 +13,7 @@ const StudyHallRightNav = () => {
   const [noticeR, setNoticeR] = useState("");
   useEffect(() => {
     // if()
+    console.log(dayOfWeek);
     if (zustandStudyId !== studyId) {
       resetNotice();
     }
