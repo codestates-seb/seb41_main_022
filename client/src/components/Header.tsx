@@ -35,7 +35,6 @@ const Header = () => {
 
     setIsLogin(false);
     navigate("/");
-    window.location.reload();
   };
   const handleScroll = () => {
     if (window.scrollY >= 100) {

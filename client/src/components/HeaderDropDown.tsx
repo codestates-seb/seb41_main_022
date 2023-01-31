@@ -33,7 +33,11 @@ const HeaderDropDown = () => {
             {dropdownData &&
               dropdownData.map((el: { studyId: string; teamName: string }) => (
                 <a href={`/study-hall/main/${el.studyId}`} key={el.studyId}>
-                  <div className="hoverDiv">{el.teamName}</div>
+                  <div className="hoverDiv">
+                    {el.teamName.length > 10
+                      ? el.teamName.slice(0, 9) + "..."
+                      : el.teamName}
+                  </div>
                 </a>
               ))}
           </div>
