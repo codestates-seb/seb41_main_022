@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { calendarStore } from "../../../../util/zustandCalendar";
@@ -37,14 +37,13 @@ const DetailModal = ({
     setEditData(todoThatDay[0]);
   };
   const clickDelete = () => {
-    console.log("hi");
     calendarDelete(todoThatDay[0].calendarId);
     notify();
     setShowDetailModal(false);
   };
   return (
     showDetailModal && (
-      <ModalDiv>
+      <ModalDiv showDetailModal={showDetailModal}>
         <ContentsDiv>
           <div className="flexDiv">
             <h2> DetailModal</h2>
@@ -82,8 +81,30 @@ const DetailModal = ({
 };
 
 export default DetailModal;
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    margin-top: -120px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: -100px;
+  }
+`;
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+    margin-top: -100px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -120px;
+  }
+`;
 
 const ModalDiv = styled.main`
+  animation: ${(prop) => (prop.showDetailModal ? fadeIn : fadeOut)} 0.2s ease-in;
   margin-left: 150px;
   margin-top: -100px;
   max-width: 300px;
