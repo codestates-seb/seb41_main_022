@@ -1,5 +1,5 @@
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import MyStudyList from "./MyStudyList";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -107,7 +107,6 @@ const UserMain = () => {
           </div>
         </WithdrawAgree>
       ) : null}
-      <ToastContainer autoClose={2000} position="top-right" />
       <MyStudyList />
       <button
         onClick={handleOpenWithdraw}

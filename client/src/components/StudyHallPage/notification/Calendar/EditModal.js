@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useCookies } from "react-cookie";
 import AuthStore from "../../../../util/zustandAuth";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditModal = ({ showEditModal, setShowEditModal, editData, event }) => {
