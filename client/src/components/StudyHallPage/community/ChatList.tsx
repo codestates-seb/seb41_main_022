@@ -153,6 +153,19 @@ const ChatListWrapper = styled.div`
     align-items: center;
     margin-top: 16px;
   }
+  *::-webkit-scrollbar {
+    width: 8px; /* 스크롤바의 너비 */
+  }
+
+  *::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: rgba(255, 255, 255, 0.15); /* 스크롤바의 색상 */
+    border-radius: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2); /*스크롤바 뒷 배경 색상*/
+  }
 `;
 const WriteChat = styled.div`
   * {
@@ -184,19 +197,7 @@ const WriteChat = styled.div`
   > textarea:focus {
     outline: none;
   }
-  .textArea::-webkit-scrollbar {
-    width: 8px; /* 스크롤바의 너비 */
-  }
 
-  .textArea::-webkit-scrollbar-thumb {
-    height: 30%; /* 스크롤바의 길이 */
-    background: rgba(255, 255, 255, 0.15); /* 스크롤바의 색상 */
-    border-radius: 10px;
-  }
-
-  .textArea::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.2); /*스크롤바 뒷 배경 색상*/
-  }
   > button {
     border-radius: var(--radius-20);
     background-color: var(--green);
