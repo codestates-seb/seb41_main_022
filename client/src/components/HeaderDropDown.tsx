@@ -1,9 +1,6 @@
-import Dropdown from "react-bootstrap/Dropdown";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import DropdownStore from "../util/zustandDropdown";
 import { createStudyStore } from "../util/zustandCreateStudy";

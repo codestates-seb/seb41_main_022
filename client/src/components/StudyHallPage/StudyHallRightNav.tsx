@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import WeekBar from "../WeekBar";
 import { VscBellDot } from "react-icons/vsc";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NoticeStore from "../../util/zustandNotice";
 import Ticker from "react-ticker";

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 
 interface TagsProps {
   tag: string[] | undefined;

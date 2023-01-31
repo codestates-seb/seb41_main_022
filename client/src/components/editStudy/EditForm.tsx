@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useRef, useCallback, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
@@ -55,7 +54,6 @@ const EditForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[] | undefined>();
   const [initTags, setInitTags] = useState<string[] | undefined>();
-  const [startDate, setStartDate] = useState();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const notify = () => toast.success("스터디 내용이 수정 되었습니다.");
   const handleResizeHeight = useCallback(() => {

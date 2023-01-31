@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import { AiOutlineCloseCircle } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";

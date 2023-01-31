@@ -1,6 +1,5 @@
 import create from "zustand";
 import axios from "axios";
-// require("dotenv").config();
 
 interface calendarState {
   calendarPost: (id: string, data: object) => void;
