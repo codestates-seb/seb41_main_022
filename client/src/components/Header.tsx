@@ -198,7 +198,7 @@ const RedButton = styled.button`
 
   :hover {
     background-color: var(--green);
-    color: var(--gray-10);
-    border: 1px solid var(--gray-10);
+    color: var(--red-00);
+    border: 1px solid var(--red-00);
   }
 `;
