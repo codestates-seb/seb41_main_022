@@ -52,7 +52,6 @@ const StudyHallNotification = () => {
               </SubmitButton>
             </InputBorderForm>
           </NotificationCreate>
-          <ToastContainer position="top-right" autoClose={1500} />
         </div>
         <CalendarApp />
       </NotificationWrapper>

@@ -19,15 +19,20 @@ public class Token {
 
     // refresh-Token을 이용해서 user 정보 조회하기
     public UserEntity findByToken(HttpServletRequest request) {
-        String refresh = request.getHeader("refresh-token");
-        Optional<UserEntity> refreshUser = userRepository.findByRefresh(refresh);
-        return refreshUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+        String access = request.getHeader("access-Token");
+        Optional<UserEntity> accessUser = userRepository.findByToken(access);
+        return accessUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
+//        String refresh = request.getHeader("refresh-Token");
+//        Optional<UserEntity> refreshUser = userRepository.findByRefresh(refresh);
+//        return refreshUser.orElseThrow(() -> new BusinessLogicException(ExceptionCode.USER_NOT_FOUND));
     }
 
     // refresh-Token을 이용해서 user 여부 확인
     public boolean checkUserByToken(HttpServletRequest request) {
-        String refresh = request.getHeader("refresh-token");
-        Optional<UserEntity> user = userRepository.findByRefresh(refresh);
+        String access = request.getHeader("access-Token");
+        Optional<UserEntity> user = userRepository.findByToken(access);
+//        String refresh = request.getHeader("refresh-Token");
+//        Optional<UserEntity> user = userRepository.findByRefresh(refresh);
 
         if(user.orElse(new UserEntity()).getUsername() == null)
             return false;

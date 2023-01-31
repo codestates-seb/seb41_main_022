@@ -86,7 +86,6 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
                 />
               </div>
               <RedButton type="submit">생성</RedButton>
-              <ToastContainer />
             </Form>
           </div>
         </ContentsDiv>

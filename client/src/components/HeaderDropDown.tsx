@@ -5,26 +5,23 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
-
-const URL = process.env.REACT_APP_API_URL;
+import DropdownStore from "../util/zustandDropdown";
+import { createStudyStore } from "../util/zustandCreateStudy";
 
 const HeaderDropDown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [myStudyArr, setMyStudyArr] = useState([]);
-  const getMyStudy = (token: object) => {
-    return axios.get(URL + "/study/user", {
-      headers: token,
-    });
-  };
+  const { dropdownGet, dropdownData } = DropdownStore();
+  const { studyId } = createStudyStore();
   useEffect(() => {
     if (cookies.token) {
-      getMyStudy({
+      dropdownGet({
         "access-Token": cookies.token.accessToken,
         "refresh-Token": cookies.token.refreshToken,
-      }).then((res) => setMyStudyArr(res.data.data.studies));
+      });
     }
-  }, []);
+  }, [studyId]);
   return (
     <Wrapper>
       <div onClick={() => setIsOpen(!isOpen)} className={isOpen ? "show" : ""}>
@@ -33,9 +30,9 @@ const HeaderDropDown = () => {
         </button>
         {isOpen && (
           <div className="dropdown-menu">
-            {myStudyArr &&
-              myStudyArr.map((el: { studyId: string; teamName: string }) => (
-                <a href={`/study-hall/main/${el.studyId}`}>
+            {dropdownData &&
+              dropdownData.map((el: { studyId: string; teamName: string }) => (
+                <a href={`/study-hall/main/${el.studyId}`} key={el.studyId}>
                   <div className="hoverDiv">{el.teamName}</div>
                 </a>
               ))}

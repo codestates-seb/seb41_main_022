@@ -19,7 +19,10 @@ const DetailModal = ({
   const [todoThatDay, setTodoThatDay] = useState();
   const { authData } = AuthStore();
   const calendarDelete = calendarStore((state) => state.calendarDelete);
-  const notify = () => toast.success("삭제 되었습니다.");
+  const notify = () =>
+    toast.success("삭제 되었습니다.", {
+      toastId: "successDelete",
+    });
 
   useEffect(() => {
     if (data) {
@@ -34,6 +37,7 @@ const DetailModal = ({
     setEditData(todoThatDay[0]);
   };
   const clickDelete = () => {
+    console.log("hi");
     calendarDelete(todoThatDay[0].calendarId);
     notify();
     setShowDetailModal(false);
@@ -70,7 +74,6 @@ const DetailModal = ({
                 </div>
               )}
             </IconDiv>
-            <ToastContainer />
           </div>
         </ContentsDiv>
       </ModalDiv>
