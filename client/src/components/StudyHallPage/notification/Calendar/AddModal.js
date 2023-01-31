@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddModal = ({ showAddModal, setShowAddModal, event }) => {
