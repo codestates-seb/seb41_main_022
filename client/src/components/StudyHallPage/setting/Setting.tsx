@@ -10,6 +10,7 @@ import Application from "./Application";
 import AuthStore from "../../../util/zustandAuth";
 import DeleteUserModal from "./DeleteUserModal";
 import DeleteStudyModal from "./DeleteStudyModal";
+import LeaveStudyModal from "./LeaveStudyModal";
 
 interface Application {
   userId: number;
@@ -26,6 +27,7 @@ const Setting = () => {
   >();
   const [showUserModal, setShowUserModal] = useState(false);
   const [showStudyModal, setShowStudyModal] = useState(false);
+  const [showLeaveStudyModal, setShowLeaveStudyModal] = useState(false);
   const { authData } = AuthStore();
   const fetchApplicationList = () => {
     axios
@@ -82,6 +84,10 @@ const Setting = () => {
             showStudyModal={showStudyModal}
             setShowStudyModal={setShowStudyModal}
           />
+          <LeaveStudyModal
+            showLeaveStudyModal={showLeaveStudyModal}
+            setShowLeaveStudyModal={setShowLeaveStudyModal}
+          />
           <span className="text textApplication">Application</span>
           <div className="contentWrapper">
             <ApplicationWrapper>
@@ -126,7 +132,7 @@ const Setting = () => {
             ) : (
               <>
                 <RedButton
-                  handleClick={handleClickLeaveStudy}
+                  handleClick={() => setShowLeaveStudyModal(true)}
                   text="Leave Study"
                 ></RedButton>
               </>

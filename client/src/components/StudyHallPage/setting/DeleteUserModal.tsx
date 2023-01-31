@@ -46,7 +46,7 @@ const DeleteUserModal = ({
         <ModalDiv showUserModal={showUserModal}>
           <ContentsDiv>
             <div className="flexDiv">
-              <h2> UserEdit</h2>
+              <h2> Delete Member</h2>
               <AiOutlineCloseCircle onClick={() => setShowUserModal(false)} />
             </div>
             <div className="flexMember">

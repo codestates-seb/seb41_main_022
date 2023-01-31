@@ -1,32 +1,36 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import styled, { keyframes } from "styled-components";
-import RedButton from "./RedButton";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
+import { useCookies } from "react-cookie";
+import RedButton from "./RedButton";
 
 interface UserDeleteType {
-  showStudyModal: boolean;
-  setShowStudyModal: Dispatch<SetStateAction<boolean>>;
+  showLeaveStudyModal: boolean;
+  setShowLeaveStudyModal: Dispatch<SetStateAction<boolean>>;
 }
-const DeleteStudyModal = ({
-  showStudyModal,
-  setShowStudyModal,
+
+const LeaveStudyModal = ({
+  showLeaveStudyModal,
+  setShowLeaveStudyModal,
 }: UserDeleteType) => {
   const { studyId } = useParams();
-  const navigate = useNavigate();
   const [cookies] = useCookies(["token", "userData"]);
-  const notify = () => toast.success("스터디가 삭제되었습니다. ");
-  const handleClickDeleteStudy = () => {
+  const navigate = useNavigate();
+  const notify = () => toast.success("스터디를 떠납니다");
+  const handleClickLeaveStudy = () => {
     axios
-      .delete(process.env.REACT_APP_API_URL + `/study/${studyId}`, {
-        headers: {
-          "access-Token": cookies.token.accessToken,
-          "refresh-Token": cookies.token.refreshToken,
-        },
-      })
+      .delete(
+        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}/${cookies.userData.userId}`,
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.refreshToken,
+          },
+        }
+      )
       .then(() => {
         notify();
         navigate("/");
@@ -34,31 +38,34 @@ const DeleteStudyModal = ({
   };
   return (
     <>
-      {showStudyModal && (
-        <ModalDiv showStudyModal={showStudyModal}>
+      {showLeaveStudyModal && (
+        <ModalDiv showUserModal={showLeaveStudyModal}>
           <ContentsDiv>
             <div className="flexDiv">
-              <h2> Delete Study</h2>
-              <AiOutlineCloseCircle onClick={() => setShowStudyModal(false)} />
+              <h2> Leave Study</h2>
+              <AiOutlineCloseCircle
+                onClick={() => setShowLeaveStudyModal(false)}
+              />
             </div>
-            <div className="marginL">정말로 스터디 삭제하시나요?</div>
+            <div className="marginL">정말로 스터디를 떠나시나요?</div>
             <div className="directionChange">
               <RedButton
-                handleClick={handleClickDeleteStudy}
+                handleClick={handleClickLeaveStudy}
                 text="yes"
               ></RedButton>
               <RedButton
-                handleClick={() => setShowStudyModal(false)}
+                handleClick={() => setShowLeaveStudyModal(false)}
                 text="no"
               ></RedButton>
             </div>
+            <div className="directionChange"></div>
           </ContentsDiv>
         </ModalDiv>
       )}
     </>
   );
 };
-export default DeleteStudyModal;
+export default LeaveStudyModal;
 const fadeIn = keyframes`
   0% {
     opacity: 0;
@@ -81,8 +88,8 @@ const fadeOut = keyframes`
   }
 `;
 const ModalDiv = styled.main`
-  animation: ${(prop: { showStudyModal: boolean }) =>
-      prop.showStudyModal ? fadeIn : fadeOut}
+  animation: ${(prop: { showUserModal: boolean }) =>
+      prop.showUserModal ? fadeIn : fadeOut}
     0.2s ease-in;
   margin-top: 0;
   max-width: 300px;
@@ -94,6 +101,7 @@ const ModalDiv = styled.main`
   position: fixed;
   border-radius: var(--radius-10);
   background-color: var(--green);
+
   padding: 2px;
   * {
     font-family: "mainB", Arial;
@@ -102,6 +110,7 @@ const ModalDiv = styled.main`
   .directionChange {
     display: flex;
     flex-direction: row;
+    margin: 20px 10px;
     > button {
       margin: 0 10px;
     }
@@ -119,8 +128,13 @@ const ContentsDiv = styled.article`
       font-size: 24px;
     }
   }
-  div {
+  .flexDiv {
     margin: 20px 10px;
+  }
+  .flexMember {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .marginL {
     text-align: center;
