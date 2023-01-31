@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { joinStudyStore } from "../../util/zustandJoinStudy";
@@ -78,7 +78,12 @@ const StudyHallHead = () => {
       <div className="padding" />
       <TopDiv>
         <div className="studyName">
-          {studyData && studyData.teamName}{" "}
+          {studyData &&
+            (studyData.teamName.length > 10 ? (
+              <span className="studyNameLong">{studyData.teamName}</span>
+            ) : (
+              studyData.teamName
+            ))}{" "}
           {buttonAuthData &&
             (buttonAuthData.member ? (
               <div></div>
@@ -96,7 +101,6 @@ const StudyHallHead = () => {
                 onClick={clickJoin}
               >
                 가입 신청
-                <ToastContainer autoClose={2000} />
               </JoinButton>
             ))}
         </div>
@@ -152,6 +156,10 @@ const TopDiv = styled.div`
     font-size: 14px;
     display: flex;
     flex-direction: column-reverse;
+  }
+  .studyNameLong {
+    font-size: 28px;
+    margin-top: 12px;
   }
 `;
 //Public Private 관리

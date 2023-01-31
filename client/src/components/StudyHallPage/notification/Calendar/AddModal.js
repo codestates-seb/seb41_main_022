@@ -1,11 +1,9 @@
-import styled from "styled-components";
-import { Controller, useForm } from "react-hook-form";
+import styled, { keyframes } from "styled-components";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import { calendarStore } from "../../../../util/zustandCalendar";
 import { useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddModal = ({ showAddModal, setShowAddModal, event }) => {
@@ -26,7 +24,7 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
   };
   return (
     showAddModal && (
-      <ModalDiv>
+      <ModalDiv showAddModal={showAddModal}>
         <ContentsDiv>
           <div className="flexDiv">
             <h2> AddModal</h2>
@@ -94,7 +92,29 @@ const AddModal = ({ showAddModal, setShowAddModal, event }) => {
   );
 };
 export default AddModal;
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+    margin-top: -120px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: -100px;
+  }
+`;
+
+const fadeOut = keyframes`
+  0% {
+    opacity: 1;
+    margin-top: -100px;
+  }
+  100% {
+    opacity: 0;
+    margin-top: -120px;
+  }
+`;
 const ModalDiv = styled.main`
+  animation: ${(prop) => (prop.showAddModal ? fadeIn : fadeOut)} 0.2s ease-in;
   margin-left: 150px;
   margin-top: -100px;
   max-width: 300px;

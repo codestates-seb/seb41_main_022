@@ -298,7 +298,7 @@ public class StudyService {
     }
 
     public void addRequester(Study study, Long userId) {
-        study.getRequester().add(userId);
+        if(!study.getRequester().contains(userId)) study.getRequester().add(userId);
         studyRepository.save(study);
     }
 
