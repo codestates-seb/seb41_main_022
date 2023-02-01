@@ -22,7 +22,7 @@ const CalendarApp = () => {
   const [data, setData] = useState();
   const [editData, setEditData] = useState("0");
   const { studyId } = useParams();
-  const fetch = (url) => {
+  const fetch = (url: string | undefined) => {
     return axios.get(url + "/calendar?studyId=" + studyId);
   };
   useEffect(() => {
@@ -34,11 +34,11 @@ const CalendarApp = () => {
       100
     );
   }, [showAddModal, showDetailModal, showEditModal]);
-  const handleEventClick = (arg) => {
+  const handleEventClick = (arg: any) => {
     setEvent(arg.event);
     setShowDetailModal(true);
   };
-  const addEvent = (e) => {
+  const addEvent = (e?: any) => {
     setEvent(e);
     setShowAddModal(true);
   };
