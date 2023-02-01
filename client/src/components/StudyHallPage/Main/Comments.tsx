@@ -159,32 +159,34 @@ const Comments = ({
                 <TrashButton handleClick={handleClickDeleteComment} />
               </div>
             </span>
-            {showAnswer && (
-              <span>
-                <Input
-                  id="answer"
-                  type="text"
-                  placeholder="Answer"
-                  onChange={(e: any) => {
-                    setAnswer(e.target.value);
-                  }}
-                  value={answer}
-                />
-                <AnswerButton type="submit">Add</AnswerButton>
-                {answers.map((el) => (
-                  <Answers
-                    key={el.answerId}
-                    answerId={el.answerId}
-                    username={el.username}
-                    content={el.content}
-                    imgUrl={el.imgUrl}
-                    answerCreatedAt={el.answerCreatedAt}
-                    page={page}
-                    requestSize={requestSize}
+            <AnswerWrap>
+              {showAnswer && (
+                <span>
+                  <Input
+                    id="answer"
+                    type="text"
+                    placeholder="Answer"
+                    onChange={(e: any) => {
+                      setAnswer(e.target.value);
+                    }}
+                    value={answer}
                   />
-                ))}
-              </span>
-            )}
+                  <AnswerButton type="submit">Add</AnswerButton>
+                  {answers.map((el) => (
+                    <Answers
+                      key={el.answerId}
+                      answerId={el.answerId}
+                      username={el.username}
+                      content={el.content}
+                      imgUrl={el.imgUrl}
+                      answerCreatedAt={el.answerCreatedAt}
+                      page={page}
+                      requestSize={requestSize}
+                    />
+                  ))}
+                </span>
+              )}
+            </AnswerWrap>
           </Texts>
         </CommentBox>
       </Wrapper>
@@ -197,22 +199,22 @@ export default Comments;
 
 const CommentsWrapper = styled.form`
   * {
-    font-family: "mainEB";
+    font-family: "mainL";
     font-size: 14px;
     color: var(--beige-00);
   }
   background-color: var(--green);
   color: var(--beige-00);
-`;
-
-const Wrapper = styled.div`
-  width: 460px;
-  margin: 0px auto;
   padding-top: 15px;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const CommentBox = styled.div`
-  width: 450px;
+  width: 350px;
   height: auto;
   border: 1px solid var(--beige-00);
   border-radius: 10px;
@@ -226,22 +228,19 @@ const Img = styled.img`
   border-radius: 70%;
 `;
 const AddButton = styled.button`
+  margin-top: 0px;
   color: var(--beige-00);
   background-color: var(--green);
   border: none;
-  font-size: 10px;
+  font-size: 9px;
   :hover {
     color: var(--blue);
-  }
-  > .totalElements {
-    font-size: 10px;
   }
 `;
 
 const Texts = styled.div`
-  width: 400px;
+  width: 350px;
   margin-left: 10px;
-
   > .numAnswers {
     font-size: 9px;
   }
@@ -249,13 +248,20 @@ const Texts = styled.div`
     justify-content: space-between;
     display: flex;
     font-size: 9px;
-    width: 400px;
+    width: 300px;
+    margin-top: 5px;
     > .answerNum {
       display: flex;
+      font-size: 9px;
     }
     .icons {
       display: flex;
       justify-content: flex-end;
+
+      .svg {
+        width: 8px;
+        height: 8px;
+      }
       > .date {
         display: flex;
         align-items: center;
@@ -264,6 +270,12 @@ const Texts = styled.div`
         margin-right: 5px;
       }
     }
+  }
+  .totalElements {
+    font-size: 10px;
+    font-family: "MainL";
+    padding: 0px 0px 0px 0px;
+    margin-top: 2px;
   }
 `;
 const UserName = styled.div`
@@ -276,14 +288,21 @@ const Content = styled.div`
   padding-left: 2px;
 `;
 
+const AnswerWrap = styled.div`
+  display: flex;
+`;
+
 const Input = styled.input`
+  width: 200px;
   background-color: var(--green);
   color: var(--beige-00);
   background-color: var(--green);
   border: solid 1px;
   border-radius: 30px;
-  padding: 1px 9px 1px 9px;
+  padding: 1px 15px 1px 9px;
   font-size: 10px;
+  font-family: "MainM";
+  margin: 5px 0px;
 `;
 const AnswerButton = styled.button`
   font-size: 10px;
@@ -292,4 +311,5 @@ const AnswerButton = styled.button`
   border: solid 1px;
   border-radius: 30px;
   padding: 1px 9px 1px 9px;
+  margin-left: 15px;
 `;

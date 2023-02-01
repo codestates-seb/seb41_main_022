@@ -108,7 +108,7 @@ const Answer = styled.div`
     display: flex;
     padding: 3px;
     flex-direction: row;
-    width: 391px;
+    width: 275px;
 
     justify-content: space-between;
     > .input {
