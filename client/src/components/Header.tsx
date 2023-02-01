@@ -104,7 +104,7 @@ const Header = () => {
         ) : (
           <ItemWrapper>
             <WhiteButton onClick={() => handleLogin()}>Log in</WhiteButton>
-            <WhiteButton onClick={() => handleLogin()}>Sign up</WhiteButton>
+            <RedButton onClick={() => handleLogin()}>Sign up</RedButton>
           </ItemWrapper>
         )}
       </HeaderWrapper>
@@ -158,6 +158,7 @@ const ItemWrapper = styled.div`
       height: 30px;
       border-radius: var(--radius-10);
       cursor: pointer;
+      border: solid 2px var(--red-00);
     }
   }
   > .bell {
@@ -183,5 +184,22 @@ const WhiteButton = styled.button`
     background-color: var(--green);
     color: var(--gray-10);
     border: 1px solid var(--gray-10);
+  }
+`;
+const RedButton = styled.button`
+  color: var(--beige-00);
+  min-width: 55px;
+  font-size: 12px;
+  background-color: var(--red-00);
+  border-radius: var(--radius-20);
+  margin-right: 8px;
+  height: 28px;
+  border: 1px solid var(--green);
+  cursor: pointer;
+
+  :hover {
+    background-color: var(--green);
+    color: var(--red-00);
+    border: 1px solid var(--red-00);
   }
 `;

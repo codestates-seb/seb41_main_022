@@ -64,12 +64,14 @@ const TagWrapper = styled.div`
   }
 `;
 const Tag = styled.span`
-  height: 16px;
+  font-size: 12px;
+  font-family: "BannerL";
+  height: 14px;
   margin: 0 2px 7px 2px;
   background-color: var(--mopo-00);
   border-radius: var(--radius-30);
-  min-width: 40px;
-  padding: 4px;
+  min-width: 10px;
+  padding: 2px 7px 2px 7px;
   text-align: center;
   :hover {
     transition-duration: 0.2s;
