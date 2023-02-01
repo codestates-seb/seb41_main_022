@@ -30,7 +30,6 @@ const AddModal = ({ showAddModal, setShowAddModal, event }: AddModalType) => {
   } = useForm<AddFormType>();
 
   const onSubmitHandler: SubmitHandler<AddFormType> = (data) => {
-    console.log();
     calendarPost(studyId, {
       title: data.title,
       date: `${event.dateStr.slice(0, 19)}T${data.hour}:${data.minute}:00`,
