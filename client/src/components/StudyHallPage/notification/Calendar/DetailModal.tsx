@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import { toast } from "react-toastify";
@@ -7,7 +7,14 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { calendarStore } from "../../../../util/zustandCalendar";
 import AuthStore from "../../../../util/zustandAuth";
-
+interface DetailModalType {
+  showDetailModal: boolean;
+  setShowDetailModal: Dispatch<SetStateAction<boolean>>;
+  setShowEditModal: Dispatch<SetStateAction<boolean>>;
+  setEditData: Dispatch<SetStateAction<string>>;
+  event: any;
+  data: any;
+}
 const DetailModal = ({
   showDetailModal,
   setShowDetailModal,
@@ -15,8 +22,8 @@ const DetailModal = ({
   setEditData,
   event,
   data,
-}) => {
-  const [todoThatDay, setTodoThatDay] = useState();
+}: DetailModalType) => {
+  const [todoThatDay, setTodoThatDay] = useState<any[]>();
   const { authData } = AuthStore();
   const calendarDelete = calendarStore((state) => state.calendarDelete);
   const notify = () =>
@@ -27,56 +34,66 @@ const DetailModal = ({
   useEffect(() => {
     if (data) {
       setTodoThatDay(
-        data.filter((el) => el.date === event.startStr.slice(0, 19))
+        data.filter(
+          (el: any) => el.calendarId === event.extendedProps.calendarId
+        )
       );
     }
   }, [showDetailModal]);
   const clickEdit = () => {
     setShowDetailModal(false);
     setShowEditModal(true);
-    setEditData(todoThatDay[0]);
+    todoThatDay && setEditData(todoThatDay[0]);
   };
   const clickDelete = () => {
-    calendarDelete(todoThatDay[0].calendarId);
+    todoThatDay && calendarDelete(todoThatDay[0].calendarId);
     notify();
     setShowDetailModal(false);
   };
   return (
-    showDetailModal && (
-      <ModalDiv showDetailModal={showDetailModal}>
-        <ContentsDiv>
-          <div className="flexDiv">
-            <h2> DetailModal</h2>
-            <AiOutlineCloseCircle onClick={() => setShowDetailModal(false)} />
-          </div>
-          <div>
-            {todoThatDay && (
-              <div>
-                <div> 날짜 : {todoThatDay[0].date.slice(0, 10)} </div>
-                <div> 시간 : {todoThatDay[0].date.slice(11, 16)} </div>
-                <div> 일정 : {todoThatDay[0].title} </div>
-                <hr />
-                {todoThatDay[0].participants.map((el) => (
-                  <div key={el.userId}>
-                    {el.username}:{el.joinState}
-                  </div>
-                ))}
-              </div>
-            )}
-            <IconDiv>
-              <div className="icon" onClick={clickEdit}>
-                <FiEdit2 />
-              </div>
-              {authData?.host && (
-                <div className="icon" onClick={clickDelete}>
-                  <FiTrash2 />
+    <>
+      {showDetailModal && (
+        <ModalDiv showDetailModal={showDetailModal}>
+          <ContentsDiv>
+            <div className="flexDiv">
+              <h2> DetailModal</h2>
+              <AiOutlineCloseCircle onClick={() => setShowDetailModal(false)} />
+            </div>
+            <div>
+              {todoThatDay && (
+                <div>
+                  <div> 날짜 : {todoThatDay[0].date.slice(0, 10)} </div>
+                  <div> 시간 : {todoThatDay[0].date.slice(11, 16)} </div>
+                  <div> 일정 : {todoThatDay[0].title} </div>
+                  <hr />
+                  {todoThatDay[0].participants.map(
+                    (el: {
+                      userId: number;
+                      username: string;
+                      joinState: string;
+                    }) => (
+                      <div key={el.userId}>
+                        {el.username}:{el.joinState}
+                      </div>
+                    )
+                  )}
                 </div>
               )}
-            </IconDiv>
-          </div>
-        </ContentsDiv>
-      </ModalDiv>
-    )
+              <IconDiv>
+                <div className="icon" onClick={clickEdit}>
+                  <FiEdit2 />
+                </div>
+                {authData?.host && (
+                  <div className="icon" onClick={clickDelete}>
+                    <FiTrash2 />
+                  </div>
+                )}
+              </IconDiv>
+            </div>
+          </ContentsDiv>
+        </ModalDiv>
+      )}
+    </>
   );
 };
 
@@ -104,7 +121,9 @@ const fadeOut = keyframes`
 `;
 
 const ModalDiv = styled.main`
-  animation: ${(prop) => (prop.showDetailModal ? fadeIn : fadeOut)} 0.2s ease-in;
+  animation: ${(prop: { showDetailModal: boolean }) =>
+      prop.showDetailModal ? fadeIn : fadeOut}
+    0.2s ease-in;
   margin-left: 150px;
   margin-top: -100px;
   max-width: 300px;
