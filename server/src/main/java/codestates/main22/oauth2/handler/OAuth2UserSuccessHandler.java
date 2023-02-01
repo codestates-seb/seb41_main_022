@@ -154,7 +154,12 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String[] url = cookie.readURLfromCookie(request);
         String protocol = url[0];
         String host = url[1];
-        String port = url.length == 3 ? url[2] : "";
+        String port = url[2];
+        System.out.println("!! protocol : " + protocol);
+        System.out.println("!! host : " + host);
+        System.out.println("!! port : " + port);
+        if(port.equals("")) System.out.println("!! port1 : \"\"");
+        if(port == "") System.out.println("!! port2");
 
         if(port.equals("")) {
             return UriComponentsBuilder
