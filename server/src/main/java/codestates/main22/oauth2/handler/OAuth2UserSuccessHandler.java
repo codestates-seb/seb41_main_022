@@ -150,32 +150,32 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         queryParams.add("access-Token", accessToken);
         queryParams.add("refresh-Token", refreshToken);
 
-        CustomCookie cookie = new CustomCookie();
-        String[] url = cookie.readURLfromCookie(request);
-        String protocol = url[0];
-        String host = url[1];
-        String port = url.length == 3 ? url[2] : "";
-
-        if(port.equals("")) {
-            return UriComponentsBuilder
-                    .newInstance()
-                    .scheme(protocol)
-                    .host(host)
-                    .path("/Token.html")
-                    .queryParams(queryParams)
-                    .build()
-                    .toUri();
-        } else {
-            return UriComponentsBuilder
-                    .newInstance()
-                    .scheme(protocol)
-                    .host(host)
-                    .port(port)
-                    .path("/Token.html")
-                    .queryParams(queryParams)
-                    .build()
-                    .toUri();
-        }
+//        CustomCookie cookie = new CustomCookie();
+//        String[] url = cookie.readURLfromCookie(request);
+//        String protocol = url[0];
+//        String host = url[1];
+//        String port = url.length == 3 ? url[2] : "";
+//
+//        if(port.equals("")) {
+//            return UriComponentsBuilder
+//                    .newInstance()
+//                    .scheme(protocol)
+//                    .host(host)
+//                    .path("/Token.html")
+//                    .queryParams(queryParams)
+//                    .build()
+//                    .toUri();
+//        } else {
+//            return UriComponentsBuilder
+//                    .newInstance()
+//                    .scheme(protocol)
+//                    .host(host)
+//                    .port(port)
+//                    .path("/Token.html")
+//                    .queryParams(queryParams)
+//                    .build()
+//                    .toUri();
+//        }
 
         // backend local test
 //        return UriComponentsBuilder
@@ -189,15 +189,15 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 //                .toUri();
 
         // frontend local test
-//        return UriComponentsBuilder
-//                .newInstance()
-//                .scheme("http")
-//                .host("localhost")
-//                .port(3000)
-//                .path("/Token.html")
-//                .queryParams(queryParams)
-//                .build()
-//                .toUri();
+        return UriComponentsBuilder
+                .newInstance()
+                .scheme("http")
+                .host("localhost")
+                .port(3000)
+                .path("/Token.html")
+                .queryParams(queryParams)
+                .build()
+                .toUri();
 
         // S3 배포 시 : http://seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/
 //        return UriComponentsBuilder

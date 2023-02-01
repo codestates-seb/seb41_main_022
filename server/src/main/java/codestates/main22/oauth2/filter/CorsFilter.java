@@ -44,7 +44,7 @@ public class CorsFilter implements Filter {
                 "access-Token, refresh-Token");
 
         // 로그인/회원가입의 버튼을 눌렀을 시, 쿠키값 저장하기
-        cookie.createCookie(request, response);
+//        cookie.createCookie(request, response);
 
         if("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             response.setStatus(HttpServletResponse.SC_OK);
