@@ -29,26 +29,58 @@ public class Init {
     // 트리 이미지 URL
     public static String treeFirstImage = S3Url + "February1.png"; // 새싹 이미지
     public static String treeSecondImage = S3Url + "February2.png"; // 어린 나무 이미지
-    public static String treeThirdImage = S3Url + "February3.png"; // 꽃 나무 이미지
 
     // 월별 트리 이미지 URL(2023)
-    public static List<String> tree2023Image = List.of(
+    public static List<String> treeThirdImages2023 = List.of(
+            S3Url + "February3.png", // 1월 : 꽃 나무 이미지
+            S3Url + "January1.png", // 2월 : 덜 익은 귤 이미지
+            S3Url + "February3.png",
+            S3Url + "January1.png",
+            S3Url + "February3.png",
+            S3Url + "January1.png",
+            S3Url + "February3.png",
+            S3Url + "January1.png",
+            S3Url + "February3.png",
+            S3Url + "January1.png",
+            S3Url + "February3.png",
+            S3Url + "January1.png"
+    );
+
+    // 월별 트리 이미지 URL(2023)
+    public static List<String> treeForthImages2023 = List.of(
+            S3Url + "February4.png", // 1월 : 사과 나무 이미지
+            S3Url + "January2.png", // 2월 : 익은 귤 이미지
+            S3Url + "February4.png",
+            S3Url + "January2.png",
+            S3Url + "February4.png",
+            S3Url + "January2.png",
+            S3Url + "February4.png",
+            S3Url + "January2.png",
+            S3Url + "February4.png",
+            S3Url + "January2.png",
+            S3Url + "February4.png",
+            S3Url + "January2.png"
+    );
+
+    // 월별 트리 이미지 URL(2023)
+    public static List<String> treeFinalImages2023 = List.of(
             S3Url + "February5.png", // 1월 : 황금 사과 나무
-            S3Url + "February4.png", // 2월 : 사과 나무
-            S3Url + "February5.png", // 3월 : 황금 사과 나무
-            S3Url + "February4.png", // 4월 : 사과 나무
-            S3Url + "February5.png", // 5월 : 황금 사과 나무
-            S3Url + "February4.png", // 6월 : 사과 나무
-            S3Url + "February5.png", // 7월 : 황금 사과 나무
-            S3Url + "February4.png", // 8월 : 사과 나무
-            S3Url + "February5.png", // 9월 : 황금 사과 나무
-            S3Url + "February4.png", // 10월 : 사과 나무
-            S3Url + "February5.png", // 11월 : 황금 사과 나무
-            S3Url + "February4.png"  // 12월 : 사과 나무
+            S3Url + "January3.png", // 2월 : 감귤 나무
+            S3Url + "February5.png",
+            S3Url + "January3.png",
+            S3Url + "February5.png",
+            S3Url + "January3.png",
+            S3Url + "February5.png",
+            S3Url + "January3.png",
+            S3Url + "February5.png",
+            S3Url + "January3.png",
+            S3Url + "February5.png",
+            S3Url + "January3.png"
     );
 
     // 트리 업그레이드 기준 점수
-    public static int treeFirstUpgradeScore = 100;
-    public static int treeSecondUpgradeScore = 300;
+    public static int treeFirstUpgradeScore = 50;
+    public static int treeSecondUpgradeScore = 150;
+    public static int treeThirdUpgradeScore = 300;
     public static int treeFinalUpgradeScore = 600;
 }

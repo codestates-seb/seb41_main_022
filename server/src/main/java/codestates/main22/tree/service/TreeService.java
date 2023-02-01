@@ -69,9 +69,11 @@ public class TreeService {
 
         // 특정 기준점 초과시 이미지 업데이트
         if(point >= Init.treeFinalUpgradeScore)
-            tree.setTreeImage(Init.tree2023Image.get(LocalDate.now().getMonthValue()-1));
+            tree.setTreeImage(Init.treeFinalImages2023.get(LocalDate.now().getMonthValue()-1));
+        else if(point >= Init.treeThirdUpgradeScore)
+            tree.setTreeImage(Init.treeForthImages2023.get(LocalDate.now().getMonthValue()-1));
         else if(point >= Init.treeSecondUpgradeScore)
-            tree.setTreeImage(Init.treeThirdImage);
+            tree.setTreeImage(Init.treeThirdImages2023.get(LocalDate.now().getMonthValue()-1));
         else if(point >= Init.treeFirstUpgradeScore)
             tree.setTreeImage(Init.treeSecondImage);
 
