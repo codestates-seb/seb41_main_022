@@ -155,13 +155,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String protocol = url[0];
         String host = url[1];
         String port = url[2];
-        System.out.println("!! protocol : " + protocol);
-        System.out.println("!! host : " + host);
-        System.out.println("!! port : " + port);
-        if(port.equals("")) System.out.println("!! port1 : \"\"");
-        if(port == "") System.out.println("!! port2");
 
-        if(port.equals("")) {
+        if(port == null || port.equals("")) {
             return UriComponentsBuilder
                     .newInstance()
                     .scheme(protocol)
