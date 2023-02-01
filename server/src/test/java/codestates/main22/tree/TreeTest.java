@@ -1,4 +1,4 @@
-package codestates.main22.treeTest;
+package codestates.main22.tree;
 
 import codestates.main22.oauth2.jwt.JwtTokenizer;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
@@ -12,6 +12,7 @@ import codestates.main22.tree.mapper.TreeMapper;
 import codestates.main22.tree.service.TreeService;
 import codestates.main22.user.mapper.UserMapper;
 import codestates.main22.user.service.UserService;
+import codestates.main22.util.JwtMockBean;
 import codestates.main22.utils.Token;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
@@ -46,39 +47,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(TreeController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
-public class TreeTest {
-    @Autowired
-    private MockMvc mockMvc;
-
+public class TreeTest extends JwtMockBean {
     @MockBean
     private TreeService treeService;
 
     @MockBean
     private TreeMapper treeMapper;
-
-    @MockBean
-    private UserService userService;
-
-    @MockBean
-    private UserMapper userMapper;
-
-    @MockBean
-    private JwtTokenizer jwtTokenizer;
-
-    @MockBean
-    private CustomAuthorityUtils customAuthorityUtils;
-
-    @MockBean
-    private Token token;
-
-    @MockBean
-    private StudyService studyService;
-
-    @MockBean
-    private StudyMapper studyMapper;
-
-    @Autowired
-    private Gson gson;
 
     @Test // API 11번 유저의 개인 트리 조회 - 완료
     @WithMockUser

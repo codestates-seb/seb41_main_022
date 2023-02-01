@@ -1,24 +1,16 @@
-package codestates.main22.chatTest;
+package codestates.main22.chat;
 
-import codestates.main22.answer.entity.Answer;
-import codestates.main22.answer.service.AnswerService;
 import codestates.main22.chat.controller.ChatController;
 import codestates.main22.chat.dto.ChatDto;
 import codestates.main22.chat.entity.Chat;
 import codestates.main22.chat.mapper.ChatMapper;
 import codestates.main22.chat.service.ChatService;
-import codestates.main22.oauth2.jwt.JwtTokenizer;
-import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.entity.Study;
-import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
-import codestates.main22.user.service.UserService;
-import codestates.main22.utils.Token;
-import com.google.gson.Gson;
+import codestates.main22.util.JwtMockBean;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,7 +23,6 @@ import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,37 +48,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc(addFilters = false)
-public class ChatTest {
-    @Autowired
-    private MockMvc mockMvc;
-
+public class ChatTest extends JwtMockBean {
     @MockBean
     private ChatService chatService;
 
     @MockBean
     private ChatMapper chatMapper;
-
-    @MockBean
-    private AnswerService answerService;
-
-    @MockBean
-    private UserService userService;
-
-
-    @MockBean
-    private JwtTokenizer jwtTokenizer;
-
-    @MockBean
-    private CustomAuthorityUtils customAuthorityUtils;
-
-    @MockBean
-    private Token token;
-
-    @MockBean
-    private StudyService studyService;
-
-    @Autowired
-    private Gson gson;
 
     @Test // API 35번 채팅 조회
     @WithMockUser

@@ -1,8 +1,11 @@
 package codestates.main22.util;
 
+import codestates.main22.oauth2.filter.CorsFilter;
+import codestates.main22.oauth2.handler.OAuth2UserSuccessHandler;
 import codestates.main22.oauth2.jwt.JwtTokenizer;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.user.service.UserService;
+import codestates.main22.utils.CustomCookie;
 import codestates.main22.utils.Token;
 import com.google.gson.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +35,9 @@ public class JwtMockBean {
 
     @MockBean
     protected CustomAuthorityUtils customAuthorityUtils;
+
+    @MockBean
+    protected CustomCookie customCookie;
 
     @MockBean
     protected Token token;

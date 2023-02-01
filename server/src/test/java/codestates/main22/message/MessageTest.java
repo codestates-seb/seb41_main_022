@@ -1,4 +1,4 @@
-package codestates.main22.messageTest;
+package codestates.main22.message;
 
 import codestates.main22.message.controller.MessageController;
 import codestates.main22.message.dto.MessageRequestDto;
