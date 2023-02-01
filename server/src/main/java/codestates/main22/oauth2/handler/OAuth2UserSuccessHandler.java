@@ -49,19 +49,11 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 String name = String.valueOf(oAuth2User.getAttributes().get("name"));
                 String imgUrl = String.valueOf(oAuth2User.getAttributes().get("picture"));
                 user = saveUser(email, name, imgUrl);
-
-                System.out.println("!! email : " + email);
-                System.out.println("!! name : " + name);
-                System.out.println("!! imgUrl : " + imgUrl);
             }
             else if(request.getServletPath().contains("github")) {
                 String name = String.valueOf(oAuth2User.getAttributes().get("login"));
                 String imgUrl = String.valueOf(oAuth2User.getAttributes().get("avatar_url"));
                 user = saveUser(email, name, imgUrl);
-
-                System.out.println("!! email : " + email);
-                System.out.println("!! name : " + name);
-                System.out.println("!! imgUrl : " + imgUrl);
             }
         }
 
