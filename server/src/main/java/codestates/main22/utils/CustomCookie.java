@@ -13,7 +13,7 @@ public class CustomCookie {
     public void createCookie(HttpServletResponse response, String cookieName, String cookieValue) {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
-        cookie.setMaxAge(60 * 500 * 60); // 500분간 저장
+//        cookie.setMaxAge(60 * 500 * 60); // 500분간 저장
         cookie.setSecure(true);
         response.addCookie(cookie);
     }
