@@ -44,7 +44,7 @@ const StudyHallNotification = () => {
                 placeholder="공지사항..."
                 onChange={onPatch}
                 value={tempNotice}
-                maxLength={35}
+                maxLength={20}
               />
               <SubmitButton type="submit" onClick={success}>
                 <IoIosCheckmarkCircleOutline className="outline" />
