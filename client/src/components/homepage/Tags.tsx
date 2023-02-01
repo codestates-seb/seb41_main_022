@@ -8,7 +8,7 @@ interface Data {
 }
 
 const Tags = () => {
-  const { setTags, tags, setRecruitment } = HomeStore();
+  const { setTags, isLoading } = HomeStore();
   const [tagList, setTagList] = useState<string[]>();
   const [selectedTagList, setSelectedTagList] = useState<string[]>([]);
   const getTags = (url: string): Promise<AxiosResponse<Data>> => {
@@ -16,10 +16,12 @@ const Tags = () => {
   };
 
   const handleClickTag = (tagName: string) => {
-    if (selectedTagList.includes(tagName)) {
-      setSelectedTagList([...selectedTagList.filter((el) => el !== tagName)]);
-    } else {
-      setSelectedTagList([...selectedTagList, tagName]);
+    if (!isLoading) {
+      if (selectedTagList.includes(tagName)) {
+        setSelectedTagList([...selectedTagList.filter((el) => el !== tagName)]);
+      } else {
+        setSelectedTagList([...selectedTagList, tagName]);
+      }
     }
   };
 
