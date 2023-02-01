@@ -335,11 +335,9 @@ const NoticeWrapper = styled.main`
     display: flex;
     align-items: center;
     padding: 0 2px;
-
     .ticker {
-      width: 150px;
+      width: 180px;
       max-height: 16px;
-
       .ticker__element {
         width: 100%;
         display: flex;
