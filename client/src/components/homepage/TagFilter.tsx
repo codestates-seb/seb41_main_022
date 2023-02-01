@@ -7,10 +7,15 @@ import HomeStore from "../../util/zustandHome";
 
 const TagFilter = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { setFilter, filter } = HomeStore();
+  const { setFilter, filter, isLoading } = HomeStore();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleFiterClick = (clickedFilter: string) => {
+    if (!isLoading)
+      filter === clickedFilter ? setFilter("") : setFilter(clickedFilter);
   };
 
   return (
@@ -36,21 +41,21 @@ const TagFilter = () => {
           <ul className="dropdown">
             <li
               onClick={() => {
-                filter === "now" ? setFilter("") : setFilter("now");
+                handleFiterClick("now");
               }}
             >
               최신순
             </li>
             <li
               onClick={() => {
-                filter === "name" ? setFilter("") : setFilter("name");
+                handleFiterClick("name");
               }}
             >
               이름순
             </li>
             <li
               onClick={() => {
-                filter === "random" ? setFilter("") : setFilter("random");
+                handleFiterClick("random");
               }}
             >
               대충정렬
