@@ -1,4 +1,4 @@
-package codestates.main22.userTest;
+package codestates.main22.user;
 
 import codestates.main22.oauth2.jwt.JwtTokenizer;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
@@ -11,6 +11,7 @@ import codestates.main22.user.dto.UserDto;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.mapper.UserMapper;
 import codestates.main22.user.service.UserService;
+import codestates.main22.util.JwtMockBean;
 import codestates.main22.utils.Token;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
@@ -47,34 +48,15 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 @WebMvcTest(UserController.class)
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
-public class UserTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @MockBean
-    private UserService userService;
-
+public class UserTest extends JwtMockBean {
     @MockBean
     private UserMapper userMapper;
-
-    @MockBean
-    private JwtTokenizer jwtTokenizer;
-
-    @MockBean
-    private CustomAuthorityUtils customAuthorityUtils;
-
-    @MockBean
-    private Token token;
 
     @MockBean
     private StudyService studyService;
 
     @MockBean
     private StudyMapper studyMapper;
-
-    @Autowired
-    private Gson gson;
 
     @Test // API 2번 유저 이미지 조회 - 완료
     @WithMockUser
