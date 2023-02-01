@@ -60,10 +60,10 @@ const Comments = ({
   const { fetchCommentData } = commentStore();
 
   //대댓글 작성
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (chatId) {
-      postAnswer(
+      await postAnswer(
         chatId,
         { content: answer },
         {
