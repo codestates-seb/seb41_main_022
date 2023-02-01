@@ -5,7 +5,7 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import CalendarApp from "./Calendar/CalendarApp";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import NoticeStore from "../../../util/zustandNotice";
@@ -44,7 +44,7 @@ const StudyHallNotification = () => {
                 placeholder="공지사항..."
                 onChange={onPatch}
                 value={tempNotice}
-                maxLength={35}
+                maxLength={20}
               />
               <SubmitButton type="submit" onClick={success}>
                 <IoIosCheckmarkCircleOutline className="outline" />

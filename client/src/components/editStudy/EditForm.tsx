@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useState, useRef, useCallback, useEffect } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import EditWeekBar from "./EditWeekBar";
@@ -55,7 +54,6 @@ const EditForm = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [tag, setTag] = useState<string[] | undefined>();
   const [initTags, setInitTags] = useState<string[] | undefined>();
-  const [startDate, setStartDate] = useState();
   const textRef = useRef<HTMLTextAreaElement>(null);
   const notify = () => toast.success("스터디 내용이 수정 되었습니다.");
   const handleResizeHeight = useCallback(() => {
@@ -275,9 +273,7 @@ const EditForm = () => {
             </ErrorText>
             <div>
               <RedButton type="submit">Edit Study</RedButton>
-              <div className="toastFontsize">
-                <ToastContainer position="top-right" autoClose={1500} />
-              </div>
+              <div className="toastFontsize"></div>
             </div>
           </Form>
         )}

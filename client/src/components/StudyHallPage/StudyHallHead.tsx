@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { joinStudyStore } from "../../util/zustandJoinStudy";
@@ -13,20 +13,12 @@ interface StudyHeader {
   teamName: string;
   openClose: boolean;
 }
-interface AuthData {
-  host: boolean;
-  member: boolean;
-  request: boolean;
-}
 
 const StudyHallHead = () => {
   const [studyData, setStudyData] = useState<StudyHeader>();
   const { studyId } = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(["token", "userData"]);
   const { authData, checkAuth } = AuthStore();
-  const [buttonAuthData, setButtonAuthData] = useState<AuthData | undefined>(
-    undefined
-  );
   const notify = () => toast.success("가입 신청 되었습니다.");
 
   const fetchJoinStudy = joinStudyStore((state) => state.fetchJoinStudy);
@@ -37,22 +29,16 @@ const StudyHallHead = () => {
         setStudyData(res.data.data);
       });
     studyId &&
-      axios
-        .get(
-          process.env.REACT_APP_API_URL +
-            `/study/${studyId}/user/${cookies.userData.userId}/auth`,
-          {
-            headers: {
-              "access-Token": cookies.token.accessToken,
-              "refresh-Token": cookies.token.refreshToken,
-            },
-          }
-        )
-        .then((res) => setButtonAuthData(res.data.data));
+      checkAuth(
+        studyId,
+        cookies.userData.userId,
+        cookies.token.accessToken,
+        cookies.token.refreshToken
+      );
   }, []);
 
-  const clickJoin = () => {
-    fetchJoinStudy(
+  const clickJoin = async () => {
+    await fetchJoinStudy(
       studyId,
       {},
       {
@@ -70,33 +56,35 @@ const StudyHallHead = () => {
         cookies.token.accessToken,
         cookies.token.refreshToken
       );
-
-    setButtonAuthData(authData);
   };
   return (
     <HeaderWrapper>
       <div className="padding" />
       <TopDiv>
         <div className="studyName">
-          {studyData && studyData.teamName}{" "}
-          {buttonAuthData &&
-            (buttonAuthData.member ? (
+          {studyData &&
+            (studyData.teamName.length > 10 ? (
+              <span className="studyNameLong">{studyData.teamName}</span>
+            ) : (
+              studyData.teamName
+            ))}{" "}
+          {authData &&
+            (authData.member ? (
               <div></div>
-            ) : buttonAuthData.request ? (
+            ) : authData.request ? (
               <JoinButton
-                request={buttonAuthData?.request}
-                disabled={buttonAuthData?.request}
+                request={authData?.request}
+                disabled={authData?.request}
               >
                 가입 대기
               </JoinButton>
             ) : (
               <JoinButton
-                request={buttonAuthData.request}
-                disabled={buttonAuthData.request}
+                request={authData.request}
+                disabled={authData.request}
                 onClick={clickJoin}
               >
                 가입 신청
-                <ToastContainer autoClose={2000} />
               </JoinButton>
             ))}
         </div>
@@ -152,6 +140,10 @@ const TopDiv = styled.div`
     font-size: 14px;
     display: flex;
     flex-direction: column-reverse;
+  }
+  .studyNameLong {
+    font-size: 28px;
+    margin-top: 12px;
   }
 `;
 //Public Private 관리

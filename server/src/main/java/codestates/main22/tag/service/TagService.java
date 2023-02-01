@@ -221,10 +221,13 @@ public class TagService {
 
     // 태그 초기 저장 함수
     public void saveTags() {
-        for(String name : Init.tagList) {
-            Tag tag = new Tag();
-            tag.setName(name);
-            tagRepository.save(tag);
+        // 태그가 없는 경우라면
+        if(tagRepository.findAll().size() == 0) {
+            for(String name : Init.tagList) {
+                Tag tag = new Tag();
+                tag.setName(name);
+                tagRepository.save(tag);
+            }
         }
     }
 }

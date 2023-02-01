@@ -8,6 +8,9 @@ import { useState, useEffect } from "react";
 import RedButton from "./RedButton";
 import Application from "./Application";
 import AuthStore from "../../../util/zustandAuth";
+import DeleteUserModal from "./DeleteUserModal";
+import DeleteStudyModal from "./DeleteStudyModal";
+import LeaveStudyModal from "./LeaveStudyModal";
 
 interface Application {
   userId: number;
@@ -22,6 +25,9 @@ const Setting = () => {
   const [applicationData, setApplicationData] = useState<
     Application[] | undefined
   >();
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [showStudyModal, setShowStudyModal] = useState(false);
+  const [showLeaveStudyModal, setShowLeaveStudyModal] = useState(false);
   const { authData } = AuthStore();
   const fetchApplicationList = () => {
     axios
@@ -35,19 +41,6 @@ const Setting = () => {
   };
   const handleClickEditStudy = () => {
     navigate(`/edit/${studyId}`);
-  };
-  const handleClickDeleteStudy = () => {
-    axios
-      .delete(
-        `http://ec2-13-209-56-72.ap-northeast-2.compute.amazonaws.com:8080/study/${studyId}`,
-        {
-          headers: {
-            "access-Token": cookies.token.accessToken,
-            "refresh-Token": cookies.token.refreshToken,
-          },
-        }
-      )
-      .then(() => navigate("/"));
   };
   const handleClickLeaveStudy = () => {
     axios
@@ -83,6 +76,18 @@ const Setting = () => {
     <SettingPageWrapper>
       <ApplicationSection>
         <article>
+          <DeleteUserModal
+            showUserModal={showUserModal}
+            setShowUserModal={setShowUserModal}
+          />
+          <DeleteStudyModal
+            showStudyModal={showStudyModal}
+            setShowStudyModal={setShowStudyModal}
+          />
+          <LeaveStudyModal
+            showLeaveStudyModal={showLeaveStudyModal}
+            setShowLeaveStudyModal={setShowLeaveStudyModal}
+          />
           <span className="text textApplication">Application</span>
           <div className="contentWrapper">
             <ApplicationWrapper>
@@ -116,17 +121,22 @@ const Setting = () => {
                   text="Edit Study"
                 ></RedButton>
                 <RedButton
-                  handleClick={handleClickDeleteStudy}
+                  handleClick={() => setShowUserModal(true)}
+                  text="Delete Member"
+                ></RedButton>
+                <RedButton
+                  handleClick={() => setShowStudyModal(true)}
                   text="Delete Study"
                 ></RedButton>
               </>
             ) : (
-              <></>
+              <>
+                <RedButton
+                  handleClick={() => setShowLeaveStudyModal(true)}
+                  text="Leave Study"
+                ></RedButton>
+              </>
             )}
-            <RedButton
-              handleClick={handleClickLeaveStudy}
-              text="Leave Study"
-            ></RedButton>
           </div>
         </div>
       </SettingSection>

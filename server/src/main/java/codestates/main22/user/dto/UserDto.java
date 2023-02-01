@@ -95,6 +95,7 @@ public class UserDto {
     @Setter
     @AllArgsConstructor
     public static class StudyUserResponse {
+        private long userId;
         private String username;
         private String imgUrl;
         private String role;

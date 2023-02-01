@@ -208,10 +208,16 @@ public class StudyService {
         }
 
         // 공개된 스터디 필터링 & search로 스터디 조회
-        studies = studies.stream()
-                .filter(study -> study.isOpenClose()) // 공개된 스터디 필터링
-                .filter(study -> searchWord(study, search)) // search로 스터디 조회
-                .collect(Collectors.toSet());
+        if(search == "") { // 검색값이 없을 경우
+            studies = studies.stream()
+                    .filter(study -> study.isOpenClose()) // 공개된 스터디 필터링
+                    .collect(Collectors.toSet());
+        } else { // 검색값이 있는 경우
+            studies = studies.stream()
+                    .filter(study -> searchWord(study, search)) // search로 스터디 조회
+                    .filter(study -> study.isOpenClose()) // 공개된 스터디 필터링
+                    .collect(Collectors.toSet());
+        }
 
         // filter로 정렬하기
         List<Study> listStudies = studies.stream().collect(Collectors.toList()); // set 때문에 자동 random 순으로 정렬되어 있음
@@ -233,7 +239,7 @@ public class StudyService {
         return new PageImpl<>(listStudies.subList(start, end), PageRequest.of(page, size), listStudies.size());
     }
 
-    // Set<Study>에 List<Study> 내용 추가힉
+    // Set<Study>에 List<Study> 내용 추가하기
     public Set<Study> addStudyInSet(Set<Study> setStudies, List<Study> listStudies) {
         listStudies.forEach(listStudy -> {
             setStudies.add(listStudy);
@@ -244,8 +250,6 @@ public class StudyService {
 
     // 검색어가 있는지 탐색 (word == seach)
     public boolean searchWord(Study study, String word) {
-        // 검색값이 없을 경우
-        if(word == "") return true;
         // teamName에서 탐색
         if (study.getTeamName().contains(word)) return true;
         // summary에서 탐색
@@ -298,7 +302,7 @@ public class StudyService {
     }
 
     public void addRequester(Study study, Long userId) {
-        study.getRequester().add(userId);
+        if(!study.getRequester().contains(userId)) study.getRequester().add(userId);
         studyRepository.save(study);
     }
 

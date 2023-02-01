@@ -1,9 +1,6 @@
-import Dropdown from "react-bootstrap/Dropdown";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import DropdownStore from "../util/zustandDropdown";
 import { createStudyStore } from "../util/zustandCreateStudy";
@@ -33,7 +30,11 @@ const HeaderDropDown = () => {
             {dropdownData &&
               dropdownData.map((el: { studyId: string; teamName: string }) => (
                 <a href={`/study-hall/main/${el.studyId}`} key={el.studyId}>
-                  <div className="hoverDiv">{el.teamName}</div>
+                  <div className="hoverDiv">
+                    {el.teamName.length > 10
+                      ? el.teamName.slice(0, 9) + "..."
+                      : el.teamName}
+                  </div>
                 </a>
               ))}
           </div>

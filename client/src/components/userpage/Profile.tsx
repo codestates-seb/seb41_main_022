@@ -76,7 +76,9 @@ const Main = styled.div`
   margin: 0px auto;
 `;
 
-const UserName = styled.div``;
+const UserName = styled.div`
+  color: var(--beige-00) !important;
+`;
 
 const Container = styled.div`
   height: 100%;
@@ -85,7 +87,7 @@ const Container = styled.div`
 `;
 const Banner = styled.div`
   width: 1024px;
-  height: 200px;
+  height: 210px;
   margin: 0px auto;
   background-image: url(${userBanner});
   display: flex;
@@ -107,6 +109,7 @@ const Banner = styled.div`
 `;
 const Classes = styled.div`
   color: var(#aaaaaa);
+  margin-top: 6px;
   font-size: 12px;
   display: flex;
   flex-wrap: wrap;

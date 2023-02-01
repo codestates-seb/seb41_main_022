@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import WeekBar from "../WeekBar";
 import { VscBellDot } from "react-icons/vsc";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NoticeStore from "../../util/zustandNotice";
 import Ticker from "react-ticker";
@@ -39,7 +39,7 @@ export default StudyHallRightNav;
 const Margin20 = styled.main`
   margin-top: 122px;
   position: absolute;
-  margin-left: 685px;
+  margin-left: 705px;
   * {
     font-family: "mainM", Arial;
     font-size: 12px;
@@ -47,7 +47,7 @@ const Margin20 = styled.main`
 `;
 const Notice = styled.div`
   margin-top: 5px;
-  width: 198px;
+  width: 218px;
   background-color: var(--green);
   border-radius: var(--radius-30);
   padding: 1px;
@@ -58,7 +58,7 @@ const Notice = styled.div`
     align-items: center;
     padding: 0 2px;
     .ticker {
-      width: 150px;
+      width: 180px;
       max-height: 16px;
       .ticker__element {
         width: 100%;

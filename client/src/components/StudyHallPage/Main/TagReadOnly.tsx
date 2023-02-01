@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
 
 interface TagProps {
   tags: string[] | undefined;
@@ -21,11 +19,13 @@ const TagWrapper = styled.div`
   width: 320px;
 `;
 const Tag = styled.span`
+  font-family: "BannerL";
+  font-size: 12px;
   height: 16px;
   background-color: var(--mopo-00);
   border-radius: var(--radius-30);
   min-width: 40px;
-  padding: 4px;
+  padding: 2px 7px 2px 4px;
   text-align: center;
   margin: 0 4px 7px 0;
 `;

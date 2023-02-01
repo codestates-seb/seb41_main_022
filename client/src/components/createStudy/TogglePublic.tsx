@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 
 const TogglePublic = ({ onChange }: any) => {
-  const [isTrue, setIsTrue] = useState(false);
+  const [isTrue, setIsTrue] = useState(true);
   useEffect(() => {
     onChange(isTrue);
   }, [isTrue]);

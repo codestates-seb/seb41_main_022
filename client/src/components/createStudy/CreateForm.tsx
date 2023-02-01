@@ -14,6 +14,7 @@ import TogglePublic from "./TogglePublic";
 import { createStudyStore } from "../../util/zustandCreateStudy";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Congratulation from "../../util/Congratulation";
+import DropdownStore from "../../util/zustandDropdown";
 
 const URL = process.env.REACT_APP_API_URL;
 
@@ -31,6 +32,7 @@ interface MyFormProps {
 }
 
 const CreateForm = () => {
+  const { dropdownGet } = DropdownStore();
   const fetch = (url: string): Promise<AxiosResponse<any>> => {
     return axios.get(url);
   };
@@ -73,6 +75,10 @@ const CreateForm = () => {
       window.scrollTo(0, 0);
       setShowCongrate(false);
       navigate("/");
+      dropdownGet({
+        "access-Token": cookies.token.accessToken,
+        "refresh-Token": cookies.token.refreshToken,
+      });
     }, 4000);
   };
   return (

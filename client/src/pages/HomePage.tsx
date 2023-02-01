@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import RecruitmentList from "../components/homepage/RecruitmentList";
 import Banner from "../components/homepage/Banner";
@@ -12,15 +12,23 @@ const HomePage: React.FC = () => {
   const studiesRef = useRef<HTMLDivElement>(null);
 
   const scrollToCreate = () => {
-    if (myRef.current) {
-      window.scrollTo(0, myRef.current.offsetTop);
+    if (!myRef.current) {
+      return;
     }
+    myRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   const scrollToStudies = () => {
-    if (myRef.current) {
-      window.scrollTo(0, myRef.current.offsetTop);
+    if (!myRef.current) {
+      return;
     }
+    myRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   useEffect(() => {

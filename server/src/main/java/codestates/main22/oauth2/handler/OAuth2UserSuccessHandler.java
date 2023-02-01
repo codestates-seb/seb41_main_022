@@ -184,7 +184,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 //                .newInstance()
 //                .scheme("http")
 //                .host("seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/")
-////                .path("/receive-token.html")
+//                .path("/Token.html")
 //                .queryParams(queryParams)
 //                .build()
 //                .toUri();
