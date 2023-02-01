@@ -4,6 +4,7 @@ import codestates.main22.oauth2.jwt.JwtTokenizer;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.service.UserService;
+import codestates.main22.utils.CustomCookie;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -94,7 +95,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 //        System.out.println("!! " + response.getHeader("Authorization"));
         // ---------------------------------------------------------------------------
 
-        String uri = createURI(accessToken, refreshToken).toString();
+        String uri = createURI(accessToken, refreshToken, request).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
@@ -144,10 +145,37 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     }
 
     // 리다이렉트 URL 생성
-    private URI createURI(String accessToken, String refreshToken) {
+    private URI createURI(String accessToken, String refreshToken, HttpServletRequest request) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access-Token", accessToken);
         queryParams.add("refresh-Token", refreshToken);
+
+        CustomCookie cookie = new CustomCookie();
+        String[] url = cookie.readURLfromCookie(request);
+        String protocol = url[0];
+        String host = url[1];
+        String port = url.length == 3 ? url[2] : "";
+
+        if(port.equals("")) {
+            return UriComponentsBuilder
+                    .newInstance()
+                    .scheme(protocol)
+                    .host(host)
+                    .path("/Token.html")
+                    .queryParams(queryParams)
+                    .build()
+                    .toUri();
+        } else {
+            return UriComponentsBuilder
+                    .newInstance()
+                    .scheme(protocol)
+                    .host(host)
+                    .port(port)
+                    .path("/Token.html")
+                    .queryParams(queryParams)
+                    .build()
+                    .toUri();
+        }
 
         // backend local test
 //        return UriComponentsBuilder
@@ -161,15 +189,15 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 //                .toUri();
 
         // frontend local test
-        return UriComponentsBuilder
-                .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(3000)
-                .path("/Token.html")
-                .queryParams(queryParams)
-                .build()
-                .toUri();
+//        return UriComponentsBuilder
+//                .newInstance()
+//                .scheme("http")
+//                .host("localhost")
+//                .port(3000)
+//                .path("/Token.html")
+//                .queryParams(queryParams)
+//                .build()
+//                .toUri();
 
         // S3 배포 시 : http://seb41-main-022.s3-website.ap-northeast-2.amazonaws.com/
 //        return UriComponentsBuilder
