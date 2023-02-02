@@ -35,7 +35,7 @@ const DetailModal = ({
     if (data) {
       setTodoThatDay(
         data.filter(
-          (el: any) => el.calendarId === event.extendedProps.calendarId
+          (el: any) => el?.calendarId === event.extendedProps?.calendarId
         )
       );
     }
@@ -62,11 +62,11 @@ const DetailModal = ({
             <div>
               {todoThatDay && (
                 <div>
-                  <div> 날짜 : {todoThatDay[0].date.slice(0, 10)} </div>
-                  <div> 시간 : {todoThatDay[0].date.slice(11, 16)} </div>
-                  <div> 일정 : {todoThatDay[0].title} </div>
+                  <div> 날짜 : {todoThatDay[0]?.date.slice(0, 10)} </div>
+                  <div> 시간 : {todoThatDay[0]?.date.slice(11, 16)} </div>
+                  <div> 일정 : {todoThatDay[0]?.title} </div>
                   <hr />
-                  {todoThatDay[0].participants.map(
+                  {todoThatDay[0]?.participants.map(
                     (el: {
                       userId: number;
                       username: string;
