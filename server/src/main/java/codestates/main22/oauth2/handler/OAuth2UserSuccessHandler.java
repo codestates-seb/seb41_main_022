@@ -156,21 +156,24 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String host = url[1];
         String port = url[2];
 
-        if(port == null || port.equals("")) {
-            return UriComponentsBuilder
-                    .newInstance()
-                    .scheme(protocol)
-                    .host(host)
-                    .path("/Token.html")
-                    .queryParams(queryParams)
-                    .build()
-                    .toUri();
-        } else {
+        if(host.equals("localhost")){
+            System.out.println("!! localhost : " + host);
             return UriComponentsBuilder
                     .newInstance()
                     .scheme(protocol)
                     .host(host)
                     .port(port)
+                    .path("/Token.html")
+                    .queryParams(queryParams)
+                    .build()
+                    .toUri();
+//        } else if(port == null || port.equals("")) {
+        } else  {
+            System.out.println("!! s3 : " + host);
+            return UriComponentsBuilder
+                    .newInstance()
+                    .scheme(protocol)
+                    .host(host)
                     .path("/Token.html")
                     .queryParams(queryParams)
                     .build()
