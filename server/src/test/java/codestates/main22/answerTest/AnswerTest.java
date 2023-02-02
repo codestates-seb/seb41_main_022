@@ -10,6 +10,7 @@ import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.service.UserService;
+import codestates.main22.util.JwtMockBean;
 import codestates.main22.utils.Token;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.DisplayName;
@@ -47,32 +48,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @MockBean(JpaMetamodelMappingContext.class)
 @AutoConfigureRestDocs
 @AutoConfigureMockMvc(addFilters = false)
-public class AnswerTest {
-    @Autowired
-    private MockMvc mockMvc;
-
+public class AnswerTest extends JwtMockBean {
     @MockBean
     private AnswerService answerService;
 
     @MockBean
     private AnswerMapper answerMapper;
-
-    @MockBean
-    private UserService userService;
-
-
-    @MockBean
-    private JwtTokenizer jwtTokenizer;
-
-    @MockBean
-    private CustomAuthorityUtils customAuthorityUtils;
-
-    @MockBean
-    private Token token;
-
-    @MockBean
-    private StudyService studyService;
-
 
     @Autowired
     private Gson gson;

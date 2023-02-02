@@ -2,7 +2,7 @@ import create from "zustand";
 import axios from "axios";
 
 interface calendarState {
-  calendarPost: (id: string, data: object) => void;
+  calendarPost: (id: string | undefined, data: object) => void;
   calendarDelete: (id: string) => void;
   calendarPatch: (id: string, data: object) => void;
 }

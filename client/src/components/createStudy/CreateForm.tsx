@@ -15,6 +15,7 @@ import { createStudyStore } from "../../util/zustandCreateStudy";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Congratulation from "../../util/Congratulation";
 import DropdownStore from "../../util/zustandDropdown";
+import HomeStore from "../../util/zustandHome";
 
 const URL = process.env.REACT_APP_API_URL;
 
@@ -33,6 +34,7 @@ interface MyFormProps {
 
 const CreateForm = () => {
   const { dropdownGet } = DropdownStore();
+  const { setRecruitment } = HomeStore();
   const fetch = (url: string): Promise<AxiosResponse<any>> => {
     return axios.get(url);
   };
@@ -70,6 +72,7 @@ const CreateForm = () => {
       "access-Token": cookies.token.accessToken,
       "refresh-Token": cookies.token.refreshToken,
     });
+    setRecruitment([]);
     setShowCongrate(true);
     setTimeout(() => {
       window.scrollTo(0, 0);

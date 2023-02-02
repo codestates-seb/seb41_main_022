@@ -49,33 +49,33 @@ public class Init {
     // 월별 트리 이미지 URL(2023)
     public static List<String> treeForthImages2023 = List.of(
             S3Url + "February4.png", // 1월 : 사과 나무 이미지
-            S3Url + "January2.png", // 2월 : 익은 귤 이미지
+            S3Url + "January3.png", // 2월 : 익은 귤 이미지
             S3Url + "February4.png",
-            S3Url + "January2.png",
+            S3Url + "January3.png",
             S3Url + "February4.png",
-            S3Url + "January2.png",
+            S3Url + "January3.png",
             S3Url + "February4.png",
-            S3Url + "January2.png",
+            S3Url + "January3.png",
             S3Url + "February4.png",
-            S3Url + "January2.png",
+            S3Url + "January3.png",
             S3Url + "February4.png",
-            S3Url + "January2.png"
+            S3Url + "January3.png"
     );
 
     // 월별 트리 이미지 URL(2023)
     public static List<String> treeFinalImages2023 = List.of(
             S3Url + "February5.png", // 1월 : 황금 사과 나무
-            S3Url + "January3.png", // 2월 : 감귤 나무
+            S3Url + "January2.png", // 2월 : 감귤 나무
             S3Url + "February5.png",
-            S3Url + "January3.png",
+            S3Url + "January2.png",
             S3Url + "February5.png",
-            S3Url + "January3.png",
+            S3Url + "January2.png",
             S3Url + "February5.png",
-            S3Url + "January3.png",
+            S3Url + "January2.png",
             S3Url + "February5.png",
-            S3Url + "January3.png",
+            S3Url + "January2.png",
             S3Url + "February5.png",
-            S3Url + "January3.png"
+            S3Url + "January2.png"
     );
 
     // 트리 업그레이드 기준 점수
