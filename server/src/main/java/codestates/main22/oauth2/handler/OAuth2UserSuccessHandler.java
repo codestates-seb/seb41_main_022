@@ -4,6 +4,7 @@ import codestates.main22.oauth2.jwt.JwtTokenizer;
 import codestates.main22.oauth2.utils.CustomAuthorityUtils;
 import codestates.main22.user.entity.UserEntity;
 import codestates.main22.user.service.UserService;
+import codestates.main22.utils.CustomCookie;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -49,19 +50,11 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 String name = String.valueOf(oAuth2User.getAttributes().get("name"));
                 String imgUrl = String.valueOf(oAuth2User.getAttributes().get("picture"));
                 user = saveUser(email, name, imgUrl);
-
-                System.out.println("!! email : " + email);
-                System.out.println("!! name : " + name);
-                System.out.println("!! imgUrl : " + imgUrl);
             }
             else if(request.getServletPath().contains("github")) {
                 String name = String.valueOf(oAuth2User.getAttributes().get("login"));
                 String imgUrl = String.valueOf(oAuth2User.getAttributes().get("avatar_url"));
                 user = saveUser(email, name, imgUrl);
-
-                System.out.println("!! email : " + email);
-                System.out.println("!! name : " + name);
-                System.out.println("!! imgUrl : " + imgUrl);
             }
         }
 
@@ -102,7 +95,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 //        System.out.println("!! " + response.getHeader("Authorization"));
         // ---------------------------------------------------------------------------
 
-        String uri = createURI(accessToken, refreshToken).toString();
+        String uri = createURI(accessToken, refreshToken, request).toString();
         getRedirectStrategy().sendRedirect(request, response, uri);
     }
 
@@ -152,10 +145,37 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     }
 
     // 리다이렉트 URL 생성
-    private URI createURI(String accessToken, String refreshToken) {
+    private URI createURI(String accessToken, String refreshToken, HttpServletRequest request) {
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access-Token", accessToken);
         queryParams.add("refresh-Token", refreshToken);
+
+//        CustomCookie cookie = new CustomCookie();
+//        String[] url = cookie.readURLfromCookie(request);
+//        String protocol = url[0];
+//        String host = url[1];
+//        String port = url.length == 3 ? url[2] : "";
+//
+//        if(port.equals("")) {
+//            return UriComponentsBuilder
+//                    .newInstance()
+//                    .scheme(protocol)
+//                    .host(host)
+//                    .path("/Token.html")
+//                    .queryParams(queryParams)
+//                    .build()
+//                    .toUri();
+//        } else {
+//            return UriComponentsBuilder
+//                    .newInstance()
+//                    .scheme(protocol)
+//                    .host(host)
+//                    .port(port)
+//                    .path("/Token.html")
+//                    .queryParams(queryParams)
+//                    .build()
+//                    .toUri();
+//        }
 
         // backend local test
 //        return UriComponentsBuilder

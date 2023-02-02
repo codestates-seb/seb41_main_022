@@ -158,7 +158,6 @@ const ItemWrapper = styled.div`
       height: 30px;
       border-radius: var(--radius-10);
       cursor: pointer;
-      border: solid 2px var(--red-00);
     }
   }
   > .bell {

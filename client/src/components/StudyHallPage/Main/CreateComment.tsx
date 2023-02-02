@@ -41,7 +41,7 @@ const CreateComment = () => {
     <CreateWrapper>
       <Wrapper onSubmit={handleSubmit}>
         <Create>
-          <img className="profile" />
+          <Img />
           <Comment
             id="comment"
             type="text"
@@ -88,6 +88,8 @@ const Wrapper = styled.form`
   border: 1px solid var(--beige-00);
   border-radius: 30px;
 `;
+
+const Img = styled.img``;
 
 const Create = styled.div`
   display: flex;

@@ -142,7 +142,7 @@ const TopDiv = styled.div`
     flex-direction: column-reverse;
   }
   .studyNameLong {
-    font-size: 28px;
+    font-size: 24px;
     margin-top: 12px;
   }
 `;
