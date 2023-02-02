@@ -26,7 +26,8 @@ const Recruitment = ({
 }: CardProps) => {
   const navigate = useNavigate();
   const { isLogin } = LoginStore();
-  const { setPage } = HomeStore();
+  const { setPage, setFilter, setSearch, setTags, setRecruitment } =
+    HomeStore();
   const error = () => toast.error("로그인 후 이용해주세요!");
 
   return (
@@ -36,7 +37,11 @@ const Recruitment = ({
         onClick={
           isLogin
             ? () => {
+                setRecruitment([]);
                 setPage(1);
+                setFilter("");
+                setSearch("");
+                setTags("");
                 navigate(`/study-hall/main/${studyId}`);
               }
             : () => error()
