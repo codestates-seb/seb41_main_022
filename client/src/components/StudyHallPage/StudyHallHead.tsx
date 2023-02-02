@@ -37,8 +37,8 @@ const StudyHallHead = () => {
       );
   }, []);
 
-  const clickJoin = () => {
-    fetchJoinStudy(
+  const clickJoin = async () => {
+    await fetchJoinStudy(
       studyId,
       {},
       {
