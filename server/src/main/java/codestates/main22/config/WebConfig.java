@@ -12,7 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("https://seb41-main-022.vercel.app", "http://localhost:3000", "http://seb41-main-022.s3-website.ap-northeast-2.amazonaws.com")
                 .allowedMethods("*")
 //                .exposedHeaders("Authorization", "Refresh")
-                .allowCredentials(false)
+//                .allowCredentials(false)
+                .allowCredentials(true) // 쿠키 정책 허용
                 .maxAge(3000);
 
     }
