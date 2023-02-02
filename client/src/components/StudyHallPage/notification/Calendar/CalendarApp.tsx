@@ -37,10 +37,13 @@ const CalendarApp = () => {
   const handleEventClick = (arg: any) => {
     setEvent(arg.event);
     setShowDetailModal(true);
+    setShowAddModal(false);
   };
   const addEvent = (e?: any) => {
     setEvent(e);
     setShowAddModal(true);
+    setShowDetailModal(false);
+    setShowEditModal(false);
   };
   return (
     <>
