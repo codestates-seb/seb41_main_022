@@ -27,7 +27,7 @@ public interface UserMapper {
         users.forEach(user -> {
             String role = user.getRole().stream().filter(
                     allRole ->
-                        allRole.contains("STUDY"+studyId)
+                        allRole.contains("STUDY"+studyId+"_")
             ).collect(Collectors.toList()).get(0);
 
             UserDto.StudyUserResponse response = new UserDto.StudyUserResponse(
