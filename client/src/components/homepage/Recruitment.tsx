@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import WeekBar from "../WeekBar";
+import HomeStore from "../../util/zustandHome";
 
 interface CardProps {
   teamName: string;
@@ -25,6 +26,7 @@ const Recruitment = ({
 }: CardProps) => {
   const navigate = useNavigate();
   const { isLogin } = LoginStore();
+  const { setPage } = HomeStore();
   const error = () => toast.error("로그인 후 이용해주세요!");
 
   return (
@@ -33,7 +35,10 @@ const Recruitment = ({
         style={{ backgroundImage: `url(${imgUrl})` }}
         onClick={
           isLogin
-            ? () => navigate(`/study-hall/main/${studyId}`)
+            ? () => {
+                setPage(1);
+                navigate(`/study-hall/main/${studyId}`);
+              }
             : () => error()
         }
       >
