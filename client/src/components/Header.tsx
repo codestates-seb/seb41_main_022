@@ -30,11 +30,24 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    removeCookie("token");
-    removeCookie("userData");
+    axios
+      .post(
+        process.env.REACT_APP_API_URL + "/logout",
+        {},
+        {
+          headers: {
+            "access-Token": cookies.token.accessToken,
+            "refresh-Token": cookies.token.refreshToken,
+          },
+        }
+      )
+      .then(() => {
+        removeCookie("token");
+        removeCookie("userData");
 
-    setIsLogin(false);
-    navigate("/");
+        setIsLogin(false);
+        navigate("/");
+      });
   };
   const handleScroll = () => {
     if (window.scrollY >= 100) {
@@ -158,7 +171,6 @@ const ItemWrapper = styled.div`
       height: 30px;
       border-radius: var(--radius-10);
       cursor: pointer;
-      border: solid 2px var(--red-00);
     }
   }
   > .bell {
