@@ -27,7 +27,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-//@AllArgsConstructor
 public class StudyService {
     private final StudyRepository studyRepository;
     private final UserRepository userRepository;
@@ -73,8 +72,10 @@ public class StudyService {
         treeService.createTree(study);
 
         // image 자동 세팅
-        int randImage = randBetween(1,30);
-        if(study.getImage() == null) {study.setImage(Init.S3Url + "main" + randImage + ".png");}
+        int randImage = randBetween(1, 30);
+        if (study.getImage() == null) {
+            study.setImage(Init.S3Url + "main" + randImage + ".png");
+        }
 
         return study;
     }
@@ -124,14 +125,6 @@ public class StudyService {
         return study;
     }
 
-//    public Study removeUserAuth(Study study, long userId) {
-//        UserEntity user = userRepository.findById(userId).get();
-//        UserStudyEntity userStudyEntity = userStudyRepository.findByUserAndStudy(user, study);
-//        user.removeStudy(study);
-//        userStudyRepository.delete(userStudyEntity);
-//        return study;
-//    }
-
     // 스터디원의 스터디 탈퇴
     @Transactional
     public void removeUserAuth(Study study, long userId) {
@@ -164,7 +157,7 @@ public class StudyService {
         studyRepository.findAll().stream()
                 .forEach(study -> {
                     // 트리가 생성된 달과 현재 달이 다른 경우에 새로운 트리 추가
-                    if(treeService.findfinalCreatedTree(study).getMakeMonth() != LocalDate.now().getMonthValue())
+                    if (treeService.findfinalCreatedTree(study).getMakeMonth() != LocalDate.now().getMonthValue())
                         treeService.createTree(study);
                 });
     }
@@ -197,18 +190,18 @@ public class StudyService {
     ) {
         // 필요한 스터디 조회
         Set<Study> studies = new HashSet<>();
-        if(tagString.size() == 0) { // 태그 값들이 전부 없는 경우 -> 모든 스터디 조회
+        if (tagString.size() == 0) { // 태그 값들이 전부 없는 경우 -> 모든 스터디 조회
             studies = studyRepository.findAll().stream()
                     .collect(Collectors.toSet());
         } else { // 태그로 스터디 조회
             List<Tag> tags = tagService.makeListTags(tagString); // 필요한 태그로 변환
-            for(Tag tag : tags) {
+            for (Tag tag : tags) {
                 addStudyInSet(studies, studyRepository.findByTagStudiesTag(tag));
             }
         }
 
         // 공개된 스터디 필터링 & search로 스터디 조회
-        if(search == "") { // 검색값이 없을 경우
+        if (search == "") { // 검색값이 없을 경우
             studies = studies.stream()
                     .filter(study -> study.isOpenClose()) // 공개된 스터디 필터링
                     .collect(Collectors.toSet());
@@ -221,13 +214,12 @@ public class StudyService {
 
         // filter로 정렬하기
         List<Study> listStudies = studies.stream().collect(Collectors.toList()); // set 때문에 자동 random 순으로 정렬되어 있음
-        if(filter.equals("name")) { // name(이름) 순으로 정렬
+        if (filter.equals("name")) { // name(이름) 순으로 정렬
             listStudies = listStudies.stream()
                     .sorted(Comparator.comparing(Study::getCreatedAt).reversed())
                     .sorted(Comparator.comparing(Study::getTeamName))
                     .collect(Collectors.toList());
-        }
-        else if(!filter.equals("random")) { // new(최신) 순으로 정렬(default)
+        } else if (!filter.equals("random")) { // new(최신) 순으로 정렬(default)
             listStudies = listStudies.stream()
                     .sorted(Comparator.comparing(Study::getCreatedAt).reversed())
                     .collect(Collectors.toList());
@@ -248,7 +240,7 @@ public class StudyService {
         return setStudies;
     }
 
-    // 검색어가 있는지 탐색 (word == seach)
+    // 검색어가 있는지 탐색 (word == search)
     public boolean searchWord(Study study, String word) {
         // teamName에서 탐색
         if (study.getTeamName().contains(word)) return true;
@@ -258,11 +250,9 @@ public class StudyService {
         return false;
     }
 
-//    public List<Study> findStudiesByTagId(long tagId) {
-//        return studyRepository.findByTagStudiesTag(tagService.findTag(tagId));
-//    }
-
-    public void deleteStudy(long studyId) {studyRepository.deleteById(studyId);}
+    public void deleteStudy(long studyId) {
+        studyRepository.deleteById(studyId);
+    }
 
     public Study VerifiedStudy(long studyId) {
         Optional<Study> optionalStudy = studyRepository.findById(studyId);
@@ -272,10 +262,7 @@ public class StudyService {
 
     public Study updateStudyNotice(long studyId, Study changedStudy) {
         Study study = VerifiedStudy(studyId);
-//        Optional.ofNullable(study.getDayOfWeek()).ifPresent(findStudy::setDayOfWeek);
-//        Optional.ofNullable(study.getNotice()).ifPresent(findStudy::setNotice);
         study.setNotice(changedStudy.getNotice());
-//        study.setDayOfWeek(changedStudy.getDayOfWeek());
         return studyRepository.save(study);
     }
 
@@ -295,14 +282,14 @@ public class StudyService {
         return studyRepository.save(study);
     }
 
-    public boolean isMember(long userId, long studyId){
+    public boolean isMember(long userId, long studyId) {
         Study findStudy = findStudy(studyId);
         List<UserStudyEntity> userStudies = findStudy.getUserStudies();
         return userStudies.stream().anyMatch(userStudy -> userStudy.getUser().getUserId() == userId);
     }
 
     public void addRequester(Study study, Long userId) {
-        if(!study.getRequester().contains(userId)) study.getRequester().add(userId);
+        if (!study.getRequester().contains(userId)) study.getRequester().add(userId);
         studyRepository.save(study);
     }
 
@@ -311,16 +298,10 @@ public class StudyService {
         studyRepository.save(study);
     }
 
-//    public List<Study> findStudiesByUser(HttpServletRequest request) {
-//        UserEntity user = userRepository.findByToken(request);
-//        List<Study> studies = studyRepository.findByUserStudiesUser(user);
-//
-//        return studies;
-//    }
     public List<Study> findStudiesByUser(HttpServletRequest request) {
-            UserEntity user = token.findByToken(request);
-            List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
-            List<Study> studies = userStudies.stream().map(UserStudyEntity::getStudy).collect(Collectors.toList());
+        UserEntity user = token.findByToken(request);
+        List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
+        List<Study> studies = userStudies.stream().map(UserStudyEntity::getStudy).collect(Collectors.toList());
         return studies;
     }
 
@@ -348,7 +329,10 @@ public class StudyService {
 
     //랜덤 이미지를 넣기 위한 로직
     private static final Random rng = new Random();
-    public static int randBetween(int min, int max) {return min+rng.nextInt(max-min+1);}
+
+    public static int randBetween(int min, int max) {
+        return min + rng.nextInt(max - min + 1);
+    }
 
     public List<Study> findStudiesByUserNoToken(long userId) {
         UserEntity user = verifiedUser(userId);

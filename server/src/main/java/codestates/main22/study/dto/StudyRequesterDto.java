@@ -8,7 +8,7 @@ import java.util.List;
 public class StudyRequesterDto {
     @Getter
     @AllArgsConstructor
-    public static class Post{
+    public static class Post {
 
     }
 

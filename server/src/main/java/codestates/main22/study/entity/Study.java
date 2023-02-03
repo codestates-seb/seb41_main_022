@@ -13,7 +13,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +64,9 @@ public class Study extends Auditable {
         @Getter
         private String week;
 
-        dayOfWeek(String week) {this.week = week;}
+        dayOfWeek(String week) {
+            this.week = week;
+        }
     }
 
 

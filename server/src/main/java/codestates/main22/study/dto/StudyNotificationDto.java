@@ -2,7 +2,6 @@ package codestates.main22.study.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
