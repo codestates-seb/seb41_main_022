@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface StudyRepository extends JpaRepository<Study, Long>, JpaSpecificationExecutor<Study> {
     List<Study> findByUserStudiesUser(UserEntity user);
+
     List<Study> findByTagStudiesTag(Tag tag);
 }
 

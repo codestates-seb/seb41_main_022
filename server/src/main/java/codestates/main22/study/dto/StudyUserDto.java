@@ -1,10 +1,8 @@
 package codestates.main22.study.dto;
 
-import codestates.main22.study.entity.Study;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class StudyUserDto {

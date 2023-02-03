@@ -9,7 +9,6 @@ import codestates.main22.study.entity.Study;
 import codestates.main22.study.mapper.StudyMapper;
 import codestates.main22.study.service.StudyService;
 import codestates.main22.user.entity.UserEntity;
-import codestates.main22.user.repository.UserRepository;
 import codestates.main22.utils.Token;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,19 +31,6 @@ public class StudyController {
     private final StudyMapper studyMapper;
     private final Token token;
 
-    @PostMapping // #40 - 스터디 작성 'Create New Study'
-    public ResponseEntity postStudy(@Valid @RequestBody StudyDto.Post requestBody,
-                                    HttpServletRequest request) {
-        Study study = studyMapper.studyPostDtoToStudy(requestBody);
-        Study createStudy = studyService.createStudy(study, request);
-        List<String> tags = studyService.createTagStudies(createStudy, requestBody.getTags());
-        StudyDto.ResponseTag response = studyMapper.studyToStudyResponseDto(createStudy, tags);
-
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(response), HttpStatus.CREATED
-        );
-    }
-
     @PatchMapping("/{study-id}") // 스터디 수정 (기본 CRUD)
     public ResponseEntity patchStudy(@PathVariable("study-id") @Positive long studyId,
                                      @Valid @RequestBody StudyDto.Patch requestBody) {
@@ -55,27 +41,35 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}") // #44 - (postman 디버깅용) 특정 스터디 조회 (기본 CRUD) --> 해당 부분도 사용함
-    public ResponseEntity getStudy(@PathVariable("study-id") @Positive long studyId) {
-        Study findStudy = studyService.findStudy(studyId);
-        StudyDto.Response response = studyMapper.studyToStudyResponseDto(findStudy);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
-    }
-
     @GetMapping // (postman 디버깅용) 스터디 전체 조회 (아무런 필터링 없는 기본 CRUD)
     public ResponseEntity getStudies(@RequestParam int page,
                                      @RequestParam int size) {
-        Page<Study> pageStudies = studyService.findStudies(page-1, size);
+        Page<Study> pageStudies = studyService.findStudies(page - 1, size);
         List<Study> studies = pageStudies.getContent();
         return new ResponseEntity<>(
                 new MultiResponseDto<>(studyMapper.studiesToStudyResponseDto(studies), pageStudies), HttpStatus.OK);
+    }
+
+    @GetMapping("/{study-id}/requester") // (postman 디버그용) - study 신청자만 보기
+    public ResponseEntity getRequester(@PathVariable("study-id") @Positive long studyId,
+                                       HttpServletRequest request) {
+
+        Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = token.findByToken(request);
+
+        if (findStudy.getLeaderId() != loginUser.getUserId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
+
+        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @GetMapping("/first-cards") // #6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우
     public ResponseEntity getStudiesByOpenClose(@RequestParam int page,
                                                 @RequestParam int size) {
 
-        Page<Study> pageStudies = studyService.findStudiesByFilters(page-1, size);
+        Page<Study> pageStudies = studyService.findStudiesByFilters(page - 1, size);
         List<Study> studies = pageStudies.getContent();
 
         return new ResponseEntity<>(
@@ -89,38 +83,23 @@ public class StudyController {
                                            @RequestParam String filter,
                                            @RequestParam List<String> tags) {
 
-        Page<Study> pageStudies = studyService.findStudiesByFilters(page-1, size, search, filter, tags);
+        Page<Study> pageStudies = studyService.findStudiesByFilters(page - 1, size, search, filter, tags);
         List<Study> studies = pageStudies.getContent();
 
         return new ResponseEntity<>(
                 new MultiResponseDto<>(studyMapper.studiesToStudyCardResponseDto(studies), pageStudies), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{study-id}") // #23 - 스터디 삭제 (방장 권한으로)
-    public ResponseEntity deleteStudy(@PathVariable("study-id") @Positive long studyId,
-                                      HttpServletRequest request) {
-        Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = token.findByToken(request);
+    // #9 - user의 study 조회
+    @GetMapping("/user")
+    public ResponseEntity getStudiesByUser(HttpServletRequest request) {
+        List<Study> studies = studyService.findStudiesByUser(request);
+        List<StudyUserDto.Studys> response = studyMapper.studiesToStudyUserDto(studies);
 
-        if(findStudy.getLeaderId() != loginUser.getUserId()) {
-            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
-        }
-
-        studyService.deleteStudy(studyId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @DeleteMapping("/{study-id}/{user-id}") // #24 - 스터디 탈퇴 (멤버인 경우에만)
-    public ResponseEntity withdrawStudy(@PathVariable("study-id") @Positive long studyId,
-                                        @PathVariable("user-id") int userId) {
-        Study findStudy = studyService.findStudy(studyId);
-
-        if(!studyService.isMember(userId, studyId)) {
-            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER);
-        }
-
-        studyService.removeUserAuth(findStudy, userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(
+                new SingleResponseDto(new StudyUserDto.Response(response.size(), response)),
+                HttpStatus.OK
+        );
     }
 
     @GetMapping("/{study-id}/notification") // #17 - studyHall/Notification 에서 공지만 확인
@@ -142,24 +121,31 @@ public class StudyController {
                         studyMapper.studyToStudyNotificationResponseDto(study)), HttpStatus.OK);
     }
 
-    @GetMapping("/{study-id}/notice") // #30 - studyHall/main 에서 공지사항 확인
-    public ResponseEntity getNotice(@PathVariable("study-id") @Positive long studyId) {
-        Study findStudy = studyService.findStudy(studyId);
-        StudyNotificationDto.NoticeResponse response = studyMapper.studyToStudyNoticeResponseDto(findStudy);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
-    }
-
-    @PostMapping("/{study-id}/requester") // #39 - main 스터디 신청 : 버튼이 이미 활성화 되어 있다 가정
-    public ResponseEntity registerStudy(@PathVariable("study-id") @Positive long studyId,
-                                        HttpServletRequest request) {
-
+    @DeleteMapping("/{study-id}") // #23 - 스터디 삭제 (방장 권한으로)
+    public ResponseEntity deleteStudy(@PathVariable("study-id") @Positive long studyId,
+                                      HttpServletRequest request) {
         Study findStudy = studyService.findStudy(studyId);
         UserEntity loginUser = token.findByToken(request);
 
-        studyService.addRequester(findStudy, loginUser.getUserId());
+        if (findStudy.getLeaderId() != loginUser.getUserId()) {
+            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
+        }
 
-        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+        studyService.deleteStudy(studyId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("/{study-id}/{user-id}") // #24 - 스터디 탈퇴 (멤버인 경우에만)
+    public ResponseEntity withdrawStudy(@PathVariable("study-id") @Positive long studyId,
+                                        @PathVariable("user-id") int userId) {
+        Study findStudy = studyService.findStudy(studyId);
+
+        if (!studyService.isMember(userId, studyId)) {
+            throw new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER);
+        }
+
+        studyService.removeUserAuth(findStudy, userId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/{study-id}/requester/{user-id}/accept") // #26 - main 스터디 신청 수락
@@ -187,20 +173,6 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{study-id}/requester") // (postman 디버그용) - study 신청자만 보기
-    public ResponseEntity getRequester(@PathVariable("study-id") @Positive long studyId,
-                                       HttpServletRequest request) {
-
-        Study findStudy = studyService.findStudy(studyId);
-        UserEntity loginUser = token.findByToken(request);
-
-        if (findStudy.getLeaderId() != loginUser.getUserId()) {
-            throw new BusinessLogicException(ExceptionCode.NO_AUTHORITY);
-        }
-
-        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
-        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
-    }
 
     @GetMapping("/{study-id}/auth") // #28 - 각종 true false 변수들 넘겨주기 (token 값을 사용)
     public ResponseEntity getAuth(@PathVariable("study-id") @Positive long studyId,
@@ -240,6 +212,13 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
+    @GetMapping("/{study-id}/notice") // #30 - studyHall/main 에서 공지사항 확인
+    public ResponseEntity getNotice(@PathVariable("study-id") @Positive long studyId) {
+        Study findStudy = studyService.findStudy(studyId);
+        StudyNotificationDto.NoticeResponse response = studyMapper.studyToStudyNoticeResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
     @GetMapping("/{study-id}/main") // #31 - studyHall/main 본문
     public ResponseEntity getMainBody(@PathVariable("study-id") @Positive long studyId) {
         Study findStudy = studyService.findStudy(studyId);
@@ -252,7 +231,7 @@ public class StudyController {
 
     @PatchMapping("/{study-id}/main") // #33 - studyHall/main 본문 수정
     public ResponseEntity patchMainBody(@PathVariable("study-id") @Positive long studyId,
-                                            @Valid @RequestBody StudyMainDto.MainPatch patch) {
+                                        @Valid @RequestBody StudyMainDto.MainPatch patch) {
 
         Study study = studyService.updateMainBody(
                 studyId, studyMapper.studyMainPatchDtoToStudyMain(patch));
@@ -260,20 +239,39 @@ public class StudyController {
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(
-                        studyMapper.studyToStudyMainPatchResponseDto(study, tags)),HttpStatus.OK
+                        studyMapper.studyToStudyMainPatchResponseDto(study, tags)), HttpStatus.OK
         );
     }
 
-    // #9 - user의 study 조회
-    @GetMapping("/user")
-    public ResponseEntity getStudiesByUser(HttpServletRequest request) {
-        List<Study> studies = studyService.findStudiesByUser(request);
-        List<StudyUserDto.Studys> response = studyMapper.studiesToStudyUserDto(studies);
+    @PostMapping("/{study-id}/requester") // #39 - main 스터디 신청 : 버튼이 이미 활성화 되어 있다 가정
+    public ResponseEntity registerStudy(@PathVariable("study-id") @Positive long studyId,
+                                        HttpServletRequest request) {
 
-        return new ResponseEntity<>(
-                new SingleResponseDto(new StudyUserDto.Response(response.size(), response)),
-                HttpStatus.OK
-        );
+        Study findStudy = studyService.findStudy(studyId);
+        UserEntity loginUser = token.findByToken(request);
+
+        studyService.addRequester(findStudy, loginUser.getUserId());
+
+        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+    }
+
+    @PostMapping // #40 - 스터디 작성 'Create New Study'
+    public ResponseEntity postStudy(@Valid @RequestBody StudyDto.Post requestBody,
+                                    HttpServletRequest request) {
+        Study study = studyMapper.studyPostDtoToStudy(requestBody);
+        Study createStudy = studyService.createStudy(study, request);
+        List<String> tags = studyService.createTagStudies(createStudy, requestBody.getTags());
+        StudyDto.ResponseTag response = studyMapper.studyToStudyResponseDto(createStudy, tags);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{study-id}") // #44 - (postman 디버깅용) 특정 스터디 조회 (기본 CRUD) --> 해당 부분도 사용함
+    public ResponseEntity getStudy(@PathVariable("study-id") @Positive long studyId) {
+        Study findStudy = studyService.findStudy(studyId);
+        StudyDto.Response response = studyMapper.studyToStudyResponseDto(findStudy);
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
     }
 
     @GetMapping("/user/{user-id}") // #48 - 토큰 없이 스터디 검색하기

@@ -89,8 +89,8 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 1L,
                 "팀이름",
                 "한줄 요약",
-                Arrays.asList("IT","수학"),
-                Arrays.asList("월","수","금"),
+                Arrays.asList("IT", "수학"),
+                Arrays.asList("월", "수", "금"),
                 5,
                 LocalDate.now(),
                 true,
@@ -100,14 +100,14 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                 "https://avatars.dicebear.com/api/bottts/222.svg",
                 1L,
                 Arrays.asList(2L)
-                );
+        );
 
         response2 = new StudyDto.ResponseTag(
                 2L,
                 "팀이름22",
                 "한줄 요약22",
-                Arrays.asList("과학","수학"),
-                Arrays.asList("월","수","금"),
+                Arrays.asList("과학", "수학"),
+                Arrays.asList("월", "수", "금"),
                 5,
                 LocalDate.now(),
                 true,
@@ -125,7 +125,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#40 - 스터디 작성 'Create New Study'")
     @Test
     @WithMockUser
-    // TODO #40 - 스터디 작성 'Create New Study' - 통과됨
     public void postStudyTest() throws Exception {
         // given
         StudyDto.Post post = new StudyDto.Post(
@@ -142,9 +141,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         );
 
         given(studyMapper.studyPostDtoToStudy(Mockito.any(StudyDto.Post.class))).willReturn(new Study());
-        given(studyService.createStudy(Mockito.any(Study.class),Mockito.any(HttpServletRequest.class))).willReturn(new Study());
+        given(studyService.createStudy(Mockito.any(Study.class), Mockito.any(HttpServletRequest.class))).willReturn(new Study());
         given(studyService.createTagStudies(Mockito.any(Study.class), Mockito.anyList())).willReturn(new ArrayList<>());
-        given(studyMapper.studyToStudyResponseDto(Mockito.any(Study.class),Mockito.anyList())).willReturn(response1);
+        given(studyMapper.studyToStudyResponseDto(Mockito.any(Study.class), Mockito.anyList())).willReturn(response1);
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -152,7 +151,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("access-Token", "abc")
-                        .header("refresh-Token","abc")
+                        .header("refresh-Token", "abc")
                         .content(gson.toJson(post))
                         .characterEncoding("utf-8")
         );
@@ -209,7 +208,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우")
     @Test
     @WithMockUser
-    // TODO #6 - 스터디 전체 조회 (openClose 기준으로) - 처음 조회했을 경우 - 통과됨
     public void getStudiesByOpenCloseTest() throws Exception {
         // given
         String page = "1";
@@ -320,7 +318,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#7 - 스터디 전체 조회 (tag 기준 필터링)")
     @Test
     @WithMockUser
-    // TODO #7 - 스터디 전체 조회 (tag 기준 필터링) - 통과됨
     public void getStudiesByTagsTest() throws Exception {
         // given
         String page = "1";
@@ -440,7 +437,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#23 - 스터디 삭제 (방장 권한으로)")
     @Test
     @WithMockUser
-    // TODO #23 - 스터디 삭제 (방장 권한으로) - 통과됨
     public void deleteStudyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -454,7 +450,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("access-Token", "abc")
-                        .header("refresh-Token","abc")
+                        .header("refresh-Token", "abc")
         );
 
         // then
@@ -479,7 +475,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#24 - 스터디 탈퇴 (멤버인 경우에만)")
     @Test
     @WithMockUser
-    // TODO #24 - 스터디 탈퇴 (멤버인 경우에만) - 통과됨
     public void withdrawStudyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -511,7 +506,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#17 - studyHall/Notification 에서 공지만 확인")
     @Test
     @WithMockUser
-    // TODO #17 - studyHall/Notification 에서 공지만 확인 - 통과됨
     public void getNotificationTest() throws Exception {
         // given
         long studyId = 1L;
@@ -549,7 +543,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#18 - studyHall/Notification 에서 공지만 수정")
     @Test
     @WithMockUser
-    // TODO #18 - studyHall/Notification 에서 공지만 수정 - 통과됨
     public void patchNotificationTest() throws Exception {
         // given
         long studyId = 1L;
@@ -562,7 +555,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         StudyNotificationDto.Response response = new StudyNotificationDto.Response("공지22");
 
         given(studyMapper.studyNotificationPatchDtoToStudyNotification(Mockito.any(StudyNotificationDto.Patch.class))).willReturn(new Study());
-        given(studyService.updateStudyNotice(Mockito.anyLong(),Mockito.any(Study.class))).willReturn(new Study());
+        given(studyService.updateStudyNotice(Mockito.anyLong(), Mockito.any(Study.class))).willReturn(new Study());
         given(studyMapper.studyToStudyNotificationResponseDto(Mockito.any(Study.class))).willReturn(response);
 
         // when
@@ -602,7 +595,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#30 - studyHall/main 에서 공지사항 확인")
     @Test
     @WithMockUser
-    // TODO #30 - studyHall/main 에서 공지사항 확인 - 통과됨
     public void getNoticeTest() throws Exception {
         // given
         long studyId = 1L;
@@ -644,7 +636,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#39 - main 스터디 신청 : 버튼이 이미 활성화 되어 있다 가정")
     @Test
     @WithMockUser
-    // TODO #39 - main 스터디 신청 : 버튼이 이미 활성화 되어 있다 가정 - 통과됨
     public void registerStudyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -661,7 +652,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("access-Token", "123")
-                        .header("refresh-Token","123")
+                        .header("refresh-Token", "123")
                         .characterEncoding("utf-8")
         );
 
@@ -687,7 +678,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#26 - main 스터디 신청 수락")
     @Test
     @WithMockUser
-    // TODO #26 - main 스터디 신청 수락 - 통과됨
     public void acceptRegisterStudyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -695,7 +685,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
 
         StudyRequesterDto.Response response = new StudyRequesterDto.Response(new ArrayList<>());
         given(studyService.findStudy(Mockito.anyLong())).willReturn(new Study());
-        given(studyService.giveUserAuth(Mockito.any(Study.class),Mockito.anyLong())).willReturn(new Study());
+        given(studyService.giveUserAuth(Mockito.any(Study.class), Mockito.anyLong())).willReturn(new Study());
         given(studyMapper.studyToStudyRequesterResponseDto(Mockito.any(Study.class))).willReturn(response);
 
         // when
@@ -723,7 +713,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#27 - main 스터디 신청 거절")
     @Test
     @WithMockUser
-    // TODO #27 - main 스터디 신청 거절 - 통과됨
     public void rejectRegisterStudyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -758,7 +747,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#28 - 각종 true false 변수들 넘겨주기 (token 값을 사용)")
     @Test
     @WithMockUser
-    // TODO #28 - 각종 true false 변수들 넘겨주기 (token 값을 사용) - 통과됨
     public void getAuthTest() throws Exception {
         // 현재 테스트 내용 : 1번 스터디에 2번 유저가 가입 신청만 한 상태이다. 멤버는 아님.
         // given
@@ -773,7 +761,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
 
         given(studyService.findStudy(Mockito.anyLong())).willReturn(study);
         given(token.findByToken(Mockito.any(HttpServletRequest.class))).willReturn(user);
-        given(studyService.isMember(Mockito.anyLong(),Mockito.anyLong())).willReturn(false);
+        given(studyService.isMember(Mockito.anyLong(), Mockito.anyLong())).willReturn(false);
         given(studyMapper.studyToStudyAuthResponseDto(
                 Mockito.any(Study.class),
                 Mockito.anyBoolean(),
@@ -787,7 +775,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("access-Token", "123")
-                        .header("refresh-Token","123")
+                        .header("refresh-Token", "123")
         );
 
         // then
@@ -820,7 +808,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#28 - 각종 true false 변수들 넘겨주기 (token 값 사용 X)")
     @Test
     @WithMockUser
-    // TODO #28 - 각종 true false 변수들 넘겨주기 (token 값 사용 X) - 통과됨
     public void getAuthWithUserIdTest() throws Exception {
         // 현재 테스트 내용 : 1번 스터디에 2번 유저가 가입 신청만 한 상태이다. 멤버는 아님.
         // given
@@ -835,7 +822,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         user.setUserId(2L);
 
         given(studyService.findStudy(Mockito.anyLong())).willReturn(study);
-        given(studyService.isMember(Mockito.anyLong(),Mockito.anyLong())).willReturn(false);
+        given(studyService.isMember(Mockito.anyLong(), Mockito.anyLong())).willReturn(false);
         given(studyMapper.studyToStudyAuthResponseDto(
                 Mockito.any(Study.class),
                 Mockito.anyBoolean(),
@@ -849,7 +836,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("access-Token", "123")
-                        .header("refresh-Token","123")
+                        .header("refresh-Token", "123")
         );
 
         // then
@@ -883,11 +870,10 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#29 - studyHall/main 윗부분 header")
     @Test
     @WithMockUser
-    // TODO #29 - studyHall/main 윗부분 header - 통과됨
     public void getMainHeaderTest() throws Exception {
         // given
         long studyId = 1L;
-        StudyMainDto.HeaderResponse response = new StudyMainDto.HeaderResponse("Your Study",false, true);
+        StudyMainDto.HeaderResponse response = new StudyMainDto.HeaderResponse("Your Study", false, true);
 
         given(studyService.findStudy(Mockito.anyLong())).willReturn(new Study());
         given(studyMapper.studyToStudyHeaderResponseDto(Mockito.any(Study.class))).willReturn(response);
@@ -923,7 +909,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#31 - studyHall/main 본문")
     @Test
     @WithMockUser
-    // TODO #31 - studyHall/main 본문 - 통과됨
     public void getMainBodyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -935,7 +920,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         "Our study is an 80-year old coding study...");
 
         given(studyService.findStudy(Mockito.anyLong())).willReturn(new Study());
-        given(studyMapper.studyToStudyMainResponseDto(Mockito.any(Study.class),Mockito.anyList())).willReturn(response);
+        given(studyMapper.studyToStudyMainResponseDto(Mockito.any(Study.class), Mockito.anyList())).willReturn(response);
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -969,7 +954,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#33 - studyHall/main 본문 수정")
     @Test
     @WithMockUser
-    // TODO #33 - studyHall/main 본문 수정 - 통과됨
     public void patchMainBodyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -977,8 +961,8 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         StudyMainDto.MainPatch patch = new StudyMainDto.MainPatch(
                 "Your Study",
                 "집주변 카페에 모여 토론하는 스터디입니다",
-                Arrays.asList("IT","수학","일본어"),
-                Arrays.asList("TUE","WED","FRI"),
+                Arrays.asList("IT", "수학", "일본어"),
+                Arrays.asList("TUE", "WED", "FRI"),
                 3,
                 LocalDate.now(),
                 false,
@@ -990,8 +974,8 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         StudyMainDto.MainPatch response = new StudyMainDto.MainPatch(
                 "Your Study",
                 "집주변 카페에 모여 토론하는 스터디입니다",
-                Arrays.asList("IT","수학","일본어"),
-                Arrays.asList("TUE","WED","FRI"),
+                Arrays.asList("IT", "수학", "일본어"),
+                Arrays.asList("TUE", "WED", "FRI"),
                 3,
                 LocalDate.now(),
                 false,
@@ -1001,9 +985,9 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
         );
 
         given(studyMapper.studyMainPatchDtoToStudyMain(Mockito.any(StudyMainDto.MainPatch.class))).willReturn(new Study());
-        given(studyService.updateMainBody(Mockito.anyLong(),Mockito.any(Study.class))).willReturn(new Study());
-        given(studyService.updateTag(Mockito.any(Study.class),Mockito.anyList())).willReturn(new ArrayList<>());
-        given(studyMapper.studyToStudyMainPatchResponseDto(Mockito.any(Study.class),Mockito.anyList())).willReturn(response);
+        given(studyService.updateMainBody(Mockito.anyLong(), Mockito.any(Study.class))).willReturn(new Study());
+        given(studyService.updateTag(Mockito.any(Study.class), Mockito.anyList())).willReturn(new ArrayList<>());
+        given(studyMapper.studyToStudyMainPatchResponseDto(Mockito.any(Study.class), Mockito.anyList())).willReturn(response);
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -1059,7 +1043,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#9 - user의 study 조회")
     @Test
     @WithMockUser
-    // TODO #9 - user의 study 조회 - 통과됨
     public void getStudiesByUserTest() throws Exception {
         // given
         // long studyId = 1L;
@@ -1086,7 +1069,7 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("access-Token", "abc")
-                        .header("refresh-Token","abc")
+                        .header("refresh-Token", "abc")
                         .characterEncoding("utf-8"));
 
         // then
@@ -1119,7 +1102,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#44 - 스터디 내용 조회")
     @Test
     @WithMockUser
-    // TODO #44 - 스터디 내용 조회 (추가된 테스트) (기본 CRUD) - 통과됨
     public void getStudyTest() throws Exception {
         // given
         long studyId = 1L;
@@ -1184,7 +1166,6 @@ public class StudyControllerDocumentationTest extends JwtMockBean {
     @DisplayName("#48 - 토큰 없이 스터디 검색하기")
     @Test
     @WithMockUser
-    // TODO #48 - 토큰 없이 스터디 검색하기 - 통과됨
     public void getStudiesByUserNoTokenTest() throws Exception {
         // given
         // long studyId = 1L;

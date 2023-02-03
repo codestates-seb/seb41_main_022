@@ -9,15 +9,25 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface StudyMapper {
     Study studyPostDtoToStudy(StudyDto.Post requestBody);
+
     Study studyPatchDtoToStudy(StudyDto.Patch requestBody);
+
     StudyDto.Response studyToStudyResponseDto(Study study);
+
     StudyDto.ResponseTag studyToStudyResponseDto(Study study, List<String> tags);
+
     List<StudyDto.Response> studiesToStudyResponseDto(List<Study> studies);
+
     List<StudyDto.CardResponse> studiesToStudyCardResponseDto(List<Study> studies);
+
     Study studyNotificationPatchDtoToStudyNotification(StudyNotificationDto.Patch patch); // 공지만 수정
+
     StudyNotificationDto.Response studyToStudyNotificationResponseDto(Study study); // 공지만 호출
+
     StudyNotificationDto.NoticeResponse studyToStudyNoticeResponseDto(Study study); // 공지사항 호출
+
     StudyRequesterDto.Response studyToStudyRequesterResponseDto(Study study); // 가입 신청자만 호출
+
     StudyMainDto.HeaderResponse studyToStudyHeaderResponseDto(Study study); // main - header
 
     // 권한 관련 변수 넘겨주기
@@ -34,8 +44,11 @@ public interface StudyMapper {
                 new StudyMainDto.AuthResponse(isMember, isHost, isRequest);
         return response;
     }
+
     StudyMainDto.MainResponse studyToStudyMainResponseDto(Study study, List<String> tags); // main - 본문
+
     StudyMainDto.MainPatch studyToStudyMainPatchResponseDto(Study study, List<String> tags); // main - 본문 수정
+
     Study studyMainPatchDtoToStudyMain(StudyMainDto.MainPatch patch); // main - 본문 수정
 
     List<StudyUserDto.Studys> studiesToStudyUserDto(List<Study> studies); // user
