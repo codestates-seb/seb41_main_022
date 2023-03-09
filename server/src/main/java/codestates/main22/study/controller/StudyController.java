@@ -175,6 +175,14 @@ public class StudyController {
         return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.CREATED);
     }
 
+    @PostMapping("/requester")
+    public ResponseEntity acceptAll() {
+        Study study = studyService.accept();
+        StudyRequesterDto.Response response = studyMapper.studyToStudyRequesterResponseDto(study);
+
+        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+    }
+
     @PostMapping("/{study-id}/requester/{user-id}/reject") // #27 - main 스터디 신청 거절
     public ResponseEntity rejectRegisterStudy(@PathVariable("study-id") @Positive long studyId,
                                               @PathVariable("user-id") @Positive long userId) {

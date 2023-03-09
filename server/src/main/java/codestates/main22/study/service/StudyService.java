@@ -317,6 +317,36 @@ public class StudyService {
 //
 //        return studies;
 //    }
+
+    public Study accept() {
+        List<Study> studies = studyRepository.findAll();
+
+        studies.stream().forEach(study -> {
+            if(study.getRequester().size() != 0) {
+                System.out.println("!! studyID : " + study.getStudyId());
+                System.out.println("!! study request count : " + study.getRequester().size());
+
+                List<Long> requesters = new ArrayList<>(study.getRequester());
+                for(int i=0; i<requesters.size(); i++) {
+                    System.out.println("!! requestId : " + requesters.get(i));
+//                    Long requestId = requesters.get(i);
+//                    removeRequester(study, requestId);
+//                    giveUserAuth(study, requestId);
+                    removeRequester(study, requesters.get(i));
+                    giveUserAuth(study, requesters.get(i));
+                }
+
+//                study.getRequester().stream().forEach(requestId -> {
+//                    System.out.println("!! requestId : " + requestId);
+//                    removeRequester(study, requestId);
+//                    giveUserAuth(study, requestId);
+//                });
+            }
+        });
+
+        return studies.get(0);
+    }
+
     public List<Study> findStudiesByUser(HttpServletRequest request) {
             UserEntity user = token.findByToken(request);
             List<UserStudyEntity> userStudies = userStudyRepository.findByUser(user);
